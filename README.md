@@ -1,27 +1,49 @@
-# FX Checker — Foreign Exchange Currency Converter (Starter)
+# FX Checker — Foreign Exchange Currency Converter
+
+> **Starter README** — This file will be updated as the project progresses. The status table below tracks what's done and what's still ahead. Live demo and solution page links will be added before July 13.
 
 ![Design preview for the FX Checker coding challenge](./public/preview.jpg)
 
-> **FM30 Hackathon** · Frontend Mentor · June–July 2025
+**FM30 Hackathon** · Frontend Mentor · June 12 – July 13, 2026
 
-**FX Checker** is a currency converter built for the [Frontend Mentor FM30 Hackathon](https://www.frontendmentor.io/challenges/foreign-exchange-currency-converter). It pulls live exchange rates from the European Central Bank via the Frankfurter API — no key, no rate limits — and packages them into a full-featured converter with charts, multi-currency comparison, pinned favorites, and a conversion log.
+**FX Checker** is a currency converter built for the [Frontend Mentor FM30 Hackathon](https://www.frontendmentor.io/challenges/foreign-exchange-currency-converter). It pulls live rates from the European Central Bank via the Frankfurter API — no key, no rate limits — and presents them through a converter, historical charts, multi-currency comparison, pinned favorites, and a conversion log.
 
-**Live demo:** _link coming at deployment_  
-**Solution page:** _link coming at submission_
+**Live demo:** _coming at deployment_
+**Solution page:** _coming at submission_
 
 ---
 
 ## Table of Contents
 
+- [Project Status](#project-status)
 - [Features](#features)
+- [Design System](#design-system)
 - [Tech Stack](#tech-stack)
 - [API Reference](#api-reference)
 - [Getting Started](#getting-started)
 - [Folder Structure](#folder-structure)
 - [Known Limitations](#known-limitations)
+- [Judging Criteria](#judging-criteria)
 - [Stretch Goals](#stretch-goals)
 - [Deployment](#deployment)
 - [Author](#author)
+
+---
+
+## Project Status
+
+Six phases between now and **July 13, 2026 at 14:00 BST**. Results on July 16. Commit history tracks progress in more detail than this table does.
+
+| Phase                       | Scope                                                                   | Status      |
+| --------------------------- | ----------------------------------------------------------------------- | ----------- |
+| 1 — Scaffolding             | Repo setup, routing, design tokens, Zustand slices, SWR wrappers        | In progress |
+| 2 — Converter               | Currency picker, amount input, swap, live rate display                  | Planned     |
+| 3 — Markets & History       | Ticker, rate chart, time-range selector                                 | Planned     |
+| 4 — Compare, Favorites, Log | Compare table, pin system, conversion log, localStorage persistence     | Planned     |
+| 5 — Polish                  | Animations (GSAP + Framer Motion), responsive pass, accessibility audit | Planned     |
+| 6 — Deploy                  | Vercel deployment, final README update, hackathon submission            | Planned     |
+
+_Last updated: June 2026 — Phase 1_
 
 ---
 
@@ -65,6 +87,84 @@
 - Keyboard-navigable throughout
 - Visible focus and hover states on every interactive element
 - Empty states for favorites, log, comparison, and chart errors — no silent blank panels
+
+---
+
+## Design System
+
+Dark theme. One font. Two accent colors. The token list below is what goes into `globals.css` — it's the reference if something looks off.
+
+### Colors
+
+```css
+/* Neutrals */
+--neutral-900: #0A0A0A;   /* page background */
+--neutral-700: #171719;
+--neutral-600: #202022;
+--neutral-500: #2E2E2E;
+--neutral-400: #3D3D3D;
+--neutral-300: #454547;
+--neutral-200: #9D9D9D;
+--neutral-100: #C6C6C6;
+--neutral-50:  #FFFFFF;   /* primary text */
+
+/* Accent */
+--lime-500: #CEF739;      /* primary accent */
+--lime-800: #283300;      /* accent backgrounds, hover states */
+
+/* Semantic */
+--green-500: #42EB05;     /* positive change */
+--red-500:   #FF4141;     /* negative change */
+```
+
+### Typography
+
+Single font: **JetBrains Mono** (weights: 400 / 500 / 700).
+
+| Preset        | Size | Line height | Letter spacing | Weight  |
+| ------------- | ---- | ----------- | -------------- | ------- |
+| Preset 1      | 40px | 100%        | -0.5px         | Bold    |
+| Preset 1 Tab  | 32px | 100%        | -0.5px         | Bold    |
+| Preset 2      | 20px | 120%        | -0.5px         | Regular |
+| Preset 2 Bold | 20px | 140%        | -0.5px         | Bold    |
+| Preset 3      | 16px | 120%        | 1px            | Regular |
+| Preset 3 Med  | 16px | 120%        | 1px            | Medium  |
+| Preset 3 Bold | 16px | 110%        | 1px            | Bold    |
+| Preset 4      | 14px | 120%        | 1px            | Regular |
+| Preset 5      | 12px | 120%        | 0.5px          | Regular |
+| Preset 5 Med  | 12px | 130%        | 0.5px          | Medium  |
+| Preset 6      | 10px | 100%        | 0px            | Regular |
+
+### Spacing
+
+| Token       | Value | Token        | Value |
+| ----------- | ----- | ------------ | ----- |
+| spacing-025 | 2px   | spacing-600  | 48px  |
+| spacing-050 | 4px   | spacing-800  | 64px  |
+| spacing-075 | 6px   | spacing-1000 | 80px  |
+| spacing-100 | 8px   | spacing-1200 | 96px  |
+| spacing-125 | 10px  | spacing-1400 | 112px |
+| spacing-150 | 12px  | spacing-1600 | 128px |
+| spacing-200 | 16px  | spacing-1800 | 140px |
+| spacing-250 | 20px  |              |       |
+| spacing-300 | 24px  |              |       |
+| spacing-400 | 32px  |              |       |
+| spacing-500 | 40px  |              |       |
+
+### Border Radius
+
+| Token       | Value |
+| ----------- | ----- |
+| radius-0    | 0px   |
+| radius-4    | 4px   |
+| radius-6    | 6px   |
+| radius-8    | 8px   |
+| radius-10   | 10px  |
+| radius-12   | 12px  |
+| radius-16   | 16px  |
+| radius-20   | 20px  |
+| radius-24   | 24px  |
+| radius-full | 999px |
 
 ---
 
@@ -130,50 +230,76 @@ bun run format    # biome format --write
 ## Folder Structure
 
 ```
-fx-checker-hackaton/
-├── public/                   # Static assets (flags, SVGs)
-├── src/
-│   ├── app/
-│   │   ├── globals.css       # CSS variables, global resets
-│   │   ├── layout.tsx        # Root layout — providers, font, metadata
-│   │   └── page.tsx          # Main page (tabs: Converter / Markets / Compare / Favorites)
-│   ├── components/
-│   │   ├── ui/               # shadcn/ui primitives
-│   ├── hooks/                # useCurrencies, useRates, useRateHistory, ...
-│   ├── lib/
-│   │   └── utils.ts            # cn helper (clsx + tailwind-merge)
-│   ├── store/                # Zustand slices: favorites, log, ui
-│   └── types/                # TypeScript interfaces for API + store
-├── next.config.ts
-├── tsconfig.json
-└── package.json
+src/
+├── app/ # Next.js App Router Configuration
+│ ├── layout.tsx # Root layout (metadata, providers, etc.)
+│ └── page.tsx # Main home page
+│
+├── style/ # Global project styles
+│ └── globals.css # Global CSS + custom Tailwind variables
+│
+├── components/ # All React components
+│ ├── ui/ # Shadcn/UI components (generated via CLI)
+│ ├── layout/ # Layout components (Header, Footer, TabNav, etc.)
+│ ├── shared/ # Components reused by 2+ features (ex: CurrencyPicker, RateDisplay)
+│ ├── common/ # Very generic reusable components (not related to FX business)
+│ └── features/ # Components organized by business feature
+│  ├── converter/ # Everything related to the converter
+│  ├── markets/ # Ticker, chart, etc.
+│  ├── compare/ # Multi-currency comparison
+│  ├── favorites/ # Favorite pairs management
+│  └── log/ # Conversion history
+│
+├── hooks/ # Custom React hooks
+│
+├── services/ # Business logic and API calls
+│
+├── store/ # Zustand stores (global state)
+│
+├── utils/ # Pure utilities (formatting, helpers, constants)
+│
+└── types/ # Centralized TypeScript declarations
 ```
+
+> This is the starter scaffold. The `components/` tree will grow as features get built.
 
 ---
 
 ## Known Limitations
 
-**No intraday data from Frankfurter.** The ECB publishes rates once per business day. The 1D range on the history chart therefore shows a single data point rather than an intraday curve. All other ranges (1W and above) work as expected. Switching to a paid API with intraday tick data would resolve this.
+**No intraday data from Frankfurter.** The ECB publishes rates once per business day. The 1D chart range shows a single data point, not an intraday curve. Every other range (1W and above) works fine. Fixing it would require a paid API with tick data — out of scope for this hackathon.
+
+---
+
+## Judging Criteria
+
+The FM30 panel evaluates submissions on five points:
+
+- **Code quality** — typed, readable, no shortcuts that will bite later
+- **Requirements** — core features covered, edge cases handled, accessibility solid
+- **README** — clear, honest, actually useful to someone cloning the repo
+- **Commit history** — progression is visible, commits say something
+- **Live demo + public repo** — both accessible at submission time
 
 ---
 
 ## Stretch Goals
 
-A few ideas that didn't make the submission deadline:
+Things I'd like to add if the core features land early enough before July 13:
 
 - Light theme toggle
-- Persistent URL for shareable conversions (`/convert?from=USD&to=EUR&amount=100`)
-- Keyboard shortcuts (focus search, swap, change chart range)
+- URL persistence for shareable conversions (`/convert?from=USD&to=EUR&amount=100`)
+- Keyboard shortcuts (focus search, swap currencies, switch chart range)
 - CSV export of the conversion log
 - Crosshair on the rate chart showing exact date and rate on hover
-- Offline fallback — cache last successful rates and show an out-of-date banner
+- Offline fallback — cache last successful rates, show a stale-data banner when the API is down
 - Full-stack version with accounts so favorites and log sync across devices
 
 ---
 
 ## Deployment
 
-Deployed on [Vercel](https://vercel.com/) — zero config for Next.js. Add `NEXT_PUBLIC_EXCHANGE_API_BASE` in your project's environment variables and push.
+Planned for Phase 6 on [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/) — either picks up the Next.js config without extra setup. Add `NEXT_PUBLIC_EXCHANGE_API_BASE` in the project's environment variables and push. _Live URL will replace this line once deployed._
 
 ---
 
