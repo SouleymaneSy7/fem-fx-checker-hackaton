@@ -98,23 +98,23 @@ Dark theme. One font. Two accent colors. The token list below is what goes into 
 
 ```css
 /* Neutrals */
---neutral-900: #0A0A0A;   /* page background */
---neutral-700: #171719;
---neutral-600: #202022;
---neutral-500: #2E2E2E;
---neutral-400: #3D3D3D;
---neutral-300: #454547;
---neutral-200: #9D9D9D;
---neutral-100: #C6C6C6;
---neutral-50:  #FFFFFF;   /* primary text */
+--neutral-900: oklch(0.1448 0 0);   /* page background */
+--neutral-700: oklch(0.2055 0.0039 286.05);
+--neutral-600: oklch(0.2443 0.0038 286.12);
+--neutral-500: oklch(0.3012 0 0);
+--neutral-400: oklch(0.36 0 0);
+--neutral-300: oklch(0.3911 0.0033 286.24);
+--neutral-200: oklch(0.696 0 0);
+--neutral-100: oklch(0.8266 0 0);
+--neutral-50:  oklch(1 0 0);   /* primary text */
 
 /* Accent */
---lime-500: #CEF739;      /* primary accent */
---lime-800: #283300;      /* accent backgrounds, hover states */
+--lime-500: oklch(0.9157 0.2054 121.64);      /* primary accent */
+--lime-800: oklch(0.3 0.0726 121.83);      /* accent backgrounds, hover states */
 
 /* Semantic */
---green-500: #42EB05;     /* positive change */
---red-500:   #FF4141;     /* negative change */
+--green-500: oklch(0.8217 0.267 140.6);     /* positive change */
+--red-500:   oklch(0.6607 0.2258 25.95);     /* negative change */
 ```
 
 ### Typography
