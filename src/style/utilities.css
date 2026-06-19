@@ -1,0 +1,71 @@
+@layer utilities {
+  .preset-1 {
+    font-size: var(--preset-1-size);
+    line-height: var(--preset-1-line-height);
+    letter-spacing: var(--preset-1-letter-spacing);
+    font-weight: var(--preset-1-weight);
+  }
+
+  .preset-2 {
+    font-size: var(--preset-2-size);
+    line-height: var(--preset-2-line-height);
+    letter-spacing: var(--preset-2-letter-spacing);
+    font-weight: var(--preset-2-weight);
+  }
+
+  .preset-2-bold {
+    font-size: var(--preset-2-bold-size);
+    line-height: var(--preset-2-bold-line-height);
+    letter-spacing: var(--preset-2-bold-letter-spacing);
+    font-weight: var(--preset-2-bold-weight);
+  }
+
+  .preset-3 {
+    font-size: var(--preset-3-size);
+    line-height: var(--preset-3-line-height);
+    letter-spacing: var(--preset-3-letter-spacing);
+    font-weight: var(--preset-3-weight);
+  }
+
+  .preset-3-med {
+    font-size: var(--preset-3-size);
+    line-height: var(--preset-3-line-height);
+    letter-spacing: var(--preset-3-letter-spacing);
+    font-weight: var(--preset-3-med-weight);
+  }
+
+  .preset-3-bold {
+    font-size: var(--preset-3-bold-size);
+    line-height: var(--preset-3-bold-line-height);
+    letter-spacing: var(--preset-3-bold-letter-spacing);
+    font-weight: var(--preset-3-bold-weight);
+  }
+
+  .preset-4 {
+    font-size: var(--preset-4-size);
+    line-height: var(--preset-4-line-height);
+    letter-spacing: var(--preset-4-letter-spacing);
+    font-weight: var(--preset-4-weight);
+  }
+
+  .preset-5 {
+    font-size: var(--preset-5-size);
+    line-height: var(--preset-5-line-height);
+    letter-spacing: var(--preset-5-letter-spacing);
+    font-weight: var(--preset-5-weight);
+  }
+
+  .preset-5-med {
+    font-size: var(--preset-5-size);
+    line-height: var(--preset-5-med-line-height);
+    letter-spacing: var(--preset-5-letter-spacing);
+    font-weight: var(--preset-5-med-weight);
+  }
+
+  .preset-6 {
+    font-size: var(--preset-6-size);
+    line-height: var(--preset-6-line-height);
+    letter-spacing: var(--preset-6-letter-spacing);
+    font-weight: var(--preset-6-weight);
+  }
+}
