@@ -69,3 +69,43 @@
     font-weight: var(--preset-6-weight);
   }
 }
+
+@utility container {
+  @apply mx-auto px-6;
+
+  @variant md {
+    @apply px-8 max-w-[var(--container-small)];
+  }
+
+  @variant lg {
+    @apply px-10 max-w-[var(--container-small)];
+  }
+
+  @variant xl {
+    @apply px-12 max-w-[var(--container-small)];
+  }
+
+  @variant 2xl {
+    @apply px-0 max-w-[var(--container-small)];
+  }
+}
+
+@utility container-header {
+  @apply mx-auto px-6;
+
+  @variant md {
+    @apply px-8 max-w-[var(--container-large)];
+  }
+
+  @variant lg {
+    @apply px-10 max-w-[var(--container-large)];
+  }
+
+  @variant xl {
+    @apply px-12 max-w-[var(--container-large)];
+  }
+
+  @variant 2xl {
+    @apply px-0 max-w-[var(--container-large)];
+  }
+}

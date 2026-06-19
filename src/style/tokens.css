@@ -62,6 +62,10 @@
   --radius-24: 1.5rem;
   --radius-full: 999px;
 
+  /* ── Container ───────────────────────────────────────────── */
+  --container-small: 68.75rem;
+  --container-large: 90rem;
+
   /* ── Typography Presets ────────────────────────────────── */
   /* Preset-1 */
   --preset-1-size: var(--fs-preset-1);

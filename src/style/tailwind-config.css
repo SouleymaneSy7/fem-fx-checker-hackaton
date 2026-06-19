@@ -43,8 +43,14 @@
   --radius-2xl: var(--radius-24);
   --radius-3xl: var(--radius-24);
   --radius-4xl: var(--radius-24);
-  /* ── Design system: color tokens ──────────────────────── */
 
+  /* ── Design system: font-size tokens ──────────────────────── */
+  --text-fs-preset-1: var(--fs-preset-1);
+  --text-fs-preset-2: var(--fs-preset-2);
+  --text-fs-preset-3: var(--fs-preset-3);
+  --text-fs-preset-4: var(--fs-preset-4);
+  --text-fs-preset-5: var(--fs-preset-5);
+  --text-fs-preset-6: var(--fs-preset-6);
 
   /* ── Design system: color tokens ──────────────────────── */
   --color-neutral-900: var(--neutral-900);
@@ -95,4 +101,8 @@
   --radius-20: var(--radius-20);
   --radius-24: var(--radius-24);
   --radius-full: var(--radius-full);
+
+  /* ── Design system: container tokens ───────────────────── */
+  --max-width-container: var(--container-small);
+  --max-width-container-header: var(--container-large);
 }
