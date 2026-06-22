@@ -189,19 +189,21 @@ Single font: **JetBrains Mono** (weights: 400 / 500 / 700).
 
 ## API Reference
 
-All exchange rates come from [**Frankfurter**](https://frankfurter.dev/) — free, CORS-enabled, backed by the ECB.
+All exchange rates come from [**Frankfurter**](https://frankfurter.dev/) — free, CORS-enabled, no API key required, rates blended across 84 central banks for 201 currencies.
 
-| Endpoint                                      | Used for                      |
-| --------------------------------------------- | ----------------------------- |
-| `GET /v2/currencies`                          | Currency picker list          |
-| `GET /v2/latest?base=USD`                     | Converter, ticker, comparison |
-| `GET /v2/latest?base=USD&symbols=EUR`         | Single-pair lookup            |
-| `GET /v2/{start}..{end}?base=USD&symbols=EUR` | Rate history chart            |
+| Endpoint                                         | Used for                |
+| ------------------------------------------------ | ----------------------- |
+| `GET /currencies`                                | Currency picker list    |
+| `GET /rate/{base}/{quote}`                       | Converter (single pair) |
+| `GET /rates?base=USD&quotes=EUR,GBP`             | Ticker, comparison      |
+| `GET /rates?base=USD&quotes=EUR&from=...&to=...` | Rate history chart      |
 
-The base URL is set via environment variable:
+There's no separate "latest" or date-range path — one `/rates` endpoint covers the latest rate, a specific date (`date=`), and a time series (`from`/`to`), differentiated by query params. `quotes` is the equivalent of what other FX APIs call `symbols`.
+
+The base URL (already includes `/v2`) is set via environment variable:
 
 ```
-NEXT_PUBLIC_EXCHANGE_API_BASE=https://api.frankfurter.dev/
+NEXT_PUBLIC_EXCHANGE_API_BASE=https://api.frankfurter.dev/v2
 ```
 
 ---
@@ -282,7 +284,7 @@ src/
 
 ## Known Limitations
 
-**No intraday data from Frankfurter.** The ECB publishes rates once per business day. The 1D chart range shows a single data point, not an intraday curve. Every other range (1W and above) works fine. Fixing it would require a paid API with tick data — out of scope for this hackathon.
+**No intraday data from Frankfurter.** Most providers behind the API publish rates once per business day. The 1D chart range shows a single data point, not an intraday curve. Every other range (1W and above) works fine. Fixing it would require a paid API with tick data — out of scope for this hackathon.
 
 ---
 
