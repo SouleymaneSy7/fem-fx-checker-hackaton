@@ -69,26 +69,58 @@
   --color-green-500: var(--green-500);
   --color-red-500: var(--red-500);
 
-  /* ── Design system: spacing tokens ────────────────────── */
-  --spacing-0: var(--spacing-0);
-  --spacing-025: var(--spacing-025);
-  --spacing-050: var(--spacing-050);
-  --spacing-075: var(--spacing-075);
-  --spacing-100: var(--spacing-100);
-  --spacing-125: var(--spacing-125);
-  --spacing-150: var(--spacing-150);
-  --spacing-200: var(--spacing-200);
-  --spacing-250: var(--spacing-250);
-  --spacing-300: var(--spacing-300);
-  --spacing-400: var(--spacing-400);
-  --spacing-500: var(--spacing-500);
-  --spacing-600: var(--spacing-600);
-  --spacing-800: var(--spacing-800);
-  --spacing-1000: var(--spacing-1000);
-  --spacing-1200: var(--spacing-1200);
-  --spacing-1400: var(--spacing-1400);
-  --spacing-1600: var(--spacing-1600);
-  --spacing-1800: var(--spacing-1800);
+  /* ── Design system: spacing tokens ──────────────────────
+   *
+   * Scale base : step-100 = 8px (1× base unit)
+   *
+   * Formula  :  step-n  →  n × 0.08px
+   *             step-100 →  100 × 0.08 = 8px
+   *
+   * Reference table :
+   *   step-0    →   0px
+   *   step-025  →   2px
+   *   step-050  →   4px
+   *   step-075  →   6px
+   *   step-100  →   8px   ← fundamental unit
+   *   step-125  →  10px
+   *   step-150  →  12px
+   *   step-200  →  16px   (2× base)
+   *   step-250  →  20px
+   *   step-300  →  24px   (3× base)
+   *   step-400  →  32px   (4× base)
+   *   step-500  →  40px   (5× base)
+   *   step-600  →  48px   (6× base)
+   *   step-800  →  64px   (8× base)
+   *   step-1000 →  80px  (10× base)
+   *   step-1200 →  96px  (12× base)
+   *   step-1400 → 112px  (14× base)
+   *   step-1600 → 128px  (16× base)
+   *   step-1800 → 140px
+   *
+   * Usage :  p-step-200, gap-step-300, my-step-400
+   *
+   * The number is an abstract scale index, not a direct pixel
+   * value.
+   */
+  --spacing-step-0: var(--spacing-0);
+  --spacing-step-025: var(--spacing-025);
+  --spacing-step-050: var(--spacing-050);
+  --spacing-step-075: var(--spacing-075);
+  --spacing-step-100: var(--spacing-100);
+  --spacing-step-125: var(--spacing-125);
+  --spacing-step-150: var(--spacing-150);
+  --spacing-step-200: var(--spacing-200);
+  --spacing-step-250: var(--spacing-250);
+  --spacing-step-300: var(--spacing-300);
+  --spacing-step-400: var(--spacing-400);
+  --spacing-step-500: var(--spacing-500);
+  --spacing-step-600: var(--spacing-600);
+  --spacing-step-800: var(--spacing-800);
+  --spacing-step-1000: var(--spacing-1000);
+  --spacing-step-1200: var(--spacing-1200);
+  --spacing-step-1400: var(--spacing-1400);
+  --spacing-step-1600: var(--spacing-1600);
+  --spacing-step-1800: var(--spacing-1800);
 
   /* ── Design system: radius tokens ─────────────────────── */
   --radius-0: var(--radius-0);
