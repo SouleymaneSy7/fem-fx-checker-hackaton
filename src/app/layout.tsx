@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 
 import "@/style/globals.css";
+import Header from "@/components/layout/header";
 
 // ─── Font ─────────────────────────────────────────────────────────────────────
 const jetbrainsMono = JetBrains_Mono({
@@ -47,6 +48,7 @@ export default function RootLayout({
           " ",
         )}
       >
+        <Header />
         {children}
       </body>
     </html>
