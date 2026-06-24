@@ -36,11 +36,11 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
 
-  --radius-sm: var(--radius-10);
-  --radius-md: var(--radius-12);
-  --radius-lg: var(--radius-16);
-  --radius-xl: var(--radius-20);
-  --radius-2xl: var(--radius-24);
+  --radius-sm: var(--radius-4);
+  --radius-md: var(--radius-8);
+  --radius-lg: var(--radius-12);
+  --radius-xl: var(--radius-16);
+  --radius-2xl: var(--radius-20);
   --radius-3xl: var(--radius-24);
   --radius-4xl: var(--radius-24);
 

@@ -71,41 +71,51 @@
 }
 
 @utility container {
-  @apply mx-auto px-6;
+  @apply mx-auto px-step-200;
 
   @variant md {
-    @apply px-8 max-w-[var(--container-small)];
+    @apply px-step-300 max-w-(--container-small);
   }
 
   @variant lg {
-    @apply px-10 max-w-[var(--container-small)];
+    @apply px-step-400 max-w-(--container-small);
   }
 
   @variant xl {
-    @apply px-12 max-w-[var(--container-small)];
+    @apply px-0 max-w-(--container-small);
   }
 
   @variant 2xl {
-    @apply px-0 max-w-[var(--container-small)];
+    @apply px-0 max-w-(--container-small);
   }
 }
 
 @utility container-header {
-  @apply mx-auto px-6;
+  @apply mx-auto px-step-200;
 
   @variant md {
-    @apply px-8 max-w-[var(--container-large)];
+    @apply px-step-300 max-w-(--container-large);
   }
 
   @variant lg {
-    @apply px-10 max-w-[var(--container-large)];
+    @apply px-step-300 max-w-(--container-large);
   }
 
   @variant xl {
-    @apply px-12 max-w-[var(--container-large)];
+    @apply px-0 max-w-(--container-large);
   }
 
   @variant 2xl {
-    @apply px-0 max-w-[var(--container-large)];
+    @apply px-0 max-w-(--container-large);
+  }
+}
+
+@utility focus-ring {
+  outline: none;
+
+  &:focus-visible {
+    box-shadow:
+      0 0 0 0.1875rem var(--neutral-700),
+      0 0 0 0.25rem var(--lime-500);
   }
 }
