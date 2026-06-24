@@ -1,3 +1,10 @@
+import Converter from "@/components/features/converter/converter";
+import Main from "@/components/layout/main";
+
 export default function Home() {
-  return <h1>Next Starter Page</h1>;
+  return (
+    <Main>
+      <Converter />
+    </Main>
+  );
 }
