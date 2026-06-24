@@ -1,5 +1,4 @@
-// src/components/icons/delete-filled-icon.tsx
-import * as React from "react";
+import type * as React from "react";
 
 export function DeleteFilledSvg(props: React.SVGProps<SVGSVGElement>) {
   return (

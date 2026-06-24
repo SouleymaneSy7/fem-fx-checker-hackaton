@@ -1,5 +1,4 @@
-// src/components/icons/delete-icon.tsx
-import * as React from "react";
+import type * as React from "react";
 
 export function DeleteSvg(props: React.SVGProps<SVGSVGElement>) {
   return (

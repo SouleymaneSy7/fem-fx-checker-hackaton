@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 
 import { Icon } from "@/components/common/icon";
-import { IconPropsType } from "@/types/ui.types";
+import type { IconPropsType } from "@/types/ui.types";
 
 import { ChevronDownSvg } from "./chevron-down-icon";
 import { DeleteFilledSvg } from "./delete-filled-icon";
@@ -20,39 +20,160 @@ type IconComponentProps = Omit<IconPropsType, "icon">;
 
 /* ── lucide-react ───────────────────────────────────────────────────── */
 
-export const CheckIcon = (props: IconComponentProps) => (
-  <Icon icon={Check} {...props} />
+export const CheckIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Check}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
-export const StarIcon = (props: IconComponentProps) => (
-  <Icon icon={Star} {...props} />
+export const StarIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Star}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
-export const ArrowLeftRightIcon = (props: IconComponentProps) => (
-  <Icon icon={ArrowLeftRight} {...props} />
+export const ArrowLeftRightIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={ArrowLeftRight}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
-export const ArrowDownUpIcon = (props: IconComponentProps) => (
-  <Icon icon={ArrowDownUp} {...props} />
+export const ArrowDownUpIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={ArrowDownUp}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
-export const SearchIcon = (props: IconComponentProps) => (
-  <Icon icon={Search} {...props} />
+export const SearchIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Search}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
-export const ArrowRightIcon = (props: IconComponentProps) => (
-  <Icon icon={ArrowRight} {...props} />
+export const ArrowRightIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={ArrowRight}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
 
 /* ── local SVGs ─────────────────────────────────────────────────────── */
 
-export const LogoIcon = (props: IconComponentProps) => (
-  <Icon icon={LogoSvg} {...props} />
+export const LogoIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={LogoSvg}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
-export const StarFilledIcon = (props: IconComponentProps) => (
-  <Icon icon={StarFilledSvg} {...props} />
+export const StarFilledIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={StarFilledSvg}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
-export const ChevronDownIcon = (props: IconComponentProps) => (
-  <Icon icon={ChevronDownSvg} {...props} />
+export const ChevronDownIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={ChevronDownSvg}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
-export const DeleteIcon = (props: IconComponentProps) => (
-  <Icon icon={DeleteSvg} {...props} />
+export const DeleteIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={DeleteSvg}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
-export const DeleteFilledIcon = (props: IconComponentProps) => (
-  <Icon icon={DeleteFilledSvg} {...props} />
+export const DeleteFilledIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={DeleteFilledSvg}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );

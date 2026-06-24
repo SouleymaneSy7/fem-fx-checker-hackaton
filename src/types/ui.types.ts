@@ -1,5 +1,5 @@
-import * as React from "react";
 import type { LucideIcon } from "lucide-react";
+import type * as React from "react";
 
 /* ────────────────────────────────────────────────────────────────────────
  * Polymorphic component helpers
@@ -74,3 +74,9 @@ export type IconPropsType = {
   label?: string;
   className?: string;
 } & Omit<React.SVGProps<SVGSVGElement>, "width" | "height">;
+
+/* ── Main Component ─────────────────────────────────────────────────── */
+
+export type MainPropsType = {
+  children: React.ReactNode;
+};
