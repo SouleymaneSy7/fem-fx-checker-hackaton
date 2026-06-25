@@ -1,11 +1,12 @@
 import Link from "next/link";
+
 import Logo from "@/components/shared/logo";
+import type { NavbarPropsType } from "@/types/ui.types";
+import Container from "../common/container";
 
-const availableCurrencies = 55;
-
-const Navbar = () => {
+const Navbar = ({ availableCurrencies }: NavbarPropsType) => {
   return (
-    <div className="container-header | flex justify-between items-center">
+    <Container className="container-header | flex justify-between items-center py-step-250">
       <Link href={"/"}>
         <Logo />
       </Link>
@@ -13,7 +14,7 @@ const Navbar = () => {
       <p className="text-neutral-200">
         <span>{availableCurrencies}</span> Currencies · EOD · ECB data
       </p>
-    </div>
+    </Container>
   );
 };
 
