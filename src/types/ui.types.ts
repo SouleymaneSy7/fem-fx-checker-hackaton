@@ -16,7 +16,7 @@ type PropsToOmit<C extends React.ElementType, Props> = keyof (AsProp<C> &
 
 export type PolymorphicProps<
   C extends React.ElementType,
-  Props = Record<string, never>,
+  Props = Record<never, never>,
 > = Props &
   AsProp<C> &
   Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
@@ -26,7 +26,7 @@ export type PolymorphicRef<C extends React.ElementType> =
 
 export type PolymorphicPropsWithRef<
   C extends React.ElementType,
-  Props = Record<string, never>,
+  Props = Record<never, never>,
 > = PolymorphicProps<C, Props> & { ref?: PolymorphicRef<C> };
 
 /* ── Container ──────────────────────────────────────────────────────── */
