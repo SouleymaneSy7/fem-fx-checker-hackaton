@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type * as React from "react";
+import type { TickerPairType } from "./data.types";
 
 /* ────────────────────────────────────────────────────────────────────────
  * Polymorphic component helpers
@@ -75,8 +76,30 @@ export type IconPropsType = {
   className?: string;
 } & Omit<React.SVGProps<SVGSVGElement>, "width" | "height">;
 
+/* ── Navbar ─────────────────────────────────────────────────── */
+
+export interface NavbarPropsType {
+  availableCurrencies: number | string;
+}
+
 /* ── Main Component ─────────────────────────────────────────────────── */
 
 export type MainPropsType = {
   children: React.ReactNode;
+};
+
+/* ── Marquee ─────────────────────────────────────────────────── */
+
+export type MarqueePropsType = {
+  children: React.ReactNode;
+  gap?: number;
+  duration?: number;
+  pauseOnHover?: boolean;
+  className?: string;
+};
+
+/* ── Ticker ─────────────────────────────────────────────────── */
+
+export type TickerPropsType = {
+  pairs: TickerPairType[];
 };
