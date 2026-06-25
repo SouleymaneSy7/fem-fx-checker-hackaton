@@ -1,0 +1,124 @@
+"use client";
+
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+import type { MarqueePropsType } from "@/types/ui.types";
+
+const MIN_REPEAT_COUNT = 2;
+
+function Marquee({
+  className,
+  ...delegatedProps
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn("overflow-hidden relative", className)}
+      {...delegatedProps}
+    />
+  );
+}
+
+function MarqueeHeader({
+  className,
+  ...delegatedProps
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn(
+        "absolute left-0 top-0 bottom-0 z-10 px-step-200 py-step-150 bg-primary flex items-center gap-step-100 pointer-events-none",
+        className,
+      )}
+      {...delegatedProps}
+    />
+  );
+}
+
+function MarqueeTitle({
+  className,
+  ...delegatedProps
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn("preset-5-med uppercase text-neutral-900", className)}
+      {...delegatedProps}
+    />
+  );
+}
+
+function MarqueeContent({
+  children,
+  gap = 0,
+  duration = 30,
+  pauseOnHover = true,
+  className,
+}: MarqueePropsType) {
+  const trackRef = React.useRef<HTMLDivElement>(null);
+  const [repeatCount, setRepeatCount] = React.useState(MIN_REPEAT_COUNT);
+
+  // The translateX(-50%) trick is only seamless when one set of `children`
+  // is at least as wide as the visible marquee (its parent, the
+  // overflow-hidden <Marquee> root). If the provided content is narrower
+  // than the viewport — few items, or a wide screen — the track runs out
+  // of content before the loop resets, showing a blank gap.
+  // Measure both and repeat `children` as many times as needed so there's
+  // always at least one full extra set ready to slide in, regardless of
+  // how much content is passed in or how wide the screen is.
+  React.useLayoutEffect(() => {
+    const trackEl = trackRef.current;
+    const viewportEl = trackEl?.parentElement;
+    if (!trackEl || !viewportEl) return;
+
+    const recalculate = () => {
+      setRepeatCount((current) => {
+        const oneSetWidth = trackEl.scrollWidth / current;
+        if (!oneSetWidth) return current;
+
+        const needed = Math.ceil(viewportEl.clientWidth / oneSetWidth) + 1;
+        const nextCount = Math.max(MIN_REPEAT_COUNT, needed);
+
+        return nextCount === current ? current : nextCount;
+      });
+    };
+
+    recalculate();
+
+    const resizeObserver = new ResizeObserver(recalculate);
+    resizeObserver.observe(viewportEl);
+    resizeObserver.observe(trackEl);
+
+    return () => resizeObserver.disconnect();
+  }, [children]);
+
+  return (
+    <div
+      ref={trackRef}
+      aria-hidden="true"
+      className={cn(
+        "flex w-max animate-marquee-scroll motion-reduce:animate-none",
+        pauseOnHover && "hover:paused",
+        className,
+      )}
+      style={
+        {
+          gap: `${gap}px`,
+          "--marquee-duration": `${duration}s`,
+          "--marquee-distance": `-${100 / repeatCount}%`,
+        } as React.CSSProperties
+      }
+    >
+      {Array.from({ length: repeatCount }, (_, index) => (
+        <React.Fragment key={`marquee-copy-${index}`}>
+          {children}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+Marquee.displayName = "Marquee";
+MarqueeHeader.displayName = "MarqueeHeader";
+MarqueeTitle.displayName = "MarqueeTitle";
+MarqueeContent.displayName = "MarqueeContent";
+
+export { Marquee, MarqueeContent, MarqueeHeader, MarqueeTitle };

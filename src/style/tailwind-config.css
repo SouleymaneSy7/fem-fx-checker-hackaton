@@ -44,6 +44,10 @@
   --radius-3xl: var(--radius-24);
   --radius-4xl: var(--radius-24);
 
+  /* ── Marquee animation ────────────────────────────────── */
+  --animate-marquee-scroll: marquee-scroll var(--marquee-duration, 30s) linear
+    infinite;
+
   /* ── Design system: font-size tokens ──────────────────────── */
   --text-fs-preset-1: var(--fs-preset-1);
   --text-fs-preset-2: var(--fs-preset-2);

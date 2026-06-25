@@ -1,3 +1,9 @@
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(var(--marquee-distance, -50%));
+  }
+}
+
 @layer utilities {
   .preset-1 {
     font-size: var(--preset-1-size);
