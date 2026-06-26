@@ -56,14 +56,6 @@ function MarqueeContent({
   const trackRef = React.useRef<HTMLDivElement>(null);
   const [repeatCount, setRepeatCount] = React.useState(MIN_REPEAT_COUNT);
 
-  // The translateX(-50%) trick is only seamless when one set of `children`
-  // is at least as wide as the visible marquee (its parent, the
-  // overflow-hidden <Marquee> root). If the provided content is narrower
-  // than the viewport — few items, or a wide screen — the track runs out
-  // of content before the loop resets, showing a blank gap.
-  // Measure both and repeat `children` as many times as needed so there's
-  // always at least one full extra set ready to slide in, regardless of
-  // how much content is passed in or how wide the screen is.
   React.useLayoutEffect(() => {
     const trackEl = trackRef.current;
     const viewportEl = trackEl?.parentElement;
@@ -88,7 +80,12 @@ function MarqueeContent({
     resizeObserver.observe(trackEl);
 
     return () => resizeObserver.disconnect();
-  }, [children]);
+  }, []);
+
+  const copyKeys = React.useMemo(
+    () => Array.from({ length: repeatCount }, () => crypto.randomUUID()),
+    [repeatCount],
+  );
 
   return (
     <div
@@ -107,10 +104,8 @@ function MarqueeContent({
         } as React.CSSProperties
       }
     >
-      {Array.from({ length: repeatCount }, (_, index) => (
-        <React.Fragment key={`marquee-copy-${index}`}>
-          {children}
-        </React.Fragment>
+      {copyKeys.map((copyKey) => (
+        <React.Fragment key={copyKey}>{children}</React.Fragment>
       ))}
     </div>
   );
