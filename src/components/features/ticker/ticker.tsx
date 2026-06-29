@@ -15,7 +15,11 @@ const Ticker = ({ pairs }: TickerPropsType) => {
   if (pairs.length === 0) return null;
 
   return (
-    <Container as="section" aria-label="Live markets">
+    <Container
+      as="section"
+      className="container-ticker"
+      aria-label="Live markets"
+    >
       <Marquee>
         <MarqueeHeader>
           <span className="size-step-075 rounded-full bg-background" />
