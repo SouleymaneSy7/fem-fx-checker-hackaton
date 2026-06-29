@@ -116,6 +116,10 @@
   }
 }
 
+@utility container-ticker {
+  @apply mx-auto max-w-(--container-x-large);
+}
+
 @utility focus-ring {
   outline: none;
 

@@ -141,4 +141,5 @@
   /* ── Design system: container tokens ───────────────────── */
   --max-width-container: var(--container-small);
   --max-width-container-header: var(--container-large);
+  --max-width-container-ticker: var(--container-x-large);
 }

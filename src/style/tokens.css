@@ -65,6 +65,7 @@
   /* ── Container ───────────────────────────────────────────── */
   --container-small: 68.75rem;
   --container-large: 90rem;
+  --container-x-large: 100rem;
 
   /* ── Typography Presets ────────────────────────────────── */
   /* Preset-1 */
