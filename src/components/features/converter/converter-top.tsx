@@ -1,6 +1,7 @@
 import Container from "@/components/common/container";
 import Title from "@/components/common/title";
 import { ArrowLeftRightIcon } from "@/components/icons";
+import NumericInput from "@/components/shared/numeric-input";
 import { Button } from "@/components/ui/button";
 
 const ConverterTop = () => {
@@ -12,13 +13,13 @@ const ConverterTop = () => {
         </Title>
 
         <div className="flex items-center justify-between gap-step-100">
-          <p>1000</p>
+          <NumericInput />
 
           <p>Currency Picker</p>
         </div>
       </div>
 
-      <Button variant={"secondary"} size={"icon-lg"}>
+      <Button type="button" size={"icon-lg"} variant={"secondary"}>
         <ArrowLeftRightIcon />
       </Button>
 
@@ -28,7 +29,7 @@ const ConverterTop = () => {
         </Title>
 
         <div className="flex items-center justify-between gap-step-100">
-          <p>1000</p>
+          <p className="preset-1 text-primary">1000</p>
 
           <p>Currency Picker</p>
         </div>
