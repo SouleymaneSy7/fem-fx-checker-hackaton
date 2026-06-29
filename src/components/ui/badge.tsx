@@ -4,7 +4,7 @@ import type * as React from "react";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex size-step-250 shrink-0 items-center justify-center whitespace-nowrap rounded-full preset-6 tabular-nums",
+  "inline-flex h-step-250 min-w-step-250 shrink-0 items-center justify-center whitespace-nowrap rounded-full preset-6 px-step-075 tabular-nums",
   {
     variants: {
       variant: {
@@ -35,5 +35,7 @@ function Badge({
     />
   );
 }
+
+Badge.displayName = "Badge";
 
 export { Badge, badgeVariants };
