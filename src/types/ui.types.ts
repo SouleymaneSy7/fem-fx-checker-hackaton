@@ -103,3 +103,10 @@ export type MarqueePropsType = {
 export type TickerPropsType = {
   pairs: TickerPairType[];
 };
+
+/* ── Input ─────────────────────────────────────────────────── */
+
+export interface SearchInputPropsType
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  icon?: IconSource;
+}
