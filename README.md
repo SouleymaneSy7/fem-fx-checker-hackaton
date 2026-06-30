@@ -8,8 +8,11 @@
 
 **FX Checker** is a currency converter built for the [Frontend Mentor FM30 Hackathon](https://www.frontendmentor.io/challenges/foreign-exchange-currency-converter). It pulls live rates from the European Central Bank via the Frankfurter API — no key, no rate limits — and presents them through a converter, historical charts, multi-currency comparison, pinned favorites, and a conversion log.
 
-**Live demo:** _coming at deployment_
+**Live demo:** [https://fem-fx-checker-hackaton.vercel.app/](https://fem-fx-checker-hackaton.vercel.app/)
+
 **Solution page:** _coming at submission_
+
+**WakaTime (coding time):** [![wakatime](https://wakatime.com/badge/user/018cb534-87bb-4814-975b-ca5e3cb8572b/project/3744af2b-53c9-404d-b9c4-ac6165f9e277.svg)](https://wakatime.com/badge/user/018cb534-87bb-4814-975b-ca5e3cb8572b/project/3744af2b-53c9-404d-b9c4-ac6165f9e277)
 
 ---
 
@@ -178,6 +181,7 @@ Single font: **JetBrains Mono** (weights: 400 / 500 / 700).
 | UI primitives | shadcn/ui (Radix-based)                         |
 | State         | Zustand with `persist` middleware               |
 | Data fetching | SWR — caching, deduplication, auto-revalidation |
+| HTTP client   | Axios                                           |
 | Charts        | Recharts                                        |
 | Animation     | Framer Motion + GSAP                            |
 | Validation    | Zod                                             |
@@ -316,7 +320,9 @@ Things I'd like to add if the core features land early enough before July 13:
 
 ## Deployment
 
-Planned for Phase 6 on [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/) — either picks up the Next.js config without extra setup. Add `NEXT_PUBLIC_EXCHANGE_API_BASE` in the project's environment variables and push. _Live URL will replace this line once deployed._
+Deployed on [Vercel](https://vercel.com/) — the Next.js config is picked up without extra setup. Add `NEXT_PUBLIC_EXCHANGE_API_BASE` and `NEXT_PUBLIC_RATE_REFRESH_INTERVAL` in the project's environment variables and push.
+
+**Live URL:** [https://fem-fx-checker-hackaton.vercel.app/](https://fem-fx-checker-hackaton.vercel.app/)
 
 ---
 
