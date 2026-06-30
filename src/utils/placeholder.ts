@@ -1,3 +1,11 @@
+// TODO: Have to delete this file
+
+/**
+ * TEMPORARY placeholder dataset — just enough to demo every panel end to
+ * end. Delete this file once the real currencies/rates services and the
+ * converter Zustand store are wired in.
+ */
+
 export const PLACEHOLDER_CURRENCIES = [
   { code: "USD", name: "US Dollar", flag: "us" },
   { code: "EUR", name: "Euro", flag: "eu" },
@@ -56,3 +64,25 @@ export const PLACEHOLDER_CURRENCIES = [
   { code: "VND", name: "Vietnamese Dong", flag: "vn" },
   { code: "ZAR", name: "South African Rand", flag: "za" },
 ];
+
+const PLACEHOLDER_RATE_TO_USD: Record<string, number> = {
+  USD: 1,
+  EUR: 0.853,
+  GBP: 0.7345,
+  JPY: 157.91,
+  CHF: 0.9098,
+  AUD: 1.387,
+  CAD: 1.3815,
+};
+
+export const PLACEHOLDER_CHANGE_PERCENT: Record<string, number> = {
+  EUR: 0.16,
+  GBP: -0.22,
+  JPY: 0.04,
+  CHF: 0.13,
+  AUD: 0.08,
+  CAD: 0.04,
+};
+
+export const getPlaceholderRate = (from: string, to: string) =>
+  (PLACEHOLDER_RATE_TO_USD[to] ?? 1) / (PLACEHOLDER_RATE_TO_USD[from] ?? 1);
