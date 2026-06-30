@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import * as React from "react";
 
 import List from "@/components/common/list";
@@ -116,7 +115,7 @@ const CurrencyPicker = ({
         aria-label={label}
         className={cn(buttonVariants({ variant: "popover" }), className)}
       >
-        <CurrencyFlag currencyCode={selected?.code} />
+        <CurrencyFlag currencyCode={selected?.code ?? ""} />
 
         <span className="preset-4 uppercase text-neutral-50">
           {selected?.code ?? "——"}
