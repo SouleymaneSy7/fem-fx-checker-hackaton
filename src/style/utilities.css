@@ -141,3 +141,7 @@
       0 0 0 0.25rem var(--lime-500);
   }
 }
+
+@utility popover-shadow {
+  box-shadow: 0 1.25rem 2.5rem 0 rgba(10, 10, 10, 0.5);
+}
