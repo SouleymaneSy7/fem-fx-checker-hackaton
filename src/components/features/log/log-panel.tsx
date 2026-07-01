@@ -1,7 +1,8 @@
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
-import { ArrowRightIcon, DeleteIcon } from "@/components/icons";
+import { ArrowRightIcon } from "@/components/icons";
+import DeleteButton from "@/components/shared/delete-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { formatRelativeTime } from "@/utils/format-date";
@@ -100,7 +101,11 @@ const LogPanel = () => {
             {LogEntriesPlaceholders.length} logged
           </p>
 
-          {hasEntries && <Button type="button">Clear all</Button>}
+          {hasEntries && (
+            <Button type="button" variant={"secondary"}>
+              Clear all
+            </Button>
+          )}
         </div>
       </div>
 
@@ -137,9 +142,7 @@ const LogPanel = () => {
                 {formatAmount(entry.receiveAmount)}
               </p>
 
-              <Button type="button" variant="default" size="icon">
-                <DeleteIcon />
-              </Button>
+              <DeleteButton />
             </li>
           )}
         />
