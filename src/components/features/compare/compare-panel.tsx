@@ -1,14 +1,14 @@
-import type * as React from "react";
+"use client";
+
+import * as React from "react";
 
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
 
-import { StarIcon } from "@/components/icons";
 import { CurrencyFlag } from "@/components/shared/currency-flag";
-import { Button } from "@/components/ui/button";
+import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
-
 import { PLACEHOLDER_CURRENCIES } from "@/utils/placeholder";
 
 export type CompareRowType = {
@@ -46,6 +46,11 @@ const formatAmount = (value: number) =>
   value.toLocaleString("en-US", { maximumFractionDigits: 2 });
 
 const ComparePanel = () => {
+  const [toggle, setToggle] = React.useState(false);
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
+
   const sendCurrency = "USD";
   const sendAmount = 1000;
 
@@ -104,9 +109,11 @@ const ComparePanel = () => {
                 </p>
               </div>
 
-              <Button variant={"default"} size={"icon"}>
-                <StarIcon />
-              </Button>
+              <FavoriteToggleIcon
+                isFavorite={toggle}
+                onToggle={handleToggle}
+                label="Favorite Button With Icon"
+              />
             </li>
           )}
         />
