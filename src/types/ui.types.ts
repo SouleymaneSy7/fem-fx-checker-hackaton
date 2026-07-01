@@ -110,3 +110,11 @@ export interface SearchInputPropsType
   extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: IconSource;
 }
+
+/* ── HistoryStat ─────────────────────────────────────────────────── */
+
+export type HistoryStatPropsType = {
+  label: string;
+  value: React.ReactNode;
+  tone?: "positive" | "negative" | "neutral";
+};
