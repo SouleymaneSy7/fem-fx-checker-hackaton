@@ -74,6 +74,18 @@
     letter-spacing: var(--preset-6-letter-spacing);
     font-weight: var(--preset-6-weight);
   }
+
+  .history-stat-grid {
+    --min: 8.75rem;
+    --gap: 1rem;
+
+    width: 100%;
+    max-width: 38.125rem;
+
+    display: grid;
+    grid-gap: var(--gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min)), 1fr));
+  }
 }
 
 @utility container {
