@@ -1,8 +1,11 @@
+"use client"
+
+import * as React from "react";
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
-import { ArrowRightIcon, StarFilledIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { ArrowRightIcon } from "@/components/icons";
+import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +37,11 @@ const pinnedCodes = [
 const sendCurrency = "USD";
 
 const FavoritesPanel = () => {
+  const [toggle, setToggle] = React.useState(false);
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
+
   const favorites: FavoritePairType[] = Array.from(pinnedCodes).map((code) => ({
     code: `${sendCurrency}-${code}`,
     sendCurrency: sendCurrency,
@@ -94,13 +102,11 @@ const FavoritesPanel = () => {
                   </p>
                 </div>
 
-                <Button
-                  variant={"default"}
-                  size={"icon"}
-                  className="border-primary"
-                >
-                  <StarFilledIcon className="text-primary" />
-                </Button>
+                <FavoriteToggleIcon
+                  isFavorite={toggle}
+                  onToggle={handleToggle}
+                  label="Favorite Button With Icon"
+                />
               </li>
             );
           }}
