@@ -2,8 +2,8 @@ import TabNav from "@/components/layout/tab-nav";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import ComparePanel from "../compare/compare-panel";
 import FavoritesPanel from "../favorites/favorites-panel";
-import HistoryPanel from "../history/history-panel";
 import LogPanel from "../log/log-panel";
+import HistoryPanel from "../markets/history/history-panel";
 
 const ConverterSections = () => {
   return (
