@@ -118,3 +118,17 @@ export type HistoryStatPropsType = {
   value: React.ReactNode;
   tone?: "positive" | "negative" | "neutral";
 };
+
+/* ── Favorite ─────────────────────────────────────────────────── */
+
+export type ButtonProps = {
+  onToggle: () => void;
+  label: string;
+  className?: string;
+};
+
+export type FavoritePropsType = {
+  isFavorite: boolean;
+} & ButtonProps;
+
+export type LogButtonPropsType = { isLogged: boolean } & ButtonProps;
