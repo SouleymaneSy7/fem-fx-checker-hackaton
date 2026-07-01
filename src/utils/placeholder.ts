@@ -6,6 +6,11 @@
  * converter Zustand store are wired in.
  */
 
+import type {
+  RatePointType,
+  RateRangeType,
+} from "@/components/features/markets/history/history-panel";
+
 export const PLACEHOLDER_CURRENCIES = [
   { code: "USD", name: "US Dollar", flag: "us" },
   { code: "EUR", name: "Euro", flag: "eu" },
@@ -86,3 +91,43 @@ export const PLACEHOLDER_CHANGE_PERCENT: Record<string, number> = {
 
 export const getPlaceholderRate = (from: string, to: string) =>
   (PLACEHOLDER_RATE_TO_USD[to] ?? 1) / (PLACEHOLDER_RATE_TO_USD[from] ?? 1);
+
+const POINTS_BY_RANGE: Record<RateRangeType, number> = {
+  "1d": 24,
+  "1w": 7,
+  "1m": 30,
+  "3m": 90,
+  "1y": 52,
+  "5y": 60,
+};
+
+const STEP_MS_BY_RANGE: Record<RateRangeType, number> = {
+  "1d": 60 * 60 * 1000,
+  "1w": 24 * 60 * 60 * 1000,
+  "1m": 24 * 60 * 60 * 1000,
+  "3m": 24 * 60 * 60 * 1000,
+  "1y": 7 * 24 * 60 * 60 * 1000,
+  "5y": 30 * 24 * 60 * 60 * 1000,
+};
+
+/**
+ * Deterministic pseudo-random walk (Math.sin instead of Math.random) so the
+ * chart doesn't flash a different shape on hydration.
+ */
+export const generatePlaceholderHistory = (
+  range: RateRangeType,
+  baseRate: number,
+): RatePointType[] => {
+  const count = POINTS_BY_RANGE[range];
+  const stepMs = STEP_MS_BY_RANGE[range];
+  const now = Date.now();
+  const points: RatePointType[] = [];
+
+  for (let i = count - 1; i >= 0; i -= 1) {
+    const seed = Math.sin(i * 999 + baseRate * 1000);
+    const rate = baseRate * (1 + seed * 0.01);
+    points.push({ date: new Date(now - i * stepMs).toISOString(), rate });
+  }
+
+  return points;
+};
