@@ -123,7 +123,7 @@ export type HistoryStatPropsType = {
 
 export type ButtonProps = {
   onToggle: () => void;
-  label: string;
+  label?: string;
   className?: string;
 };
 
