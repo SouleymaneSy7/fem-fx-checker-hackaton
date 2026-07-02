@@ -3,6 +3,7 @@ import {
   ArrowLeftRight,
   ArrowRight,
   Check,
+  ChevronDown,
   Search,
   Star,
 } from "lucide-react";
@@ -98,6 +99,20 @@ export const ArrowRightIcon = ({
 }: IconComponentProps) => (
   <Icon
     icon={ArrowRight}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const ChevronDown2Icon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={ChevronDown}
     size={size}
     label={label}
     className={className}
