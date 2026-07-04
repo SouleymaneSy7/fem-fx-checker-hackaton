@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { TickerPairType } from "@/types/data.types";
+import type { TickerPairType } from "@/types/ui.types";
 
 const TickerItem = ({ pair }: { pair: TickerPairType }) => {
   const isNeutral = pair.changePercent === 0;
@@ -11,7 +11,9 @@ const TickerItem = ({ pair }: { pair: TickerPairType }) => {
         {pair.base}/{pair.quote}
       </span>
 
-      <span className="text-neutral-50 preset-5-med">{pair.rate}</span>
+      <span className="text-neutral-50 preset-5-med">
+        {pair.rate.toFixed(2)}
+      </span>
 
       <p
         className={cn(

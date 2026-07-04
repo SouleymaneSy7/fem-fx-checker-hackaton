@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react";
 import type * as React from "react";
-import type { TickerPairType } from "./data.types";
 
 /* ────────────────────────────────────────────────────────────────────────
  * Polymorphic component helpers
@@ -79,7 +78,7 @@ export type IconPropsType = {
 /* ── Navbar ─────────────────────────────────────────────────── */
 
 export interface NavbarPropsType {
-  availableCurrencies: number | string;
+  availableCurrencies: number | undefined;
 }
 
 /* ── Main Component ─────────────────────────────────────────────────── */
@@ -99,6 +98,14 @@ export type MarqueePropsType = {
 };
 
 /* ── Ticker ─────────────────────────────────────────────────── */
+
+export type TickerPairType = {
+  id: string;
+  base: string;
+  quote: string;
+  rate: number;
+  changePercent: number;
+};
 
 export type TickerPropsType = {
   pairs: TickerPairType[];
@@ -131,4 +138,12 @@ export type FavoritePropsType = {
   isFavorite: boolean;
 } & ButtonProps;
 
-export type LogButtonPropsType = { isLogged: boolean } & ButtonProps;
+/* ── Log ─────────────────────────────────────────────────── */
+
+export type LogButtonPropsType = {
+  isLogged: boolean;
+  onToggle: () => void;
+  disabled: boolean;
+  label?: string;
+  className?: string;
+};
