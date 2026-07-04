@@ -4,10 +4,12 @@ import { CheckIcon } from "../icons";
 import { Button } from "../ui/button";
 
 const LogButton = ({
+  disabled,
   isLogged,
   onToggle,
   label,
   className,
+  ...delegatedProps
 }: LogButtonPropsType) => {
   return (
     <Button
@@ -17,6 +19,8 @@ const LogButton = ({
       aria-label={label}
       onClick={onToggle}
       className={cn(isLogged && "capitalize", className)}
+      disabled={disabled}
+      {...delegatedProps}
     >
       {isLogged ? <CheckIcon className="text-primary-foreground" /> : null}
       {isLogged ? "Logged" : "Log Conversion"}

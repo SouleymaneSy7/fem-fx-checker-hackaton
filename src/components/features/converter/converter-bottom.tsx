@@ -1,47 +1,55 @@
 "use client";
 
-import * as React from "react";
 import Container from "@/components/common/container";
 import FavoriteToggle from "@/components/shared/favorite-toggle";
 import LogButton from "@/components/shared/log-button";
-import { Button } from "@/components/ui/button";
+import { useConverter } from "@/hooks/use-converter";
 
-export interface ConverterBottomPropsType {
-  sendCurrency: string;
-  currencyRate: number;
-  receiveCurrency: string;
-}
+const ConverterBottom = () => {
+  const {
+    fromCurrency,
+    toCurrency,
+    rate,
+    isLoading,
+    error,
+    isPinned,
+    toggleFavorite,
+    isLogged,
+    toggleLog,
+  } = useConverter();
 
-const ConverterBottom = ({
-  sendCurrency,
-  currencyRate,
-  receiveCurrency,
-}: ConverterBottomPropsType) => {
-  const [toggle, setToggle] = React.useState(false);
-  const [logToggle, setLogToggle] = React.useState(false);
+  const rateDisplay = error
+    ? "Rate unavailable"
+    : rate !== undefined
+      ? `1 ${fromCurrency} = ${rate.toFixed(4)} ${toCurrency}`
+      : isLoading
+        ? "Loading rate..."
+        : "Rate unavailable";
 
-  const handleToggle = () => {
-    setToggle(!toggle);
-  };
-
-  const handleLogToggle = () => {
-    setLogToggle(!logToggle);
-  };
+  const canLog = isLogged || (rate !== undefined && !isLoading);
 
   return (
     <Container className="w-full bg-card rounded-b-20 border-t border-dashed border-border py-step-200 px-step-200 flex flex-col items-center justify-center gap-step-200 md:px-step-250 md:flex-row md:justify-between">
-      <p className="preset-6 uppercase">
-        1 {sendCurrency} = {currencyRate.toFixed(4)} {receiveCurrency}
-      </p>
+      <p className="preset-6 uppercase">{rateDisplay}</p>
 
       <div className="flex items-center gap-step-100 md:gap-step-150">
         <FavoriteToggle
-          isFavorite={toggle}
-          onToggle={handleToggle}
-          label="Favorite Button"
+          isFavorite={isPinned}
+          onToggle={toggleFavorite}
+          label={
+            isPinned
+              ? `Unpin: ${fromCurrency} to ${toCurrency}`
+              : `Pin: ${fromCurrency} to ${toCurrency}`
+          }
         />
 
-        <LogButton isLogged={logToggle} onToggle={handleLogToggle} />
+        <LogButton
+          isLogged={isLogged}
+          disabled={!canLog}
+          aria-pressed={isLogged}
+          label="Favorite Button"
+          onToggle={toggleLog}
+        />
       </div>
     </Container>
   );

@@ -1,17 +1,83 @@
 "use client";
+
 import * as React from "react";
 
 import Container from "@/components/common/container";
 import Title from "@/components/common/title";
 import { ArrowLeftRightIcon } from "@/components/icons";
-import CurrencyPicker from "@/components/shared/currency-picker";
+import CurrencyPicker, {
+  type CurrencyOptionType,
+} from "@/components/shared/currency-picker";
 import NumericInput from "@/components/shared/numeric-input";
 import { Button } from "@/components/ui/button";
-import { PLACEHOLDER_CURRENCIES } from "@/utils/placeholder";
+import { useConverter } from "@/hooks/use-converter";
+import { useCurrencies } from "@/hooks/use-currencies";
+import { getCurrencyFlagCode } from "@/utils/currency-flags";
+import { formatAmount } from "@/utils/format-amount";
 
 const ConverterTop = () => {
-  const [sendCurrency, setSendCurrency] = React.useState("USD");
-  const [receiveCurrency, setReceiveCurrency] = React.useState("USD");
+  const {
+    amount,
+    fromCurrency,
+    toCurrency,
+    convertedAmount,
+    isLoading,
+    error,
+    setAmount,
+    setFromCurrency,
+    setToCurrency,
+    swapCurrencies,
+  } = useConverter();
+
+  const { currencies } = useCurrencies();
+
+  const currencyOptions = React.useMemo<CurrencyOptionType[]>(
+    () =>
+      currencies?.map((currency) => ({
+        code: currency.iso_code,
+        name: currency.name,
+        flag: getCurrencyFlagCode(currency.iso_code) ?? "",
+      })) ?? [],
+    [currencies],
+  );
+
+  // Each picker excludes the currency currently selected on the other
+  // side — a currency can't be both the send and the receive currency.
+  const sendCurrencyOptions = React.useMemo(
+    () => currencyOptions.filter((option) => option.code !== toCurrency),
+    [currencyOptions, toCurrency],
+  );
+
+  const receiveCurrencyOptions = React.useMemo(
+    () => currencyOptions.filter((option) => option.code !== fromCurrency),
+    [currencyOptions, fromCurrency],
+  );
+
+  // Local string buffer so the input can hold intermediate states (an empty
+  // field, a trailing decimal separator) that a raw number can't represent.
+  const [amountInput, setAmountInput] = React.useState(String(amount));
+
+  React.useEffect(() => {
+    setAmountInput(String(amount));
+  }, [amount]);
+
+  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = event.target.value;
+    if (!/^\d*[.,]?\d*$/.test(raw)) return;
+
+    setAmountInput(raw);
+
+    const parsed = Number.parseFloat(raw.replace(",", "."));
+    setAmount(Number.isNaN(parsed) ? 0 : parsed);
+  };
+
+  const receiveDisplay = error
+    ? "—"
+    : convertedAmount !== null
+      ? formatAmount(convertedAmount)
+      : isLoading
+        ? "···"
+        : "—";
 
   return (
     <Container className="w-full bg-card rounded-t-20 p-step-200 flex flex-col items-center justify-center gap-step-200 md:p-step-250 md:flex-row md:gap-step-300">
@@ -21,18 +87,28 @@ const ConverterTop = () => {
         </Title>
 
         <div className="flex items-center justify-between gap-step-100">
-          <NumericInput />
+          <NumericInput
+            value={amountInput}
+            onChange={handleAmountChange}
+            aria-label="Amount to send"
+          />
 
           <CurrencyPicker
             label="Send Currency"
-            value={sendCurrency}
-            onValueChange={setSendCurrency}
-            currencies={PLACEHOLDER_CURRENCIES}
+            value={fromCurrency}
+            onValueChange={setFromCurrency}
+            currencies={sendCurrencyOptions}
           />
         </div>
       </div>
 
-      <Button type="button" size={"icon-lg"} variant={"secondary"}>
+      <Button
+        type="button"
+        size={"icon-lg"}
+        variant={"secondary"}
+        onClick={swapCurrencies}
+        aria-label="Swap send and receive currencies"
+      >
         <ArrowLeftRightIcon />
       </Button>
 
@@ -42,13 +118,15 @@ const ConverterTop = () => {
         </Title>
 
         <div className="flex items-center justify-between gap-step-100">
-          <p className="preset-1 uppercase text-primary">1000</p>
+          <p className="preset-1 uppercase text-primary" aria-live="polite">
+            {receiveDisplay}
+          </p>
 
           <CurrencyPicker
             label="Receive Currency"
-            value={receiveCurrency}
-            onValueChange={setReceiveCurrency}
-            currencies={PLACEHOLDER_CURRENCIES}
+            value={toCurrency}
+            onValueChange={setToCurrency}
+            currencies={receiveCurrencyOptions}
           />
         </div>
       </div>

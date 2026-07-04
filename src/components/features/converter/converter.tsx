@@ -3,10 +3,6 @@ import Title from "@/components/common/title";
 import ConverterBottom from "./converter-bottom";
 import ConverterTop from "./converter-top";
 
-const sendCurrency = "USD";
-const currencyRate = 0.853;
-const receiveCurrency = "EUR";
-
 const Converter = () => {
   return (
     <Container as="section" className="space-y-step-200">
@@ -16,12 +12,7 @@ const Converter = () => {
 
       <Container>
         <ConverterTop />
-
-        <ConverterBottom
-          currencyRate={currencyRate}
-          receiveCurrency={receiveCurrency}
-          sendCurrency={sendCurrency}
-        />
+        <ConverterBottom />
       </Container>
     </Container>
   );
