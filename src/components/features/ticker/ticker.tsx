@@ -11,7 +11,6 @@ import type { TickerPropsType } from "@/types/ui.types";
 import TickerItem from "./ticker-item";
 
 const Ticker = ({ pairs }: TickerPropsType) => {
-  // TODO: handle loading/empty states once this is wired to live data.
   if (pairs.length === 0) return null;
 
   return (

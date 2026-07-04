@@ -3,6 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 
 import "@/style/globals.css";
 import Header from "@/components/layout/header";
+import { SWRProvider } from "@/components/providers/swr-provider";
 
 // ─── Font ─────────────────────────────────────────────────────────────────────
 const jetbrainsMono = JetBrains_Mono({
@@ -48,8 +49,10 @@ export default function RootLayout({
           " ",
         )}
       >
-        <Header />
-        {children}
+        <SWRProvider>
+          <Header />
+          {children}
+        </SWRProvider>
       </body>
     </html>
   );
