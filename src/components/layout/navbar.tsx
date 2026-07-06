@@ -3,17 +3,22 @@ import Link from "next/link";
 import Logo from "@/components/shared/logo";
 import type { NavbarPropsType } from "@/types/ui.types";
 import Container from "../common/container";
+import ThemeToggle from "./theme-toggle";
 
 const Navbar = ({ availableCurrencies }: NavbarPropsType) => {
   return (
-    <Container className="container-header | flex justify-between items-center py-step-250">
+    <Container className="container-header | flex flex-wrap gap-step-100 justify-between items-center py-step-250">
       <Link href={"/"}>
         <Logo />
       </Link>
 
-      <p className="text-neutral-200">
-        <span>{availableCurrencies}</span> Currencies · EOD · ECB data
-      </p>
+      <div className="flex items-center gap-step-200">
+        <p className="text-neutral-200">
+          <span>{availableCurrencies}</span> Currencies
+          <span className="hidden md:inline">· EOD · ECB data</span>
+        </p>
+        <ThemeToggle />
+      </div>
     </Container>
   );
 };

@@ -4,12 +4,13 @@ import { JetBrains_Mono } from "next/font/google";
 import "@/style/globals.css";
 import Header from "@/components/layout/header";
 import { SWRProvider } from "@/components/providers/swr-provider";
+import { THEME_INIT_SCRIPT } from "@/utils/theme-script";
 
 // ─── Font ─────────────────────────────────────────────────────────────────────
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
-  variable: "--font-mono",
+  variable: "--font-jetbrains-mono",
   display: "swap",
   preload: true,
   adjustFontFallback: false,
@@ -43,12 +44,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={[jetbrainsMono.variable, "min-h-full", "antialiased"].join(
+        className={[jetbrainsMono.className, "min-h-full", "antialiased"].join(
           " ",
         )}
       >
+        {/* Raw <script>, not next/script: must run synchronously before
+            hydration to avoid a flash of the wrong theme. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <SWRProvider>
           <Header />
           {children}
