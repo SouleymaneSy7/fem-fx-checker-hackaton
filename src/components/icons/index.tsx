@@ -10,11 +10,12 @@ import {
 
 import { Icon } from "@/components/common/icon";
 import type { IconPropsType } from "@/types/ui.types";
-
+import { AdjustHalfSvg } from "./adjust-half-icon";
 import { ChevronDownSvg } from "./chevron-down-icon";
 import { DeleteFilledSvg } from "./delete-filled-icon";
 import { DeleteSvg } from "./delete-icon";
 import { LogoSvg } from "./logo-icon";
+import { QuestionSvg } from "./question-icon";
 import { StarFilledSvg } from "./star-filled-icon";
 
 type IconComponentProps = Omit<IconPropsType, "icon">;
@@ -186,6 +187,34 @@ export const DeleteFilledIcon = ({
 }: IconComponentProps) => (
   <Icon
     icon={DeleteFilledSvg}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const AdjustHalfIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={AdjustHalfSvg}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const QuestionIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={QuestionSvg}
     size={size}
     label={label}
     className={className}
