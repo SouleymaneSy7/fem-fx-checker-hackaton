@@ -1,7 +1,6 @@
 @theme inline {
   /* ── shadcn existing mappings ──────────────────────────── */
-  --font-sans: var(--font-mono);
-  --font-heading: var(--font-mono);
+  --font-mono: var(--font-jetbrains-mono);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -67,11 +66,11 @@
   --color-neutral-100: var(--neutral-100);
   --color-neutral-50: var(--neutral-50);
 
-  --color-lime-500: var(--lime-500);
-  --color-lime-800: var(--lime-800);
+  --color-primary: var(--primary);
+  --color-primary-accent: var(--primary-accent);
 
-  --color-green-500: var(--green-500);
-  --color-red-500: var(--red-500);
+  --color-green: var(--green);
+  --color-red: var(--red);
 
   /* ── Design system: spacing tokens ──────────────────────
    *

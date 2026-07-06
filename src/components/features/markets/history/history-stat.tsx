@@ -14,8 +14,8 @@ const HistoryStat = ({
       <p
         className={cn(
           "preset-2 uppercase truncate",
-          tone === "positive" && "text-green-500",
-          tone === "negative" && "text-red-500",
+          tone === "positive" && "text-green",
+          tone === "negative" && "text-red",
         )}
       >
         {value}

@@ -1,5 +1,6 @@
 :root {
   /* ── Colors ────────────────────────────────────────────── */
+  /* Neutral Colors - Dark Theme */
   --neutral-900: oklch(0.1448 0 0);
   --neutral-700: oklch(0.2055 0.0039 286.05);
   --neutral-600: oklch(0.2443 0.0038 286.12);
@@ -10,11 +11,16 @@
   --neutral-100: oklch(0.8266 0 0);
   --neutral-50: oklch(1 0 0);
 
-  --lime-500: oklch(0.9157 0.2054 121.64);
-  --lime-800: oklch(0.3 0.0726 121.83);
+  /* Primary Colors - Dark Theme */
+  --primary: oklch(0.9157 0.2054 121.64);
+  --primary-accent: oklch(0.3 0.0726 121.83);
 
-  --green-500: oklch(0.8217 0.267 140.6);
-  --red-500: oklch(0.6607 0.2258 25.95);
+  /* Green & Red Colors - Dark Theme */
+  --green: oklch(0.8217 0.267 140.6);
+  --red: oklch(0.6607 0.2258 25.95);
+
+  /* ── Font-Family ────────────────────────────────────────────── */
+  --font-jetbrains-mono: "Jetbrains Mono", monospace;
 
   /* ── Font-Size ────────────────────────────────────────────── */
   --fs-preset-1: clamp(2rem, 1.8261rem + 0.8696vw, 2.5rem);
@@ -32,23 +38,23 @@
   /* ── Spacing ───────────────────────────────────────────── */
   --spacing-0: 0px;
   --spacing-025: 0.125rem;
-  --spacing-050: clamp(0.1875rem, 0.125rem + 0.5vw, 0.25rem);
-  --spacing-075: clamp(0.25rem, 0.1875rem + 0.5vw, 0.375rem);
-  --spacing-100: clamp(0.3125rem, 0.25rem + 0.75vw, 0.5rem);
-  --spacing-125: clamp(0.375rem, 0.3125rem + 0.75vw, 0.625rem);
-  --spacing-150: clamp(0.5rem, 0.375rem + 1vw, 0.75rem);
-  --spacing-200: clamp(0.625rem, 0.5rem + 1vw, 1rem);
-  --spacing-250: clamp(0.75rem, 0.625rem + 1.25vw, 1.25rem);
-  --spacing-300: clamp(0.875rem, 0.75rem + 1.5vw, 1.5rem);
-  --spacing-400: clamp(1.125rem, 0.875rem + 2vw, 2rem);
-  --spacing-500: clamp(1.5rem, 1rem + 2.5vw, 2.5rem);
-  --spacing-600: clamp(1.75rem, 1.25rem + 3vw, 3rem);
-  --spacing-800: clamp(2.25rem, 1.5rem + 4vw, 4rem);
-  --spacing-1000: clamp(3rem, 2rem + 5vw, 5rem);
-  --spacing-1200: clamp(3.5rem, 2.5rem + 6vw, 6rem);
-  --spacing-1400: clamp(4rem, 3rem + 7vw, 7rem);
-  --spacing-1600: clamp(4.5rem, 3.5rem + 8vw, 8rem);
-  --spacing-1800: clamp(5rem, 4rem + 8.75vw, 8.75rem);
+  --spacing-050: 0.25rem;
+  --spacing-075: 0.375rem;
+  --spacing-100: 0.5rem;
+  --spacing-125: 0.625rem;
+  --spacing-150: 0.75rem;
+  --spacing-200: 1rem;
+  --spacing-250: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
+  --spacing-300: clamp(1.375rem, 1.3315rem + 0.2174vw, 1.5rem);
+  --spacing-400: clamp(1.75rem, 1.663rem + 0.4348vw, 2rem);
+  --spacing-500: clamp(2.25rem, 2.163rem + 0.4348vw, 2.5rem);
+  --spacing-600: clamp(2.75rem, 2.663rem + 0.4348vw, 3rem);
+  --spacing-800: clamp(3.5rem, 3.3261rem + 0.8696vw, 4rem);
+  --spacing-1000: clamp(4.5rem, 4.3261rem + 0.8696vw, 5rem);
+  --spacing-1200: clamp(5rem, 4.6522rem + 1.7391vw, 6rem);
+  --spacing-1400: clamp(6rem, 5.6522rem + 1.7391vw, 7rem);
+  --spacing-1600: clamp(7rem, 6.6522rem + 1.7391vw, 8rem);
+  --spacing-1800: clamp(8rem, 7.7391rem + 1.3043vw, 8.75rem);
 
   /* ── Border Radius ─────────────────────────────────────── */
   --radius-0: 0px;
@@ -122,4 +128,26 @@
   --preset-6-line-height: 1;
   --preset-6-letter-spacing: 0px;
   --preset-6-weight: var(--fw-regular);
+}
+
+.light {
+  /* ── Colors ────────────────────────────────────────────── */
+  /* Neutral Colors - Light Theme */
+  --neutral-50: oklch(0.1448 0 0);
+  --neutral-100: oklch(0.2686 0 0);
+  --neutral-200: oklch(0.3715 0 0);
+  --neutral-300: oklch(0.4386 0 0);
+  --neutral-400: oklch(0.5555 0 0);
+  --neutral-500: oklch(0.8699 0 0);
+  --neutral-600: oklch(0.9219 0 0);
+  --neutral-700: oklch(0.9702 0 0);
+  --neutral-900: oklch(0.9851 0 0);
+
+  /* Primary Colors - Light Theme */
+  --primary: oklch(0.6056 0.2189 292.72);
+  --primary-accent: oklch(0.8943 0.0549 293.28);
+
+  /* Green & Red Colors - Light Theme */
+  --red: oklch(0.5054 0.1905 27.52);
+  --green: oklch(0.5273 0.1371 150.07);
 }

@@ -19,8 +19,8 @@ const TickerItem = ({ pair }: { pair: TickerPairType }) => {
         className={cn(
           "flex items-center gap-step-075",
           isNeutral && "text-neutral-200",
-          !isNeutral && isPositive && "text-green-500",
-          !isNeutral && !isPositive && "text-red-500",
+          !isNeutral && isPositive && "text-green",
+          !isNeutral && !isPositive && "text-red",
         )}
       >
         <span>{!isNeutral && (isPositive ? "▲" : "▼")}</span>

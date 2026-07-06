@@ -1,3 +1,10 @@
+/* --primary and --primary-accent are intentionally NOT redeclared here:
+   tokens.css already defines them per theme (:root = dark, .light =
+   light), so this file only needs to consume them via var(). Redeclaring
+   --primary: var(--primary) here would target the same property name as
+   tokens.css's raw token — a literal self-reference, which CSS treats as
+   invalid and breaks every alias below that depends on it. */
+
 :root {
   --background: var(--neutral-900);
   --foreground: var(--neutral-50);
@@ -5,33 +12,32 @@
   --card-foreground: var(--neutral-50);
   --popover: var(--neutral-600);
   --popover-foreground: var(--neutral-50);
-  --primary: var(--lime-500);
-  --primary-foreground: var(--lime-800);
+  --primary-foreground: var(--primary-accent);
   --secondary: var(--neutral-600);
   --secondary-foreground: var(--neutral-200);
   --muted: var(--neutral-500);
   --muted-foreground: var(--neutral-200);
-  --accent: var(--lime-800);
-  --accent-foreground: var(--lime-500);
-  --destructive: var(--red-500);
+  --accent: var(--primary-accent);
+  --accent-foreground: var(--primary);
+  --destructive: var(--red);
   --destructive-foreground: var(--neutral-50);
   --border: var(--neutral-500);
   --input: var(--neutral-500);
-  --ring: var(--lime-500);
+  --ring: var(--primary);
   --radius: var(--radius-16);
-  --chart-1: var(--lime-500);
-  --chart-2: oklch(0.85 0.2054 121.64);
-  --chart-3: oklch(0.78 0.2054 121.64);
-  --chart-4: oklch(0.71 0.2054 121.64);
-  --chart-5: oklch(0.64 0.2054 121.64);
+  --chart-1: var(--primary);
+  --chart-2: oklch(0.55 0.2189 292.72);
+  --chart-3: oklch(0.48 0.2189 292.72);
+  --chart-4: oklch(0.4 0.2189 292.72);
+  --chart-5: oklch(0.3 0.2189 292.72);
   --sidebar: var(--neutral-700);
   --sidebar-foreground: var(--neutral-50);
-  --sidebar-primary: var(--lime-500);
+  --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--neutral-900);
-  --sidebar-accent: var(--lime-800);
-  --sidebar-accent-foreground: var(--lime-500);
+  --sidebar-accent: var(--primary-accent);
+  --sidebar-accent-foreground: var(--primary);
   --sidebar-border: var(--neutral-500);
-  --sidebar-ring: var(--lime-500);
+  --sidebar-ring: var(--primary);
 }
 
 .dark {
@@ -41,31 +47,30 @@
   --card-foreground: var(--neutral-50);
   --popover: var(--neutral-600);
   --popover-foreground: var(--neutral-50);
-  --primary: var(--lime-500);
-  --primary-foreground: var(--lime-800);
+  --primary-foreground: var(--primary-accent);
   --secondary: var(--neutral-600);
   --secondary-foreground: var(--neutral-200);
   --muted: var(--neutral-500);
   --muted-foreground: var(--neutral-200);
-  --accent: var(--lime-800);
-  --accent-foreground: var(--lime-500);
-  --destructive: var(--red-500);
+  --accent: var(--primary-accent);
+  --accent-foreground: var(--primary);
+  --destructive: var(--red);
   --destructive-foreground: var(--neutral-50);
   --border: var(--neutral-500);
   --input: var(--neutral-500);
-  --ring: var(--lime-500);
+  --ring: var(--primary);
   --radius: var(--radius-16);
-  --chart-1: var(--lime-500);
+  --chart-1: var(--primary);
   --chart-2: oklch(0.85 0.2054 121.64);
   --chart-3: oklch(0.78 0.2054 121.64);
   --chart-4: oklch(0.71 0.2054 121.64);
   --chart-5: oklch(0.64 0.2054 121.64);
   --sidebar: var(--neutral-700);
   --sidebar-foreground: var(--neutral-50);
-  --sidebar-primary: var(--lime-500);
+  --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--neutral-900);
-  --sidebar-accent: var(--lime-800);
-  --sidebar-accent-foreground: var(--lime-500);
+  --sidebar-accent: var(--primary-accent);
+  --sidebar-accent-foreground: var(--primary);
   --sidebar-border: var(--neutral-500);
-  --sidebar-ring: var(--lime-500);
+  --sidebar-ring: var(--primary);
 }

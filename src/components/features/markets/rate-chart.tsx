@@ -63,9 +63,9 @@ const RateChart = ({ data, pair, dateFormatter }: RateChartPropsType) => {
       <AreaChart data={data} margin={{ top: 12, right: 8, bottom: 0, left: 0 }}>
         <defs>
           <linearGradient id="rateGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--lime-500)" stopOpacity={0.55} />
-            <stop offset="55%" stopColor="var(--lime-500)" stopOpacity={0.12} />
-            <stop offset="100%" stopColor="var(--lime-500)" stopOpacity={0} />
+            <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.55} />
+            <stop offset="55%" stopColor="var(--primary)" stopOpacity={0.12} />
+            <stop offset="100%" stopColor="var(--primary)" stopOpacity={0} />
           </linearGradient>
         </defs>
 
@@ -120,13 +120,13 @@ const RateChart = ({ data, pair, dateFormatter }: RateChartPropsType) => {
         <Area
           type="linear"
           dataKey="rate"
-          stroke="var(--lime-500)"
+          stroke="var(--primary)"
           strokeWidth={2}
           fill="url(#rateGradient)"
           dot={false}
           activeDot={{
             r: 4,
-            fill: "var(--lime-500)",
+            fill: "var(--primary)",
             stroke: "var(--neutral-900)",
             strokeWidth: 2,
           }}

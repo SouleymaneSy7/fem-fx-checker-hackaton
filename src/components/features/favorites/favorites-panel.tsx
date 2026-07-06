@@ -60,7 +60,7 @@ const FavoritesPanel = () => {
                       <p
                         className={cn(
                           "text-right preset-6",
-                          isPositive ? "text-green-500" : "text-red-500",
+                          isPositive ? "text-green" : "text-red",
                         )}
                       >
                         {isPositive ? "▲" : "▼"}{" "}
