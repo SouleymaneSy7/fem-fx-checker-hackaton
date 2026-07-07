@@ -5,13 +5,13 @@ import * as React from "react";
 import Container from "@/components/common/container";
 import Title from "@/components/common/title";
 import { ArrowLeftRightIcon } from "@/components/icons";
-import CurrencyPicker, {
-  type CurrencyOptionType,
-} from "@/components/shared/currency-picker";
+import CurrencyPicker from "@/components/shared/currency-picker";
 import NumericInput from "@/components/shared/numeric-input";
 import { Button } from "@/components/ui/button";
 import { useConverter } from "@/hooks/use-converter";
 import { useCurrencies } from "@/hooks/use-currencies";
+import { SHORTCUT_EVENTS } from "@/hooks/use-keyboard-shortcuts";
+import type { CurrencyOptionType } from "@/types/data.types";
 import { getCurrencyFlagCode } from "@/utils/currency-flags";
 import { formatAmount } from "@/utils/format-amount";
 
@@ -30,6 +30,10 @@ const ConverterTop = () => {
   } = useConverter();
 
   const { currencies } = useCurrencies();
+
+  // Local string buffer so the input can hold intermediate states (an empty
+  // field, a trailing decimal separator) that a raw number can't represent.
+  const [amountInput, setAmountInput] = React.useState(String(amount));
 
   const currencyOptions = React.useMemo<CurrencyOptionType[]>(
     () =>
@@ -53,9 +57,15 @@ const ConverterTop = () => {
     [currencyOptions, fromCurrency],
   );
 
-  // Local string buffer so the input can hold intermediate states (an empty
-  // field, a trailing decimal separator) that a raw number can't represent.
-  const [amountInput, setAmountInput] = React.useState(String(amount));
+  React.useEffect(() => {
+    window.addEventListener(SHORTCUT_EVENTS.swapCurrencies, swapCurrencies);
+
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.swapCurrencies,
+        swapCurrencies,
+      );
+  }, [swapCurrencies]);
 
   React.useEffect(() => {
     setAmountInput(String(amount));
@@ -98,6 +108,7 @@ const ConverterTop = () => {
             value={fromCurrency}
             onValueChange={setFromCurrency}
             currencies={sendCurrencyOptions}
+            focusShortcutTarget="send"
           />
         </div>
       </div>
@@ -108,6 +119,7 @@ const ConverterTop = () => {
         variant={"secondary"}
         onClick={swapCurrencies}
         aria-label="Swap send and receive currencies"
+        aria-keyshortcuts="Control+S Meta+S"
       >
         <ArrowLeftRightIcon />
       </Button>

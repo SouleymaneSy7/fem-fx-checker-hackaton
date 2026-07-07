@@ -3,8 +3,10 @@ import * as React from "react";
 import Container from "@/components/common/container";
 import Title from "@/components/common/title";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+import { SHORTCUT_EVENTS } from "@/hooks/use-keyboard-shortcuts";
 import { useRateChart } from "@/hooks/use-rate-chart";
 import { useConverterStore } from "@/store/converter-store";
+import type { SetRateRangeDetail } from "@/types/data.types";
 import { formatChartDate, formatDateForRange } from "@/utils/format-date";
 import RangeSelector from "../range-selector";
 import RateChart from "../rate-chart";
@@ -19,6 +21,18 @@ const HistoryPanel = () => {
     fromCurrency,
     toCurrency,
   );
+
+  React.useEffect(() => {
+    const handleSetRange = (event: Event) => {
+      const detail = (event as CustomEvent<SetRateRangeDetail>).detail;
+      if (detail?.range) setRange(detail.range);
+    };
+
+    window.addEventListener(SHORTCUT_EVENTS.setRateRange, handleSetRange);
+
+    return () =>
+      window.removeEventListener(SHORTCUT_EVENTS.setRateRange, handleSetRange);
+  }, [setRange]);
 
   const hasData = points.length > 0 && !error && !isLoading;
 

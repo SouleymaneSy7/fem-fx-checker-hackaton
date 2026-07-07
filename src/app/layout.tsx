@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 
 import "@/style/globals.css";
+
+import KeyboardShortcuts from "@/components/common/keyboard-shortcuts";
 import Header from "@/components/layout/header";
 import { SWRProvider } from "@/components/providers/swr-provider";
+import ShortcutsHelp from "@/components/shared/shortcuts-help";
 import { THEME_INIT_SCRIPT } from "@/utils/theme-script";
 
 // ─── Font ─────────────────────────────────────────────────────────────────────
@@ -54,8 +57,10 @@ export default function RootLayout({
             hydration to avoid a flash of the wrong theme. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <SWRProvider>
+          <KeyboardShortcuts />
           <Header />
           {children}
+          <ShortcutsHelp />
         </SWRProvider>
       </body>
     </html>

@@ -13,25 +13,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { SHORTCUT_EVENTS } from "@/hooks/use-keyboard-shortcuts";
 import { cn } from "@/lib/utils";
+import type {
+  CurrencyOptionType,
+  CurrencyPickerPropsType,
+  FocusCurrencySearchDetail,
+} from "@/types/data.types";
 import { Badge } from "../ui/badge";
 import { ScrollArea } from "../ui/scroll-area";
 import { CurrencyFlag } from "./currency-flag";
-
-export type CurrencyOptionType = {
-  code: string;
-  name: string;
-  flag: string;
-};
-
-export type CurrencyPickerPropsType = {
-  value: string;
-  onValueChange: (code: string) => void;
-  currencies: CurrencyOptionType[];
-  popularCodes?: string[];
-  label: string;
-  className?: string;
-};
 
 const DEFAULT_POPULAR_CODES = ["USD", "EUR", "GBP"];
 
@@ -42,6 +33,7 @@ const CurrencyPicker = ({
   popularCodes = DEFAULT_POPULAR_CODES,
   label,
   className,
+  focusShortcutTarget,
 }: CurrencyPickerPropsType) => {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
@@ -72,6 +64,29 @@ const CurrencyPicker = ({
     setOpen(false);
     setQuery("");
   };
+
+  // "Ctrl+K" / "Cmd+K" shortcut → open this picker if it's the target one.
+  // Radix's Popover already auto-focuses the first focusable element (the
+  // search input) as soon as the content mounts, so no manual ref/focus
+  // call is needed here.
+  React.useEffect(() => {
+    if (!focusShortcutTarget) return;
+
+    const handleFocusSearch = (event: Event) => {
+      const detail = (event as CustomEvent<FocusCurrencySearchDetail>).detail;
+      if (detail?.target === focusShortcutTarget) setOpen(true);
+    };
+
+    window.addEventListener(
+      SHORTCUT_EVENTS.focusCurrencySearch,
+      handleFocusSearch,
+    );
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.focusCurrencySearch,
+        handleFocusSearch,
+      );
+  }, [focusShortcutTarget]);
 
   const renderOption = (currency: CurrencyOptionType) => {
     const isSelected = currency.code === value;
@@ -113,6 +128,9 @@ const CurrencyPicker = ({
       <PopoverTrigger
         type="button"
         aria-label={label}
+        aria-keyshortcuts={
+          focusShortcutTarget === "send" ? "Control+K Meta+K" : undefined
+        }
         className={cn(buttonVariants({ variant: "popover" }), className)}
       >
         <CurrencyFlag currencyCode={selected?.code ?? ""} />
