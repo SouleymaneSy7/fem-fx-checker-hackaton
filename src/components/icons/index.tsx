@@ -4,6 +4,7 @@ import {
   ArrowRight,
   Check,
   ChevronDown,
+  CircleQuestionMark,
   Search,
   Star,
 } from "lucide-react";
@@ -15,7 +16,6 @@ import { ChevronDownSvg } from "./chevron-down-icon";
 import { DeleteFilledSvg } from "./delete-filled-icon";
 import { DeleteSvg } from "./delete-icon";
 import { LogoSvg } from "./logo-icon";
-import { QuestionSvg } from "./question-icon";
 import { StarFilledSvg } from "./star-filled-icon";
 
 type IconComponentProps = Omit<IconPropsType, "icon">;
@@ -120,6 +120,20 @@ export const ChevronDown2Icon = ({
     {...props}
   />
 );
+export const QuestionIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={CircleQuestionMark}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
 
 /* ── local SVGs ─────────────────────────────────────────────────────── */
 
@@ -201,20 +215,6 @@ export const AdjustHalfIcon = ({
 }: IconComponentProps) => (
   <Icon
     icon={AdjustHalfSvg}
-    size={size}
-    label={label}
-    className={className}
-    {...props}
-  />
-);
-export const QuestionIcon = ({
-  size,
-  label,
-  className,
-  ...props
-}: IconComponentProps) => (
-  <Icon
-    icon={QuestionSvg}
     size={size}
     label={label}
     className={className}
