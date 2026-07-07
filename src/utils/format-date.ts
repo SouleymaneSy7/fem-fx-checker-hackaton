@@ -1,5 +1,5 @@
 import { differenceInHours, differenceInMinutes, format } from "date-fns";
-import type { RateRangeType } from "@/components/features/markets/range-selector";
+import type { RateRangeType } from "@/types/data.types";
 
 export const formatRelativeTime = (isoDate: string) => {
   const loggedDate = new Date(isoDate);

@@ -1,8 +1,7 @@
 "use client";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import type { RateRangeType } from "@/types/data.types";
-import type { RangeSelectorPropsType } from "@/types/ui.types";
+import type { RangeSelectorPropsType, RateRangeType } from "@/types/ui.types";
 
 const RANGES: { value: RateRangeType; label: string; shortcut: string }[] = [
   { value: "1d", label: "1d", shortcut: "Alt+1" },
