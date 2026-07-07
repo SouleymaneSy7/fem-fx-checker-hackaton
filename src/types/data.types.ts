@@ -76,6 +76,24 @@ export type CompareRowType = {
   isPinned: boolean;
 };
 
+/* ── CurrencyPicker ─────────────────────────────────────────────────── */
+
+export type CurrencyOptionType = {
+  code: string;
+  name: string;
+  flag: string;
+};
+
+export type CurrencyPickerPropsType = {
+  value: string;
+  onValueChange: (code: string) => void;
+  currencies: CurrencyOptionType[];
+  popularCodes?: string[];
+  label: string;
+  className?: string;
+  focusShortcutTarget?: "send" | "receive";
+};
+
 /* ── Theme ─────────────────────────────────────────────────── */
 
 export type ThemeType = "dark" | "light";
@@ -85,3 +103,8 @@ export type ThemeStoreType = {
   setTheme: (theme: ThemeType) => void;
   toggleTheme: () => void;
 };
+
+/* ── KeyboardShortcuts ─────────────────────────────────────────────────── */
+
+export type FocusCurrencySearchDetail = { target: "send" | "receive" };
+export type SetRateRangeDetail = { range: RateRangeType };
