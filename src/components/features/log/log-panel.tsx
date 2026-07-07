@@ -3,11 +3,12 @@ import * as React from "react";
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
-import { ArrowRightIcon } from "@/components/icons";
+import { ArrowRightIcon, ArrowUpFromLineIcon } from "@/components/icons";
 import DeleteButton from "@/components/shared/delete-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { useLogStore } from "@/store/log-store";
+import { exportLogToCsv } from "@/utils/export-log";
 import { formatAmount } from "@/utils/format-amount";
 import { formatRelativeTime } from "@/utils/format-date";
 
@@ -35,9 +36,23 @@ const LogPanel = () => {
               </p>
 
               {hasEntries && (
-                <Button type="button" variant={"secondary"} onClick={clearLog}>
-                  Clear all
-                </Button>
+                <div className="flex flex-wrap items-center gap-step-100 md:gap-step-150">
+                  <Button
+                    type="button"
+                    onClick={() => exportLogToCsv(entries)}
+                  >
+                    <ArrowUpFromLineIcon />
+                    Export CSV
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant={"secondary"}
+                    onClick={clearLog}
+                  >
+                    Clear all
+                  </Button>
+                </div>
               )}
             </div>
           </div>

@@ -2,6 +2,7 @@ import {
   ArrowDownUp,
   ArrowLeftRight,
   ArrowRight,
+  ArrowUpFromLine,
   Check,
   ChevronDown,
   CircleQuestionMark,
@@ -128,6 +129,20 @@ export const QuestionIcon = ({
 }: IconComponentProps) => (
   <Icon
     icon={CircleQuestionMark}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const ArrowUpFromLineIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={ArrowUpFromLine}
     size={size}
     label={label}
     className={className}
