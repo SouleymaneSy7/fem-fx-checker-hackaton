@@ -11,34 +11,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useIsMac } from "@/hooks/use-is-mac";
 import { SHORTCUT_EVENTS } from "@/hooks/use-keyboard-shortcuts";
 import { cn } from "@/lib/utils";
 import { Kbd, KbdGroup } from "../ui/kbd";
-
-const uaData = navigator as Navigator & {
-  userAgentData?: {
-    platform?: string;
-  };
-};
-
-/**
- * `navigator.platform` only exists once mounted on the client. Starting at
- * `false` keeps the server render and the first client paint identical
- * (both show "Ctrl"/"Alt") — no hydration mismatch — then flips to the Mac
- * symbols right after mount if applicable.
- *
- */
-const useIsMac = () => {
-  const [isMac, setIsMac] = React.useState(false);
-
-  React.useEffect(() => {
-    const platform = uaData.userAgentData?.platform ?? navigator.userAgent;
-
-    setIsMac(/Mac|iPhone|iPad|iPod/.test(platform));
-  }, []);
-
-  return isMac;
-};
 
 const ShortcutsHelp = () => {
   const [open, setOpen] = React.useState(false);

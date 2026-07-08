@@ -1,13 +1,14 @@
-"use client"
+"use client";
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
 import type { SearchInputPropsType } from "@/types/ui.types";
 import Container from "../common/container";
+import { Kbd, KbdGroup } from "../ui/kbd";
 
 const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
-  ({ className, type, icon, ...delegatedProps }, ref) => {
+  ({ className, type, icon, keys, ...delegatedProps }, ref) => {
     const id = React.useId();
     const searchId = `search-${id}`;
 
@@ -35,11 +36,26 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
             "disabled:cursor-not-allowed disabled:opacity-50",
             "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
             Icon ? "pl-step-500" : "",
+            keys ? "pr-step-1400" : "",
             className,
           )}
           ref={ref}
           {...delegatedProps}
         />
+
+        {keys && (
+          <div
+            className={cn(
+              "order-last pr-step-050 has-[>kbd]:mr-step-050",
+              "absolute right-step-050 top-1/2 transform -translate-y-1/2",
+            )}
+          >
+            <KbdGroup className="gap-step-025">
+              <Kbd className="p-step-025">{keys.firstKey}</Kbd>
+              <Kbd className="p-step-025">{keys.secondKey}</Kbd>
+            </KbdGroup>
+          </div>
+        )}
       </Container>
     );
   },
