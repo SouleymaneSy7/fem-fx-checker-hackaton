@@ -10,23 +10,10 @@ import {
   YAxis,
 } from "recharts";
 
-export type RatePointType = {
-  date: string;
-  rate: number;
-};
-
-type RateChartPropsType = {
-  data: RatePointType[];
-  pair: string;
-  dateFormatter: (isoDate: string) => string;
-};
-
-type CustomTooltipPropsType = {
-  active?: boolean;
-  payload?: { payload: RatePointType }[];
-  pair: string;
-  dateFormatter: (isoDate: string) => string;
-};
+import type {
+  CustomTooltipPropsType,
+  RateChartPropsType,
+} from "@/types/ui.types";
 
 const CustomTooltip = ({
   active,

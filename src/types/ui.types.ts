@@ -158,9 +158,33 @@ export type RangeSelectorPropsType = {
   onValueChange: (range: RateRangeType) => void;
 };
 
+export type RatePointType = {
+  date: string;
+  rate: number;
+};
+
+export type RateChartPropsType = {
+  data: RatePointType[];
+  pair: string;
+  dateFormatter: (isoDate: string) => string;
+};
+
+export type CustomTooltipPropsType = {
+  active?: boolean;
+  payload?: { payload: RatePointType }[];
+  pair: string;
+  dateFormatter: (isoDate: string) => string;
+};
+
 /* ── CurrencyFlag ─────────────────────────────────────────────────── */
 
 export type CurrencyFlagProps = {
   currencyCode: string;
   size?: number;
+};
+
+/* ── SWRProvider ─────────────────────────────────────────────────── */
+
+export type SWRProviderPropsType = {
+  children: React.ReactNode;
 };

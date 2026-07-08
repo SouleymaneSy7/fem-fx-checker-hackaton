@@ -1,11 +1,9 @@
 "use client";
 
 import { SWRConfig } from "swr";
-import { SWR_RETRY_COUNT, SWR_RETRY_INTERVAL_MS } from "@/constants";
 
-type SWRProviderPropsType = {
-  children: React.ReactNode;
-};
+import { SWR_RETRY_COUNT, SWR_RETRY_INTERVAL_MS } from "@/constants";
+import type { SWRProviderPropsType } from "@/types/ui.types";
 
 export function SWRProvider({ children }: SWRProviderPropsType) {
   return (
