@@ -38,6 +38,7 @@ const ComparePanel = () => {
   }, [currencies]);
 
   const hasRows = rows.length > 0 && amount > 0;
+
   return (
     <React.Fragment>
       {hasRows ? (
@@ -62,7 +63,7 @@ const ComparePanel = () => {
             className="flex flex-col gap-step-150"
             renderItem={(row) => (
               <li className="flex items-center gap-step-125 rounded-10 border border-neutral-500 bg-neutral-600 px-step-150 py-step-150 md:gap-step-250 md:px-step-200">
-                <CurrencyFlag currencyCode={row.currency} size={24} />
+                <CurrencyFlag currencyCode={row.currency} />
 
                 <div className="min-w-0 flex flex-col gap-step-075 flex-1">
                   <p className="preset-4 uppercase text-foreground">

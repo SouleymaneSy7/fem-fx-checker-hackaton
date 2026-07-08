@@ -1,23 +1,19 @@
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
-import { getCurrencyFlagPath } from "@/utils/currency-flags";
+import { getCurrencyFlagUrl } from "@/services/currency-flags.service";
+import type { CurrencyFlagProps } from "@/types/ui.types";
 
-export type CurrencyFlagProps = {
-  currencyCode: string;
-  size?: number;
-};
+export function CurrencyFlag({ currencyCode, size = 24 }: CurrencyFlagProps) {
+  const flagUrl = getCurrencyFlagUrl(currencyCode);
 
-export function CurrencyFlag({ currencyCode, size = 20 }: CurrencyFlagProps) {
-  const flagPath = getCurrencyFlagPath(currencyCode);
-
-  if (!flagPath) {
-    // No flag asset for some currency (e.g. ILS) — render a neutral
+  if (!flagUrl) {
+    // No flag asset for some currency — render a neutral
     // placeholder instead of a broken image.
     return (
       <span
         aria-hidden="true"
-        className="inline-block shrink-0 rounded-full bg-neutral-500"
+        className="inline-block shrink-0 bg-neutral-500 rounded-full"
         style={{ width: size, height: size }}
       />
     );
@@ -31,11 +27,11 @@ export function CurrencyFlag({ currencyCode, size = 20 }: CurrencyFlagProps) {
       style={{ width: size, height: size }}
     >
       <Image
-        src={flagPath}
+        src={flagUrl}
         alt=""
         width={size}
         height={size}
-        className="w-full h-full rounded-full object-cover"
+        className="w-full h-full object-cover rounded-full"
       />
     </div>
   );

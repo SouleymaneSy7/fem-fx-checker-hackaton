@@ -13,6 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useIsMac } from "@/hooks/use-is-mac";
 import { SHORTCUT_EVENTS } from "@/hooks/use-keyboard-shortcuts";
 import { cn } from "@/lib/utils";
 import type {
@@ -88,6 +89,10 @@ const CurrencyPicker = ({
       );
   }, [focusShortcutTarget]);
 
+  const isMac = useIsMac();
+  const modKey = isMac ? "⌘" : "Ctrl";
+  const keyboards = { firstKey: modKey, secondKey: "K" };
+
   const renderOption = (currency: CurrencyOptionType) => {
     const isSelected = currency.code === value;
 
@@ -107,7 +112,7 @@ const CurrencyPicker = ({
 
           <span className="preset-4 text-foreground">{currency.code}</span>
 
-          <span className="flex-1 preset-5 text-muted-foreground truncate">
+          <span className="inline-flex flex-1 preset-5 text-muted-foreground truncate">
             {currency.name}
           </span>
 
@@ -133,7 +138,7 @@ const CurrencyPicker = ({
         }
         className={cn(buttonVariants({ variant: "popover" }), className)}
       >
-        <CurrencyFlag currencyCode={selected?.code ?? ""} />
+        <CurrencyFlag currencyCode={selected?.code ?? ""} size={20} />
 
         <span className="preset-4 uppercase text-neutral-50">
           {selected?.code ?? "——"}
@@ -148,17 +153,18 @@ const CurrencyPicker = ({
         />
       </PopoverTrigger>
 
-      <PopoverContent className="w-full">
-        <ScrollArea className="max-h-115 flex flex-col gap-step-125 w-94 p-step-100">
+      <PopoverContent>
+        <ScrollArea className="h-115 w-114 flex-col gap-step-125 p-step-100">
           <SearchInput
             icon={SearchIcon}
+            keys={keyboards}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search currencies..."
             aria-label="Search currencies"
           />
 
-          <div role="listbox" aria-label={label}>
+          <div role="listbox" aria-label={label} className="w-full">
             <VisuallyHidden aria-live="polite">
               {filtered.length} currencies found
             </VisuallyHidden>

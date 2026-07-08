@@ -116,6 +116,7 @@ export type TickerPropsType = {
 export interface SearchInputPropsType
   extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: IconSource;
+  keys?: { firstKey: string; secondKey: string };
 }
 
 /* ── HistoryStat ─────────────────────────────────────────────────── */
@@ -155,4 +156,11 @@ export type RateRangeType = "1d" | "1w" | "1m" | "3m" | "1y" | "5y";
 export type RangeSelectorPropsType = {
   value: RateRangeType;
   onValueChange: (range: RateRangeType) => void;
+};
+
+/* ── CurrencyFlag ─────────────────────────────────────────────────── */
+
+export type CurrencyFlagProps = {
+  currencyCode: string;
+  size?: number;
 };
