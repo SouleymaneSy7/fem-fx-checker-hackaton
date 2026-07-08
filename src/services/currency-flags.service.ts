@@ -1,30 +1,18 @@
-import { z } from "zod";
-import type { FrankfurterCurrencyType } from "@/types/api.types";
-import { currencySchema } from "./currencies.service";
+import { currenciesSchema } from "@/schemas";
+import type { CurrencyType } from "@/types/api.types";
 import { httpClient } from "./http-client";
 
-export const frankfurterCurrenciesSchema = z.array(currencySchema);
-
-const MAP: Record<string, string> = {
-  EUR: "eu",
-  USD: "us",
-  GBP: "gb",
-  JPY: "jp",
-  CNY: "cn",
-};
-
-export async function fetchCurrenciesForFlags(): Promise<
-  FrankfurterCurrencyType[]
-> {
+export async function fetchCurrenciesForFlags(): Promise<CurrencyType[]> {
   const { data } = await httpClient.get("/currencies");
-  return frankfurterCurrenciesSchema.parse(data);
+
+  return currenciesSchema.parse(data);
 }
 
 export function getCurrencyFlagCode(currencyCode: string): string | null {
   if (!currencyCode) return null;
   const code = currencyCode.toUpperCase().trim();
 
-  return MAP[code] || code.slice(0, 2).toLowerCase(); // fallback basique
+  return code.slice(0, 2).toLowerCase();
 }
 
 export function getCurrencyFlagUrl(currencyCode: string): string | null {

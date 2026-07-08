@@ -1,15 +1,6 @@
-import { z } from "zod";
-
+import { rateSchema } from "@/schemas";
+import type { RateType } from "@/types/api.types";
 import { httpClient } from "./http-client";
-
-export const rateSchema = z.object({
-  date: z.string(),
-  base: z.string(),
-  quote: z.string(),
-  rate: z.number(),
-});
-
-export type RateType = z.infer<typeof rateSchema>;
 
 // Shortcut for a single currency pair — e.g. the converter, which only ever
 // needs one rate at a time.

@@ -11,8 +11,8 @@ import { Button } from "@/components/ui/button";
 import { useConverter } from "@/hooks/use-converter";
 import { useCurrencies } from "@/hooks/use-currencies";
 import { SHORTCUT_EVENTS } from "@/hooks/use-keyboard-shortcuts";
+import { getCurrencyFlagCode } from "@/services/currency-flags.service";
 import type { CurrencyOptionType } from "@/types/data.types";
-import { getCurrencyFlagCode } from "@/utils/currency-flags";
 import { formatAmount } from "@/utils/format-amount";
 
 const ConverterTop = () => {

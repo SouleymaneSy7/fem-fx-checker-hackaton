@@ -1,5 +1,10 @@
 import type z from "zod";
-import type { currencySchema } from "@/services/currencies.service";
+
+import type {
+  converterSearchParamsSchema,
+  currencySchema,
+  rateSchema,
+} from "@/schemas";
 
 export type FetchCurrenciesOptionsType = {
   scope?: "all";
@@ -15,4 +20,10 @@ export type FetchRatesParamsType = {
   group?: "week" | "month";
 };
 
-export type FrankfurterCurrencyType = z.infer<typeof currencySchema>;
+export type CurrencyType = z.infer<typeof currencySchema>;
+
+export type RateType = z.infer<typeof rateSchema>;
+
+export type ConverterSearchParamsType = z.infer<
+  typeof converterSearchParamsSchema
+>;
