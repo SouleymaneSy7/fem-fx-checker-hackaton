@@ -1,3 +1,4 @@
+import { ENDPOINT_RATES } from "@/constants";
 import { ratesSchema } from "@/schemas";
 import type { FetchRatesParamsType, RateType } from "@/types/api.types";
 import { httpClient } from "./http-client";
@@ -7,7 +8,7 @@ import { httpClient } from "./http-client";
 export async function fetchRates(
   params: FetchRatesParamsType = {},
 ): Promise<RateType[]> {
-  const { data } = await httpClient.get("/rates", {
+  const { data } = await httpClient.get(ENDPOINT_RATES, {
     params: {
       base: params.base,
       quotes: params.quotes?.join(","),

@@ -1,3 +1,4 @@
+import { ENDPOINT_CURRENCIES } from "@/constants";
 import { currenciesSchema } from "@/schemas";
 import type {
   CurrencyType,
@@ -8,7 +9,7 @@ import { httpClient } from "./http-client";
 export async function fetchCurrencies(
   options: FetchCurrenciesOptionsType = {},
 ): Promise<CurrencyType[]> {
-  const { data } = await httpClient.get("/currencies", {
+  const { data } = await httpClient.get(ENDPOINT_CURRENCIES, {
     params: options.scope ? { scope: options.scope } : undefined,
   });
 

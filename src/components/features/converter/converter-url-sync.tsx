@@ -2,15 +2,11 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
-
+import { URL_SYNC_DEBOUNCE_MS } from "@/constants";
 import { useIsomorphicLayoutEffect } from "@/hooks/use-isomorphic-layout-effect";
 import { converterSearchParamsSchema } from "@/schemas";
 import { useConverterStore } from "@/store/converter-store";
 import { buildConverterSearchParams } from "@/utils/converter-search-params";
-
-// URL writes are debounced so typing in the amount field doesn't call
-// history.replaceState on every keystroke.
-const URL_SYNC_DEBOUNCE_MS = 500;
 
 function ConverterUrlSyncInner() {
   const router = useRouter();

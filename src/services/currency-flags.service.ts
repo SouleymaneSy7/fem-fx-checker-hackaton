@@ -1,9 +1,10 @@
+import { ENDPOINT_CURRENCIES, FLAG_CDN_URL } from "@/constants";
 import { currenciesSchema } from "@/schemas";
 import type { CurrencyType } from "@/types/api.types";
 import { httpClient } from "./http-client";
 
 export async function fetchCurrenciesForFlags(): Promise<CurrencyType[]> {
-  const { data } = await httpClient.get("/currencies");
+  const { data } = await httpClient.get(ENDPOINT_CURRENCIES);
 
   return currenciesSchema.parse(data);
 }
@@ -19,5 +20,5 @@ export function getCurrencyFlagUrl(currencyCode: string): string | null {
   const countryCode = getCurrencyFlagCode(currencyCode);
   if (!countryCode) return null;
 
-  return `https://flagcdn.com/${countryCode.toLowerCase()}.svg`;
+  return `${FLAG_CDN_URL}/${countryCode.toLowerCase()}.svg`;
 }

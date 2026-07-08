@@ -1,8 +1,9 @@
 import axios from "axios";
+import { HTTP_TIMEOUT_MS } from "@/constants";
 
 export const httpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_EXCHANGE_API_BASE, // https://api.frankfurter.dev/v2
-  timeout: 10_000,
+  timeout: HTTP_TIMEOUT_MS,
   headers: {
     Accept: "application/json",
   },

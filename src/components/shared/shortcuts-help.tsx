@@ -11,8 +11,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { SHORTCUT_EVENTS } from "@/constants";
 import { useIsMac } from "@/hooks/use-is-mac";
-import { SHORTCUT_EVENTS } from "@/hooks/use-keyboard-shortcuts";
 import { cn } from "@/lib/utils";
 import { Kbd, KbdGroup } from "../ui/kbd";
 

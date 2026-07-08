@@ -3,7 +3,7 @@ import * as React from "react";
 import Container from "@/components/common/container";
 import Title from "@/components/common/title";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
-import { SHORTCUT_EVENTS } from "@/hooks/use-keyboard-shortcuts";
+import { SHORTCUT_EVENTS } from "@/constants";
 import { useRateChart } from "@/hooks/use-rate-chart";
 import { useConverterStore } from "@/store/converter-store";
 import type { SetRateRangeDetail } from "@/types/data.types";

@@ -1,8 +1,9 @@
 import { z } from "zod";
-
-export const DEFAULT_FROM_CURRENCY = "USD";
-export const DEFAULT_TO_CURRENCY = "EUR";
-export const DEFAULT_AMOUNT = 1000;
+import {
+  DEFAULT_AMOUNT,
+  DEFAULT_FROM_CURRENCY,
+  DEFAULT_TO_CURRENCY,
+} from "@/constants";
 
 export const currencyCodeSchema = (fallback: string) =>
   z

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-
+import { STORAGE_KEY_THEME } from "@/constants";
 import type { ThemeStoreType } from "@/types/data.types";
 import { safeLocalStorage } from "@/utils/safe-storage";
 
@@ -14,7 +14,7 @@ export const useThemeStore = create<ThemeStoreType>()(
         set({ theme: get().theme === "dark" ? "light" : "dark" }),
     }),
     {
-      name: "fx-theme",
+      name: STORAGE_KEY_THEME,
       storage: createJSONStorage(() => safeLocalStorage),
     },
   ),

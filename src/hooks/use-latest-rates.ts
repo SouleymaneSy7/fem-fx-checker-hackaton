@@ -3,9 +3,8 @@
 import * as React from "react";
 import useSWR from "swr";
 
+import { SWR_STALE_5M } from "@/constants";
 import { fetchLatestRates } from "@/services/rates.service";
-
-const FIVE_MINUTES = 1000 * 60 * 5;
 
 export function useLatestRates(base: string, quotes?: string[]) {
   const key = base ? ["latest-rates", base, quotes?.join(",") ?? ""] : null;
@@ -14,7 +13,7 @@ export function useLatestRates(base: string, quotes?: string[]) {
     key,
     () => fetchLatestRates(base, quotes),
     {
-      dedupingInterval: FIVE_MINUTES,
+      dedupingInterval: SWR_STALE_5M,
     },
   );
 

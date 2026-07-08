@@ -2,9 +2,8 @@
 
 import useSWR from "swr";
 
+import { SWR_STALE_1D } from "@/constants";
 import { fetchCurrenciesForFlags } from "@/services/currency-flags.service";
-
-const ONE_DAY = 1000 * 60 * 60 * 24;
 
 export function useCurrencyFlags() {
   const { data, error, isLoading } = useSWR(
@@ -12,7 +11,7 @@ export function useCurrencyFlags() {
     fetchCurrenciesForFlags,
     {
       revalidateOnFocus: false,
-      dedupingInterval: ONE_DAY,
+      dedupingInterval: SWR_STALE_1D,
     },
   );
 

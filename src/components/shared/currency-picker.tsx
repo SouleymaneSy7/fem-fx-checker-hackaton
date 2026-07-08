@@ -13,8 +13,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { POPULAR_CURRENCIES, SHORTCUT_EVENTS } from "@/constants";
 import { useIsMac } from "@/hooks/use-is-mac";
-import { SHORTCUT_EVENTS } from "@/hooks/use-keyboard-shortcuts";
 import { cn } from "@/lib/utils";
 import type {
   CurrencyOptionType,
@@ -25,13 +25,11 @@ import { Badge } from "../ui/badge";
 import { ScrollArea } from "../ui/scroll-area";
 import { CurrencyFlag } from "./currency-flag";
 
-const DEFAULT_POPULAR_CODES = ["USD", "EUR", "GBP"];
-
 const CurrencyPicker = ({
   value,
   onValueChange,
   currencies,
-  popularCodes = DEFAULT_POPULAR_CODES,
+  popularCodes = POPULAR_CURRENCIES,
   label,
   className,
   focusShortcutTarget,

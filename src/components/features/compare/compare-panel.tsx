@@ -7,24 +7,14 @@ import Title from "@/components/common/title";
 import { CurrencyFlag } from "@/components/shared/currency-flag";
 import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+import { DEFAULT_COMPARE_CURRENCIES } from "@/constants";
 import { useCompare } from "@/hooks/use-compare";
 import { useCurrencies } from "@/hooks/use-currencies";
 import { formatAmount } from "@/utils/format-amount";
 
-const DEFAULT_COMPARE_CODES = [
-  "GBP",
-  "JPY",
-  "CHF",
-  "CAD",
-  "AUD",
-  "INR",
-  "CNY",
-  "BDT",
-];
-
 const ComparePanel = () => {
   const { amount, baseCurrency, rows, toggleFavorite } = useCompare(
-    DEFAULT_COMPARE_CODES,
+    DEFAULT_COMPARE_CURRENCIES,
   );
   const { currencies } = useCurrencies();
 

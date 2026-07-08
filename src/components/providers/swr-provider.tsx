@@ -1,6 +1,7 @@
 "use client";
 
 import { SWRConfig } from "swr";
+import { SWR_RETRY_COUNT, SWR_RETRY_INTERVAL_MS } from "@/constants";
 
 type SWRProviderPropsType = {
   children: React.ReactNode;
@@ -12,8 +13,8 @@ export function SWRProvider({ children }: SWRProviderPropsType) {
       value={{
         revalidateOnFocus: false,
         shouldRetryOnError: true,
-        errorRetryCount: 3,
-        errorRetryInterval: 5000,
+        errorRetryCount: SWR_RETRY_COUNT,
+        errorRetryInterval: SWR_RETRY_INTERVAL_MS,
         onError: (error) => {
           if (process.env.NODE_ENV === "development") {
             console.error("[SWR] error:", error);

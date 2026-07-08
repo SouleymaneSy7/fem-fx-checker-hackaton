@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
+import { STORAGE_KEY_FAVORITES } from "@/constants";
 import type { FavoritesStoreType } from "@/types/data.types";
 import { safeLocalStorage } from "@/utils/safe-storage";
 
@@ -31,7 +32,7 @@ export const useFavoritesStore = create<FavoritesStoreType>()(
         ),
     }),
     {
-      name: "fx-favorites",
+      name: STORAGE_KEY_FAVORITES,
       storage: createJSONStorage(() => safeLocalStorage),
     },
   ),

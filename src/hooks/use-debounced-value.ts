@@ -1,6 +1,10 @@
 import * as React from "react";
+import { DEBOUNCE_DEFAULT_MS } from "@/constants";
 
-export function useDebouncedValue<T>(value: T, delayMs = 300): T {
+export function useDebouncedValue<T>(
+  value: T,
+  delayMs = DEBOUNCE_DEFAULT_MS,
+): T {
   const [debouncedValue, setDebouncedValue] = React.useState(value);
 
   React.useEffect(() => {

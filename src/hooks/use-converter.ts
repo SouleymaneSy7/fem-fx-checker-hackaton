@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DEBOUNCE_DEFAULT_MS } from "@/constants";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { useRate } from "@/hooks/use-rate";
 import { useConverterStore } from "@/store/converter-store";
@@ -20,7 +21,7 @@ export function useConverter() {
   // one quote.
   const { rate, isLoading, error } = useRate(fromCurrency, toCurrency);
 
-  const debouncedAmount = useDebouncedValue(amount, 300);
+  const debouncedAmount = useDebouncedValue(amount, DEBOUNCE_DEFAULT_MS);
 
   const convertedAmount = React.useMemo(() => {
     if (rate === undefined) return null;

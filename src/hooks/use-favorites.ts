@@ -2,14 +2,11 @@
 
 import * as React from "react";
 import useSWR from "swr";
-
+import { SWR_STALE_5M } from "@/constants";
 import { fetchLatestRates, fetchRateHistory } from "@/services/rates.service";
 import { useFavoritesStore } from "@/store/favorites-store";
-
 import type { FavoriteRowType } from "@/types/data.types";
 import { getDateRangeFromPeriod } from "@/utils/date-range";
-
-const FIVE_MINUTES = 1000 * 60 * 5;
 
 export function useFavorites() {
   const favorites = useFavoritesStore((state) => state.favorites);
@@ -57,7 +54,7 @@ export function useFavorites() {
         }),
       );
     },
-    { dedupingInterval: FIVE_MINUTES },
+    { dedupingInterval: SWR_STALE_5M },
   );
 
   const rows = React.useMemo<FavoriteRowType[]>(() => {

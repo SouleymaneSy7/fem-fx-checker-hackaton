@@ -1,27 +1,11 @@
 "use client";
 
 import * as React from "react";
+import { RANGE_BY_CODE, SHORTCUT_EVENTS } from "@/constants";
 import type {
   FocusCurrencySearchDetail,
-  RateRangeType,
   SetRateRangeDetail,
 } from "@/types/data.types";
-
-export const SHORTCUT_EVENTS = {
-  focusCurrencySearch: "fx:focus-currency-search",
-  swapCurrencies: "fx:swap-currencies",
-  setRateRange: "fx:set-rate-range",
-  toggleShortcutsHelp: "fx:toggle-shortcuts-help",
-} as const;
-
-const RANGE_BY_CODE: Record<string, RateRangeType> = {
-  Digit1: "1d",
-  Digit2: "1w",
-  Digit3: "1m",
-  Digit4: "3m",
-  Digit5: "1y",
-  Digit6: "5y",
-};
 
 const isTypingTarget = (target: EventTarget | null): boolean => {
   if (!(target instanceof HTMLElement)) return false;
