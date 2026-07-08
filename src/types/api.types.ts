@@ -4,7 +4,9 @@ import type {
   converterSearchParamsSchema,
   currencySchema,
   rateSchema,
-} from "@/schemas";
+  signInSchema,
+  signUpSchema,
+} from "@/validators";
 
 export type FetchCurrenciesOptionsType = {
   scope?: "all";
@@ -27,3 +29,7 @@ export type RateType = z.infer<typeof rateSchema>;
 export type ConverterSearchParamsType = z.infer<
   typeof converterSearchParamsSchema
 >;
+
+export type SignInSchemaType = z.infer<typeof signInSchema>;
+
+export type SignUpSchemaType = z.infer<typeof signUpSchema>;

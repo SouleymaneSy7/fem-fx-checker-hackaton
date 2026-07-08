@@ -4,9 +4,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 import { URL_SYNC_DEBOUNCE_MS } from "@/constants";
 import { useIsomorphicLayoutEffect } from "@/hooks/use-isomorphic-layout-effect";
-import { converterSearchParamsSchema } from "@/schemas";
 import { useConverterStore } from "@/store/converter-store";
 import { buildConverterSearchParams } from "@/utils/converter-search-params";
+import { converterSearchParamsSchema } from "@/validators";
 
 function ConverterUrlSyncInner() {
   const router = useRouter();

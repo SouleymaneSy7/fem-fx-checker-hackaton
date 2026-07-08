@@ -1,6 +1,6 @@
 import { ENDPOINT_RATES } from "@/constants";
-import { ratesSchema } from "@/schemas";
 import type { FetchRatesParamsType, RateType } from "@/types/api.types";
+import { ratesSchema } from "@/validators";
 import { httpClient } from "./http-client";
 
 // One endpoint behind the latest rate, a specific historical date, and a

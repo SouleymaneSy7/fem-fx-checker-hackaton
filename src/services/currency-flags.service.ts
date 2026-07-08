@@ -1,6 +1,6 @@
 import { ENDPOINT_CURRENCIES, FLAG_CDN_URL } from "@/constants";
-import { currenciesSchema } from "@/schemas";
 import type { CurrencyType } from "@/types/api.types";
+import { currenciesSchema } from "@/validators";
 import { httpClient } from "./http-client";
 
 export async function fetchCurrenciesForFlags(): Promise<CurrencyType[]> {

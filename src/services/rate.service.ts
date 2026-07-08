@@ -1,5 +1,5 @@
-import { rateSchema } from "@/schemas";
 import type { RateType } from "@/types/api.types";
+import { rateSchema } from "@/validators";
 import { httpClient } from "./http-client";
 
 // Shortcut for a single currency pair — e.g. the converter, which only ever

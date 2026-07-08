@@ -1,9 +1,9 @@
 import { ENDPOINT_CURRENCIES } from "@/constants";
-import { currenciesSchema } from "@/schemas";
 import type {
   CurrencyType,
   FetchCurrenciesOptionsType,
 } from "@/types/api.types";
+import { currenciesSchema } from "@/validators";
 import { httpClient } from "./http-client";
 
 export async function fetchCurrencies(
