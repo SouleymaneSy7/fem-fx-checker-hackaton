@@ -119,6 +119,12 @@ export interface SearchInputPropsType
   keys?: { firstKey: string; secondKey: string };
 }
 
+export interface TextInputPropsType
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  error?: string;
+}
+
 /* ── HistoryStat ─────────────────────────────────────────────────── */
 
 export type HistoryStatPropsType = {
@@ -188,3 +194,13 @@ export type CurrencyFlagProps = {
 export type SWRProviderPropsType = {
   children: React.ReactNode;
 };
+
+/* ── Auth ─────────────────────────────────────────────────── */
+
+type onSuccess = {
+  onSuccess: () => void;
+};
+
+export type SignUpFormPropsType = onSuccess;
+
+export type SignInFormPropsType = onSuccess;
