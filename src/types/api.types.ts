@@ -1,7 +1,10 @@
 import type z from "zod";
 
+import type { favorite, logEntry } from "@/db/schema";
 import type {
   converterSearchParamsSchema,
+  createFavoriteSchema,
+  createLogEntrySchema,
   currencySchema,
   rateSchema,
   signInSchema,
@@ -33,3 +36,21 @@ export type ConverterSearchParamsType = z.infer<
 export type SignInSchemaType = z.infer<typeof signInSchema>;
 
 export type SignUpSchemaType = z.infer<typeof signUpSchema>;
+
+export type CreateFavoriteInputType = z.infer<typeof createFavoriteSchema>;
+
+export type CreateLogEntryInputType = z.infer<typeof createLogEntrySchema>;
+
+export type FavoriteRowType = Omit<
+  typeof favorite.$inferSelect,
+  "createdAt"
+> & {
+  createdAt: string;
+};
+
+export type LogEntryRowType = Omit<
+  typeof logEntry.$inferSelect,
+  "createdAt"
+> & {
+  createdAt: string;
+};
