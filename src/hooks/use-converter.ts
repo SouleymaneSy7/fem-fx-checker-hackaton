@@ -1,7 +1,8 @@
 import * as React from "react";
-
 import { DEBOUNCE_DEFAULT_MS } from "@/constants";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
+import { useFavoriteMutations } from "@/hooks/use-favorite-mutations";
+import { useLogMutations } from "@/hooks/use-log-mutations";
 import { useRate } from "@/hooks/use-rate";
 import { useConverterStore } from "@/store/converter-store";
 import { useFavoritesStore } from "@/store/favorites-store";
@@ -31,8 +32,7 @@ export function useConverter() {
 
   // Favorite
   const favorites = useFavoritesStore((state) => state.favorites);
-  const pinPair = useFavoritesStore((state) => state.pinPair);
-  const unpinPair = useFavoritesStore((state) => state.unpinPair);
+  const { pinPair, unpinPair } = useFavoriteMutations();
 
   const pairId = `${fromCurrency}-${toCurrency}`;
   const isPinned = favorites.some((pair) => pair.id === pairId);
@@ -49,10 +49,7 @@ export function useConverter() {
 
   // Log
   const logEntries = useLogStore((state) => state.entries);
-  const addEntry = useLogStore((state) => state.addEntry);
-  const removeEntriesForPair = useLogStore(
-    (state) => state.removeEntriesForPair,
-  );
+  const { addLogEntry, removeLogEntriesForPair } = useLogMutations();
 
   // Logged status is pair-based, not amount-based — mirrors the favorite
   // pin/unpin logic: a pair is either logged or it isn't.
@@ -61,15 +58,15 @@ export function useConverter() {
       entry.fromCurrency === fromCurrency && entry.toCurrency === toCurrency,
   );
 
-  function toggleLog() {
+  async function toggleLog() {
     if (isLogged) {
-      removeEntriesForPair(fromCurrency, toCurrency);
+      removeLogEntriesForPair(fromCurrency, toCurrency);
       return;
     }
 
     if (rate === undefined || convertedAmount === null) return;
 
-    addEntry({
+    await addLogEntry({
       fromCurrency,
       toCurrency,
       sendAmount: amount,

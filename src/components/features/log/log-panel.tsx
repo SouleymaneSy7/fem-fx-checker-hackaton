@@ -7,6 +7,7 @@ import { ArrowRightIcon, ArrowUpFromLineIcon } from "@/components/icons";
 import DeleteButton from "@/components/shared/delete-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+import { useLogMutations } from "@/hooks/use-log-mutations";
 import { useLogStore } from "@/store/log-store";
 import { exportLogToCsv } from "@/utils/export-log";
 import { formatAmount } from "@/utils/format-amount";
@@ -14,8 +15,7 @@ import { formatRelativeTime } from "@/utils/format-date";
 
 const LogPanel = () => {
   const entries = useLogStore((state) => state.entries);
-  const removeEntry = useLogStore((state) => state.removeEntry);
-  const clearLog = useLogStore((state) => state.clearLog);
+  const { removeLogEntry, clearAllLogs } = useLogMutations();
 
   const hasEntries = entries.length > 0;
   return (
@@ -37,10 +37,7 @@ const LogPanel = () => {
 
               {hasEntries && (
                 <div className="flex flex-wrap items-center gap-step-100 md:gap-step-150">
-                  <Button
-                    type="button"
-                    onClick={() => exportLogToCsv(entries)}
-                  >
+                  <Button type="button" onClick={() => exportLogToCsv(entries)}>
                     <ArrowUpFromLineIcon />
                     Export CSV
                   </Button>
@@ -48,7 +45,7 @@ const LogPanel = () => {
                   <Button
                     type="button"
                     variant={"secondary"}
-                    onClick={clearLog}
+                    onClick={clearAllLogs}
                   >
                     Clear all
                   </Button>
@@ -92,7 +89,7 @@ const LogPanel = () => {
                 </p>
 
                 <DeleteButton
-                  onClick={() => removeEntry(entry.id)}
+                  onClick={() => removeLogEntry(entry.id)}
                   label={`Delete logged conversion from ${entry.fromCurrency} to ${entry.toCurrency}`}
                 />
               </li>

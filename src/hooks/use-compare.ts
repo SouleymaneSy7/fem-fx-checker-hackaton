@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { useFavoriteMutations } from "@/hooks/use-favorite-mutations";
 import { useLatestRates } from "@/hooks/use-latest-rates";
 import { useConverterStore } from "@/store/converter-store";
 import { useFavoritesStore } from "@/store/favorites-store";
@@ -17,8 +18,7 @@ export function useCompare(targetCurrencies: string[]) {
   const { rates, isLoading, error } = useLatestRates(baseCurrency, quotes);
 
   const favorites = useFavoritesStore((state) => state.favorites);
-  const pinPair = useFavoritesStore((state) => state.pinPair);
-  const unpinPair = useFavoritesStore((state) => state.unpinPair);
+  const { pinPair, unpinPair } = useFavoriteMutations();
 
   const rows = React.useMemo<CompareRowType[]>(() => {
     return quotes.map((currency) => {
