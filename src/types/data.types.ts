@@ -23,6 +23,7 @@ export type FavoritesStoreType = {
   pinPair: (fromCurrency: string, toCurrency: string) => void;
   unpinPair: (id: string) => void;
   isPinned: (fromCurrency: string, toCurrency: string) => boolean;
+  replaceFavorites: (favorites: FavoritePairType[]) => void;
 };
 
 export type FavoriteRowType = FavoritePairType & {
@@ -45,12 +46,12 @@ export type LogEntryType = {
 export type LogStoreType = {
   entries: LogEntryType[];
   addEntry: (entry: Omit<LogEntryType, "id" | "createdAt">) => void;
+  addLoggedEntry: (entry: LogEntryType) => void;
   removeEntry: (id: string) => void;
   removeEntriesForPair: (fromCurrency: string, toCurrency: string) => void;
   clearLog: () => void;
-};
-
-/* ── Rate ─────────────────────────────────────────────────── */
+  replaceEntries: (entries: LogEntryType[]) => void;
+}; /* ── Rate ─────────────────────────────────────────────────── */
 
 export type RateRangeType = "1d" | "1w" | "1m" | "3m" | "1y" | "5y";
 

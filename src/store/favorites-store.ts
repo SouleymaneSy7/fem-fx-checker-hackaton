@@ -30,6 +30,8 @@ export const useFavoritesStore = create<FavoritesStoreType>()(
         get().favorites.some(
           (pair) => pair.id === buildPairId(fromCurrency, toCurrency),
         ),
+
+      replaceFavorites: (favorites) => set({ favorites }),
     }),
     {
       name: STORAGE_KEY_FAVORITES,

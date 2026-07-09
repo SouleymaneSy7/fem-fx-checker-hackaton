@@ -3,6 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 
 import "@/style/globals.css";
 
+import AccountSync from "@/components/common/account-sync";
 import KeyboardShortcuts from "@/components/common/keyboard-shortcuts";
 import Header from "@/components/layout/header";
 import { SWRProvider } from "@/components/providers/swr-provider";
@@ -58,6 +59,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <SWRProvider>
           <KeyboardShortcuts />
+          <AccountSync />
           <Header />
           {children}
           <ShortcutsHelp />
