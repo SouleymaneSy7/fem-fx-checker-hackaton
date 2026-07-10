@@ -252,5 +252,27 @@ export type AlertTogglePropsType = {
   toCurrency: string;
   currentRate: number | undefined;
   label?: string;
+  disabled?: boolean;
   className?: string;
+};
+
+/* ── ConfirmDialog ─────────────────────────────────────────────────── */
+
+export type ConfirmDialogPropsType = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  description: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  onConfirm: () => void;
+  confirmVariant?: "destructive" | "primary";
+};
+
+/* ── StaggerItem ─────────────────────────────────────────────────── */
+
+export type StaggerItemPropsType = {
+  children: React.ReactNode;
+  index: number;
+  shouldReduceMotion: boolean | null;
 };
