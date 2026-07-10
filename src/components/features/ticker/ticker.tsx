@@ -1,6 +1,7 @@
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import VisuallyHidden from "@/components/common/visually-hidden";
+import { PillIndicator } from "@/components/shared/pill-indicator";
 import {
   Marquee,
   MarqueeContent,
@@ -21,7 +22,7 @@ const Ticker = ({ pairs }: TickerPropsType) => {
     >
       <Marquee>
         <MarqueeHeader>
-          <span className="size-step-075 rounded-full bg-background" />
+          <PillIndicator />
           <MarqueeTitle>Live Markets</MarqueeTitle>
         </MarqueeHeader>
 
