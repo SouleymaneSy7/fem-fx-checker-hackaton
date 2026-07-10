@@ -18,7 +18,7 @@ export function useCompare(targetCurrencies: string[]) {
   const { rates, isLoading, error } = useLatestRates(baseCurrency, quotes);
 
   const favorites = useFavoritesStore((state) => state.favorites);
-  const { pinPair, unpinPair } = useFavoriteMutations();
+  const { pinPair, unpinPair, isPending } = useFavoriteMutations();
 
   const rows = React.useMemo<CompareRowType[]>(() => {
     return quotes.map((currency) => {
@@ -30,9 +30,10 @@ export function useCompare(targetCurrencies: string[]) {
         rate,
         convertedAmount: rate !== undefined ? amount * rate : undefined,
         isPinned: favorites.some((pair) => pair.id === pairId),
+        isFavoriteSyncing: isPending(pairId),
       };
     });
-  }, [rates, quotes, amount, baseCurrency, favorites]);
+  }, [rates, quotes, amount, baseCurrency, favorites, isPending]);
 
   function toggleFavorite(currency: string) {
     const pairId = `${baseCurrency}-${currency}`;

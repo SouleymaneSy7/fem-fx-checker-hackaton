@@ -1,5 +1,7 @@
 "use client";
 
+import * as React from "react";
+
 import { useSession } from "@/lib/auth-client";
 import {
   createLogEntry,
@@ -10,11 +12,6 @@ import {
 import { useLogStore } from "@/store/log-store";
 import type { LogEntryType } from "@/types/data.types";
 
-// Single entry point for every log mutation — mirrors
-// use-favorite-mutations.ts. Signed out: identical to today (instant,
-// client-generated id). Signed in: awaits the server so the entry the
-// store ends up holding carries the real row id (needed for later
-// single-entry deletes to hit the right server row).
 export function useLogMutations() {
   const { data: session } = useSession();
 
@@ -26,11 +23,30 @@ export function useLogMutations() {
   );
   const clearLog = useLogStore((state) => state.clearLog);
 
+  const [pendingPairIds, setPendingPairIds] = React.useState<Set<string>>(
+    new Set(),
+  );
+
+  const setPending = (pairId: string, pending: boolean) => {
+    setPendingPairIds((current) => {
+      const next = new Set(current);
+      if (pending) {
+        next.add(pairId);
+      } else {
+        next.delete(pairId);
+      }
+      return next;
+    });
+  };
+
   const addLogEntry = async (entry: Omit<LogEntryType, "id" | "createdAt">) => {
     if (!session) {
       addEntry(entry);
       return;
     }
+
+    const pairId = `${entry.fromCurrency}-${entry.toCurrency}`;
+    setPending(pairId, true);
 
     try {
       const created = await createLogEntry(entry);
@@ -39,6 +55,8 @@ export function useLogMutations() {
       // Falls back to a local-only entry so the action never silently
       // does nothing from the user's point of view.
       addEntry(entry);
+    } finally {
+      setPending(pairId, false);
     }
   };
 
@@ -61,5 +79,17 @@ export function useLogMutations() {
     if (session) deleteAllLogEntries().catch(() => {});
   };
 
-  return { addLogEntry, removeLogEntry, removeLogEntriesForPair, clearAllLogs };
+  const isAddPending = React.useCallback(
+    (fromCurrency: string, toCurrency: string) =>
+      pendingPairIds.has(`${fromCurrency}-${toCurrency}`),
+    [pendingPairIds],
+  );
+
+  return {
+    addLogEntry,
+    removeLogEntry,
+    removeLogEntriesForPair,
+    clearAllLogs,
+    isAddPending,
+  };
 }

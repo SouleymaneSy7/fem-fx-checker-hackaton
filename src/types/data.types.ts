@@ -51,7 +51,9 @@ export type LogStoreType = {
   removeEntriesForPair: (fromCurrency: string, toCurrency: string) => void;
   clearLog: () => void;
   replaceEntries: (entries: LogEntryType[]) => void;
-}; /* ── Rate ─────────────────────────────────────────────────── */
+};
+
+/* ── Rate ─────────────────────────────────────────────────── */
 
 export type RateRangeType = "1d" | "1w" | "1m" | "3m" | "1y" | "5y";
 
@@ -75,6 +77,7 @@ export type CompareRowType = {
   rate: number | undefined;
   convertedAmount: number | undefined;
   isPinned: boolean;
+  isFavoriteSyncing: boolean;
 };
 
 /* ── CurrencyPicker ─────────────────────────────────────────────────── */
@@ -91,6 +94,7 @@ export type CurrencyPickerPropsType = {
   currencies: CurrencyOptionType[];
   popularCodes?: string[];
   label: string;
+  isLoading?: boolean;
   className?: string;
   focusShortcutTarget?: "send" | "receive";
 };
