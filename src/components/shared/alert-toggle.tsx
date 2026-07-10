@@ -3,7 +3,8 @@
 import * as React from "react";
 
 import { BellIcon } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
@@ -20,6 +21,7 @@ const AlertToggle = ({
   toCurrency,
   currentRate,
   label = "Set a rate alert",
+  disabled,
   className,
 }: AlertTogglePropsType) => {
   const [open, setOpen] = React.useState(false);
@@ -27,13 +29,16 @@ const AlertToggle = ({
     React.useState<RateAlertConditionType>("above");
   const [thresholdInput, setThresholdInput] = React.useState("");
 
+  const generatedId = React.useId();
+  const inputId = `threshold-input-${generatedId}`;
+
   const addAlert = useAlertsStore((state) => state.addAlert);
 
   // Prefill with the live rate whenever the popover opens, so the user
   // edits a realistic starting point rather than a blank field.
   React.useEffect(() => {
     if (open && currentRate !== undefined) {
-      setThresholdInput(currentRate.toFixed(4));
+      setThresholdInput(currentRate.toFixed(2));
     }
   }, [open, currentRate]);
 
@@ -64,20 +69,30 @@ const AlertToggle = ({
       <PopoverTrigger
         type="button"
         aria-label={label}
+        disabled={disabled}
         className={cn(buttonVariants({ variant: "default" }), className)}
       >
         <BellIcon className="text-foreground" />
         Alert
       </PopoverTrigger>
 
-      <PopoverContent className="w-72 space-y-step-200 p-step-200">
-        <form onSubmit={handleSubmit} className="space-y-step-200">
-          <div className="space-y-step-075">
-            <p className="preset-4 uppercase text-neutral-100">Alert me when</p>
-
-            <p className="preset-5 uppercase text-neutral-200">
-              {fromCurrency}/{toCurrency}
+      <PopoverContent className="w-80 md:w-94 space-y-step-250 p-step-200">
+        <form onSubmit={handleSubmit} className="space-y-step-250">
+          <div className="space-y-step-125">
+            <p className="preset-3 uppercase text-neutral-100">
+              Get notified when
             </p>
+
+            <div className="space-y-step-125">
+              <p className="preset-5-med uppercase text-neutral-200">
+                {fromCurrency}/{toCurrency}
+              </p>
+
+              <p className="preset-5  text-neutral-100">
+                Current rate:{" "}
+                <span className="preset-5-med">{currentRate?.toFixed(2)}</span>
+              </p>
+            </div>
           </div>
 
           <ToggleGroup
@@ -94,39 +109,46 @@ const AlertToggle = ({
               aria-label="Above threshold"
               className="flex-1"
             >
-              Above
+              Goes Above
             </ToggleGroupItem>
             <ToggleGroupItem
               value="below"
               aria-label="Below threshold"
               className="flex-1"
             >
-              Below
+              Drops Below
             </ToggleGroupItem>
           </ToggleGroup>
 
-          <input
-            type="text"
-            inputMode="decimal"
-            autoComplete="off"
-            data-slot="input"
-            value={thresholdInput}
-            onChange={(event) => {
-              const raw = event.target.value;
-              if (!/^\d*[.,]?\d*$/.test(raw)) return;
-              setThresholdInput(raw);
-            }}
-            aria-label="Alert threshold"
-            placeholder="0.0000"
-            className="w-full rounded-6 border border-neutral-200 bg-transparent px-step-150 py-step-150 preset-3 text-foreground outline-none focus:border-primary placeholder:text-neutral-200"
-          />
+          <div className="flex flex-col gap-step-125">
+            <Label
+              htmlFor={inputId}
+              className="preset-5 uppercase text-neutral-100"
+            >
+              this threshold:
+            </Label>
 
-          <button
-            type="submit"
-            className={cn(buttonVariants({ variant: "primary" }), "w-full")}
-          >
+            <input
+              id={inputId}
+              type="text"
+              inputMode="decimal"
+              autoComplete="off"
+              data-slot="input"
+              value={thresholdInput}
+              onChange={(event) => {
+                const raw = event.target.value;
+                if (!/^\d*[.,]?\d*$/.test(raw)) return;
+                setThresholdInput(raw);
+              }}
+              aria-label="Alert threshold"
+              placeholder="0.00"
+              className="w-full py-step-100 px-step-100 rounded-6 bg-transparent border border-neutral-200 preset-5 text-foreground outline-none focus:border-primary placeholder:text-neutral-200"
+            />
+          </div>
+
+          <Button type="submit" variant={"primary"} className="w-full">
             Create alert
-          </button>
+          </Button>
         </form>
       </PopoverContent>
     </Popover>

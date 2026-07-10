@@ -4,6 +4,7 @@ import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
 import { ArrowRightIcon, ArrowUpFromLineIcon } from "@/components/icons";
+import ConfirmDialog from "@/components/shared/confirm-dialog";
 import DeleteButton from "@/components/shared/delete-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
@@ -13,11 +14,53 @@ import { exportLogToCsv } from "@/utils/export-log";
 import { formatAmount } from "@/utils/format-amount";
 import { formatRelativeTime } from "@/utils/format-date";
 
+type PendingLogActionType =
+  | { kind: "clear-all" }
+  | {
+      kind: "delete-entry";
+      id: string;
+      fromCurrency: string;
+      toCurrency: string;
+    };
+
 const LogPanel = () => {
   const entries = useLogStore((state) => state.entries);
   const { removeLogEntry, clearAllLogs } = useLogMutations();
 
+  const [pendingAction, setPendingAction] =
+    React.useState<PendingLogActionType | null>(null);
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+
   const hasEntries = entries.length > 0;
+
+  const openConfirm = (action: PendingLogActionType) => {
+    setPendingAction(action);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirm = () => {
+    if (pendingAction?.kind === "clear-all") {
+      clearAllLogs();
+    } else if (pendingAction?.kind === "delete-entry") {
+      removeLogEntry(pendingAction.id);
+    }
+
+    setIsConfirmOpen(false);
+  };
+
+  let confirmTitle = "";
+  let confirmDescription = "";
+  let confirmLabel = "Delete";
+
+  if (pendingAction?.kind === "clear-all") {
+    confirmTitle = "Clear the conversion log?";
+    confirmDescription = `This will permanently delete all ${entries.length} logged conversions. This action cannot be undone.`;
+    confirmLabel = "Clear all";
+  } else if (pendingAction?.kind === "delete-entry") {
+    confirmTitle = "Delete this conversion?";
+    confirmDescription = `This will permanently delete the logged conversion from ${pendingAction.fromCurrency} to ${pendingAction.toCurrency}. This action cannot be undone.`;
+  }
+
   return (
     <React.Fragment>
       {hasEntries ? (
@@ -45,7 +88,7 @@ const LogPanel = () => {
                   <Button
                     type="button"
                     variant={"secondary"}
-                    onClick={clearAllLogs}
+                    onClick={() => openConfirm({ kind: "clear-all" })}
                   >
                     Clear all
                   </Button>
@@ -89,7 +132,14 @@ const LogPanel = () => {
                 </p>
 
                 <DeleteButton
-                  onClick={() => removeLogEntry(entry.id)}
+                  onClick={() =>
+                    openConfirm({
+                      kind: "delete-entry",
+                      id: entry.id,
+                      fromCurrency: entry.fromCurrency,
+                      toCurrency: entry.toCurrency,
+                    })
+                  }
                   label={`Delete logged conversion from ${entry.fromCurrency} to ${entry.toCurrency}`}
                 />
               </li>
@@ -106,6 +156,15 @@ const LogPanel = () => {
           </EmptyDescription>
         </Empty>
       )}
+
+      <ConfirmDialog
+        open={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
+        title={confirmTitle}
+        description={confirmDescription}
+        confirmLabel={confirmLabel}
+        onConfirm={handleConfirm}
+      />
     </React.Fragment>
   );
 };

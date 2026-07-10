@@ -4,14 +4,43 @@ import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
 import { ArrowRightIcon } from "@/components/icons";
+import ConfirmDialog from "@/components/shared/confirm-dialog";
 import DeleteButton from "@/components/shared/delete-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { useAlerts } from "@/hooks/use-alerts";
 import { cn } from "@/lib/utils";
 
+type PendingAlertActionType = {
+  id: string;
+  fromCurrency: string;
+  toCurrency: string;
+};
+
 const AlertsPanel = () => {
   const { alerts, removeAlert, resetAlert } = useAlerts();
+
+  const [pendingAction, setPendingAction] =
+    React.useState<PendingAlertActionType | null>(null);
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+
+  const openConfirm = (alert: PendingAlertActionType) => {
+    setPendingAction({
+      id: alert.id,
+      fromCurrency: alert.fromCurrency,
+      toCurrency: alert.toCurrency,
+    });
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirm = () => {
+    if (pendingAction) removeAlert(pendingAction.id);
+    setIsConfirmOpen(false);
+  };
+
+  const confirmTitle = "Delete this alert?";
+  const confirmDescription = `This will permanently delete the alert for ${pendingAction?.fromCurrency} to ${pendingAction?.toCurrency}. This action cannot be undone.`;
+  const confirmLabel = "Delete";
 
   const hasAlerts = alerts.length > 0;
 
@@ -81,7 +110,7 @@ const AlertsPanel = () => {
                   )}
 
                   <DeleteButton
-                    onClick={() => removeAlert(alert.id)}
+                    onClick={() => openConfirm(alert)}
                     label={`Delete alert: ${alert.fromCurrency} to ${alert.toCurrency}`}
                   />
                 </li>
@@ -99,6 +128,15 @@ const AlertsPanel = () => {
           </EmptyDescription>
         </Empty>
       )}
+
+      <ConfirmDialog
+        open={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
+        title={confirmTitle}
+        description={confirmDescription}
+        confirmLabel={confirmLabel}
+        onConfirm={handleConfirm}
+      />
     </React.Fragment>
   );
 };

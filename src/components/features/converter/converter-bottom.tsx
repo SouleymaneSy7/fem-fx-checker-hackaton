@@ -26,6 +26,7 @@ const ConverterBottom = () => {
   const rateDisplay = `1 ${fromCurrency} = ${rate !== undefined && formatAmount(rate)} ${toCurrency}`;
   const canLog = isLogged || (rate !== undefined && !isLoading);
   const canFavorite = isPinned || (rate !== undefined && !isLoading);
+  const canAlert = rate !== undefined && !isLoading;
 
   return (
     <Container className="w-full bg-card rounded-b-20 border-t border-dashed border-border py-step-200 px-step-200 flex flex-col items-center justify-center gap-step-200 md:px-step-250 md:flex-row md:justify-between">
@@ -45,7 +46,7 @@ const ConverterBottom = () => {
         </p>
       )}
 
-      <div className="flex flex-wrap items-center gap-step-100 md:gap-step-150">
+      <div className="flex flex-wrap items-center justify-center gap-step-100 md:gap-step-150">
         <FavoriteToggle
           isFavorite={isPinned}
           isSyncing={isFavoriteSyncing}
@@ -62,6 +63,7 @@ const ConverterBottom = () => {
           fromCurrency={fromCurrency}
           toCurrency={toCurrency}
           currentRate={rate}
+          disabled={!canAlert}
           label={`Set alert: ${fromCurrency} to ${toCurrency}`}
         />
 
