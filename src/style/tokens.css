@@ -135,16 +135,16 @@
   /* Neutral Colors - Light Theme */
   --neutral-50: oklch(0.1448 0 0);
   --neutral-100: oklch(0.2686 0 0);
-  --neutral-200: oklch(0.3715 0 0);
-  --neutral-300: oklch(0.4386 0 0);
-  --neutral-400: oklch(0.5555 0 0);
-  --neutral-500: oklch(0.8699 0 0);
-  --neutral-600: oklch(0.9219 0 0);
-  --neutral-700: oklch(0.9702 0 0);
-  --neutral-900: oklch(0.9851 0 0);
+  --neutral-200: oklch(0.5555 0 0);
+  --neutral-300: oklch(0.7155 0 0);
+  --neutral-400: oklch(0.8699 0 0);
+  --neutral-500: oklch(0.9219 0 0);
+  --neutral-600: oklch(0.9702 0 0);
+  --neutral-700: oklch(0.9851 0 0);
+  --neutral-900: oklch(0.96 0.0054 297.72);
 
   /* Primary Colors - Light Theme */
-  --primary: oklch(0.6056 0.2189 292.72);
+  --primary: oklch(0.5718 0.2285 284.18);
   --primary-accent: oklch(0.8943 0.0549 293.28);
 
   /* Green & Red Colors - Light Theme */

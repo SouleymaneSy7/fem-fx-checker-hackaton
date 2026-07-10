@@ -62,6 +62,14 @@ export type TitlePropsType = {
 
 export type VisuallyHiddenPropsType = React.ComponentPropsWithoutRef<"span">;
 
+/* ── LoadingStatus ─────────────────────────────────────────────────── */
+
+export type LoadingStatusPropsType = {
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+};
+
 /* ── Icon ─────────────────────────────────────────────────── */
 
 export type IconSource =
@@ -79,6 +87,7 @@ export type IconPropsType = {
 
 export interface NavbarPropsType {
   availableCurrencies: number | undefined;
+  isLoading: boolean;
 }
 
 /* ── Main Component ─────────────────────────────────────────────────── */
@@ -133,6 +142,20 @@ export type HistoryStatPropsType = {
   tone?: "positive" | "negative" | "neutral";
 };
 
+/* ── TrendIndicator ─────────────────────────────────────────────────── */
+
+export type TrendIndicatorPropsType = {
+  isPositive: boolean;
+  value: string;
+  className?: string;
+};
+
+/* ── HistorySkeleton ─────────────────────────────────────────────────── */
+
+export type HistorySkeletonPropsType = {
+  pair: string;
+};
+
 /* ── Favorite ─────────────────────────────────────────────────── */
 
 export type ButtonProps = {
@@ -143,6 +166,8 @@ export type ButtonProps = {
 
 export type FavoritePropsType = {
   isFavorite: boolean;
+  disabled?: boolean;
+  isSyncing?: boolean;
 } & ButtonProps;
 
 /* ── Log ─────────────────────────────────────────────────── */
@@ -151,6 +176,7 @@ export type LogButtonPropsType = {
   isLogged: boolean;
   onToggle: () => void;
   disabled: boolean;
+  isSyncing?: boolean;
   label?: string;
   className?: string;
 };
@@ -186,7 +212,27 @@ export type CustomTooltipPropsType = {
 
 export type CurrencyFlagProps = {
   currencyCode: string;
+  isLoading?: boolean;
   size?: number;
+};
+
+/* ── CurrencyPicker ─────────────────────────────────────────────────── */
+
+export type CurrencyOptionType = {
+  code: string;
+  name: string;
+  flag: string;
+};
+
+export type CurrencyPickerPropsType = {
+  value: string;
+  onValueChange: (code: string) => void;
+  currencies: CurrencyOptionType[];
+  popularCodes?: string[];
+  label: string;
+  isLoading: boolean;
+  className?: string;
+  focusShortcutTarget?: "send" | "receive";
 };
 
 /* ── SWRProvider ─────────────────────────────────────────────────── */

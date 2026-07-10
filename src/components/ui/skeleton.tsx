@@ -6,8 +6,12 @@ function Skeleton({
 }: React.ComponentProps<"div">) {
   return (
     <div
+      aria-hidden="true"
       data-slot="skeleton"
-      className={cn("animate-pulse rounded-md bg-muted", className)}
+      className={cn(
+        "animate-pulse rounded-sm bg-neutral-400 dark:bg-neutral-300",
+        className,
+      )}
       {...delegatedProps}
     />
   );
