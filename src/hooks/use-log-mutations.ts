@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-
+import { toast } from "sonner";
 import { useSession } from "@/lib/auth-client";
 import {
   createLogEntry,
@@ -42,6 +42,9 @@ export function useLogMutations() {
   const addLogEntry = async (entry: Omit<LogEntryType, "id" | "createdAt">) => {
     if (!session) {
       addEntry(entry);
+      toast.success(
+        `${entry.fromCurrency} → ${entry.toCurrency} conversion was saved locally.`,
+      );
       return;
     }
 
@@ -51,10 +54,14 @@ export function useLogMutations() {
     try {
       const created = await createLogEntry(entry);
       addLoggedEntry(created);
+      toast.success(
+        `${entry.fromCurrency} → ${entry.toCurrency} conversion saved to your log.`,
+      );
     } catch {
-      // Falls back to a local-only entry so the action never silently
-      // does nothing from the user's point of view.
       addEntry(entry);
+      toast.warning(
+        `Couldn't reach the server — your ${entry.fromCurrency} → ${entry.toCurrency} conversion was saved locally.`,
+      );
     } finally {
       setPending(pairId, false);
     }
@@ -62,6 +69,7 @@ export function useLogMutations() {
 
   const removeLogEntry = (id: string) => {
     removeEntry(id);
+    toast.success("Conversion removed from your log.");
     if (session) deleteLogEntry(id).catch(() => {});
   };
 
@@ -76,6 +84,7 @@ export function useLogMutations() {
 
   const clearAllLogs = () => {
     clearLog();
+    toast.success("Your conversion log has been cleared.");
     if (session) deleteAllLogEntries().catch(() => {});
   };
 

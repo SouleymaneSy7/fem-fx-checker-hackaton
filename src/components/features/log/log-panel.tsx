@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import { toast } from "sonner";
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
@@ -80,7 +80,15 @@ const LogPanel = () => {
 
               {hasEntries && (
                 <div className="flex flex-wrap items-center gap-step-100 md:gap-step-150">
-                  <Button type="button" onClick={() => exportLogToCsv(entries)}>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      exportLogToCsv(entries);
+                      toast.success(
+                        `Your ${entries.length} conversion${entries.length !== 1 ? "s have" : " has"} been exported as CSV.`,
+                      );
+                    }}
+                  >
                     <ArrowUpFromLineIcon />
                     Export CSV
                   </Button>

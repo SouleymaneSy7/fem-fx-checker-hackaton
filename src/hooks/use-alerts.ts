@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { toast } from "sonner";
 import useSWR from "swr";
-
 import { FIVE_MINUTES } from "@/constants";
 import { fetchLatestRates } from "@/services/rates.service";
 import { useAlertsStore } from "@/store/alerts-store";
@@ -80,18 +80,9 @@ export function useAlerts() {
 
       triggerAlert(alert.id);
 
-      const canNotify =
-        typeof window !== "undefined" &&
-        "Notification" in window &&
-        Notification.permission === "granted";
-
-      if (canNotify) {
-        const symbol = alert.condition === "above" ? "≥" : "≤";
-        new Notification("FX Checker — Rate alert", {
-          body: `${alert.fromCurrency}/${alert.toCurrency} is now ${symbol} ${alert.threshold} (currently ${rate.toFixed(2)})`,
-          tag: alert.id,
-        });
-      }
+      toast("Rate alert triggered!", {
+        description: `${alert.fromCurrency}/${alert.toCurrency} has ${alert.condition === "above" ? "risen above" : "dropped below"} your ${alert.threshold.toFixed(2)} threshold — currently at ${rate.toFixed(2)}.`,
+      });
 
       window.dispatchEvent(
         new CustomEvent("fx:alert-triggered", { detail: { id: alert.id } }),

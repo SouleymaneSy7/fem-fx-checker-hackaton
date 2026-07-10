@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import { toast } from "sonner";
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
@@ -34,7 +34,12 @@ const AlertsPanel = () => {
   };
 
   const handleConfirm = () => {
-    if (pendingAction) removeAlert(pendingAction.id);
+    if (pendingAction) {
+      removeAlert(pendingAction.id);
+      toast.success(
+        `Alert for ${pendingAction.fromCurrency}/${pendingAction.toCurrency} has been removed.`,
+      );
+    }
     setIsConfirmOpen(false);
   };
 
@@ -103,7 +108,12 @@ const AlertsPanel = () => {
                       type="button"
                       variant={"secondary"}
                       aria-label={`Re-enable alert: ${alert.fromCurrency} to ${alert.toCurrency}`}
-                      onClick={() => resetAlert(alert.id)}
+                      onClick={() => {
+                        resetAlert(alert.id);
+                        toast.info(
+                          `Watching ${alert.fromCurrency}/${alert.toCurrency} again — you'll be notified when the rate crosses ${alert.threshold.toFixed(2)}.`,
+                        );
+                      }}
                     >
                       Reset
                     </Button>

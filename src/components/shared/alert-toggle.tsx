@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-
+import { toast } from "sonner";
 import { BellIcon } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -50,17 +50,9 @@ const AlertToggle = ({
 
     addAlert({ fromCurrency, toCurrency, condition, threshold });
 
-    // Ask for permission at the point the user expresses intent (a real
-    // click), rather than on page load — browsers are more permissive
-    // with permission prompts triggered by a user gesture.
-    if (
-      typeof window !== "undefined" &&
-      "Notification" in window &&
-      Notification.permission === "default"
-    ) {
-      Notification.requestPermission();
-    }
-
+    toast.success(
+      `You'll be notified when ${fromCurrency}/${toCurrency} goes ${condition === "above" ? "above" : "below"} ${threshold.toFixed(2)}.`,
+    );
     setOpen(false);
   };
 
