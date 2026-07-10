@@ -3,6 +3,7 @@ import {
   ArrowLeftRight,
   ArrowRight,
   ArrowUpFromLine,
+  Bell,
   Check,
   ChevronDown,
   Loader2Icon,
@@ -144,6 +145,20 @@ export const LoaderIcon = ({
 }: IconComponentProps) => (
   <Icon
     icon={Loader2Icon}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const BellIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Bell}
     size={size}
     label={label}
     className={className}

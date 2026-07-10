@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/popover";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { useAlertsStore } from "@/store/alerts-store";
 import { useFavoritesStore } from "@/store/favorites-store";
 import { useLogStore } from "@/store/log-store";
 
@@ -19,6 +20,7 @@ export type ConverterSectionValueType =
   | "history"
   | "compare"
   | "favorites"
+  | "alerts"
   | "log";
 
 type TabNavPropsType = {
@@ -32,6 +34,7 @@ const SECTIONS: { value: ConverterSectionValueType; label: string }[] = [
   { value: "history", label: "History" },
   { value: "compare", label: "Compare" },
   { value: "favorites", label: "Favorites" },
+  { value: "alerts", label: "Alerts" },
   { value: "log", label: "Log" },
 ];
 
@@ -39,10 +42,12 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
   const [open, setOpen] = React.useState(false);
 
   const favoritesCount = useFavoritesStore((state) => state.favorites.length);
+  const alertsCount = useAlertsStore((state) => state.alerts.length);
   const logCount = useLogStore((state) => state.entries.length);
 
   const countByValue: Partial<Record<ConverterSectionValueType, number>> = {
     favorites: favoritesCount,
+    alerts: alertsCount,
     log: logCount,
   };
 

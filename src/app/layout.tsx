@@ -5,6 +5,7 @@ import "@/style/globals.css";
 
 import AccountSync from "@/components/common/account-sync";
 import KeyboardShortcuts from "@/components/common/keyboard-shortcuts";
+import AlertsWatcher from "@/components/features/alerts/alerts-watcher";
 import Header from "@/components/layout/header";
 import { SWRProvider } from "@/components/providers/swr-provider";
 import ShortcutsHelp from "@/components/shared/shortcuts-help";
@@ -60,6 +61,7 @@ export default function RootLayout({
         <SWRProvider>
           <KeyboardShortcuts />
           <AccountSync />
+          <AlertsWatcher />
           <Header />
           {children}
           <ShortcutsHelp />

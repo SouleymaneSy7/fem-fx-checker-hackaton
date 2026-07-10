@@ -6,6 +6,7 @@ import TabNav, {
   type ConverterSectionValueType,
 } from "@/components/layout/tab-nav";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import AlertsPanel from "../alerts/alerts-panel";
 import ComparePanel from "../compare/compare-panel";
 import FavoritesPanel from "../favorites/favorites-panel";
 import LogPanel from "../log/log-panel";
@@ -32,6 +33,10 @@ const ConverterSections = () => {
 
       <TabsContent value="favorites">
         <FavoritesPanel />
+      </TabsContent>
+
+      <TabsContent value="alerts">
+        <AlertsPanel />
       </TabsContent>
 
       <TabsContent value="log">

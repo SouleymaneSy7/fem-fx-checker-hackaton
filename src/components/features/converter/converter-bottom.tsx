@@ -1,6 +1,7 @@
 "use client";
 
 import Container from "@/components/common/container";
+import AlertToggle from "@/components/shared/alert-toggle";
 import FavoriteToggle from "@/components/shared/favorite-toggle";
 import LogButton from "@/components/shared/log-button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -44,7 +45,7 @@ const ConverterBottom = () => {
         </p>
       )}
 
-      <div className="flex items-center gap-step-100 md:gap-step-150">
+      <div className="flex flex-wrap items-center gap-step-100 md:gap-step-150">
         <FavoriteToggle
           isFavorite={isPinned}
           isSyncing={isFavoriteSyncing}
@@ -55,6 +56,13 @@ const ConverterBottom = () => {
               ? `Unpin: ${fromCurrency} to ${toCurrency}`
               : `Pin: ${fromCurrency} to ${toCurrency}`
           }
+        />
+
+        <AlertToggle
+          fromCurrency={fromCurrency}
+          toCurrency={toCurrency}
+          currentRate={rate}
+          label={`Set alert: ${fromCurrency} to ${toCurrency}`}
         />
 
         <LogButton
