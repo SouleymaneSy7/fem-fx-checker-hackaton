@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-
+import { toast } from "sonner";
 import TextInput from "@/components/shared/text-input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -45,6 +45,10 @@ const SignUpForm = ({ onSuccess }: SignUpFormPropsType) => {
     setIsSubmitting(false);
 
     if (error) {
+      toast.error(
+        error.message ??
+          "Couldn't create your account — that email may already be in use.",
+      );
       setFormError(
         error.message ??
           "Couldn't create your account. That email may already be in use.",
@@ -52,6 +56,7 @@ const SignUpForm = ({ onSuccess }: SignUpFormPropsType) => {
       return;
     }
 
+    toast.success("Your account is ready — welcome aboard!");
     onSuccess();
   };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-
+import { toast } from "sonner";
 import TextInput from "@/components/shared/text-input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -42,6 +42,10 @@ const SignInForm = ({ onSuccess }: SignInFormPropsType) => {
     setIsSubmitting(false);
 
     if (error) {
+      toast.error(
+        error.message ??
+          "Sign in failed — double-check your email and password.",
+      );
       setFormError(
         error.message ??
           "Couldn't sign in. Check your credentials and try again.",
@@ -49,6 +53,7 @@ const SignInForm = ({ onSuccess }: SignInFormPropsType) => {
       return;
     }
 
+    toast.success("Welcome back! You're signed in.");
     onSuccess();
   };
 
