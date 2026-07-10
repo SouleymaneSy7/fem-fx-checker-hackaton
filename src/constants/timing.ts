@@ -6,3 +6,4 @@ export const SWR_STALE_1D = 86_400_000;
 export const SWR_RETRY_COUNT = 3;
 export const SWR_RETRY_INTERVAL_MS = 5_000;
 export const HTTP_TIMEOUT_MS = 10_000;
+export const FIVE_MINUTES = 300_000;

@@ -94,3 +94,28 @@ export type ThemeStoreType = {
 
 export type FocusCurrencySearchDetail = { target: "send" | "receive" };
 export type SetRateRangeDetail = { range: RateRangeType };
+
+/* ── Alerts ─────────────────────────────────────────────────── */
+
+export type RateAlertConditionType = "above" | "below";
+
+export type RateAlertType = {
+  id: string;
+  fromCurrency: string;
+  toCurrency: string;
+  condition: RateAlertConditionType;
+  threshold: number;
+  enabled: boolean;
+  createdAt: number;
+  triggeredAt: number | null;
+};
+
+export type AlertsStoreType = {
+  alerts: RateAlertType[];
+  addAlert: (
+    alert: Omit<RateAlertType, "id" | "createdAt" | "triggeredAt" | "enabled">,
+  ) => void;
+  removeAlert: (id: string) => void;
+  triggerAlert: (id: string) => void;
+  resetAlert: (id: string) => void;
+};
