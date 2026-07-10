@@ -5,11 +5,15 @@ import { useCurrencies } from "@/hooks/use-currencies";
 import { useTicker } from "@/hooks/use-ticker";
 import Container from "../common/container";
 import Ticker from "../features/ticker/ticker";
+import TickerLoading from "../features/ticker/ticker-loading";
 import Navbar from "./navbar";
 
 const Header = () => {
-  const { currencies } = useCurrencies();
-  const { entries } = useTicker(TICKER_BASE_CURRENCY, TICKER_QUOTE_CURRENCIES);
+  const { currencies, isLoading: isCurrenciesLoading } = useCurrencies();
+  const { entries, isLoading } = useTicker(
+    TICKER_BASE_CURRENCY,
+    TICKER_QUOTE_CURRENCIES,
+  );
 
   const availableCurrencies = currencies?.length;
 
@@ -23,8 +27,11 @@ const Header = () => {
 
   return (
     <Container as="header">
-      <Navbar availableCurrencies={availableCurrencies} />
-      <Ticker pairs={pairs} />
+      <Navbar
+        availableCurrencies={availableCurrencies}
+        isLoading={isCurrenciesLoading}
+      />
+      {isLoading ? <TickerLoading /> : <Ticker pairs={pairs} />}
     </Container>
   );
 };

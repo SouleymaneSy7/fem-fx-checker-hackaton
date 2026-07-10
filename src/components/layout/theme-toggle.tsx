@@ -33,7 +33,8 @@ const ThemeToggle = () => {
     <Button
       type="button"
       size="icon"
-      variant="default"
+      variant="secondary"
+      className="text-foreground"
       aria-label={
         activeTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"
       }

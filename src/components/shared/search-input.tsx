@@ -15,7 +15,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
     const Icon = icon;
 
     return (
-      <Container className="w-full relative">
+      <Container className="w-full relative flex items-center flex-1 gap-step-125">
         {Icon && (
           <label
             htmlFor={searchId}
@@ -30,7 +30,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
           type={type}
           data-slot="input"
           className={cn(
-            "w-full flex items-center gap-step-125 py-step-150  px-step-150 rounded-6 bg-transparent border border-neutral-200",
+            "w-full flex items-center flex-1 gap-step-125 py-step-150  px-step-150 rounded-6 bg-transparent border border-neutral-200",
             "placeholder:text-neutral-200",
             "focus:outline-none focus:border-primary",
             "disabled:cursor-not-allowed disabled:opacity-50",

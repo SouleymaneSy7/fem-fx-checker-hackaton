@@ -16,13 +16,15 @@ import {
 import { POPULAR_CURRENCIES, SHORTCUT_EVENTS } from "@/constants";
 import { useIsMac } from "@/hooks/use-is-mac";
 import { cn } from "@/lib/utils";
+import type { FocusCurrencySearchDetail } from "@/types/data.types";
 import type {
   CurrencyOptionType,
   CurrencyPickerPropsType,
-  FocusCurrencySearchDetail,
-} from "@/types/data.types";
+} from "@/types/ui.types";
 import { Badge } from "../ui/badge";
 import { ScrollArea } from "../ui/scroll-area";
+import { Skeleton } from "../ui/skeleton";
+import { Spinner } from "../ui/spinner";
 import { CurrencyFlag } from "./currency-flag";
 
 const CurrencyPicker = ({
@@ -32,6 +34,7 @@ const CurrencyPicker = ({
   popularCodes = POPULAR_CURRENCIES,
   label,
   className,
+  isLoading,
   focusShortcutTarget,
 }: CurrencyPickerPropsType) => {
   const [open, setOpen] = React.useState(false);
@@ -106,11 +109,11 @@ const CurrencyPicker = ({
             "hover:border-muted-foreground",
           )}
         >
-          <CurrencyFlag currencyCode={currency.code} />
+          <CurrencyFlag currencyCode={currency.code} isLoading={isLoading} />
 
           <span className="preset-4 text-foreground">{currency.code}</span>
 
-          <span className="inline-flex flex-1 preset-5 text-muted-foreground truncate">
+          <span className="flex-1 preset-5 text-muted-foreground truncate">
             {currency.name}
           </span>
 
@@ -136,11 +139,19 @@ const CurrencyPicker = ({
         }
         className={cn(buttonVariants({ variant: "popover" }), className)}
       >
-        <CurrencyFlag currencyCode={selected?.code ?? ""} size={20} />
+        <CurrencyFlag
+          currencyCode={selected?.code ?? ""}
+          isLoading={isLoading}
+          size={20}
+        />
 
-        <span className="preset-4 uppercase text-neutral-50">
-          {selected?.code ?? "——"}
-        </span>
+        {isLoading ? (
+          <Skeleton className="w-7 h-4 bg-neutral-400" />
+        ) : (
+          <span className="preset-4 uppercase text-neutral-50">
+            {selected?.code}
+          </span>
+        )}
 
         <ChevronDownIcon
           size={12}
@@ -152,7 +163,7 @@ const CurrencyPicker = ({
       </PopoverTrigger>
 
       <PopoverContent>
-        <ScrollArea className="h-115 w-114 flex-col gap-step-125 p-step-100">
+        <ScrollArea className="h-[460px] w-78 md:w-114 flex-col gap-step-125 p-step-100">
           <SearchInput
             icon={SearchIcon}
             keys={keyboards}
@@ -164,7 +175,9 @@ const CurrencyPicker = ({
 
           <div role="listbox" aria-label={label} className="w-full">
             <VisuallyHidden aria-live="polite">
-              {filtered.length} currencies found
+              {isLoading
+                ? "Loading currencies"
+                : `${filtered.length} currencies found`}
             </VisuallyHidden>
 
             {popular.length > 0 && (
@@ -211,11 +224,19 @@ const CurrencyPicker = ({
               </div>
             )}
 
-            {filtered.length === 0 && (
-              <p className="px-step-150 py-step-200 text-center preset-5 text-neutral-200">
-                No currency matches “{query}”.
-              </p>
-            )}
+            {filtered.length === 0 &&
+              (isLoading ? (
+                <div className="flex items-center justify-center gap-step-100 px-step-150 py-step-200">
+                  <Spinner aria-hidden="true" className="text-neutral-200" />
+                  <p className="preset-5 text-neutral-200">
+                    Loading currencies...
+                  </p>
+                </div>
+              ) : (
+                <p className="px-step-150 py-step-200 text-center preset-5 text-neutral-200">
+                  No currency matches "{query}".
+                </p>
+              ))}
           </div>
         </ScrollArea>
       </PopoverContent>

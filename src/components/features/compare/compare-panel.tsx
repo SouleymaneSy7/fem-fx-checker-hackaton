@@ -3,17 +3,18 @@ import * as React from "react";
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
-
+import VisuallyHidden from "@/components/common/visually-hidden";
 import { CurrencyFlag } from "@/components/shared/currency-flag";
 import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+import { Skeleton } from "@/components/ui/skeleton";
 import { DEFAULT_COMPARE_CURRENCIES } from "@/constants";
 import { useCompare } from "@/hooks/use-compare";
 import { useCurrencies } from "@/hooks/use-currencies";
 import { formatAmount } from "@/utils/format-amount";
 
 const ComparePanel = () => {
-  const { amount, baseCurrency, rows, toggleFavorite } = useCompare(
+  const { amount, baseCurrency, rows, isLoading, toggleFavorite } = useCompare(
     DEFAULT_COMPARE_CURRENCIES,
   );
   const { currencies } = useCurrencies();
@@ -47,46 +48,73 @@ const ComparePanel = () => {
             <p className="preset-5 text-neutral-100">{rows.length} pairs</p>
           </div>
 
+          <VisuallyHidden role="status">
+            {isLoading ? "Loading comparison rates" : ""}
+          </VisuallyHidden>
+
           <List
             items={rows}
             keyExtractor={(row) => row.currency}
             className="flex flex-col gap-step-150"
-            renderItem={(row) => (
-              <li className="flex items-center gap-step-125 rounded-10 border border-neutral-500 bg-neutral-600 px-step-150 py-step-150 md:gap-step-250 md:px-step-200">
-                <CurrencyFlag currencyCode={row.currency} />
+            renderItem={(row) => {
+              const isRowLoading = isLoading && row.rate === undefined;
+              const canFavorite =
+                row.isPinned || (row.rate !== undefined && !isLoading);
 
-                <div className="min-w-0 flex flex-col gap-step-075 flex-1">
-                  <p className="preset-4 uppercase text-foreground">
-                    {row.currency}
-                  </p>
-                  <p className="truncate preset-5 text-neutral-200">
-                    {namesByCode.get(row.currency) ?? row.currency}
-                  </p>
-                </div>
+              return (
+                <li className="flex items-center gap-step-125 rounded-10 border border-neutral-500 bg-neutral-600 px-step-150 py-step-150 md:gap-step-250 md:px-step-200">
+                  <CurrencyFlag
+                    currencyCode={row.currency}
+                    isLoading={isLoading}
+                  />
 
-                <div className="text-right flex flex-col gap-step-075">
-                  <p className="preset-3 uppercase text-foreground">
-                    {row.convertedAmount !== undefined
-                      ? formatAmount(row.convertedAmount)
-                      : "—"}
-                  </p>
+                  <div className="min-w-0 flex flex-col gap-step-075 flex-1">
+                    <p className="preset-4 uppercase text-foreground">
+                      {row.currency}
+                    </p>
 
-                  <p className="truncate preset-6 uppercase text-neutral-200">
-                    {row.rate !== undefined ? `@ ${row.rate.toFixed(4)}` : ""}
-                  </p>
-                </div>
+                    <p className="truncate preset-5 text-neutral-200">
+                      {namesByCode.get(row.currency) ?? row.currency}
+                    </p>
+                  </div>
 
-                <FavoriteToggleIcon
-                  isFavorite={row.isPinned}
-                  onToggle={() => toggleFavorite(row.currency)}
-                  label={
-                    row.isPinned
-                      ? `Unpin: ${baseCurrency} to ${row.currency}`
-                      : `Pin: ${baseCurrency} to ${row.currency}`
-                  }
-                />
-              </li>
-            )}
+                  <div className="text-right flex flex-col gap-step-075">
+                    {isRowLoading ? (
+                      <React.Fragment>
+                        <Skeleton className="h-4 w-20 ml-auto" />
+                        <Skeleton className="h-3 w-14 ml-auto" />
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <p className="preset-3 uppercase text-foreground">
+                          {row.convertedAmount !== undefined
+                            ? formatAmount(row.convertedAmount)
+                            : "—"}
+                        </p>
+
+                        <p className="truncate preset-6 uppercase text-neutral-200">
+                          {row.rate !== undefined
+                            ? `@ ${row.rate.toFixed(2)}`
+                            : ""}
+                        </p>
+                      </React.Fragment>
+                    )}
+                  </div>
+
+                  <FavoriteToggleIcon
+                    isFavorite={row.isPinned}
+                    isSyncing={row.isFavoriteSyncing}
+                    disabled={!canFavorite}
+                    onToggle={() => toggleFavorite(row.currency)}
+                    label={
+                      row.isPinned
+                        ? `Unpin: ${baseCurrency} to ${row.currency}`
+                        : `Pin: ${baseCurrency} to ${row.currency}`
+                    }
+                  />
+                </li>
+              );
+            }}
           />
         </Container>
       ) : (

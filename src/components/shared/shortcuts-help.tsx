@@ -59,17 +59,20 @@ const ShortcutsHelp = () => {
         type="button"
         aria-label="Keyboard shortcuts"
         className={cn(
-          buttonVariants({ variant: "secondary", size: "icon-lg" }),
+          buttonVariants({ variant: "secondary", size: "icon-md" }),
           "fixed bottom-step-250 right-step-250 z-40 rounded-full shadow-none",
         )}
       >
-        <QuestionIcon size={32} className="text-foreground" />
+        <QuestionIcon
+          size={20}
+          className="text-foreground [&_svg:not([class*='size-'])]:size-5"
+        />
       </PopoverTrigger>
 
       <PopoverContent
         side="top"
         sideOffset={10}
-        className="w-full max-w-90 space-y-step-200 p-step-250"
+        className="w-full max-w-74 sm:max-w-95 space-y-step-200 p-step-250"
       >
         <Title level="h3" className="preset-4 uppercase text-neutral-200">
           Keyboard shortcuts
@@ -80,14 +83,14 @@ const ShortcutsHelp = () => {
           keyExtractor={(shortcut) => shortcut.id}
           className="flex flex-col gap-step-150"
           renderItem={(shortcut) => (
-            <li className="flex items-center justify-between gap-step-200">
+            <li className="flex flex-wrap items-center justify-between gap-step-200">
               <span className="flex items-center gap-step-050">
                 {Array.isArray(shortcut.keys) ? (
                   shortcut.keys.map((key) => <Kbd key={key}>{key}</Kbd>)
                 ) : (
                   <KbdGroup>
                     <Kbd>{shortcut.keys.first}</Kbd>
-                    <span className="text-neutral-200">+</span>
+                    <span className="hidden md:inline text-neutral-200">+</span>
                     <Kbd>{shortcut.keys.second}</Kbd>
                   </KbdGroup>
                 )}

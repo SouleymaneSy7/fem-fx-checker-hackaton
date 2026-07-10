@@ -39,14 +39,14 @@ Six phases between now and **July 13, 2026 at 14:00 BST**. Results on July 16. C
 
 | Phase                       | Scope                                                                   | Status      |
 | --------------------------- | ----------------------------------------------------------------------- | ----------- |
-| 1 — Scaffolding             | Repo setup, routing, design tokens, Zustand slices, SWR wrappers        | In progress |
-| 2 — Converter               | Currency picker, amount input, swap, live rate display                  | Planned     |
-| 3 — Markets & History       | Ticker, rate chart, time-range selector                                 | Planned     |
-| 4 — Compare, Favorites, Log | Compare table, pin system, conversion log, localStorage persistence     | Planned     |
-| 5 — Polish                  | Animations (GSAP + Framer Motion), responsive pass, accessibility audit | Planned     |
+| 1 — Scaffolding             | Repo setup, routing, design tokens, Zustand slices, SWR wrappers        | Done        |
+| 2 — Converter               | Currency picker, amount input, swap, live rate display                  | Done        |
+| 3 — Markets & History       | Ticker, rate chart, time-range selector                                 | Done        |
+| 4 — Compare, Favorites, Log | Compare table, pin system, conversion log, localStorage persistence     | Done        |
+| 5 — Polish                  | Animations (GSAP + Framer Motion), responsive pass, accessibility audit | In progress |
 | 6 — Deploy                  | Vercel deployment, final README update, hackathon submission            | Planned     |
 
-_Last updated: June 2026 — Phase 1_
+_Last updated: july 2026 — Phase 5_
 
 ---
 

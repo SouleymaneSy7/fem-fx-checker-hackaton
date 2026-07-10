@@ -28,6 +28,7 @@ const buttonVariants = cva(
         default:
           "gap-step-100 in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-step-100 has-data-[icon=inline-start]:pl-step-100 px-step-150 py-step-100",
         icon: "size-9",
+        "icon-md": "size-10",
         "icon-lg": "size-12",
       },
     },

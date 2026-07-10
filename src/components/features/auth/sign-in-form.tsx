@@ -4,6 +4,7 @@ import * as React from "react";
 
 import TextInput from "@/components/shared/text-input";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { signIn } from "@/lib/auth-client";
 import type { SignInFormPropsType } from "@/types/ui.types";
 import { signInSchema } from "@/validators";
@@ -77,8 +78,12 @@ const SignInForm = ({ onSuccess }: SignInFormPropsType) => {
         type="submit"
         variant="primary"
         disabled={isSubmitting}
+        aria-busy={isSubmitting}
         className="w-full"
       >
+        {isSubmitting && (
+          <Spinner aria-hidden="true" className="text-primary-foreground" />
+        )}
         {isSubmitting ? "Signing in..." : "Sign in"}
       </Button>
     </form>

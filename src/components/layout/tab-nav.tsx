@@ -97,7 +97,7 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
             />
           </PopoverTrigger>
 
-          <PopoverContent className="w-(--radix-popover-trigger-width) rounded-10 border-neutral-600 bg-card p-step-100">
+          <PopoverContent className="w-(--radix-popover-trigger-width) rounded-10 border-neutral-500 dark:border-neutral-600 bg-card p-step-100">
             <div role="listbox" aria-label="Converter sections">
               <List
                 items={SECTIONS}

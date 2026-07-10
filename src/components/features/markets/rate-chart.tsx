@@ -14,6 +14,7 @@ import type {
   CustomTooltipPropsType,
   RateChartPropsType,
 } from "@/types/ui.types";
+import { formatAmount } from "@/utils/format-amount";
 
 const CustomTooltip = ({
   active,
@@ -32,7 +33,7 @@ const CustomTooltip = ({
       </p>
 
       <p className="preset-4 font-bold text-foreground">
-        {point.rate.toFixed(4)} <span className="text-neutral-200">·</span>{" "}
+        {formatAmount(point.rate)} <span className="text-neutral-200">·</span>{" "}
         {pair}
       </p>
     </div>
@@ -91,7 +92,7 @@ const RateChart = ({ data, pair, dateFormatter }: RateChartPropsType) => {
         <YAxis
           domain={[min, max]}
           ticks={[min, mid, max]}
-          tickFormatter={(value: number) => value.toFixed(4)}
+          tickFormatter={(value: number) => formatAmount(value)}
           tick={{ fill: "var(--neutral-200)", fontSize: 10 }}
           axisLine={false}
           tickLine={false}

@@ -1,15 +1,20 @@
 import * as React from "react";
+
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
+import VisuallyHidden from "@/components/common/visually-hidden";
 import { ArrowRightIcon } from "@/components/icons";
 import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
+import TrendIndicator from "@/components/shared/trend-indicator";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useFavorites } from "@/hooks/use-favorites";
 import { cn } from "@/lib/utils";
+import { formatAmount } from "@/utils/format-amount";
 
 const FavoritesPanel = () => {
-  const { rows, unpinPair } = useFavorites();
+  const { rows, unpinPair, isLoading } = useFavorites();
 
   const hasFavorites = rows.length > 0;
 
@@ -30,12 +35,17 @@ const FavoritesPanel = () => {
             </p>
           </div>
 
+          <VisuallyHidden role="status">
+            {isLoading ? "Loading live rates for pinned pairs" : ""}
+          </VisuallyHidden>
+
           <List
             items={rows}
             keyExtractor={(item) => item.id}
             className="flex flex-col gap-step-150"
             renderItem={(item) => {
               const isPositive = (item.changePercent ?? 0) >= 0;
+              const isRowLoading = isLoading && item.rate === undefined;
 
               return (
                 <li className="flex items-center gap-step-250 rounded-10 border border-neutral-500 bg-neutral-600 px-step-150 py-step-150 md:px-step-200">
@@ -52,25 +62,36 @@ const FavoritesPanel = () => {
                   </div>
 
                   <div className="flex flex-col gap-step-075 items-end">
-                    <p className="preset-3 text-foreground">
-                      {item.rate !== undefined ? item.rate.toFixed(4) : "—"}
-                    </p>
+                    {isRowLoading ? (
+                      <React.Fragment>
+                        <Skeleton className="h-4 w-16" />
+                        <Skeleton className="h-3 w-12" />
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <p className="preset-3 text-foreground">
+                          {item.rate !== undefined
+                            ? formatAmount(item.rate)
+                            : "—"}
+                        </p>
 
-                    {item.changePercent !== undefined && (
-                      <p
-                        className={cn(
-                          "text-right preset-6",
-                          isPositive ? "text-green" : "text-red",
+                        {item.changePercent !== undefined && (
+                          <TrendIndicator
+                            isPositive={isPositive}
+                            value={`${Math.abs(item.changePercent).toFixed(2)}%`}
+                            className={cn(
+                              "preset-6",
+                              isPositive ? "text-green" : "text-red",
+                            )}
+                          />
                         )}
-                      >
-                        {isPositive ? "▲" : "▼"}{" "}
-                        {Math.abs(item.changePercent).toFixed(2)}%
-                      </p>
+                      </React.Fragment>
                     )}
                   </div>
 
                   <FavoriteToggleIcon
                     isFavorite={true}
+                    isSyncing={false}
                     onToggle={() => unpinPair(item.id)}
                     label="Favorite Button With Icon"
                   />

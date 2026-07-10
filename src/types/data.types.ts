@@ -80,25 +80,6 @@ export type CompareRowType = {
   isFavoriteSyncing: boolean;
 };
 
-/* ── CurrencyPicker ─────────────────────────────────────────────────── */
-
-export type CurrencyOptionType = {
-  code: string;
-  name: string;
-  flag: string;
-};
-
-export type CurrencyPickerPropsType = {
-  value: string;
-  onValueChange: (code: string) => void;
-  currencies: CurrencyOptionType[];
-  popularCodes?: string[];
-  label: string;
-  isLoading?: boolean;
-  className?: string;
-  focusShortcutTarget?: "send" | "receive";
-};
-
 /* ── Theme ─────────────────────────────────────────────────── */
 
 export type ThemeType = "dark" | "light";

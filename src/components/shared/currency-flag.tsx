@@ -3,9 +3,20 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { getCurrencyFlagUrl } from "@/services/currency-flags.service";
 import type { CurrencyFlagProps } from "@/types/ui.types";
+import { Skeleton } from "../ui/skeleton";
 
-export function CurrencyFlag({ currencyCode, size = 24 }: CurrencyFlagProps) {
+export function CurrencyFlag({
+  currencyCode,
+  isLoading,
+  size = 24,
+}: CurrencyFlagProps) {
   const flagUrl = getCurrencyFlagUrl(currencyCode);
+
+  if (isLoading) {
+    // No flag asset for some currency — render a neutral
+    // placeholder instead of a broken image.
+    return <Skeleton className="w-6 h-6 bg-neutral-400 rounded-full" />;
+  }
 
   if (!flagUrl) {
     // No flag asset for some currency — render a neutral
@@ -13,7 +24,7 @@ export function CurrencyFlag({ currencyCode, size = 24 }: CurrencyFlagProps) {
     return (
       <span
         aria-hidden="true"
-        className="inline-block shrink-0 bg-neutral-500 rounded-full"
+        className="inline-block shrink-0 bg-neutral-400 rounded-full"
         style={{ width: size, height: size }}
       />
     );

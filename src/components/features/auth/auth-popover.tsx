@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Spinner } from "@/components/ui/spinner";
 import { signOut, useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import SignInForm from "./sign-in-form";
@@ -22,19 +23,22 @@ const AuthPopover = () => {
 
   const { data: session, isPending } = useSession();
 
-  // Avoids a flash of the "Sign in" trigger for the instant it takes
-  // useSession() to resolve the cookie-backed session on first mount.
-  if (isPending) return null;
-
   if (session) {
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger
           type="button"
           aria-label="Account menu"
-          className={cn(buttonVariants({ variant: "default" }), "max-w-40")}
+          className={cn(
+            buttonVariants({ variant: "secondary" }),
+            "min-w-18 max-w-40 text-foreground",
+          )}
         >
-          <span className="preset-5-med truncate">{session.user.name}</span>
+          {isPending ? (
+            <Spinner aria-hidden="true" className="text-foreground" />
+          ) : (
+            <span className="preset-5-med truncate">{session.user.name}</span>
+          )}
         </PopoverTrigger>
 
         <PopoverContent className="w-full md:w-64 space-y-step-150 p-step-200">
@@ -76,9 +80,16 @@ const AuthPopover = () => {
       <PopoverTrigger
         type="button"
         aria-label="Sign in"
-        className={cn(buttonVariants({ variant: "secondary" }))}
+        className={cn(
+          buttonVariants({ variant: "secondary" }),
+          "min-w-18 max-w-40",
+        )}
       >
-        Sign in
+        {isPending ? (
+          <Spinner aria-hidden="true" className="text-foreground" />
+        ) : (
+          "Sign in"
+        )}
       </PopoverTrigger>
 
       <PopoverContent

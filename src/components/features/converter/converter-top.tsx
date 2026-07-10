@@ -5,6 +5,7 @@ import * as React from "react";
 import Container from "@/components/common/container";
 import Title from "@/components/common/title";
 import { ArrowLeftRightIcon } from "@/components/icons";
+import SpinnerEllipsis from "@/components/loaders/spinner-ellipsis";
 import CurrencyPicker from "@/components/shared/currency-picker";
 import NumericInput from "@/components/shared/numeric-input";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ import { SHORTCUT_EVENTS } from "@/constants";
 import { useConverter } from "@/hooks/use-converter";
 import { useCurrencies } from "@/hooks/use-currencies";
 import { getCurrencyFlagCode } from "@/services/currency-flags.service";
-import type { CurrencyOptionType } from "@/types/data.types";
+import type { CurrencyOptionType } from "@/types/ui.types";
 import { formatAmount } from "@/utils/format-amount";
 
 const ConverterTop = () => {
@@ -81,14 +82,6 @@ const ConverterTop = () => {
     setAmount(Number.isNaN(parsed) ? 0 : parsed);
   };
 
-  const receiveDisplay = error
-    ? "—"
-    : convertedAmount !== null
-      ? formatAmount(convertedAmount)
-      : isLoading
-        ? "···"
-        : "—";
-
   return (
     <Container className="w-full bg-card rounded-t-20 p-step-200 flex flex-col items-center justify-center gap-step-200 md:p-step-250 md:flex-row md:gap-step-300">
       <div className="w-full bg-neutral-600 border border-neutral-500 flex flex-col gap-step-200 p-step-200 rounded-16 md:p-step-250 md:gap-step-250">
@@ -105,6 +98,7 @@ const ConverterTop = () => {
 
           <CurrencyPicker
             label="Send Currency"
+            isLoading={isLoading}
             value={fromCurrency}
             onValueChange={setFromCurrency}
             currencies={sendCurrencyOptions}
@@ -130,12 +124,21 @@ const ConverterTop = () => {
         </Title>
 
         <div className="flex items-center justify-between gap-step-100">
-          <p className="preset-1 uppercase text-primary" aria-live="polite">
-            {receiveDisplay}
-          </p>
+          {error ? (
+            <p className="preset-1 uppercase text-destructive/80">———</p>
+          ) : convertedAmount !== null ? (
+            <p className="preset-1 uppercase text-primary" aria-live="polite">
+              {formatAmount(convertedAmount)}
+            </p>
+          ) : isLoading ? (
+            <SpinnerEllipsis />
+          ) : (
+            <p className="preset-1 uppercase text-destructive/80">———</p>
+          )}
 
           <CurrencyPicker
             label="Receive Currency"
+            isLoading={isLoading}
             value={toCurrency}
             onValueChange={setToCurrency}
             currencies={receiveCurrencyOptions}
