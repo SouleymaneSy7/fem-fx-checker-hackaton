@@ -2,7 +2,8 @@
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { RANGES } from "@/constants";
-import type { RangeSelectorPropsType, RateRangeType } from "@/types/ui.types";
+import type { RateRangeType } from "@/types/data.types";
+import type { RangeSelectorPropsType } from "@/types/ui.types";
 
 const RangeSelector = ({ value, onValueChange }: RangeSelectorPropsType) => {
   return (
