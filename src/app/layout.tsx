@@ -9,6 +9,7 @@ import AlertsWatcher from "@/components/features/alerts/alerts-watcher";
 import Header from "@/components/layout/header";
 import { SWRProvider } from "@/components/providers/swr-provider";
 import ShortcutsHelp from "@/components/shared/shortcuts-help";
+import { Toaster } from "@/components/ui/sonner";
 import { THEME_INIT_SCRIPT } from "@/utils/theme-script";
 
 // ─── Font ─────────────────────────────────────────────────────────────────────
@@ -62,6 +63,7 @@ export default function RootLayout({
           <KeyboardShortcuts />
           <AccountSync />
           <AlertsWatcher />
+          <Toaster />
           <Header />
           {children}
           <ShortcutsHelp />
