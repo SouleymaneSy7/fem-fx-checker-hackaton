@@ -1,11 +1,9 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { STORAGE_KEY_CONVERSION_LOG } from "@/constants";
+import { MAX_LOG_ENTRIES, STORAGE_KEY_CONVERSION_LOG } from "@/constants";
 import type { LogEntryType, LogStoreType } from "@/types/data.types";
 import { safeLocalStorage } from "@/utils/safe-storage";
-
-const MAX_LOG_ENTRIES = 100;
 
 export const useLogStore = create<LogStoreType>()(
   persist(

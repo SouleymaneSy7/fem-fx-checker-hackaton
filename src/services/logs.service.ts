@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { ENDPOINT_LOGS } from "@/constants";
 import type {
   CreateLogEntryInputType,
   LogEntryRowType,
@@ -14,30 +14,30 @@ function toLogEntryType(row: LogEntryRowType): LogEntryType {
 }
 
 export async function fetchLogEntries(): Promise<LogEntryType[]> {
-  const { data } = await axios.get<LogEntryRowType[]>("/api/logs");
+  const { data } = await axios.get<LogEntryRowType[]>(ENDPOINT_LOGS);
   return data.map(toLogEntryType);
 }
 
 export async function createLogEntry(
   entry: CreateLogEntryInputType,
 ): Promise<LogEntryType> {
-  const { data } = await axios.post<LogEntryRowType>("/api/logs", entry);
+  const { data } = await axios.post<LogEntryRowType>(ENDPOINT_LOGS, entry);
   return toLogEntryType(data);
 }
 
 export async function deleteLogEntry(id: string): Promise<void> {
-  await axios.delete(`/api/logs/${id}`);
+  await axios.delete(`${ENDPOINT_LOGS}/${id}`);
 }
 
 export async function deleteLogEntriesForPair(
   fromCurrency: string,
   toCurrency: string,
 ): Promise<void> {
-  await axios.delete("/api/logs", {
+  await axios.delete(ENDPOINT_LOGS, {
     params: { from: fromCurrency, to: toCurrency },
   });
 }
 
 export async function deleteAllLogEntries(): Promise<void> {
-  await axios.delete("/api/logs");
+  await axios.delete(ENDPOINT_LOGS);
 }

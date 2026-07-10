@@ -2,12 +2,11 @@ import { and, desc, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { MAX_LOG_ENTRIES } from "@/constants";
 import { db } from "@/db";
 import { logEntry } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { createLogEntrySchema } from "@/validators";
-
-const MAX_LOG_ENTRIES = 100;
 
 export async function GET() {
   const session = await auth.api.getSession({ headers: await headers() });
