@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type * as React from "react";
+import type { RatePointType, RateRangeType } from "./data.types";
 
 /* ────────────────────────────────────────────────────────────────────────
  * Polymorphic component helpers
@@ -183,16 +184,9 @@ export type LogButtonPropsType = {
 
 /* ── RateRange ─────────────────────────────────────────────────── */
 
-export type RateRangeType = "1d" | "1w" | "1m" | "3m" | "1y" | "5y";
-
 export type RangeSelectorPropsType = {
   value: RateRangeType;
   onValueChange: (range: RateRangeType) => void;
-};
-
-export type RatePointType = {
-  date: string;
-  rate: number;
 };
 
 export type RateChartPropsType = {
@@ -250,3 +244,13 @@ type onSuccess = {
 export type SignUpFormPropsType = onSuccess;
 
 export type SignInFormPropsType = onSuccess;
+
+/* ── Alerts ─────────────────────────────────────────────────── */
+
+export type AlertTogglePropsType = {
+  fromCurrency: string;
+  toCurrency: string;
+  currentRate: number | undefined;
+  label?: string;
+  className?: string;
+};
