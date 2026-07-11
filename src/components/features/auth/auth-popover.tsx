@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import Title from "@/components/common/title";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Popover,
@@ -12,6 +13,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { signOut, useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import { getNameInitials } from "@/utils/get-name-initials";
 import SignInForm from "./sign-in-form";
 import SignUpForm from "./sign-up-form";
 
@@ -41,8 +43,14 @@ const AuthPopover = () => {
           )}
         </PopoverTrigger>
 
-        <PopoverContent className="w-full md:w-64 space-y-step-150 p-step-200">
-          <div>
+        <PopoverContent className="w-full md:w-80 space-y-step-200 p-step-200">
+          <div className="flex items-center gap-step-150">
+            <Avatar className="h-10 w-10">
+              <AvatarFallback className="preset-3 uppercase text-foreground">
+                {getNameInitials(session.user.name)}
+              </AvatarFallback>
+            </Avatar>
+
             <div className="flex flex-col gap-step-050">
               <p className="preset-4 uppercase text-foreground">
                 {session.user.name}
