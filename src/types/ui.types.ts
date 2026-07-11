@@ -1,6 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import type * as React from "react";
-import type { RatePointType, RateRangeType } from "./data.types";
+import type {
+  CompareChartPointType,
+  RatePointType,
+  RateRangeType,
+} from "./data.types";
 
 /* ────────────────────────────────────────────────────────────────────────
  * Polymorphic component helpers
@@ -199,6 +203,26 @@ export type CustomTooltipPropsType = {
   active?: boolean;
   payload?: { payload: RatePointType }[];
   pair: string;
+  dateFormatter: (isoDate: string) => string;
+};
+
+/* ── CompareChart ─────────────────────────────────────────────────── */
+
+export type CompareChartPropsType = {
+  data: CompareChartPointType[];
+  currencies: string[];
+  dateFormatter: (isoDate: string) => string;
+};
+
+export type CompareChartTooltipPropsType = {
+  active?: boolean;
+  payload?: {
+    dataKey: string;
+    value: number;
+    color: string;
+    payload: CompareChartPointType;
+  }[];
+  label?: string;
   dateFormatter: (isoDate: string) => string;
 };
 

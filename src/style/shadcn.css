@@ -38,6 +38,16 @@
   --sidebar-accent-foreground: var(--primary);
   --sidebar-border: var(--neutral-500);
   --sidebar-ring: var(--primary);
+
+  /* ── Compare chart: per-currency colors (light theme) ─────────── */
+  --currency-gbp: oklch(0.48 0.17 250);
+  --currency-jpy: oklch(0.55 0.19 20);
+  --currency-chf: oklch(0.52 0.18 320);
+  --currency-cad: oklch(0.58 0.14 100);
+  --currency-aud: oklch(0.55 0.13 195);
+  --currency-inr: oklch(0.6 0.16 45);
+  --currency-cny: oklch(0.62 0.15 70);
+  --currency-bdt: oklch(0.55 0.15 145);
 }
 
 .dark {
@@ -73,4 +83,14 @@
   --sidebar-accent-foreground: var(--primary);
   --sidebar-border: var(--neutral-500);
   --sidebar-ring: var(--primary);
+
+  /* ── Compare chart: per-currency colors (dark theme) ──────────── */
+  --currency-gbp: oklch(0.68 0.18 250);
+  --currency-jpy: oklch(0.7 0.21 20);
+  --currency-chf: oklch(0.72 0.19 320);
+  --currency-cad: oklch(0.8 0.15 100);
+  --currency-aud: oklch(0.75 0.13 195);
+  --currency-inr: oklch(0.78 0.17 45);
+  --currency-cny: oklch(0.82 0.16 70);
+  --currency-bdt: oklch(0.78 0.15 145);
 }
