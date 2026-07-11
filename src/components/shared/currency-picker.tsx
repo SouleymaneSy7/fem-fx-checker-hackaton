@@ -111,9 +111,11 @@ const CurrencyPicker = ({
         >
           <CurrencyFlag currencyCode={currency.code} isLoading={isLoading} />
 
-          <span className="preset-4 text-foreground">{currency.code}</span>
+          <span className="flex-1 md:flex-none preset-4 text-foreground">
+            {currency.code}
+          </span>
 
-          <span className="flex-1 preset-5 text-muted-foreground truncate">
+          <span className="hidden md:inline flex-1 preset-5 text-muted-foreground truncate">
             {currency.name}
           </span>
 
@@ -149,7 +151,7 @@ const CurrencyPicker = ({
           <Skeleton className="w-7 h-4 bg-neutral-400" />
         ) : (
           <span className="preset-4 uppercase text-neutral-50">
-            {selected?.code}
+            {selected?.code ?? "--"}
           </span>
         )}
 
@@ -163,7 +165,7 @@ const CurrencyPicker = ({
       </PopoverTrigger>
 
       <PopoverContent>
-        <ScrollArea className="h-[460px] w-78 md:w-114 flex-col gap-step-125 p-step-100">
+        <ScrollArea className="h-115 w-78 md:w-114 flex-col gap-step-125 p-step-100">
           <SearchInput
             icon={SearchIcon}
             keys={keyboards}

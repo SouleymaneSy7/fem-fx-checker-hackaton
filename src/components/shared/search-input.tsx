@@ -15,7 +15,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
     const Icon = icon;
 
     return (
-      <Container className="w-full relative flex items-center flex-1 gap-step-125">
+      <Container className="w-full relative">
         {Icon && (
           <label
             htmlFor={searchId}
@@ -36,7 +36,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
             "disabled:cursor-not-allowed disabled:opacity-50",
             "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
             Icon ? "pl-step-500" : "",
-            keys ? "pr-step-1400" : "",
+            keys ? "pr-step-150 md:pr-step-1400" : "",
             className,
           )}
           ref={ref}
@@ -46,6 +46,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
         {keys && (
           <div
             className={cn(
+              "hidden md:inline-block",
               "order-last pr-step-050 has-[>kbd]:mr-step-050",
               "absolute right-step-050 top-1/2 transform -translate-y-1/2",
             )}
