@@ -18,7 +18,7 @@ import { useCompareChart } from "@/hooks/use-compare-chart";
 import { useCurrencies } from "@/hooks/use-currencies";
 import type { CompareChartMoverType } from "@/types/data.types";
 import { formatAmount } from "@/utils/format-amount";
-import { formatChartDate } from "@/utils/format-date";
+import { formatChartDate, formatShortDate } from "@/utils/format-date";
 import RangeSelector from "../markets/range-selector";
 import CompareChart from "./compare-chart";
 
@@ -109,11 +109,20 @@ const ComparePanel = () => {
                   if (next) setViewMode(next as CompareViewModeType);
                 }}
                 aria-label="Compare view"
+                className="bg-neutral-600"
               >
-                <ToggleGroupItem value="table" aria-label="Table view">
+                <ToggleGroupItem
+                  value="table"
+                  className="flex-1"
+                  aria-label="Table view"
+                >
                   Table
                 </ToggleGroupItem>
-                <ToggleGroupItem value="chart" aria-label="Chart view">
+                <ToggleGroupItem
+                  value="chart"
+                  className="flex-1"
+                  aria-label="Chart view"
+                >
                   Chart
                 </ToggleGroupItem>
               </ToggleGroup>
@@ -193,6 +202,19 @@ const ComparePanel = () => {
             </React.Fragment>
           ) : (
             <React.Fragment>
+              {hasChartData && (
+                <p className="preset-5 text-neutral-200">
+                  Exchange rate change vs{" "}
+                  <span className="preset-5-med text-foreground">
+                    {baseCurrency}
+                  </span>
+                  , since{" "}
+                  <span className="preset-5-med text-foreground">
+                    {formatShortDate(points[0].date)}
+                  </span>
+                </p>
+              )}
+
               <div className="flex flex-wrap items-center justify-between gap-step-200">
                 <div className="flex flex-wrap items-center gap-step-200">
                   {movers.topGainer && (
@@ -201,10 +223,9 @@ const ComparePanel = () => {
                       <span className="preset-5-med text-foreground">
                         {movers.topGainer.currency}
                       </span>
-
                       <TrendIndicator
                         isPositive={movers.topGainer.changePercent >= 0}
-                        value={`${Math.abs(movers.topGainer.changePercent).toFixed(3)}%`}
+                        value={`${Math.abs(movers.topGainer.changePercent).toFixed(1)}%`}
                         className={
                           movers.topGainer.changePercent >= 0
                             ? "text-green"
@@ -222,7 +243,7 @@ const ComparePanel = () => {
                       </span>
                       <TrendIndicator
                         isPositive={movers.topLoser.changePercent >= 0}
-                        value={`${Math.abs(movers.topLoser.changePercent).toFixed(3)}%`}
+                        value={`${Math.abs(movers.topLoser.changePercent).toFixed(1)}%`}
                         className={
                           movers.topLoser.changePercent >= 0
                             ? "text-green"

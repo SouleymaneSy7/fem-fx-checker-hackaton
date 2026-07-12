@@ -12,6 +12,8 @@ import {
 } from "recharts";
 
 import VisuallyHidden from "@/components/common/visually-hidden";
+import TrendIndicator from "@/components/shared/trend-indicator";
+import { Button } from "@/components/ui/button";
 import { CURRENCY_CHART_COLORS } from "@/constants";
 import { getRawRateKey } from "@/hooks/use-compare-chart";
 import { cn } from "@/lib/utils";
@@ -22,7 +24,7 @@ import type {
 import { formatAmount } from "@/utils/format-amount";
 
 const formatPercent = (value: number) =>
-  `${value > 0 ? "+" : ""}${value.toFixed(3)}%`;
+  `${value > 0 ? "+" : ""}${value.toFixed(1)}%`;
 
 const CustomTooltip = ({
   active,
@@ -92,10 +94,9 @@ const CompareChart = ({
     });
   };
 
-  // Screen-reader description of the chart's current values — the visual
-  // legend and tooltip are both pointer-driven, so this is the only way
-  // the same information reaches keyboard/assistive-tech users. Mirrors
-  // Ticker's own VisuallyHidden summary of its `pairs` prop.
+  // Drives both the legend's inline "current standing" readout and the
+  // screen-reader summary below — computed once and shared, so the
+  // visible legend and the accessible text never disagree.
   const lastPoint = data[data.length - 1];
 
   const summaryText = currencies
@@ -163,37 +164,56 @@ const CompareChart = ({
         </LineChart>
       </ResponsiveContainer>
 
-      <div
-        role="group"
-        aria-label="Toggle currencies shown on chart"
-        className="flex flex-wrap items-center gap-step-100"
-      >
-        {currencies.map((code) => {
-          const isHidden = hiddenCurrencies.has(code);
+      <div className="flex flex-col gap-step-050 mt-step-200">
+        <p className="preset-6 uppercase text-neutral-200">
+          Select a currency to show or hide its line
+        </p>
 
-          return (
-            <button
-              key={code}
-              type="button"
-              aria-pressed={!isHidden}
-              onClick={() => toggleCurrency(code)}
-              className={cn(
-                "flex items-center gap-step-075 rounded-6 px-step-100 py-step-050 preset-5 uppercase transition-opacity focus-ring",
-                isHidden ? "opacity-40" : "opacity-100",
-              )}
-            >
-              <span
-                aria-hidden="true"
-                className="size-2 rounded-full"
-                style={{
-                  backgroundColor:
-                    CURRENCY_CHART_COLORS[code] ?? "var(--primary)",
-                }}
-              />
-              <span className="text-foreground">{code}</span>
-            </button>
-          );
-        })}
+        <div
+          role="group"
+          aria-label="Toggle currencies shown on chart"
+          className="flex flex-wrap items-center gap-step-150"
+        >
+          {currencies.map((code) => {
+            const isHidden = hiddenCurrencies.has(code);
+            const lastValue = lastPoint?.[code];
+
+            return (
+              <Button
+                variant={"ghost"}
+                key={code}
+                type="button"
+                aria-pressed={!isHidden}
+                onClick={() => toggleCurrency(code)}
+                className={cn(
+                  "flex items-center gap-step-075 rounded-6 px-step-100 py-step-050 preset-5 uppercase transition-opacity focus-ring",
+                  isHidden ? "opacity-40" : "opacity-100",
+                )}
+              >
+                <span
+                  aria-hidden="true"
+                  className="size-2 rounded-full"
+                  style={{
+                    backgroundColor:
+                      CURRENCY_CHART_COLORS[code] ?? "var(--primary)",
+                  }}
+                />
+                <span className="text-foreground">{code}</span>
+
+                {typeof lastValue === "number" && (
+                  <TrendIndicator
+                    isPositive={lastValue >= 0}
+                    value={`${Math.abs(lastValue).toFixed(1)}%`}
+                    className={cn(
+                      "preset-6",
+                      lastValue >= 0 ? "text-green" : "text-red",
+                    )}
+                  />
+                )}
+              </Button>
+            );
+          })}
+        </div>
       </div>
 
       <VisuallyHidden role="status">
