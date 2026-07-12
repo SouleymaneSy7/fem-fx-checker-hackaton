@@ -15,24 +15,13 @@ import { cn } from "@/lib/utils";
 import { useAlertsStore } from "@/store/alerts-store";
 import { useFavoritesStore } from "@/store/favorites-store";
 import { useLogStore } from "@/store/log-store";
-
-export type ConverterSectionValueType =
-  | "history"
-  | "compare"
-  | "favorites"
-  | "alerts"
-  | "log";
-
-type TabNavPropsType = {
-  value: ConverterSectionValueType;
-  onValueChange: (value: ConverterSectionValueType) => void;
-  favoritesCount?: number;
-  logCount?: number;
-};
+import type { ConverterSectionValueType } from "@/types/data.types";
+import type { TabNavPropsType } from "@/types/ui.types";
 
 const SECTIONS: { value: ConverterSectionValueType; label: string }[] = [
   { value: "history", label: "History" },
   { value: "compare", label: "Compare" },
+  { value: "historicalRates", label: "Historical Rates" },
   { value: "favorites", label: "Favorites" },
   { value: "alerts", label: "Alerts" },
   { value: "log", label: "Log" },

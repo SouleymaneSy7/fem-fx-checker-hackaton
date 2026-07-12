@@ -4,8 +4,11 @@ import {
   ArrowRight,
   ArrowUpFromLine,
   Bell,
+  Calendar,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Loader2Icon,
   Search,
   Star,
@@ -159,6 +162,48 @@ export const BellIcon = ({
 }: IconComponentProps) => (
   <Icon
     icon={Bell}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const CalendarIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Calendar}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const ChevronLeftIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={ChevronLeft}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const ChevronRightIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={ChevronRight}
     size={size}
     label={label}
     className={className}

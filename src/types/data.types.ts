@@ -10,6 +10,16 @@ export type ConverterStoreType = {
   swapCurrencies: () => void;
 };
 
+/* ── TabNav ─────────────────────────────────────────────────── */
+
+export type ConverterSectionValueType =
+  | "history"
+  | "compare"
+  | "historicalRates"
+  | "favorites"
+  | "alerts"
+  | "log";
+
 /* ── Favorites ─────────────────────────────────────────────────── */
 
 export type FavoritePairType = {
@@ -175,4 +185,18 @@ export type SelectRecentPairDetail = {
 
 export type RouteContextType = {
   params: Promise<{ id: string }>;
+};
+
+/* ── Time Machine ─────────────────────────────────────────────────── */
+
+export type HistoricalRatesResultType = {
+  requestedDate: string;
+  historicalDate: string;
+  historicalRate: number;
+  currentRate: number;
+  currentDate: string;
+  historicalAmount: number;
+  currentAmount: number;
+  absoluteChange: number;
+  percentChange: number;
 };
