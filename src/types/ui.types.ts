@@ -4,6 +4,7 @@ import type {
   CompareChartPointType,
   RatePointType,
   RateRangeType,
+  RecentPairType,
 } from "./data.types";
 
 /* ────────────────────────────────────────────────────────────────────────
@@ -247,6 +248,7 @@ export type CurrencyPickerPropsType = {
   onValueChange: (code: string) => void;
   currencies: CurrencyOptionType[];
   popularCodes?: string[];
+  recentPairs?: RecentPairType[];
   label: string;
   isLoading: boolean;
   className?: string;

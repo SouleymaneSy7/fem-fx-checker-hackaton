@@ -136,3 +136,22 @@ export type AlertsStoreType = {
   triggerAlert: (id: string) => void;
   resetAlert: (id: string) => void;
 };
+
+/* ── Recent Pairs ─────────────────────────────────────────────────── */
+
+export type RecentPairType = {
+  id: string;
+  fromCurrency: string;
+  toCurrency: string;
+  lastUsedAt: number;
+};
+
+export type RecentPairsStoreType = {
+  recentPairs: RecentPairType[];
+  addRecentPair: (fromCurrency: string, toCurrency: string) => void;
+};
+
+export type SelectRecentPairDetail = {
+  fromCurrency: string;
+  toCurrency: string;
+};
