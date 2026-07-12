@@ -5,6 +5,7 @@ import "@/style/globals.css";
 
 import AccountSync from "@/components/common/account-sync";
 import KeyboardShortcuts from "@/components/common/keyboard-shortcuts";
+import RecentPairsTracker from "@/components/common/recent-pairs-tracker";
 import AlertsWatcher from "@/components/features/alerts/alerts-watcher";
 import Header from "@/components/layout/header";
 import { SWRProvider } from "@/components/providers/swr-provider";
@@ -62,6 +63,7 @@ export default function RootLayout({
         <SWRProvider>
           <KeyboardShortcuts />
           <AccountSync />
+          <RecentPairsTracker />
           <AlertsWatcher />
           <Toaster />
           <Header />

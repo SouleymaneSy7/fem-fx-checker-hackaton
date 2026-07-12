@@ -12,7 +12,9 @@ import { Button } from "@/components/ui/button";
 import { SHORTCUT_EVENTS } from "@/constants";
 import { useConverter } from "@/hooks/use-converter";
 import { useCurrencies } from "@/hooks/use-currencies";
+import { useRecentPairs } from "@/hooks/use-recent-pairs";
 import { getCurrencyFlagCode } from "@/services/currency-flags.service";
+import type { SelectRecentPairDetail } from "@/types/data.types";
 import type { CurrencyOptionType } from "@/types/ui.types";
 import { formatAmount } from "@/utils/format-amount";
 
@@ -31,6 +33,7 @@ const ConverterTop = () => {
   } = useConverter();
 
   const { currencies } = useCurrencies();
+  const recentPairs = useRecentPairs(fromCurrency, toCurrency);
 
   // Local string buffer so the input can hold intermediate states (an empty
   // field, a trailing decimal separator) that a raw number can't represent.
@@ -68,6 +71,29 @@ const ConverterTop = () => {
       );
   }, [swapCurrencies]);
 
+  // Fired by CurrencyPicker when a recent-pair chip is clicked (from
+  // either the Send or Receive picker) — applies both sides at once.
+  React.useEffect(() => {
+    const handleSelectRecentPair = (event: Event) => {
+      const detail = (event as CustomEvent<SelectRecentPairDetail>).detail;
+      if (!detail) return;
+
+      setFromCurrency(detail.fromCurrency);
+      setToCurrency(detail.toCurrency);
+    };
+
+    window.addEventListener(
+      SHORTCUT_EVENTS.selectRecentPair,
+      handleSelectRecentPair,
+    );
+
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.selectRecentPair,
+        handleSelectRecentPair,
+      );
+  }, [setFromCurrency, setToCurrency]);
+
   React.useEffect(() => {
     setAmountInput(String(amount));
   }, [amount]);
@@ -102,6 +128,7 @@ const ConverterTop = () => {
             value={fromCurrency}
             onValueChange={setFromCurrency}
             currencies={sendCurrencyOptions}
+            recentPairs={recentPairs}
             focusShortcutTarget="send"
           />
         </div>
@@ -142,6 +169,7 @@ const ConverterTop = () => {
             value={toCurrency}
             onValueChange={setToCurrency}
             currencies={receiveCurrencyOptions}
+            recentPairs={recentPairs}
           />
         </div>
       </div>
