@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import Logo from "@/components/shared/logo";
+import { Separator } from "@/components/ui/separator";
 import type { NavbarPropsType } from "@/types/ui.types";
 import Container from "../common/container";
 import AuthPopover from "../features/auth/auth-popover";
@@ -15,12 +16,13 @@ const Navbar = ({ availableCurrencies, isLoading }: NavbarPropsType) => {
       </Link>
 
       <div className="flex items-center gap-step-200">
-        <p className="hidden text-neutral-200 sm:flex sm:items-center sm:gap-step-100">
+        <p className="hidden text-neutral-200 md:flex md:items-center md:gap-step-100">
           {isLoading ? <Spinner /> : <span>{availableCurrencies}</span>}{" "}
           Currencies <span> · EOD · ECB data</span>
         </p>
-
+        <Separator orientation="vertical" className="hidden md:inline-block" />
         <AuthPopover />
+        <Separator orientation="vertical" />
         <ThemeToggle />
       </div>
     </Container>
