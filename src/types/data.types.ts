@@ -133,9 +133,23 @@ export type AlertsStoreType = {
   addAlert: (
     alert: Omit<RateAlertType, "id" | "createdAt" | "triggeredAt" | "enabled">,
   ) => void;
+  // Used once a server round-trip has assigned the real id — takes a
+  // fully-formed alert rather than generating one, mirroring log-store's
+  // addLoggedEntry.
+  addSyncedAlert: (alert: RateAlertType) => void;
   removeAlert: (id: string) => void;
-  triggerAlert: (id: string) => void;
+  // Takes an explicit timestamp so the mutation hook can use the exact
+  // same value locally and in the server PATCH, rather than each side
+  // computing its own Date.now() a few milliseconds apart.
+  triggerAlert: (id: string, triggeredAt: number) => void;
   resetAlert: (id: string) => void;
+  replaceAlerts: (alerts: RateAlertType[]) => void;
+};
+
+export type PendingAlertActionType = {
+  id: string;
+  fromCurrency: string;
+  toCurrency: string;
 };
 
 /* ── Recent Pairs ─────────────────────────────────────────────────── */
@@ -155,4 +169,10 @@ export type RecentPairsStoreType = {
 export type SelectRecentPairDetail = {
   fromCurrency: string;
   toCurrency: string;
+};
+
+/* ── Next Route Context ─────────────────────────────────────────────────── */
+
+export type RouteContextType = {
+  params: Promise<{ id: string }>;
 };
