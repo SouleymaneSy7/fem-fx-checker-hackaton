@@ -9,6 +9,11 @@ import SpinnerEllipsis from "@/components/loaders/spinner-ellipsis";
 import CurrencyPicker from "@/components/shared/currency-picker";
 import NumericInput from "@/components/shared/numeric-input";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { SHORTCUT_EVENTS } from "@/constants";
 import { useConverter } from "@/hooks/use-converter";
 import { useCurrencies } from "@/hooks/use-currencies";
@@ -16,7 +21,7 @@ import { useRecentPairs } from "@/hooks/use-recent-pairs";
 import { getCurrencyFlagCode } from "@/services/currency-flags.service";
 import type { SelectRecentPairDetail } from "@/types/data.types";
 import type { CurrencyOptionType } from "@/types/ui.types";
-import { formatAmount } from "@/utils/format-amount";
+import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 
 const ConverterTop = () => {
   const {
@@ -134,16 +139,24 @@ const ConverterTop = () => {
         </div>
       </div>
 
-      <Button
-        type="button"
-        size={"icon-lg"}
-        variant={"secondary"}
-        onClick={swapCurrencies}
-        aria-label="Swap send and receive currencies"
-        aria-keyshortcuts="Control+S Meta+S"
-      >
-        <ArrowLeftRightIcon />
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            size={"icon-lg"}
+            variant={"secondary"}
+            onClick={swapCurrencies}
+            aria-label="Swap send and receive currencies"
+            aria-keyshortcuts="Control+S Meta+S"
+          >
+            <ArrowLeftRightIcon />
+          </Button>
+        </TooltipTrigger>
+
+        <TooltipContent>
+          <p>Swap send and receive currencies.</p>
+        </TooltipContent>
+      </Tooltip>
 
       <div className="w-full bg-neutral-600 border border-neutral-500 flex flex-col gap-step-200 p-step-200 rounded-16 md:p-step-250 md:gap-step-250">
         <Title level="h3" className="preset-4 uppercase text-neutral-100">
@@ -154,9 +167,20 @@ const ConverterTop = () => {
           {error ? (
             <p className="preset-1 uppercase text-destructive/80">———</p>
           ) : convertedAmount !== null ? (
-            <p className="preset-1 uppercase text-primary" aria-live="polite">
-              {formatAmount(convertedAmount)}
-            </p>
+            <Tooltip>
+              <TooltipTrigger>
+                <p
+                  className="preset-1 uppercase text-primary"
+                  aria-live="polite"
+                >
+                  {formatAmount(convertedAmount)}
+                </p>
+              </TooltipTrigger>
+
+              <TooltipContent>
+                {formatPreciseAmount(convertedAmount)}
+              </TooltipContent>
+            </Tooltip>
           ) : isLoading ? (
             <SpinnerEllipsis />
           ) : (

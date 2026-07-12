@@ -1,5 +1,11 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { TickerPairType } from "@/types/ui.types";
+import { formatPreciseAmount } from "@/utils/format-amount";
 
 const TickerItem = ({ pair }: { pair: TickerPairType }) => {
   const isNeutral = pair.changePercent === 0;
@@ -11,21 +17,38 @@ const TickerItem = ({ pair }: { pair: TickerPairType }) => {
         {pair.base}/{pair.quote}
       </span>
 
-      <span className="text-neutral-50 preset-5-med">
-        {pair.rate.toFixed(2)}
-      </span>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className="text-neutral-50 preset-5-med">
+            {pair.rate.toFixed(2)}
+          </span>
+        </TooltipTrigger>
 
-      <p
-        className={cn(
-          "flex items-center gap-step-075",
-          isNeutral && "text-neutral-200",
-          !isNeutral && isPositive && "text-green",
-          !isNeutral && !isPositive && "text-red",
-        )}
-      >
-        <span>{!isNeutral && (isPositive ? "▲" : "▼")}</span>
-        <span>{Math.abs(pair.changePercent).toFixed(2)}%</span>
-      </p>
+        <TooltipContent>
+          1 {pair.base} = {formatPreciseAmount(pair.rate)} {pair.quote}
+        </TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <p
+            className={cn(
+              "flex items-center gap-step-075",
+              isNeutral && "text-neutral-200",
+              !isNeutral && isPositive && "text-green",
+              !isNeutral && !isPositive && "text-red",
+            )}
+          >
+            <span>{!isNeutral && (isPositive ? "▲" : "▼")}</span>
+            <span>{Math.abs(pair.changePercent).toFixed(2)}%</span>
+          </p>
+        </TooltipTrigger>
+        <TooltipContent>
+          {isNeutral
+            ? "No change in the last 24h"
+            : `${isPositive ? "+" : "-"}${Math.abs(pair.changePercent).toFixed(4)}% in the last 24h`}
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 };

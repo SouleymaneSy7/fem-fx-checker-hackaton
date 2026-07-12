@@ -8,11 +8,16 @@ import ConfirmDialog from "@/components/shared/confirm-dialog";
 import DeleteButton from "@/components/shared/delete-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useLogMutations } from "@/hooks/use-log-mutations";
 import { useLogStore } from "@/store/log-store";
 import { exportLogToCsv } from "@/utils/export-log";
 import { formatAmount } from "@/utils/format-amount";
-import { formatRelativeTime } from "@/utils/format-date";
+import { formatFullDateTime, formatRelativeTime } from "@/utils/format-date";
 
 type PendingLogActionType =
   | { kind: "clear-all" }
@@ -80,26 +85,44 @@ const LogPanel = () => {
 
               {hasEntries && (
                 <div className="flex flex-wrap items-center gap-step-100 md:gap-step-150">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      exportLogToCsv(entries);
-                      toast.success(
-                        `Your ${entries.length} conversion${entries.length !== 1 ? "s have" : " has"} been exported as CSV.`,
-                      );
-                    }}
-                  >
-                    <ArrowUpFromLineIcon />
-                    Export CSV
-                  </Button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          exportLogToCsv(entries);
+                          toast.success(
+                            `Your ${entries.length} conversion${entries.length !== 1 ? "s have" : " has"} been exported as CSV.`,
+                          );
+                        }}
+                        aria-label="Download your conversion history as a CSV file"
+                      >
+                        <ArrowUpFromLineIcon />
+                        Export CSV
+                      </Button>
+                    </TooltipTrigger>
 
-                  <Button
-                    type="button"
-                    variant={"secondary"}
-                    onClick={() => openConfirm({ kind: "clear-all" })}
-                  >
-                    Clear all
-                  </Button>
+                    <TooltipContent>
+                      Download your conversion history as a CSV file
+                    </TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant={"secondary"}
+                        onClick={() => openConfirm({ kind: "clear-all" })}
+                        aria-label="Delete all logged conversions"
+                      >
+                        Clear all
+                      </Button>
+                    </TooltipTrigger>
+
+                    <TooltipContent>
+                      Delete all logged conversions
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               )}
             </div>
@@ -109,49 +132,59 @@ const LogPanel = () => {
             items={entries}
             keyExtractor={(entry) => entry.id}
             className="flex flex-col gap-step-150"
-            renderItem={(entry) => (
-              <li className="flex items-center gap-step-125 rounded-10 border border-neutral-500 bg-neutral-600 p-step-150 md:gap-step-200 md:p-step-200">
-                <div className="flex-1 flex flex-col gap-step-050 md:flex-row md:items-center">
-                  <p className="shrink-0 preset-4 uppercase text-neutral-200 md:w-step-1000">
-                    {formatRelativeTime(
-                      new Date(entry.createdAt).toISOString(),
-                    )}
+            renderItem={(entry) => {
+              const createdAtIso = new Date(entry.createdAt).toISOString();
+
+              return (
+                <li className="flex items-center gap-step-125 rounded-10 border border-neutral-500 bg-neutral-600 p-step-150 md:gap-step-200 md:p-step-200">
+                  <div className="flex-1 flex flex-col gap-step-050 md:flex-row md:items-center">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <p className="shrink-0 preset-4 uppercase text-neutral-200 md:w-step-1000">
+                          {formatRelativeTime(createdAtIso)}
+                        </p>
+                      </TooltipTrigger>
+
+                      <TooltipContent>
+                        {formatFullDateTime(createdAtIso)}
+                      </TooltipContent>
+                    </Tooltip>
+
+                    <div className="flex items-center gap-step-100">
+                      <p className="preset-4 uppercase text-foreground">
+                        {entry.fromCurrency}
+                      </p>
+
+                      <ArrowRightIcon className="text-neutral-200" size={12} />
+
+                      <p className="preset-4 uppercase text-foreground">
+                        {entry.toCurrency}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="preset-3 text-neutral-100 uppercase">
+                    {formatAmount(entry.sendAmount)}{" "}
                   </p>
 
-                  <div className="flex items-center gap-step-100">
-                    <p className="preset-4 uppercase text-foreground">
-                      {entry.fromCurrency}
-                    </p>
+                  <p className="preset-3 text-primary uppercase">
+                    {formatAmount(entry.receiveAmount)}
+                  </p>
 
-                    <ArrowRightIcon className="text-neutral-200" size={12} />
-
-                    <p className="preset-4 uppercase text-foreground">
-                      {entry.toCurrency}
-                    </p>
-                  </div>
-                </div>
-
-                <p className="preset-3 text-neutral-100 uppercase">
-                  {formatAmount(entry.sendAmount)}{" "}
-                </p>
-
-                <p className="preset-3 text-primary uppercase">
-                  {formatAmount(entry.receiveAmount)}
-                </p>
-
-                <DeleteButton
-                  onClick={() =>
-                    openConfirm({
-                      kind: "delete-entry",
-                      id: entry.id,
-                      fromCurrency: entry.fromCurrency,
-                      toCurrency: entry.toCurrency,
-                    })
-                  }
-                  label={`Delete logged conversion from ${entry.fromCurrency} to ${entry.toCurrency}`}
-                />
-              </li>
-            )}
+                  <DeleteButton
+                    onClick={() =>
+                      openConfirm({
+                        kind: "delete-entry",
+                        id: entry.id,
+                        fromCurrency: entry.fromCurrency,
+                        toCurrency: entry.toCurrency,
+                      })
+                    }
+                    label={`Delete logged conversion from ${entry.fromCurrency} to ${entry.toCurrency}.`}
+                  />
+                </li>
+              );
+            }}
           />
         </Container>
       ) : (

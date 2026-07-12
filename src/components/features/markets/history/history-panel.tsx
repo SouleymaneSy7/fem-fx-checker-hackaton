@@ -8,7 +8,7 @@ import { SHORTCUT_EVENTS } from "@/constants";
 import { useRateChart } from "@/hooks/use-rate-chart";
 import { useConverterStore } from "@/store/converter-store";
 import type { SetRateRangeDetail } from "@/types/data.types";
-import { formatAmount } from "@/utils/format-amount";
+import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 import { formatChartDate, formatDateForRange } from "@/utils/format-date";
 import RangeSelector from "../range-selector";
 import RateChart from "../rate-chart";
@@ -60,11 +60,32 @@ const HistoryPanel = () => {
         <Container className="flex flex-col gap-step-200 md:gap-step-250">
           <div className="flex flex-col gap-step-250 lg:flex-row lg:items-center lg:justify-between">
             <div className="history-stat-grid">
-              <HistoryStat label="Open" value={formatAmount(openRate)} />
-              <HistoryStat label="Last" value={formatAmount(lastRate)} />
+              <HistoryStat
+                label="Open"
+                value={formatAmount(openRate)}
+                tooltipContent={
+                  openRate !== undefined
+                    ? formatPreciseAmount(openRate)
+                    : undefined
+                }
+              />
+              <HistoryStat
+                label="Last"
+                value={formatAmount(lastRate)}
+                tooltipContent={
+                  lastRate !== undefined
+                    ? formatPreciseAmount(lastRate)
+                    : undefined
+                }
+              />
               <HistoryStat
                 label="Change"
                 value={`${isPositive ? "+" : ""}${change?.toFixed(2)}`}
+                tooltipContent={
+                  change !== undefined
+                    ? `${isPositive ? "+" : ""}${formatPreciseAmount(change)}`
+                    : undefined
+                }
                 tone={isPositive ? "positive" : "negative"}
               />
               <HistoryStat
@@ -74,6 +95,11 @@ const HistoryPanel = () => {
                     isPositive={isPositive}
                     value={`${isPositive ? "+" : "-"}${Math.abs(percentChange ?? 0).toFixed(2)}%`}
                   />
+                }
+                tooltipContent={
+                  percentChange !== undefined
+                    ? `${isPositive ? "+" : "-"}${Math.abs(percentChange).toFixed(4)}%`
+                    : undefined
                 }
                 tone={isPositive ? "positive" : "negative"}
               />

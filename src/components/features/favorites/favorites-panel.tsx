@@ -9,9 +9,14 @@ import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
 import TrendIndicator from "@/components/shared/trend-indicator";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useFavorites } from "@/hooks/use-favorites";
 import { cn } from "@/lib/utils";
-import { formatAmount } from "@/utils/format-amount";
+import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 
 const FavoritesPanel = () => {
   const { rows, unpinPair, isLoading } = useFavorites();
@@ -69,21 +74,44 @@ const FavoritesPanel = () => {
                       </React.Fragment>
                     ) : (
                       <React.Fragment>
-                        <p className="preset-3 text-foreground">
-                          {item.rate !== undefined
-                            ? formatAmount(item.rate)
-                            : "—"}
-                        </p>
+                        {item.rate !== undefined ? (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <p className="preset-3 text-foreground">
+                                {formatAmount(item.rate)}
+                              </p>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              1 {item.fromCurrency} ={" "}
+                              {formatPreciseAmount(item.rate)} {item.toCurrency}
+                            </TooltipContent>
+                          </Tooltip>
+                        ) : (
+                          <p className="preset-3 text-foreground">—</p>
+                        )}
 
                         {item.changePercent !== undefined && (
-                          <TrendIndicator
-                            isPositive={isPositive}
-                            value={`${Math.abs(item.changePercent).toFixed(2)}%`}
-                            className={cn(
-                              "preset-6",
-                              isPositive ? "text-green" : "text-red",
-                            )}
-                          />
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              {/* TrendIndicator isn't forwardRef — wrap it
+                                  in a native span so Radix's asChild ref
+                                  lands on a real DOM node (same fix as
+                                  buttonVariants() over <Button asChild>). */}
+                              <span>
+                                <TrendIndicator
+                                  isPositive={isPositive}
+                                  value={`${Math.abs(item.changePercent).toFixed(2)}%`}
+                                  className={cn(
+                                    "preset-6",
+                                    isPositive ? "text-green" : "text-red",
+                                  )}
+                                />
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              {`${isPositive ? "+" : "-"}${Math.abs(item.changePercent).toFixed(4)}% over the last week`}
+                            </TooltipContent>
+                          </Tooltip>
                         )}
                       </React.Fragment>
                     )}
@@ -93,7 +121,7 @@ const FavoritesPanel = () => {
                     isFavorite={true}
                     isSyncing={false}
                     onToggle={() => unpinPair(item.id)}
-                    label="Favorite Button With Icon"
+                    label={`Unpin: ${item.fromCurrency} to ${item.toCurrency}`}
                   />
                 </li>
               );

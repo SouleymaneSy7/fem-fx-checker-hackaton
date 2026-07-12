@@ -9,6 +9,7 @@ import VisuallyHidden from "@/components/common/visually-hidden";
 import { CurrencyFlag } from "@/components/shared/currency-flag";
 import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
 import TrendIndicator from "@/components/shared/trend-indicator";
+import TruncateTooltip from "@/components/shared/truncate-tooltip";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -17,7 +18,7 @@ import { useCompare } from "@/hooks/use-compare";
 import { useCompareChart } from "@/hooks/use-compare-chart";
 import { useCurrencies } from "@/hooks/use-currencies";
 import type { CompareChartMoverType } from "@/types/data.types";
-import { formatAmount } from "@/utils/format-amount";
+import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 import { formatChartDate, formatShortDate } from "@/utils/format-date";
 import RangeSelector from "../markets/range-selector";
 import CompareChart from "./compare-chart";
@@ -156,9 +157,9 @@ const ComparePanel = () => {
                           {row.currency}
                         </p>
 
-                        <p className="truncate preset-5 text-neutral-200">
+                        <TruncateTooltip className="preset-5 text-neutral-200">
                           {namesByCode.get(row.currency) ?? row.currency}
-                        </p>
+                        </TruncateTooltip>
                       </div>
 
                       <div className="text-right flex flex-col gap-step-075">
@@ -175,11 +176,16 @@ const ComparePanel = () => {
                                 : "—"}
                             </p>
 
-                            <p className="truncate preset-6 uppercase text-neutral-200">
-                              {row.rate !== undefined
-                                ? `@ ${row.rate.toFixed(2)}`
-                                : ""}
-                            </p>
+                            {row.rate !== undefined ? (
+                              <TruncateTooltip
+                                className="preset-6 uppercase text-neutral-200"
+                                content={`@ ${formatPreciseAmount(row.rate)}`}
+                              >
+                                @ {row.rate.toFixed(2)}
+                              </TruncateTooltip>
+                            ) : (
+                              <p className="preset-6 uppercase text-neutral-200" />
+                            )}
                           </React.Fragment>
                         )}
                       </div>

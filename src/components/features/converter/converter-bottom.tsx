@@ -5,8 +5,13 @@ import AlertToggle from "@/components/shared/alert-toggle";
 import FavoriteToggle from "@/components/shared/favorite-toggle";
 import LogButton from "@/components/shared/log-button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useConverter } from "@/hooks/use-converter";
-import { formatAmount } from "@/utils/format-amount";
+import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 
 const ConverterBottom = () => {
   const {
@@ -35,9 +40,19 @@ const ConverterBottom = () => {
           Rate unavailable
         </p>
       ) : rate !== undefined ? (
-        <p className="preset-6 uppercase text-foreground" aria-live="polite">
-          {rateDisplay}
-        </p>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <p
+              className="preset-6 uppercase text-foreground"
+              aria-live="polite"
+            >
+              {rateDisplay}
+            </p>
+          </TooltipTrigger>
+          <TooltipContent>
+            1 {fromCurrency} = {formatPreciseAmount(rate)} {toCurrency}
+          </TooltipContent>
+        </Tooltip>
       ) : isLoading ? (
         <Skeleton className="h-3.5 w-24" />
       ) : (

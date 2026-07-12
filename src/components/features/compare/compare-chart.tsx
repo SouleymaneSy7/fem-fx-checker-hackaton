@@ -4,16 +4,20 @@ import * as React from "react";
 import {
   Line,
   LineChart,
+  Tooltip as RechartsTooltip,
   ReferenceLine,
   ResponsiveContainer,
-  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
-
 import VisuallyHidden from "@/components/common/visually-hidden";
 import TrendIndicator from "@/components/shared/trend-indicator";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { CURRENCY_CHART_COLORS } from "@/constants";
 import { getRawRateKey } from "@/hooks/use-compare-chart";
 import { cn } from "@/lib/utils";
@@ -142,7 +146,7 @@ const CompareChart = ({
             tickMargin={10}
           />
 
-          <Tooltip
+          <RechartsTooltip
             content={<CustomTooltip dateFormatter={dateFormatter} />}
             cursor={{ stroke: "var(--neutral-400)", strokeDasharray: "4 4" }}
           />
@@ -179,38 +183,46 @@ const CompareChart = ({
             const lastValue = lastPoint?.[code];
 
             return (
-              <Button
-                variant={"ghost"}
-                key={code}
-                type="button"
-                aria-pressed={!isHidden}
-                onClick={() => toggleCurrency(code)}
-                className={cn(
-                  "flex items-center gap-step-075 rounded-6 px-step-100 py-step-050 preset-5 uppercase transition-opacity focus-ring",
-                  isHidden ? "opacity-40" : "opacity-100",
-                )}
-              >
-                <span
-                  aria-hidden="true"
-                  className="size-2 rounded-full"
-                  style={{
-                    backgroundColor:
-                      CURRENCY_CHART_COLORS[code] ?? "var(--primary)",
-                  }}
-                />
-                <span className="text-foreground">{code}</span>
-
-                {typeof lastValue === "number" && (
-                  <TrendIndicator
-                    isPositive={lastValue >= 0}
-                    value={`${Math.abs(lastValue).toFixed(1)}%`}
+              <Tooltip key={code}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={"ghost"}
+                    type="button"
+                    aria-pressed={!isHidden}
+                    onClick={() => toggleCurrency(code)}
                     className={cn(
-                      "preset-6",
-                      lastValue >= 0 ? "text-green" : "text-red",
+                      "flex items-center gap-step-075 rounded-6 px-step-100 py-step-050 preset-5 uppercase transition-opacity focus-ring",
+                      isHidden ? "opacity-40" : "opacity-100",
                     )}
-                  />
-                )}
-              </Button>
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="size-2 rounded-full"
+                      style={{
+                        backgroundColor:
+                          CURRENCY_CHART_COLORS[code] ?? "var(--primary)",
+                      }}
+                    />
+                    <span className="text-foreground">{code}</span>
+
+                    {typeof lastValue === "number" && (
+                      <TrendIndicator
+                        isPositive={lastValue >= 0}
+                        value={`${Math.abs(lastValue).toFixed(1)}%`}
+                        className={cn(
+                          "preset-6",
+                          lastValue >= 0 ? "text-green" : "text-red",
+                        )}
+                      />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {isHidden
+                    ? `Show ${code} on chart`
+                    : `Hide ${code} from chart`}
+                </TooltipContent>
+              </Tooltip>
             );
           })}
         </div>
