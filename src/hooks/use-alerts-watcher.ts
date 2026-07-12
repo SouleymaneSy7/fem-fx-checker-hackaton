@@ -7,6 +7,7 @@ import { FIVE_MINUTES } from "@/constants";
 import { fetchLatestRates } from "@/services/rates.service";
 import { useAlertsStore } from "@/store/alerts-store";
 import type { RateAlertType } from "@/types/data.types";
+import { useAlertMutations } from "./use-alert-mutations";
 
 function isThresholdCrossed(alert: RateAlertType, rate: number): boolean {
   return alert.condition === "above"
@@ -16,7 +17,7 @@ function isThresholdCrossed(alert: RateAlertType, rate: number): boolean {
 
 export function useAlertsWatcher() {
   const alerts = useAlertsStore((state) => state.alerts);
-  const triggerAlert = useAlertsStore((state) => state.triggerAlert);
+  const { triggerAlert } = useAlertMutations();
 
   const watchedAlerts = React.useMemo(
     () => alerts.filter((alert) => alert.enabled && !alert.triggeredAt),

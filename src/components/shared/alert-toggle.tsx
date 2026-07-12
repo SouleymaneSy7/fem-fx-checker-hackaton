@@ -16,10 +16,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useAlertMutations } from "@/hooks/use-alert-mutations";
 import { cn } from "@/lib/utils";
-import { useAlertsStore } from "@/store/alerts-store";
 import type { RateAlertConditionType } from "@/types/data.types";
 import type { AlertTogglePropsType } from "@/types/ui.types";
+import { Spinner } from "../ui/spinner";
 
 const AlertToggle = ({
   fromCurrency,
@@ -37,7 +38,7 @@ const AlertToggle = ({
   const generatedId = React.useId();
   const inputId = `threshold-input-${generatedId}`;
 
-  const addAlert = useAlertsStore((state) => state.addAlert);
+  const { addAlert, isSubmitting } = useAlertMutations();
 
   // Prefill with the live rate whenever the popover opens, so the user
   // edits a realistic starting point rather than a blank field.
@@ -47,13 +48,13 @@ const AlertToggle = ({
     }
   }, [open, currentRate]);
 
-  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const threshold = Number.parseFloat(thresholdInput.replace(",", "."));
     if (Number.isNaN(threshold) || threshold <= 0) return;
 
-    addAlert({ fromCurrency, toCurrency, condition, threshold });
+    await addAlert(fromCurrency, toCurrency, condition, threshold);
 
     toast.success(
       `You'll be notified when ${fromCurrency}/${toCurrency} goes ${condition === "above" ? "above" : "below"} ${threshold.toFixed(2)}.`,
@@ -75,6 +76,7 @@ const AlertToggle = ({
             Alert
           </PopoverTrigger>
         </TooltipTrigger>
+
         <TooltipContent>
           Set a rate alert for {fromCurrency}/{toCurrency}
         </TooltipContent>
@@ -150,8 +152,17 @@ const AlertToggle = ({
             />
           </div>
 
-          <Button type="submit" variant={"primary"} className="w-full">
-            Create alert
+          <Button
+            type="submit"
+            variant={"primary"}
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
+            className="w-full"
+          >
+            {isSubmitting && (
+              <Spinner aria-hidden="true" className="text-primary-foreground" />
+            )}
+            {isSubmitting ? "Creating..." : "Create alert"}
           </Button>
         </form>
       </PopoverContent>

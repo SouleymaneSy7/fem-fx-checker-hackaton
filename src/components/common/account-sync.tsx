@@ -3,8 +3,10 @@
 import * as React from "react";
 
 import { useSession } from "@/lib/auth-client";
+import { fetchAlerts } from "@/services/alerts.service";
 import { createFavorite, fetchFavorites } from "@/services/favorites.service";
 import { fetchLogEntries } from "@/services/logs.service";
+import { useAlertsStore } from "@/store/alerts-store";
 import { useFavoritesStore } from "@/store/favorites-store";
 import { useLogStore } from "@/store/log-store";
 
@@ -23,11 +25,17 @@ import { useLogStore } from "@/store/log-store";
  *    no natural de-dup key, so re-running this on every reload would
  *    otherwise create duplicate rows. New entries sync from this point
  *    forward (see use-log-mutations.ts).
+ * 4. Replaces local rate alerts with the server's list, same non-upload
+ *    reasoning as the log — two alerts on the same pair with different
+ *    thresholds are legitimate, so there's no safe unique key to dedupe
+ *    an upload against. New alerts sync from this point forward (see
+ *    use-alert-mutations.ts).
  */
 const AccountSync = () => {
   const { data: session } = useSession();
   const replaceFavorites = useFavoritesStore((state) => state.replaceFavorites);
   const replaceEntries = useLogStore((state) => state.replaceEntries);
+  const replaceAlerts = useAlertsStore((state) => state.replaceAlerts);
 
   React.useEffect(() => {
     if (!session) return;
@@ -43,9 +51,10 @@ const AccountSync = () => {
         ),
       );
 
-      const [serverFavorites, serverEntries] = await Promise.all([
+      const [serverFavorites, serverEntries, serverAlerts] = await Promise.all([
         fetchFavorites(),
         fetchLogEntries(),
+        fetchAlerts(),
       ]);
 
       if (cancelled) return;
@@ -58,12 +67,13 @@ const AccountSync = () => {
         })),
       );
       replaceEntries(serverEntries);
+      replaceAlerts(serverAlerts);
     })();
 
     return () => {
       cancelled = true;
     };
-  }, [session, replaceFavorites, replaceEntries]);
+  }, [session, replaceFavorites, replaceEntries, replaceAlerts]);
 
   return null;
 };

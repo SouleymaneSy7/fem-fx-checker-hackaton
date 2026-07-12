@@ -23,17 +23,18 @@ export const useAlertsStore = create<AlertsStoreType>()(
           return { alerts: [newAlert, ...state.alerts] };
         }),
 
+      addSyncedAlert: (alert) =>
+        set((state) => ({ alerts: [alert, ...state.alerts] })),
+
       removeAlert: (id) =>
         set((state) => ({
           alerts: state.alerts.filter((alert) => alert.id !== id),
         })),
 
-      triggerAlert: (id) =>
+      triggerAlert: (id, triggeredAt) =>
         set((state) => ({
           alerts: state.alerts.map((alert) =>
-            alert.id === id
-              ? { ...alert, enabled: false, triggeredAt: Date.now() }
-              : alert,
+            alert.id === id ? { ...alert, enabled: false, triggeredAt } : alert,
           ),
         })),
 
@@ -45,6 +46,10 @@ export const useAlertsStore = create<AlertsStoreType>()(
               : alert,
           ),
         })),
+
+      // Wholesale swap-in of the server's canonical list — used once on
+      // sign-in by AccountSync, mirrors favorites/log's own replace action.
+      replaceAlerts: (alerts) => set({ alerts }),
     }),
     {
       name: STORAGE_KEY_ALERTS,

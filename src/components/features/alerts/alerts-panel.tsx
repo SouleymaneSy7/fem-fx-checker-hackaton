@@ -1,5 +1,6 @@
 import * as React from "react";
 import { toast } from "sonner";
+
 import Container from "@/components/common/container";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
@@ -8,17 +9,14 @@ import ConfirmDialog from "@/components/shared/confirm-dialog";
 import DeleteButton from "@/components/shared/delete-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+import { useAlertMutations } from "@/hooks/use-alert-mutations";
 import { useAlerts } from "@/hooks/use-alerts";
 import { cn } from "@/lib/utils";
-
-type PendingAlertActionType = {
-  id: string;
-  fromCurrency: string;
-  toCurrency: string;
-};
+import type { PendingAlertActionType } from "@/types/data.types";
 
 const AlertsPanel = () => {
-  const { alerts, removeAlert, resetAlert } = useAlerts();
+  const { alerts } = useAlerts();
+  const { removeAlert, resetAlert } = useAlertMutations();
 
   const [pendingAction, setPendingAction] =
     React.useState<PendingAlertActionType | null>(null);
