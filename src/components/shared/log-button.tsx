@@ -1,3 +1,8 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { LogButtonPropsType } from "@/types/ui.types";
 import { CheckIcon } from "../icons";
@@ -14,24 +19,29 @@ const LogButton = ({
   ...delegatedProps
 }: LogButtonPropsType) => {
   return (
-    <Button
-      type="button"
-      variant={isLogged ? "primary" : "outline"}
-      aria-pressed={isLogged}
-      aria-busy={isSyncing}
-      aria-label={label}
-      onClick={onToggle}
-      className={cn(isLogged && "capitalize", className)}
-      disabled={disabled || isSyncing}
-      {...delegatedProps}
-    >
-      {isSyncing ? (
-        <Spinner aria-hidden="true" className="text-foreground" />
-      ) : isLogged ? (
-        <CheckIcon className="text-primary-foreground" />
-      ) : null}
-      {isSyncing ? "Logging..." : isLogged ? "Logged" : "Log Conversion"}
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          type="button"
+          variant={isLogged ? "primary" : "outline"}
+          aria-pressed={isLogged}
+          aria-busy={isSyncing}
+          aria-label={label}
+          onClick={onToggle}
+          className={cn(isLogged && "capitalize", className)}
+          disabled={disabled || isSyncing}
+          {...delegatedProps}
+        >
+          {isSyncing ? (
+            <Spinner aria-hidden="true" className="text-foreground" />
+          ) : isLogged ? (
+            <CheckIcon className="text-primary-foreground" />
+          ) : null}
+          {isSyncing ? "Logging..." : isLogged ? "Logged" : "Log Conversion"}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
   );
 };
 

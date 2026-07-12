@@ -2,6 +2,11 @@ import Link from "next/link";
 
 import Logo from "@/components/shared/logo";
 import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { NavbarPropsType } from "@/types/ui.types";
 import Container from "../common/container";
 import AuthPopover from "../features/auth/auth-popover";
@@ -18,10 +23,21 @@ const Navbar = ({ availableCurrencies, isLoading }: NavbarPropsType) => {
       <div className="flex items-center gap-step-200">
         <p className="hidden text-neutral-200 md:flex md:items-center md:gap-step-100">
           {isLoading ? <Spinner /> : <span>{availableCurrencies}</span>}{" "}
-          Currencies <span> · EOD · ECB data</span>
+          Currencies{" "}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span>· EOD · ECB data</span>
+            </TooltipTrigger>
+
+            <TooltipContent>
+              End-of-day rates from the European Central Bank
+            </TooltipContent>
+          </Tooltip>
         </p>
+
         <Separator orientation="vertical" className="hidden md:inline-block" />
         <AuthPopover />
+
         <Separator orientation="vertical" />
         <ThemeToggle />
       </div>

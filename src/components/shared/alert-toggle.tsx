@@ -11,6 +11,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useAlertsStore } from "@/store/alerts-store";
 import type { RateAlertConditionType } from "@/types/data.types";
@@ -58,15 +63,22 @@ const AlertToggle = ({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger
-        type="button"
-        aria-label={label}
-        disabled={disabled}
-        className={cn(buttonVariants({ variant: "default" }), className)}
-      >
-        <BellIcon className="text-foreground" />
-        Alert
-      </PopoverTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger
+            type="button"
+            aria-label={label}
+            disabled={disabled}
+            className={cn(buttonVariants({ variant: "default" }), className)}
+          >
+            <BellIcon className="text-foreground" />
+            Alert
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          Set a rate alert for {fromCurrency}/{toCurrency}
+        </TooltipContent>
+      </Tooltip>
 
       <PopoverContent className="w-80 md:w-94 space-y-step-250 p-step-200">
         <form onSubmit={handleSubmit} className="space-y-step-250">

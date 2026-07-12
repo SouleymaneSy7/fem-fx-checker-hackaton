@@ -3,7 +3,13 @@
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useThemeStore } from "@/store/theme-store";
+import VisuallyHidden from "../common/visually-hidden";
 import { AdjustHalfIcon } from "../icons";
 
 const ThemeToggle = () => {
@@ -30,18 +36,38 @@ const ThemeToggle = () => {
   const activeTheme = mounted ? theme : "dark";
 
   return (
-    <Button
-      type="button"
-      size="icon"
-      variant="secondary"
-      className="text-foreground"
-      aria-label={
-        activeTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"
-      }
-      onClick={toggleTheme}
-    >
-      <AdjustHalfIcon />
-    </Button>
+    <div>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            size="icon"
+            variant="secondary"
+            className="text-foreground"
+            aria-label={
+              activeTheme === "dark"
+                ? "Switch to light mode"
+                : "Switch to dark mode"
+            }
+            onClick={toggleTheme}
+          >
+            <AdjustHalfIcon />
+          </Button>
+        </TooltipTrigger>
+
+        <TooltipContent>
+          {activeTheme === "dark"
+            ? "Switch to light mode."
+            : "Switch to dark mode."}
+        </TooltipContent>
+
+        <VisuallyHidden>
+          {activeTheme === "dark"
+            ? "Switch to light mode"
+            : "Switch to dark mode"}
+        </VisuallyHidden>
+      </Tooltip>
+    </div>
   );
 };
 

@@ -11,6 +11,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { SHORTCUT_EVENTS } from "@/constants";
 import { useIsMac } from "@/hooks/use-is-mac";
 import { cn } from "@/lib/utils";
@@ -55,19 +60,24 @@ const ShortcutsHelp = () => {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger
-        type="button"
-        aria-label="Keyboard shortcuts"
-        className={cn(
-          buttonVariants({ variant: "secondary", size: "icon-md" }),
-          "fixed bottom-step-250 right-step-250 z-40 rounded-full shadow-none",
-        )}
-      >
-        <QuestionIcon
-          size={20}
-          className="text-foreground [&_svg:not([class*='size-'])]:size-5"
-        />
-      </PopoverTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger
+            type="button"
+            aria-label="Keyboard shortcuts"
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "icon-md" }),
+              "fixed bottom-step-250 right-step-250 z-40 rounded-full shadow-none",
+            )}
+          >
+            <QuestionIcon
+              size={20}
+              className="text-foreground [&_svg:not([class*='size-'])]:size-5"
+            />
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Keyboard shortcuts (press ?)</TooltipContent>
+      </Tooltip>
 
       <PopoverContent
         side="top"
