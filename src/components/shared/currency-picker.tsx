@@ -5,7 +5,12 @@ import * as React from "react";
 import List from "@/components/common/list";
 import Title from "@/components/common/title";
 import VisuallyHidden from "@/components/common/visually-hidden";
-import { CheckIcon, ChevronDownIcon, SearchIcon } from "@/components/icons";
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  SearchIcon,
+} from "@/components/icons";
 import SearchInput from "@/components/shared/search-input";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -16,7 +21,11 @@ import {
 import { POPULAR_CURRENCIES, SHORTCUT_EVENTS } from "@/constants";
 import { useIsMac } from "@/hooks/use-is-mac";
 import { cn } from "@/lib/utils";
-import type { FocusCurrencySearchDetail } from "@/types/data.types";
+import type {
+  FocusCurrencySearchDetail,
+  RecentPairType,
+  SelectRecentPairDetail,
+} from "@/types/data.types";
 import type {
   CurrencyOptionType,
   CurrencyPickerPropsType,
@@ -32,6 +41,7 @@ const CurrencyPicker = ({
   onValueChange,
   currencies,
   popularCodes = POPULAR_CURRENCIES,
+  recentPairs = [],
   label,
   className,
   isLoading,
@@ -65,6 +75,27 @@ const CurrencyPicker = ({
     onValueChange(code);
     setOpen(false);
     setQuery("");
+  };
+
+  // Applies a full from→to pair in one click — dispatched as a window
+  // event (like swapCurrencies) rather than a prop callback, since both
+  // the Send and Receive pickers need to trigger the same cross-field
+  // update without either one holding a reference to the other's setter.
+  const handleSelectRecentPair = (pair: RecentPairType) => {
+    setOpen(false);
+    setQuery("");
+
+    window.dispatchEvent(
+      new CustomEvent<SelectRecentPairDetail>(
+        SHORTCUT_EVENTS.selectRecentPair,
+        {
+          detail: {
+            fromCurrency: pair.fromCurrency,
+            toCurrency: pair.toCurrency,
+          },
+        },
+      ),
+    );
   };
 
   // "Ctrl+K" / "Cmd+K" shortcut → open this picker if it's the target one.
@@ -174,6 +205,43 @@ const CurrencyPicker = ({
             placeholder="Search currencies..."
             aria-label="Search currencies"
           />
+
+          {recentPairs.length > 0 && !query && (
+            <div className="space-y-step-050 pb-step-050">
+              <div className="p-step-100 flex items-center justify-between gap-step-150 w-full border-b border-border">
+                <Title
+                  level="h4"
+                  className="preset-5 uppercase text-neutral-200"
+                >
+                  Recent
+                </Title>
+
+                <Badge variant={"muted"}>{recentPairs.length}</Badge>
+              </div>
+
+              <List
+                as="div"
+                items={recentPairs}
+                keyExtractor={(pair) => pair.id}
+                className="flex flex-wrap gap-step-075 px-step-100 py-step-075"
+                renderItem={(pair) => (
+                  <button
+                    type="button"
+                    onClick={() => handleSelectRecentPair(pair)}
+                    aria-label={`Switch to ${pair.fromCurrency} to ${pair.toCurrency}`}
+                    className={cn(
+                      "flex items-center gap-step-075 rounded-full border border-neutral-500 bg-neutral-600 px-step-125 py-step-075 preset-5 uppercase text-foreground transition-colors cursor-pointer",
+                      "hover:border-neutral-400 hover:bg-neutral-500 focus-ring",
+                    )}
+                  >
+                    <span>{pair.fromCurrency}</span>
+                    <ArrowRightIcon size={10} className="text-neutral-200" />
+                    <span>{pair.toCurrency}</span>
+                  </button>
+                )}
+              />
+            </div>
+          )}
 
           <div role="listbox" aria-label={label} className="w-full">
             <VisuallyHidden aria-live="polite">
