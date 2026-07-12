@@ -119,7 +119,7 @@ const FavoritesPanel = () => {
 
                   <FavoriteToggleIcon
                     isFavorite={true}
-                    isSyncing={false}
+                    isSyncing={item.isFavoriteSyncing}
                     onToggle={() => unpinPair(item.id)}
                     label={`Unpin: ${item.fromCurrency} to ${item.toCurrency}`}
                   />

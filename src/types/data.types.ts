@@ -29,6 +29,7 @@ export type FavoritesStoreType = {
 export type FavoriteRowType = FavoritePairType & {
   rate: number | undefined;
   changePercent: number | undefined;
+  isFavoriteSyncing: boolean;
 };
 
 /* ── Log ─────────────────────────────────────────────────── */

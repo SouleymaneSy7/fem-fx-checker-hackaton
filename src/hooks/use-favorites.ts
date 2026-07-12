@@ -12,7 +12,7 @@ import { getDateRangeFromPeriod } from "@/utils/date-range";
 
 export function useFavorites() {
   const favorites = useFavoritesStore((state) => state.favorites);
-  const { unpinPair } = useFavoriteMutations();
+  const { unpinPair, isPending } = useFavoriteMutations();
 
   // Group pinned pairs by base currency so pairs sharing a base ride a
   // single batched request instead of one call per pair.
@@ -77,9 +77,14 @@ export function useFavorites() {
           ? ((rate - previousRate) / previousRate) * 100
           : undefined;
 
-      return { ...pair, rate, changePercent };
+      return {
+        ...pair,
+        rate,
+        changePercent,
+        isFavoriteSyncing: isPending(pair.id),
+      };
     });
-  }, [data, favorites]);
+  }, [data, favorites, isPending]);
 
   return { rows, unpinPair, isLoading, error };
 }
