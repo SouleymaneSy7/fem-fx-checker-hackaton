@@ -5,10 +5,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { logEntry } from "@/db/schema";
 import { auth } from "@/lib/auth";
-
-type RouteContextType = {
-  params: Promise<{ id: string }>;
-};
+import type { RouteContextType } from "@/types/data.types";
 
 export async function DELETE(_request: Request, context: RouteContextType) {
   const session = await auth.api.getSession({ headers: await headers() });

@@ -1,3 +1,15 @@
+CREATE TABLE "rate_alert" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+	"user_id" text NOT NULL,
+	"from_currency" text NOT NULL,
+	"to_currency" text NOT NULL,
+	"condition" text NOT NULL,
+	"threshold" double precision NOT NULL,
+	"enabled" boolean DEFAULT true NOT NULL,
+	"triggered_at" timestamp,
+	"created_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "favorite" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	"user_id" text NOT NULL,
@@ -67,6 +79,7 @@ CREATE UNIQUE INDEX "favorite_user_pair_unique" ON "favorite" ("user_id","from_c
 CREATE INDEX "account_userId_idx" ON "account" ("user_id");--> statement-breakpoint
 CREATE INDEX "session_userId_idx" ON "session" ("user_id");--> statement-breakpoint
 CREATE INDEX "verification_identifier_idx" ON "verification" ("identifier");--> statement-breakpoint
+ALTER TABLE "rate_alert" ADD CONSTRAINT "rate_alert_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "favorite" ADD CONSTRAINT "favorite_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "log_entry" ADD CONSTRAINT "log_entry_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
