@@ -11,6 +11,7 @@ import Header from "@/components/layout/header";
 import { SWRProvider } from "@/components/providers/swr-provider";
 import ShortcutsHelp from "@/components/shared/shortcuts-help";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { THEME_INIT_SCRIPT } from "@/utils/theme-script";
 
 // ─── Font ─────────────────────────────────────────────────────────────────────
@@ -61,14 +62,17 @@ export default function RootLayout({
             hydration to avoid a flash of the wrong theme. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <SWRProvider>
-          <KeyboardShortcuts />
-          <AccountSync />
-          <RecentPairsTracker />
-          <AlertsWatcher />
-          <Toaster />
-          <Header />
-          {children}
-          <ShortcutsHelp />
+          <TooltipProvider>
+            {" "}
+            <KeyboardShortcuts />
+            <AccountSync />
+            <RecentPairsTracker />
+            <AlertsWatcher />
+            <Toaster />
+            <Header />
+            {children}
+            <ShortcutsHelp />
+          </TooltipProvider>
         </SWRProvider>
       </body>
     </html>

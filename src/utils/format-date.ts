@@ -16,6 +16,12 @@ export const formatRelativeTime = (isoDate: string) => {
   return format(loggedDate, "d MMM");
 };
 
+// Full date/time for tooltips — pairs with `formatRelativeTime`, which
+// only shows the compact form ("20m", "1h", "13 May") in the log itself.
+export const formatFullDateTime = (isoDate: string) => {
+  return format(new Date(isoDate), "d MMM yyyy 'at' HH:mm");
+};
+
 export const formatDateForRange = (isoDate: string, range: RateRangeType) => {
   const date = new Date(isoDate);
 

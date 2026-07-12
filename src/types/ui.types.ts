@@ -76,6 +76,15 @@ export type LoadingStatusPropsType = {
   className?: string;
 };
 
+/* ── TruncateTooltip ─────────────────────────────────────────────────── */
+
+export type TruncateTooltipPropsType = {
+  children: React.ReactNode;
+  content?: React.ReactNode;
+  className?: string;
+  side?: "top" | "right" | "bottom" | "left";
+};
+
 /* ── Icon ─────────────────────────────────────────────────── */
 
 export type IconSource =
@@ -145,6 +154,7 @@ export interface TextInputPropsType
 export type HistoryStatPropsType = {
   label: string;
   value: React.ReactNode;
+  tooltipContent?: string;
   tone?: "positive" | "negative" | "neutral";
 };
 
@@ -175,6 +185,11 @@ export type FavoritePropsType = {
   disabled?: boolean;
   isSyncing?: boolean;
 } & ButtonProps;
+
+export type DeleteButtonPropsType = {
+  label?: string;
+  className?: string;
+} & React.ComponentProps<"button">;
 
 /* ── Log ─────────────────────────────────────────────────── */
 
