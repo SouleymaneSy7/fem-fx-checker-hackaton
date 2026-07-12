@@ -22,6 +22,14 @@ export const formatFullDateTime = (isoDate: string) => {
   return format(new Date(isoDate), "d MMM yyyy 'at' HH:mm");
 };
 
+// Full date with year — needed anywhere a date could be more than a year
+// old (Time Machine spans 1999 to today), where `formatShortDate`'s
+// "MMM dd" would be ambiguous about which year is meant.
+export const formatFullDate = (isoDate: string) => {
+  const date = new Date(isoDate);
+  return format(date, "MMM d, yyyy");
+};
+
 export const formatDateForRange = (isoDate: string, range: RateRangeType) => {
   const date = new Date(isoDate);
 

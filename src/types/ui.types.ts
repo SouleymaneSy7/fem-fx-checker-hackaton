@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import type * as React from "react";
 import type {
   CompareChartPointType,
+  ConverterSectionValueType,
   RatePointType,
   RateRangeType,
   RecentPairType,
@@ -104,6 +105,15 @@ export interface NavbarPropsType {
   availableCurrencies: number | undefined;
   isLoading: boolean;
 }
+
+/* ── TabNav ─────────────────────────────────────────────────── */
+
+export type TabNavPropsType = {
+  value: ConverterSectionValueType;
+  onValueChange: (value: ConverterSectionValueType) => void;
+  favoritesCount?: number;
+  logCount?: number;
+};
 
 /* ── Main Component ─────────────────────────────────────────────────── */
 
@@ -316,4 +326,16 @@ export type StaggerItemPropsType = {
   children: React.ReactNode;
   index: number;
   shouldReduceMotion: boolean | null;
+};
+
+/* ── DatePicker ─────────────────────────────────────────────────── */
+
+export type DatePickerPropsType = {
+  value: string | undefined;
+  onValueChange: (date: string) => void;
+  minDate: string;
+  maxDate: string;
+  label: string;
+  placeholder?: string;
+  className?: string;
 };
