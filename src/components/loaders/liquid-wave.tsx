@@ -64,6 +64,8 @@ export function TextMorph({
   );
 }
 
+TextMorph.displayName = "TextMorph";
+
 interface LiquidWaveSpinnerProps extends HTMLMotionProps<"div"> {
   size?: "sm" | "md" | "lg";
 }
@@ -186,9 +188,10 @@ const LiquidWaveSpinner = memo(
         <div className="flex items-center gap-1 text-muted-foreground select-none">
           <TextMorph
             words={[
-              "Loading assets ...",
-              "Preparing animation ...",
-              "Loading up preview ...",
+              "Fetching live rates ...",
+              "Loading currencies ...",
+              "Syncing the markets ...",
+              "Almost there ...",
             ]}
             interval={2000}
             className={cn("font-medium", config.fontSize)}

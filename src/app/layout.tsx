@@ -8,6 +8,7 @@ import KeyboardShortcuts from "@/components/common/keyboard-shortcuts";
 import RecentPairsTracker from "@/components/common/recent-pairs-tracker";
 import AlertsWatcher from "@/components/features/alerts/alerts-watcher";
 import Header from "@/components/layout/header";
+import AppLoader from "@/components/loaders/app-loader";
 import { SWRProvider } from "@/components/providers/swr-provider";
 import ShortcutsHelp from "@/components/shared/shortcuts-help";
 import { Toaster } from "@/components/ui/sonner";
@@ -64,15 +65,16 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <SWRProvider>
           <TooltipProvider>
-            {" "}
             <KeyboardShortcuts />
             <AccountSync />
             <RecentPairsTracker />
             <AlertsWatcher />
             <Toaster />
-            <Header />
-            {children}
-            <ShortcutsHelp />
+            <AppLoader>
+              <Header />
+              {children}
+              <ShortcutsHelp />
+            </AppLoader>
           </TooltipProvider>
         </SWRProvider>
       </body>

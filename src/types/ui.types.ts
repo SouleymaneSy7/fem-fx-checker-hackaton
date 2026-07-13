@@ -121,6 +121,12 @@ export type MainPropsType = {
   children: React.ReactNode;
 };
 
+/* ── AppLoader ─────────────────────────────────────────────────────── */
+
+export type AppLoaderPropsType = {
+  children: React.ReactNode;
+};
+
 /* ── Marquee ─────────────────────────────────────────────────── */
 
 export type MarqueePropsType = {
