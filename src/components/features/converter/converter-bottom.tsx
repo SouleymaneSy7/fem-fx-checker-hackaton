@@ -4,6 +4,7 @@ import Container from "@/components/common/container";
 import AlertToggle from "@/components/shared/alert-toggle";
 import FavoriteToggle from "@/components/shared/favorite-toggle";
 import LogButton from "@/components/shared/log-button";
+import ShareButton from "@/components/shared/share-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
@@ -15,6 +16,7 @@ import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 
 const ConverterBottom = () => {
   const {
+    amount,
     fromCurrency,
     toCurrency,
     rate,
@@ -92,6 +94,12 @@ const ConverterBottom = () => {
               ? `Remove logged conversion: ${fromCurrency} to ${toCurrency}`
               : `Log conversion: ${fromCurrency} to ${toCurrency}`
           }
+        />
+
+        <ShareButton
+          fromCurrency={fromCurrency}
+          toCurrency={toCurrency}
+          amount={amount}
         />
       </div>
     </Container>

@@ -313,6 +313,16 @@ export type AlertTogglePropsType = {
   className?: string;
 };
 
+/* ── Share ─────────────────────────────────────────────────── */
+
+export type ShareButtonPropsType = {
+  fromCurrency: string;
+  toCurrency: string;
+  amount: number;
+  disabled?: boolean;
+  className?: string;
+};
+
 /* ── ConfirmDialog ─────────────────────────────────────────────────── */
 
 export type ConfirmDialogPropsType = {

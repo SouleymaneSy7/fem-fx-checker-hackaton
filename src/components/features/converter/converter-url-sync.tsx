@@ -2,11 +2,26 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
-import { URL_SYNC_DEBOUNCE_MS } from "@/constants";
+import {
+  DEFAULT_FROM_CURRENCY,
+  DEFAULT_TO_CURRENCY,
+  URL_SYNC_DEBOUNCE_MS,
+} from "@/constants";
 import { useIsomorphicLayoutEffect } from "@/hooks/use-isomorphic-layout-effect";
 import { useConverterStore } from "@/store/converter-store";
 import { buildConverterSearchParams } from "@/utils/converter-search-params";
 import { converterSearchParamsSchema } from "@/validators";
+
+// Picks a `to` that never collides with `from`. If the candidate already
+// matches, falls back to whichever default currency isn't `from` — same
+// resolution regardless of which side (from-only, to-only, or both) is
+// what produced the collision.
+function resolveNonCollidingTo(from: string, candidateTo: string): string {
+  if (candidateTo !== from) return candidateTo;
+  return from === DEFAULT_TO_CURRENCY
+    ? DEFAULT_FROM_CURRENCY
+    : DEFAULT_TO_CURRENCY;
+}
 
 function ConverterUrlSyncInner() {
   const router = useRouter();
@@ -35,13 +50,21 @@ function ConverterUrlSyncInner() {
       amount: searchParams.get("amount"),
     });
 
-    if (searchParams.has("from")) setFromCurrency(parsed.from);
+    const hasFrom = searchParams.has("from");
+    const hasTo = searchParams.has("to");
 
-    // Never let a same/same pair through, even if that's what the link
-    // (accidentally or deliberately) encodes.
-    if (searchParams.has("to") && parsed.to !== parsed.from) {
-      setToCurrency(parsed.to);
-    }
+    const resolvedFrom = hasFrom ? parsed.from : fromCurrency;
+
+    // Falls back to the current `to` when the URL doesn't specify one,
+    // then nudges away to the other default whenever it would collide
+    // with `resolvedFrom` — covers a to-only link, a from-only link, and
+    // a link where both sides accidentally (or deliberately) encode the
+    // same pair.
+    const pendingTo = hasTo ? parsed.to : toCurrency;
+    const resolvedTo = resolveNonCollidingTo(resolvedFrom, pendingTo);
+
+    if (hasFrom) setFromCurrency(resolvedFrom);
+    if (resolvedTo !== toCurrency) setToCurrency(resolvedTo);
 
     if (searchParams.has("amount")) setAmount(parsed.amount);
   }, []);

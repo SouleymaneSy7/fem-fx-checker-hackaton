@@ -11,6 +11,7 @@ import {
   ChevronRight,
   Loader2Icon,
   Search,
+  Share2,
   Star,
 } from "lucide-react";
 
@@ -204,6 +205,20 @@ export const ChevronRightIcon = ({
 }: IconComponentProps) => (
   <Icon
     icon={ChevronRight}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const ShareIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Share2}
     size={size}
     label={label}
     className={className}
