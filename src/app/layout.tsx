@@ -7,6 +7,7 @@ import AccountSync from "@/components/common/account-sync";
 import KeyboardShortcuts from "@/components/common/keyboard-shortcuts";
 import RecentPairsTracker from "@/components/common/recent-pairs-tracker";
 import AlertsWatcher from "@/components/features/alerts/alerts-watcher";
+import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import AppLoader from "@/components/loaders/app-loader";
 import { SWRProvider } from "@/components/providers/swr-provider";
@@ -73,6 +74,7 @@ export default function RootLayout({
             <AppLoader>
               <Header />
               {children}
+              <Footer />
               <ShortcutsHelp />
             </AppLoader>
           </TooltipProvider>
