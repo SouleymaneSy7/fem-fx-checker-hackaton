@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { rateAlert } from "@/db/schema";
 import { auth } from "@/lib/auth";
+import { writeRatelimit } from "@/lib/rate-limit";
 import type { RouteContextType } from "@/types/data.types";
 import { updateAlertSchema } from "@/validators";
 
@@ -12,6 +13,11 @@ export async function PATCH(request: Request, context: RouteContextType) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { success } = await writeRatelimit.limit(session.user.id);
+  if (!success) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 
   const { id } = await context.params;
@@ -48,6 +54,11 @@ export async function DELETE(_request: Request, context: RouteContextType) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { success } = await writeRatelimit.limit(session.user.id);
+  if (!success) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 
   const { id } = await context.params;
