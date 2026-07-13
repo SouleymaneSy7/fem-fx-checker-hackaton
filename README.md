@@ -8,7 +8,7 @@
 
 **Live demo:** [https://fem-fx-checker-hackaton.vercel.app/](https://fem-fx-checker-hackaton.vercel.app/)
 
-**Solution page:** _coming at submission_
+**Solution page:** [https://www.frontendmentor.io/solutions/fx-checker-full-stack-foreign-exchange-currency-converter](https://www.frontendmentor.io/solutions/fx-checker-full-stack-foreign-exchange-currency-converter-j_Nsyg0Emv)
 
 **WakaTime (coding time):** [![wakatime](https://wakatime.com/badge/user/018cb534-87bb-4814-975b-ca5e3cb8572b/project/3744af2b-53c9-404d-b9c4-ac6165f9e277.svg)](https://wakatime.com/badge/user/018cb534-87bb-4814-975b-ca5e3cb8572b/project/3744af2b-53c9-404d-b9c4-ac6165f9e277)
 
@@ -59,7 +59,7 @@ _Last updated: July 2026 — All phases complete_
 ![Converter — light theme](./public/screenshots/converter-light.png)
 ![Compare — multi-currency](./public/screenshots/compare.png)
 ![Favorites](./public/screenshots/favorites.png)
-![Mobile — responsive](./public/screenshots/mobile.png) -->
+![Mobile — responsive](./public/screenshots/mobile.png)
 
 ---
 
@@ -167,7 +167,7 @@ Dark theme uses lime on near-black. Light theme uses violet on near-white. Both 
 ```css
 :root {
   /* ── Neutrals (dark theme) ─────────────────────────────── */
-  --neutral-900: oklch(0.1448 0 0);        /* page background */
+  --neutral-900: oklch(0.1448 0 0); /* page background */
   --neutral-700: oklch(0.2055 0.0039 286.05);
   --neutral-600: oklch(0.2443 0.0038 286.12);
   --neutral-500: oklch(0.3012 0 0);
@@ -175,20 +175,22 @@ Dark theme uses lime on near-black. Light theme uses violet on near-white. Both 
   --neutral-300: oklch(0.3911 0.0033 286.24);
   --neutral-200: oklch(0.696 0 0);
   --neutral-100: oklch(0.8266 0 0);
-  --neutral-50:  oklch(1 0 0);             /* primary text */
+  --neutral-50: oklch(1 0 0); /* primary text */
 
   /* ── Primary (dark theme) ──────────────────────────────── */
-  --primary:       oklch(0.9157 0.2054 121.64);  /* lime — text, icons, rings */
-  --primary-accent: oklch(0.3 0.0726 121.83);    /* dark lime — backgrounds, hover */
+  --primary: oklch(0.9157 0.2054 121.64); /* lime — text, icons, rings */
+  --primary-accent: oklch(
+    0.3 0.0726 121.83
+  ); /* dark lime — backgrounds, hover */
 
   /* ── Semantic ──────────────────────────────────────────── */
-  --green: oklch(0.8217 0.267 140.6);    /* positive change */
-  --red:   oklch(0.6607 0.2258 25.95);    /* negative change */
+  --green: oklch(0.8217 0.267 140.6); /* positive change */
+  --red: oklch(0.6607 0.2258 25.95); /* negative change */
 }
 
 .light {
   /* ── Neutrals (light theme — inverted scale) ──────────── */
-  --neutral-900: oklch(0.96 0.0054 297.72);  /* page background */
+  --neutral-900: oklch(0.96 0.0054 297.72); /* page background */
   --neutral-700: oklch(0.9851 0 0);
   --neutral-600: oklch(0.9702 0 0);
   --neutral-500: oklch(0.9219 0 0);
@@ -196,15 +198,15 @@ Dark theme uses lime on near-black. Light theme uses violet on near-white. Both 
   --neutral-300: oklch(0.7155 0 0);
   --neutral-200: oklch(0.5555 0 0);
   --neutral-100: oklch(0.2686 0 0);
-  --neutral-50:  oklch(0.1448 0 0);        /* now dark — primary text */
+  --neutral-50: oklch(0.1448 0 0); /* now dark — primary text */
 
   /* ── Primary (light theme) ────────────────────────────── */
-  --primary:        oklch(0.5718 0.2285 284.18);  /* violet */
-  --primary-accent: oklch(0.8943 0.0549 293.28);  /* light violet */
+  --primary: oklch(0.5718 0.2285 284.18); /* violet */
+  --primary-accent: oklch(0.8943 0.0549 293.28); /* light violet */
 
   /* ── Semantic ──────────────────────────────────────────── */
   --green: oklch(0.5273 0.1371 150.07);
-  --red:   oklch(0.5054 0.1905 27.52);
+  --red: oklch(0.5054 0.1905 27.52);
 }
 ```
 
