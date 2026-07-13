@@ -22,6 +22,7 @@ import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 import { formatChartDate, formatShortDate } from "@/utils/format-date";
 import RangeSelector from "../markets/range-selector";
 import CompareChart from "./compare-chart";
+import CompareChartSkeleton from "./compare-chart-skeleton";
 
 type CompareViewModeType = "table" | "chart";
 
@@ -209,76 +210,76 @@ const ComparePanel = () => {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              {hasChartData && (
-                <p className="preset-5 text-neutral-200">
-                  Exchange rate change vs{" "}
-                  <span className="preset-5-med text-foreground">
-                    {baseCurrency}
-                  </span>
-                  , since{" "}
-                  <span className="preset-5-med text-foreground">
-                    {formatShortDate(points[0].date)}
-                  </span>
-                </p>
-              )}
-
-              <div className="flex flex-wrap items-center justify-between gap-step-200">
-                <div className="flex flex-wrap items-center gap-step-200">
-                  {movers.topGainer && (
-                    <p className="flex items-center gap-step-075 preset-5 uppercase text-neutral-200">
-                      Top gainer
-                      <span className="preset-5-med text-foreground">
-                        {movers.topGainer.currency}
-                      </span>
-                      <TrendIndicator
-                        isPositive={movers.topGainer.changePercent >= 0}
-                        value={`${Math.abs(movers.topGainer.changePercent).toFixed(1)}%`}
-                        className={
-                          movers.topGainer.changePercent >= 0
-                            ? "text-green"
-                            : "text-red"
-                        }
-                      />
-                    </p>
-                  )}
-
-                  {showTopLoser && movers.topLoser && (
-                    <p className="flex items-center gap-step-075 preset-5 uppercase text-neutral-200">
-                      Top loser
-                      <span className="preset-5-med text-foreground">
-                        {movers.topLoser.currency}
-                      </span>
-                      <TrendIndicator
-                        isPositive={movers.topLoser.changePercent >= 0}
-                        value={`${Math.abs(movers.topLoser.changePercent).toFixed(1)}%`}
-                        className={
-                          movers.topLoser.changePercent >= 0
-                            ? "text-green"
-                            : "text-red"
-                        }
-                      />
-                    </p>
-                  )}
-                </div>
-
-                <RangeSelector value={range} onValueChange={setRange} />
-              </div>
-
               {/* biome-ignore lint/a11y/useSemanticElements: live region for chart loading state — <output> is semantically wrong for loading announcements */}
               <VisuallyHidden role="status">
                 {isChartLoading ? "Loading comparison chart" : ""}
               </VisuallyHidden>
 
               {isChartLoading ? (
-                <Skeleton className="h-75 w-full rounded-xl" />
+                <CompareChartSkeleton />
               ) : hasChartData ? (
-                <CompareChart
-                  data={points}
-                  currencies={chartCurrencies}
-                  dateFormatter={(isoDate) => formatChartDate(isoDate, range)}
-                />
+                <React.Fragment>
+                  <p className="preset-5 text-neutral-200">
+                    Exchange rate change vs{" "}
+                    <span className="preset-5-med text-foreground">
+                      {baseCurrency}
+                    </span>
+                    , since{" "}
+                    <span className="preset-5-med text-foreground">
+                      {formatShortDate(points[0].date)}
+                    </span>
+                  </p>
+
+                  <div className="flex flex-wrap items-center justify-between gap-step-200">
+                    <div className="flex flex-wrap items-center gap-step-200">
+                      {movers.topGainer && (
+                        <p className="flex items-center gap-step-075 preset-5 uppercase text-neutral-200">
+                          Top gainer
+                          <span className="preset-5-med text-foreground">
+                            {movers.topGainer.currency}
+                          </span>
+                          <TrendIndicator
+                            isPositive={movers.topGainer.changePercent >= 0}
+                            value={`${Math.abs(movers.topGainer.changePercent).toFixed(1)}%`}
+                            className={
+                              movers.topGainer.changePercent >= 0
+                                ? "text-green"
+                                : "text-red"
+                            }
+                          />
+                        </p>
+                      )}
+
+                      {showTopLoser && movers.topLoser && (
+                        <p className="flex items-center gap-step-075 preset-5 uppercase text-neutral-200">
+                          Top loser
+                          <span className="preset-5-med text-foreground">
+                            {movers.topLoser.currency}
+                          </span>
+                          <TrendIndicator
+                            isPositive={movers.topLoser.changePercent >= 0}
+                            value={`${Math.abs(movers.topLoser.changePercent).toFixed(1)}%`}
+                            className={
+                              movers.topLoser.changePercent >= 0
+                                ? "text-green"
+                                : "text-red"
+                            }
+                          />
+                        </p>
+                      )}
+                    </div>
+
+                    <RangeSelector value={range} onValueChange={setRange} />
+                  </div>
+
+                  <CompareChart
+                    data={points}
+                    currencies={chartCurrencies}
+                    dateFormatter={(isoDate) => formatChartDate(isoDate, range)}
+                  />
+                </React.Fragment>
               ) : (
-                <p className="preset-5 text-neutral-200 text-center py-step-500">
+                <p className="preset-5 text-neutral-200 text-center py-step-800">
                   No chart data available for this range.
                 </p>
               )}
