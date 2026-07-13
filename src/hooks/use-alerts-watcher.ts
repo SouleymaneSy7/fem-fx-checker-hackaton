@@ -3,7 +3,7 @@
 import * as React from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
-import { FIVE_MINUTES } from "@/constants";
+import { SWR_STALE_5M } from "@/constants";
 import { fetchLatestRates } from "@/services/rates.service";
 import { useAlertsStore } from "@/store/alerts-store";
 import type { RateAlertType } from "@/types/data.types";
@@ -55,7 +55,7 @@ export function useAlertsWatcher() {
           rows: await fetchLatestRates(base, quotes),
         })),
       ),
-    { refreshInterval: FIVE_MINUTES, dedupingInterval: FIVE_MINUTES },
+    { refreshInterval: SWR_STALE_5M, dedupingInterval: SWR_STALE_5M },
   );
 
   React.useEffect(() => {

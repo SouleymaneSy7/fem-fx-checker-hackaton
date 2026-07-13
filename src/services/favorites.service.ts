@@ -6,7 +6,7 @@ import type { FavoriteRowType } from "@/types/data.types";
 // Same-origin calls to our own Route Handlers — no baseURL override
 // needed (unlike httpClient, which targets the external Frankfurter API).
 export async function fetchFavorites(): Promise<FavoriteRowType[]> {
-  const { data } = await axios.get<FavoriteRowType[]>("/api/favorites");
+  const { data } = await axios.get<FavoriteRowType[]>(ENDPOINT_FAVORITES);
   return data;
 }
 

@@ -41,21 +41,21 @@ const ShortcutsHelp = () => {
 
   const shortcuts = [
     {
-      id: crypto.randomUUID(),
+      id: "shortcuts-search",
       label: "Search Send currency",
       keys: { first: modKey, second: "K" },
     },
     {
-      id: crypto.randomUUID(),
+      id: "shortcuts-swap",
       label: "Swap currencies",
       keys: { first: modKey, second: "S" },
     },
     {
-      id: crypto.randomUUID(),
+      id: "shortcuts-range",
       label: "History range",
       keys: { first: altKey, second: "1...6" },
     },
-    { id: crypto.randomUUID(), label: "Toggle this panel", keys: ["?"] },
+    { id: "shortcuts-toggle", label: "Toggle this panel", keys: ["?"] },
   ];
 
   return (
