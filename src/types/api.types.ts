@@ -1,4 +1,4 @@
-import type z from "zod";
+import type * as z from "zod";
 
 import type { favorite, logEntry, rateAlert } from "@/db/schema";
 import type {

@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 // `useLayoutEffect` warns when it runs on the server (no DOM to measure

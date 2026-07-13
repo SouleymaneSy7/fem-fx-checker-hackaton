@@ -1,4 +1,5 @@
-import { z } from "zod";
+import * as z from "zod";
+
 import {
   DEFAULT_AMOUNT,
   DEFAULT_FROM_CURRENCY,

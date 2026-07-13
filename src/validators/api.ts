@@ -1,4 +1,4 @@
-import z from "zod";
+import * as z from "zod";
 
 export const currencySchema = z.object({
   iso_code: z.string(),
