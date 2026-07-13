@@ -25,7 +25,6 @@ function ConverterUrlSyncInner() {
   // Hydrate the store from a shared link exactly once, before the first
   // paint — a plain `useEffect` here would flash the default USD/EUR/1000
   // state for a frame before the URL's values took over.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: must run once, against the URL the page loaded with — re-running on searchParams would undo whatever the user has changed since.
   useIsomorphicLayoutEffect(() => {
     if (hasHydrated.current) return;
     hasHydrated.current = true;

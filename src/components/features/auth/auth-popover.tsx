@@ -55,10 +55,10 @@ const AuthPopover = () => {
             </Avatar>
 
             <div className="flex flex-col gap-step-050">
- <TruncateTooltip className="preset-4 uppercase text-foreground">
+              <TruncateTooltip className="preset-4 uppercase text-foreground">
                 {session.user.name}
               </TruncateTooltip>
-              
+
               <TruncateTooltip className="preset-5 text-neutral-200">
                 {session.user.email}
               </TruncateTooltip>

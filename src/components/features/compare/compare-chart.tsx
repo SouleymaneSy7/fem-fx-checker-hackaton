@@ -173,6 +173,7 @@ const CompareChart = ({
           Select a currency to show or hide its line
         </p>
 
+        {/* biome-ignore lint/a11y/useSemanticElements: toggle button group — <fieldset> would add unwanted borders and is semantically for form controls */}
         <div
           role="group"
           aria-label="Toggle currencies shown on chart"
@@ -228,6 +229,7 @@ const CompareChart = ({
         </div>
       </div>
 
+      {/* biome-ignore lint/a11y/useSemanticElements: live region for screen reader announcements — <output> is semantically wrong for loading summaries */}
       <VisuallyHidden role="status">
         {summaryText && `Current change by currency: ${summaryText}`}
       </VisuallyHidden>

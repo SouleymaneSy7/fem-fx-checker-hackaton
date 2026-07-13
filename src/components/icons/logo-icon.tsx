@@ -2,6 +2,7 @@ import type * as React from "react";
 
 export function LogoSvg(props: React.SVGProps<SVGSVGElement>) {
   return (
+    // biome-ignore lint/a11y/noSvgWithoutTitle: decorative icon — accessibility handled by parent Icon component via aria-hidden or aria-label
     <svg
       viewBox="0 0 26 26"
       fill="none"

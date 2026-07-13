@@ -65,6 +65,7 @@ const HistoricalRatesPanel = () => {
         placeholder="Pick a date"
       />
 
+      {/* biome-ignore lint/a11y/useSemanticElements: live region for loading/result announcements — <output> is semantically wrong */}
       <VisuallyHidden role="status">
         {isLoading
           ? `Loading rate for ${formatFullDate(date ?? maxDate)}`

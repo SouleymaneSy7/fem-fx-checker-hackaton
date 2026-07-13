@@ -45,6 +45,7 @@ export function TextMorph({
       >
         {chars.map((char, i) => (
           <motion.span
+            // biome-ignore lint/suspicious/noArrayIndexKey: chars array is static and never reordered — index key is stable
             key={i}
             className="inline-block"
             initial={{ opacity: 0, y: 5, filter: "blur(5px)" }}

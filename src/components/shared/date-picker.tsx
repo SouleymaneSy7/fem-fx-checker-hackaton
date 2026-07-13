@@ -148,6 +148,7 @@ const DatePicker = ({
           </Tooltip>
         </div>
 
+        {/* biome-ignore lint/a11y/useSemanticElements: calendar grid uses CSS Grid layout, not a table — role="grid" is the correct WAI-ARIA pattern for date pickers */}
         <div
           role="grid"
           aria-label={format(visibleMonth, "MMMM yyyy")}

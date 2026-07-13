@@ -18,6 +18,7 @@ function ListRenderFn<Item, As extends React.ElementType = "ul">(
   const Component = as ?? "ul";
 
   return (
+    // biome-ignore lint/a11y/useSemanticElements: polymorphic component — default is <ul>, but consumers can pass <div>, <ol>, etc.
     <Component ref={ref} role="list" {...delegatedProps}>
       {items.map((item, index) => {
         const key = keyExtractor?.(item, index) ?? index;

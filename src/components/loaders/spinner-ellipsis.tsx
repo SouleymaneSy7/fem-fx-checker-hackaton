@@ -24,6 +24,7 @@ export default function SpinnerEllipsis({
       <div className="flex items-center gap-1.5">
         {[0, 0.2, 0.4].map((delay, i) => (
           <span
+            // biome-ignore lint/suspicious/noArrayIndexKey: static delay array [0, 0.2, 0.4] — index key is stable
             key={i}
             className={cn(
               "size-2 rounded-full bg-primary spinner-ellipsis-dot",

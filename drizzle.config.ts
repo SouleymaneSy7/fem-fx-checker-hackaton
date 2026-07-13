@@ -8,6 +8,7 @@ export default defineConfig({
   out: "./src/db/migrations",
   dialect: "postgresql",
   dbCredentials: {
+    // biome-ignore lint/style/noNonNullAssertion: drizzle-kit requires a string — env is guaranteed present via .env.local loaded above
     url: process.env.DATABASE_URL!,
   },
 });

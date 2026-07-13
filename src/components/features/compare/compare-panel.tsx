@@ -132,6 +132,7 @@ const ComparePanel = () => {
 
           {viewMode === "table" ? (
             <React.Fragment>
+              {/* biome-ignore lint/a11y/useSemanticElements: live region for loading state — <output> is semantically wrong for loading announcements */}
               <VisuallyHidden role="status">
                 {isLoading ? "Loading comparison rates" : ""}
               </VisuallyHidden>
@@ -263,6 +264,7 @@ const ComparePanel = () => {
                 <RangeSelector value={range} onValueChange={setRange} />
               </div>
 
+              {/* biome-ignore lint/a11y/useSemanticElements: live region for chart loading state — <output> is semantically wrong for loading announcements */}
               <VisuallyHidden role="status">
                 {isChartLoading ? "Loading comparison chart" : ""}
               </VisuallyHidden>

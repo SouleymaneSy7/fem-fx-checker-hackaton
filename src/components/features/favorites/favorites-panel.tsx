@@ -40,6 +40,7 @@ const FavoritesPanel = () => {
             </p>
           </div>
 
+          {/* biome-ignore lint/a11y/useSemanticElements: live region for loading state — <output> is semantically wrong for loading announcements */}
           <VisuallyHidden role="status">
             {isLoading ? "Loading live rates for pinned pairs" : ""}
           </VisuallyHidden>

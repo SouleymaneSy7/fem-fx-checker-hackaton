@@ -18,8 +18,10 @@ const LoadingStatus = ({
   className,
 }: LoadingStatusPropsType) => {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: <div role="status"> is the standard React pattern for accessible live regions — <output> is semantically wrong for loading state
     <div role="status" className={className}>
       <VisuallyHidden>{label}</VisuallyHidden>
+
       <div aria-hidden="true" className="contents">
         {children}
       </div>
