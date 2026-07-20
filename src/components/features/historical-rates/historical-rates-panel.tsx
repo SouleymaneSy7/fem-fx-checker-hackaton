@@ -1,8 +1,8 @@
 "use client";
 
 import { format } from "date-fns";
+import { ArrowRightIcon } from "lucide-react";
 import * as React from "react";
-
 import Container from "@/components/common/container";
 import Title from "@/components/common/title";
 import VisuallyHidden from "@/components/common/visually-hidden";
@@ -50,9 +50,15 @@ const HistoricalRatesPanel = () => {
             Historical Rates
           </Title>
 
-          <span className="preset-3-med uppercase text-neutral-50">
-            {formatAmount(amount)} {fromCurrency} → {toCurrency}
-          </span>
+          <div className="flex items-center gap-step-100">
+            <span className="preset-3-med uppercase text-neutral-50">
+              {formatAmount(amount)} {fromCurrency}
+            </span>
+            <ArrowRightIcon className="text-neutral-200" size={12} />
+            <span className="preset-3-med uppercase text-neutral-50">
+              {toCurrency}
+            </span>
+          </div>
         </div>
       </div>
 
