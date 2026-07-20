@@ -44,6 +44,12 @@ const ConverterTop = () => {
   // field, a trailing decimal separator) that a raw number can't represent.
   const [amountInput, setAmountInput] = React.useState(String(amount));
 
+  // Drives which "view" of the amount is shown: the raw editable buffer
+  // while the user is actively typing, or the comma/decimal-formatted
+  // value (same formatAmount used by Receive) once the field loses focus.
+  // Formatting live, keystroke by keystroke, would fight the caret.
+  const [isAmountFocused, setIsAmountFocused] = React.useState(false);
+
   const currencyOptions = React.useMemo<CurrencyOptionType[]>(
     () =>
       currencies?.map((currency) => ({
@@ -113,17 +119,32 @@ const ConverterTop = () => {
     setAmount(Number.isNaN(parsed) ? 0 : parsed);
   };
 
+  const handleAmountFocus = () => {
+    setIsAmountFocused(true);
+  };
+
+  const handleAmountBlur = () => {
+    setIsAmountFocused(false);
+  };
+
+  // Matches Receive's formatting exactly (thousands separator, up to 2
+  // decimals) once the field isn't being edited. The store still keeps
+  // the full-precision amount either way — only this display rounds.
+  const sendAmountValue = isAmountFocused ? amountInput : formatAmount(amount);
+
   return (
     <Container className="w-full bg-card rounded-t-20 p-step-200 flex flex-col items-center justify-center gap-step-200 md:p-step-250 md:flex-row md:gap-step-300">
       <div className="w-full bg-neutral-600 border border-neutral-500 flex flex-col gap-step-200 p-step-200 rounded-16 md:p-step-250 md:gap-step-250">
-        <Title level="h3" className="preset-4 uppercase text-neutral-100">
+        <Title level="h2" className="preset-4 uppercase text-neutral-100">
           Send
         </Title>
 
         <div className="flex items-center justify-between gap-step-100">
           <NumericInput
-            value={amountInput}
+            value={sendAmountValue}
             onChange={handleAmountChange}
+            onFocus={handleAmountFocus}
+            onBlur={handleAmountBlur}
             aria-label="Amount to send"
           />
 
@@ -149,7 +170,7 @@ const ConverterTop = () => {
             aria-label="Swap send and receive currencies"
             aria-keyshortcuts="Control+S Meta+S"
           >
-            <ArrowLeftRightIcon />
+            <ArrowLeftRightIcon className="rotate-90 md:rotate-0" />
           </Button>
         </TooltipTrigger>
 
@@ -159,7 +180,7 @@ const ConverterTop = () => {
       </Tooltip>
 
       <div className="w-full bg-neutral-600 border border-neutral-500 flex flex-col gap-step-200 p-step-200 rounded-16 md:p-step-250 md:gap-step-250">
-        <Title level="h3" className="preset-4 uppercase text-neutral-100">
+        <Title level="h2" className="preset-4 uppercase text-neutral-100">
           Receive
         </Title>
 
