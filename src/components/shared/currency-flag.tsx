@@ -13,9 +13,12 @@ export function CurrencyFlag({
   const flagUrl = getCurrencyFlagUrl(currencyCode);
 
   if (isLoading) {
-    // No flag asset for some currency — render a neutral
-    // placeholder instead of a broken image.
-    return <Skeleton className="w-6 h-6 bg-neutral-400 rounded-full" />;
+    return (
+      <Skeleton
+        className="bg-neutral-400 rounded-full"
+        style={{ width: size, height: size }}
+      />
+    );
   }
 
   if (!flagUrl) {

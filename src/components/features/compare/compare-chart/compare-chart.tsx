@@ -18,7 +18,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { CURRENCY_CHART_COLORS } from "@/constants";
+import { CHART_SERIES_COLORS } from "@/constants";
 import { getRawRateKey } from "@/hooks/use-compare-chart";
 import { cn } from "@/lib/utils";
 import type {
@@ -28,7 +28,7 @@ import type {
 import { formatAmount } from "@/utils/format-amount";
 
 const formatPercent = (value: number) =>
-  `${value > 0 ? "+" : ""}${value.toFixed(1)}%`;
+  `${value > 0 ? "+" : ""}${value.toFixed(2)}%`;
 
 const CustomTooltip = ({
   active,
@@ -151,14 +151,14 @@ const CompareChart = ({
             cursor={{ stroke: "var(--neutral-400)", strokeDasharray: "4 4" }}
           />
 
-          {currencies.map((code) => (
+          {currencies.map((code, index) => (
             <Line
               key={code}
               type="linear"
               dataKey={code}
               name={code}
               hide={hiddenCurrencies.has(code)}
-              stroke={CURRENCY_CHART_COLORS[code] ?? "var(--primary)"}
+              stroke={CHART_SERIES_COLORS[index] ?? "var(--primary)"}
               strokeWidth={2}
               dot={false}
               activeDot={{ r: 4, strokeWidth: 2, stroke: "var(--neutral-900)" }}
@@ -168,7 +168,7 @@ const CompareChart = ({
         </LineChart>
       </ResponsiveContainer>
 
-      <div className="flex flex-col gap-step-050 mt-step-200">
+      <div className="flex flex-col gap-step-200 mt-step-200 md:mt-step-250">
         <p className="preset-6 uppercase text-neutral-200">
           Select a currency to show or hide its line
         </p>
@@ -177,9 +177,9 @@ const CompareChart = ({
         <div
           role="group"
           aria-label="Toggle currencies shown on chart"
-          className="flex flex-wrap items-center gap-step-150"
+          className="flex flex-wrap items-center gap-step-100"
         >
-          {currencies.map((code) => {
+          {currencies.map((code, index) => {
             const isHidden = hiddenCurrencies.has(code);
             const lastValue = lastPoint?.[code];
 
@@ -192,24 +192,25 @@ const CompareChart = ({
                     aria-pressed={!isHidden}
                     onClick={() => toggleCurrency(code)}
                     className={cn(
-                      "flex items-center gap-step-075 rounded-6 px-step-100 py-step-050 preset-5 uppercase transition-opacity focus-ring",
-                      isHidden ? "opacity-40" : "opacity-100",
+                      "flex items-center gap-step-050 rounded-6 p-step-075 preset-5 uppercase transition-opacity border border-neutral-500 bg-neutral-600 focus-ring",
+                      isHidden ? "opacity-50" : "opacity-100",
                     )}
                   >
                     <span
                       aria-hidden="true"
-                      className="size-2 rounded-full"
+                      className="size-step-100 rounded-full"
                       style={{
                         backgroundColor:
-                          CURRENCY_CHART_COLORS[code] ?? "var(--primary)",
+                          CHART_SERIES_COLORS[index] ?? "var(--primary)",
                       }}
                     />
+
                     <span className="text-foreground">{code}</span>
 
                     {typeof lastValue === "number" && (
                       <TrendIndicator
                         isPositive={lastValue >= 0}
-                        value={`${Math.abs(lastValue).toFixed(1)}%`}
+                        value={`${Math.abs(lastValue).toFixed(2)}%`}
                         className={cn(
                           "preset-6",
                           lastValue >= 0 ? "text-green" : "text-red",

@@ -153,14 +153,12 @@ export type TickerPropsType = {
 
 /* ── Input ─────────────────────────────────────────────────── */
 
-export interface SearchInputPropsType
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface SearchInputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: IconSource;
   keys?: { firstKey: string; secondKey: string };
 }
 
-export interface TextInputPropsType
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
 }
@@ -284,6 +282,32 @@ export type CurrencyPickerPropsType = {
   isLoading: boolean;
   className?: string;
   focusShortcutTarget?: "send" | "receive";
+};
+
+/* ── CompareCurrencyPicker ─────────────────────────────────────────────────── */
+
+export type CompareCurrencyPickerPropsType = {
+  currencies: CurrencyOptionType[];
+  onSelect: (code: string) => void;
+  isLoading?: boolean;
+  disabled?: boolean;
+  disabledLabel?: string;
+  className?: string;
+};
+
+/* ── CompareChartCurrencyChips ─────────────────────────────────────────────────── */
+
+export type CompareChartCurrencyChipsPropsType = {
+  currencies: string[];
+  onRemove: (code: string) => void;
+  isLoading?: boolean;
+};
+
+/* ── CompareChartHint ─────────────────────────────────────────────────────── */
+
+export type CompareChartHintPropsType = {
+  baseCurrency: string;
+  className?: string;
 };
 
 /* ── SWRProvider ─────────────────────────────────────────────────── */

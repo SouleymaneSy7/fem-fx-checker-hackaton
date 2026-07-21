@@ -7,7 +7,13 @@ import { SWR_STALE_5M } from "@/constants";
 import { fetchLatestRates } from "@/services/rates.service";
 
 export function useLatestRates(base: string, quotes?: string[]) {
-  const key = base ? ["latest-rates", base, quotes?.join(",") ?? ""] : null;
+  // `quotes === undefined` still fetches (no filter = every rate for the
+  // base); an explicit empty array means "nothing to compare" and should
+  // skip the request entirely rather than hit the API with a blank filter.
+  const key =
+    base && (quotes === undefined || quotes.length > 0)
+      ? ["latest-rates", base, quotes?.join(",") ?? ""]
+      : null;
 
   const { data, error, isLoading } = useSWR(
     key,

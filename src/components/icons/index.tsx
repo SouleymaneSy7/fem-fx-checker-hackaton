@@ -9,7 +9,9 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Info,
   Loader2Icon,
+  Plus,
   Search,
   Share2,
   Star,
@@ -233,6 +235,34 @@ export const XIcon = ({
   ...props
 }: IconComponentProps) => (
   <Icon icon={X} size={size} label={label} className={className} {...props} />
+);
+export const PlusIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Plus}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const InfoIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Info}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
 );
 
 /* ── local SVGs ─────────────────────────────────────────────────────── */

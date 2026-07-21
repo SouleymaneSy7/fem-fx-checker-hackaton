@@ -1,0 +1,152 @@
+"use client";
+
+import * as React from "react";
+
+import List from "@/components/common/list";
+import VisuallyHidden from "@/components/common/visually-hidden";
+import { PlusIcon, SearchIcon } from "@/components/icons";
+import { CurrencyFlag } from "@/components/shared/currency-flag";
+import SearchInput from "@/components/shared/search-input";
+import TruncateTooltip from "@/components/shared/truncate-tooltip";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import type { CompareCurrencyPickerPropsType } from "@/types/ui.types";
+
+const CompareCurrencyPicker = ({
+  currencies,
+  onSelect,
+  isLoading,
+  disabled,
+  disabledLabel,
+  className,
+}: CompareCurrencyPickerPropsType) => {
+  const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState("");
+
+  const filtered = React.useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    if (!normalizedQuery) return currencies;
+
+    return currencies.filter(
+      (currency) =>
+        currency.code.toLowerCase().includes(normalizedQuery) ||
+        currency.name.toLowerCase().includes(normalizedQuery),
+    );
+  }, [currencies, query]);
+
+  const handleSelect = (code: string) => {
+    onSelect(code);
+    setOpen(false);
+    setQuery("");
+  };
+
+  const triggerLabel = disabled
+    ? (disabledLabel ?? "Add a currency to compare")
+    : "Add a currency to compare";
+
+  return (
+    <Popover
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (disabled) return;
+        setOpen(nextOpen);
+        if (!nextOpen) setQuery("");
+      }}
+    >
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className={cn(disabled && "cursor-not-allowed")}>
+            <PopoverTrigger
+              type="button"
+              aria-label={triggerLabel}
+              disabled={disabled}
+              className={cn(
+                buttonVariants({ variant: "secondary", size: "icon" }),
+                className,
+              )}
+            >
+              <PlusIcon className="text-foreground" />
+            </PopoverTrigger>
+          </span>
+        </TooltipTrigger>
+
+        <TooltipContent>{triggerLabel}</TooltipContent>
+      </Tooltip>
+
+      <PopoverContent>
+        <ScrollArea className="h-90 flex-col gap-step-125 p-step-100">
+          <SearchInput
+            icon={SearchIcon}
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search currencies..."
+            aria-label="Search currencies to add"
+          />
+
+          <div role="listbox" aria-label="Add a currency" className="w-full">
+            <VisuallyHidden aria-live="polite">
+              {isLoading
+                ? "Loading currencies"
+                : `${filtered.length} currencies found`}
+            </VisuallyHidden>
+
+            <List
+              items={filtered}
+              keyExtractor={(currency) => currency.code}
+              renderItem={(currency) => (
+                <li>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={false}
+                    onClick={() => handleSelect(currency.code)}
+                    className={cn(
+                      "w-full cursor-pointer border border-transparent flex items-center gap-step-150 rounded-sm px-step-100 py-step-150 text-left preset-4 transition-colors",
+                      "hover:border-muted-foreground",
+                    )}
+                  >
+                    <CurrencyFlag
+                      currencyCode={currency.code}
+                      isLoading={isLoading}
+                    />
+
+                    <span className="flex-1 md:flex-none preset-4 text-foreground">
+                      {currency.code}
+                    </span>
+
+                    <TruncateTooltip className="hidden md:inline flex-1 preset-5 text-muted-foreground">
+                      {currency.name}
+                    </TruncateTooltip>
+                  </button>
+                </li>
+              )}
+            />
+
+            {filtered.length === 0 && (
+              <p className="px-step-150 py-step-200 text-center preset-5 text-neutral-200">
+                {query
+                  ? `No currency matches "${query}".`
+                  : "You've added every available currency."}
+              </p>
+            )}
+          </div>
+        </ScrollArea>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+CompareCurrencyPicker.displayName = "CompareCurrencyPicker";
+
+export default CompareCurrencyPicker;

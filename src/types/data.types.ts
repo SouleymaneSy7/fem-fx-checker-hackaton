@@ -91,7 +91,19 @@ export type CompareRowType = {
   isFavoriteSyncing: boolean;
 };
 
+export type CompareCurrenciesStoreType = {
+  currencies: string[];
+  addCurrency: (code: string) => void;
+  removeCurrency: (code: string) => void;
+};
+
 /* ── Compare Chart ─────────────────────────────────────────────────── */
+
+export type CompareChartCurrenciesStoreType = {
+  currencies: string[];
+  addCurrency: (code: string) => void;
+  removeCurrency: (code: string) => void;
+};
 
 // Recharts needs one flat object per date, with each currency as its own
 // key — `date` is always present and typed precisely; every other key is
