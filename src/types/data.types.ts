@@ -173,7 +173,16 @@ export type RecentPairType = {
 
 export type RecentPairsStoreType = {
   recentPairs: RecentPairType[];
-  addRecentPair: (fromCurrency: string, toCurrency: string) => void;
+  // Takes an explicit timestamp (rather than reading Date.now() inside
+  // the store) so the mutation hook can send the exact same value to the
+  // server — same reasoning as AlertsStoreType.triggerAlert above.
+  addRecentPair: (
+    fromCurrency: string,
+    toCurrency: string,
+    lastUsedAt: number,
+  ) => void;
+  removeRecentPair: (id: string) => void;
+  replaceRecentPairs: (recentPairs: RecentPairType[]) => void;
 };
 
 export type SelectRecentPairDetail = {

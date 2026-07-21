@@ -10,6 +10,7 @@ import {
   CheckIcon,
   ChevronDownIcon,
   SearchIcon,
+  XIcon,
 } from "@/components/icons";
 import SearchInput from "@/components/shared/search-input";
 import { buttonVariants } from "@/components/ui/button";
@@ -20,6 +21,7 @@ import {
 } from "@/components/ui/popover";
 import { POPULAR_CURRENCIES, SHORTCUT_EVENTS } from "@/constants";
 import { useIsMac } from "@/hooks/use-is-mac";
+import { useRecentPairMutations } from "@/hooks/use-recent-pair-mutations";
 import { cn } from "@/lib/utils";
 import type {
   FocusCurrencySearchDetail,
@@ -50,6 +52,8 @@ const CurrencyPicker = ({
 }: CurrencyPickerPropsType) => {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
+
+  const { removeRecentPair } = useRecentPairMutations();
 
   const selected = currencies.find((currency) => currency.code === value);
 
@@ -226,19 +230,35 @@ const CurrencyPicker = ({
                 keyExtractor={(pair) => pair.id}
                 className="flex flex-wrap gap-step-075 px-step-100 py-step-075"
                 renderItem={(pair) => (
-                  <button
-                    type="button"
-                    onClick={() => handleSelectRecentPair(pair)}
-                    aria-label={`Switch to ${pair.fromCurrency} to ${pair.toCurrency}`}
+                  <div
                     className={cn(
-                      "flex items-center gap-step-075 rounded-full border border-neutral-500 bg-neutral-600 px-step-125 py-step-075 preset-5 uppercase text-foreground transition-colors cursor-pointer",
-                      "hover:border-neutral-400 hover:bg-neutral-500 focus-ring",
+                      "flex items-center gap-step-025 rounded-full border border-neutral-500 bg-neutral-600 py-step-050 pl-step-125 pr-step-050 transition-colors",
+                      "hover:border-neutral-400 hover:bg-neutral-500",
                     )}
                   >
-                    <span>{pair.fromCurrency}</span>
-                    <ArrowRightIcon size={10} className="text-neutral-200" />
-                    <span>{pair.toCurrency}</span>
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectRecentPair(pair)}
+                      aria-label={`Switch to ${pair.fromCurrency} to ${pair.toCurrency}`}
+                      className="flex items-center gap-step-075 preset-5 uppercase text-foreground cursor-pointer focus-ring rounded-full"
+                    >
+                      <span>{pair.fromCurrency}</span>
+                      <ArrowRightIcon
+                        size={10}
+                        className="text-neutral-200"
+                      />
+                      <span>{pair.toCurrency}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => removeRecentPair(pair.id)}
+                      aria-label={`Remove recent pair: ${pair.fromCurrency} to ${pair.toCurrency}`}
+                      className="flex items-center justify-center rounded-full p-step-075 text-neutral-200 transition-colors cursor-pointer hover:bg-neutral-400 hover:text-foreground focus-ring"
+                    >
+                      <XIcon size={10} />
+                    </button>
+                  </div>
                 )}
               />
             </div>

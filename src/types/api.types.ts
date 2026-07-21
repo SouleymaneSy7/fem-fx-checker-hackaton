@@ -1,11 +1,12 @@
 import type * as z from "zod";
 
-import type { favorite, logEntry, rateAlert } from "@/db/schema";
+import type { favorite, logEntry, rateAlert, recentPair } from "@/db/schema";
 import type {
   converterSearchParamsSchema,
   createAlertSchema,
   createFavoriteSchema,
   createLogEntrySchema,
+  createRecentPairSchema,
   currencySchema,
   rateSchema,
   signInSchema,
@@ -47,6 +48,8 @@ export type CreateAlertInputType = z.infer<typeof createAlertSchema>;
 
 export type UpdateAlertInputType = z.infer<typeof updateAlertSchema>;
 
+export type CreateRecentPairInputType = z.infer<typeof createRecentPairSchema>;
+
 export type FavoriteRowType = Omit<
   typeof favorite.$inferSelect,
   "createdAt"
@@ -67,4 +70,12 @@ export type AlertRowType = Omit<
 > & {
   createdAt: string;
   triggeredAt: string | null;
+};
+
+export type RecentPairRowType = Omit<
+  typeof recentPair.$inferSelect,
+  "createdAt" | "lastUsedAt"
+> & {
+  createdAt: string;
+  lastUsedAt: string;
 };

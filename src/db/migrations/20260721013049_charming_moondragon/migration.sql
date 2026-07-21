@@ -29,6 +29,15 @@ CREATE TABLE "log_entry" (
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "recent_pair" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+	"user_id" text NOT NULL,
+	"from_currency" text NOT NULL,
+	"to_currency" text NOT NULL,
+	"last_used_at" timestamp DEFAULT now() NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "account" (
 	"id" text PRIMARY KEY,
 	"account_id" text NOT NULL,
@@ -76,11 +85,13 @@ CREATE TABLE "verification" (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX "favorite_user_pair_unique" ON "favorite" ("user_id","from_currency","to_currency");--> statement-breakpoint
+CREATE UNIQUE INDEX "recent_pair_user_pair_unique" ON "recent_pair" ("user_id","from_currency","to_currency");--> statement-breakpoint
 CREATE INDEX "account_userId_idx" ON "account" ("user_id");--> statement-breakpoint
 CREATE INDEX "session_userId_idx" ON "session" ("user_id");--> statement-breakpoint
 CREATE INDEX "verification_identifier_idx" ON "verification" ("identifier");--> statement-breakpoint
 ALTER TABLE "rate_alert" ADD CONSTRAINT "rate_alert_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "favorite" ADD CONSTRAINT "favorite_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "log_entry" ADD CONSTRAINT "log_entry_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "recent_pair" ADD CONSTRAINT "recent_pair_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;

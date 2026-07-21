@@ -6,9 +6,14 @@ import { useSession } from "@/lib/auth-client";
 import { fetchAlerts } from "@/services/alerts.service";
 import { createFavorite, fetchFavorites } from "@/services/favorites.service";
 import { fetchLogEntries } from "@/services/logs.service";
+import {
+  createRecentPair,
+  fetchRecentPairs,
+} from "@/services/recent-pairs.service";
 import { useAlertsStore } from "@/store/alerts-store";
 import { useFavoritesStore } from "@/store/favorites-store";
 import { useLogStore } from "@/store/log-store";
+import { useRecentPairsStore } from "@/store/recent-pairs-store";
 
 /**
  * Renders nothing — mounted once in layout.tsx (see KeyboardShortcuts for
@@ -30,12 +35,21 @@ import { useLogStore } from "@/store/log-store";
  *    thresholds are legitimate, so there's no safe unique key to dedupe
  *    an upload against. New alerts sync from this point forward (see
  *    use-alert-mutations.ts).
+ * 5. Uploads locally-recorded recent pairs, each with its own real
+ *    `lastUsedAt` — same safe-to-repeat reasoning as favorites, since the
+ *    unique index on (userId, from, to) plus the server's GREATEST()
+ *    upsert means re-uploading never regresses a pair that's already
+ *    more recent on the server. Then replaces the local list with the
+ *    server's canonical, already-sorted-and-capped one.
  */
 const AccountSync = () => {
   const { data: session } = useSession();
   const replaceFavorites = useFavoritesStore((state) => state.replaceFavorites);
   const replaceEntries = useLogStore((state) => state.replaceEntries);
   const replaceAlerts = useAlertsStore((state) => state.replaceAlerts);
+  const replaceRecentPairs = useRecentPairsStore(
+    (state) => state.replaceRecentPairs,
+  );
 
   React.useEffect(() => {
     if (!session) return;
@@ -44,18 +58,28 @@ const AccountSync = () => {
 
     (async () => {
       const localFavorites = useFavoritesStore.getState().favorites;
+      const localRecentPairs = useRecentPairsStore.getState().recentPairs;
 
-      await Promise.all(
-        localFavorites.map((pair) =>
+      await Promise.all([
+        ...localFavorites.map((pair) =>
           createFavorite(pair.fromCurrency, pair.toCurrency).catch(() => null),
         ),
-      );
-
-      const [serverFavorites, serverEntries, serverAlerts] = await Promise.all([
-        fetchFavorites(),
-        fetchLogEntries(),
-        fetchAlerts(),
+        ...localRecentPairs.map((pair) =>
+          createRecentPair(
+            pair.fromCurrency,
+            pair.toCurrency,
+            pair.lastUsedAt,
+          ).catch(() => null),
+        ),
       ]);
+
+      const [serverFavorites, serverEntries, serverAlerts, serverRecentPairs] =
+        await Promise.all([
+          fetchFavorites(),
+          fetchLogEntries(),
+          fetchAlerts(),
+          fetchRecentPairs(),
+        ]);
 
       if (cancelled) return;
 
@@ -68,12 +92,19 @@ const AccountSync = () => {
       );
       replaceEntries(serverEntries);
       replaceAlerts(serverAlerts);
+      replaceRecentPairs(serverRecentPairs);
     })();
 
     return () => {
       cancelled = true;
     };
-  }, [session, replaceFavorites, replaceEntries, replaceAlerts]);
+  }, [
+    session,
+    replaceFavorites,
+    replaceEntries,
+    replaceAlerts,
+    replaceRecentPairs,
+  ]);
 
   return null;
 };

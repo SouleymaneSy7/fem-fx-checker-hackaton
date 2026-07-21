@@ -13,6 +13,7 @@ import {
   Search,
   Share2,
   Star,
+  X,
 } from "lucide-react";
 
 import { Icon } from "@/components/common/icon";
@@ -224,6 +225,14 @@ export const ShareIcon = ({
     className={className}
     {...props}
   />
+);
+export const XIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon icon={X} size={size} label={label} className={className} {...props} />
 );
 
 /* ── local SVGs ─────────────────────────────────────────────────────── */
