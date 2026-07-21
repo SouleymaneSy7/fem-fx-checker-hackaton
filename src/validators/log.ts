@@ -1,10 +1,5 @@
 import * as z from "zod";
-
-const currencyCodeSchema = z
-  .string()
-  .trim()
-  .toUpperCase()
-  .regex(/^[A-Z]{3}$/, "3-letter currency code required");
+import { currencyCodeSchema } from "./currency";
 
 export const createLogEntrySchema = z.object({
   fromCurrency: currencyCodeSchema,
