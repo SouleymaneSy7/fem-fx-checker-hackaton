@@ -1,15 +1,23 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import { toast } from "sonner";
-import TextInput from "@/components/shared/text-input";
+import Logo from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { SHORTCUT_EVENTS } from "@/constants";
 import { signIn } from "@/lib/auth-client";
-import type { SignInFormPropsType } from "@/types/ui.types";
 import { signInSchema } from "@/validators";
+import AuthTextInput from "./auth-text-input";
+import OAuthButtons from "./oauth-buttons";
 
-const SignInForm = ({ onSuccess }: SignInFormPropsType) => {
+type FillTestCredentialsDetail = { email: string; password: string };
+
+const SignInForm = () => {
+  const router = useRouter();
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [fieldErrors, setFieldErrors] = React.useState<Record<string, string>>(
@@ -18,11 +26,37 @@ const SignInForm = ({ onSuccess }: SignInFormPropsType) => {
   const [formError, setFormError] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
+  // Fired by test-credentials-hint.tsx's "Fill in test credentials"
+  // button — fills the fields but doesn't submit, so the person still
+  // sees what's about to happen before clicking Sign In themselves.
+  React.useEffect(() => {
+    const handleFillTestCredentials = (event: Event) => {
+      const detail = (event as CustomEvent<FillTestCredentialsDetail>).detail;
+      if (!detail) return;
+
+      setEmail(detail.email);
+      setPassword(detail.password);
+      setFieldErrors({});
+      setFormError(null);
+    };
+
+    window.addEventListener(
+      SHORTCUT_EVENTS.fillTestCredentials,
+      handleFillTestCredentials,
+    );
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.fillTestCredentials,
+        handleFillTestCredentials,
+      );
+  }, []);
+
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError(null);
 
     const result = signInSchema.safeParse({ email, password });
+
     if (!result.success) {
       const nextErrors: Record<string, string> = {};
       for (const issue of result.error.issues) {
@@ -54,45 +88,79 @@ const SignInForm = ({ onSuccess }: SignInFormPropsType) => {
     }
 
     toast.success("Welcome back! You're signed in.");
-    onSuccess();
+    router.replace("/");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-step-200">
-      <TextInput
-        label="Email"
-        type="email"
-        autoComplete="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        error={fieldErrors.email}
-      />
+    <div className="flex flex-col gap-step-400">
+      <Link href={"/"}>
+        <Logo />
+      </Link>
 
-      <TextInput
-        label="Password"
-        type="password"
-        autoComplete="current-password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-        error={fieldErrors.password}
-      />
+      <div className="flex flex-col gap-step-200">
+        <h1 className="preset-1 text-foreground">Welcome Back</h1>
 
-      {formError && <p className="preset-5 text-destructive">{formError}</p>}
+        <p className="preset-4 text-neutral-200">
+          Please enter your details to login.
+        </p>
+      </div>
 
-      <Button
-        type="submit"
-        variant="primary"
-        disabled={isSubmitting}
-        aria-busy={isSubmitting}
-        className="w-full"
-      >
-        {isSubmitting && (
-          <Spinner aria-hidden="true" className="text-primary-foreground" />
-        )}
-        {isSubmitting ? "Signing in..." : "Sign in"}
-      </Button>
-    </form>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-step-400">
+        <div className="flex flex-col gap-step-200">
+          <AuthTextInput
+            label="Email"
+            type="email"
+            autoComplete="email"
+            placeholder="Enter you email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            error={fieldErrors.email}
+          />
+
+          <AuthTextInput
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Enter you password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            error={fieldErrors.password}
+          />
+
+          {formError && (
+            <p className="preset-5 text-destructive">{formError}</p>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={isSubmitting}
+          aria-busy={isSubmitting}
+          className="w-full normal-case"
+        >
+          {isSubmitting && (
+            <Spinner aria-hidden="true" className="text-primary-foreground" />
+          )}
+          {isSubmitting ? "Signing in..." : "Sign In"}
+        </Button>
+      </form>
+
+      <p className="preset-5 text-neutral-200 text-center">
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/sign-up"
+          className="text-primary underline underline-offset-2"
+        >
+          Sign Up
+        </Link>
+      </p>
+
+      <OAuthButtons />
+    </div>
   );
 };
+
+SignInForm.displayName = "SignInForm";
 
 export default SignInForm;

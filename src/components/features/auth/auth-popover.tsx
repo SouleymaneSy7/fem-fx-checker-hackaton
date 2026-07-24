@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import * as React from "react";
 
-import Title from "@/components/common/title";
 import TruncateTooltip from "@/components/shared/truncate-tooltip";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -15,15 +15,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { signOut, useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { getNameInitials } from "@/utils/get-name-initials";
-import SignInForm from "./sign-in-form";
-import SignUpForm from "./sign-up-form";
-
-type AuthModeType = "sign-in" | "sign-up";
 
 const AuthPopover = () => {
   const [open, setOpen] = React.useState(false);
-  const [mode, setMode] = React.useState<AuthModeType>("sign-in");
-
   const { data: session, isPending } = useSession();
 
   if (session) {
@@ -82,72 +76,21 @@ const AuthPopover = () => {
   }
 
   return (
-    <Popover
-      open={open}
-      onOpenChange={(nextOpen) => {
-        setOpen(nextOpen);
-        if (!nextOpen) setMode("sign-in");
-      }}
+    <Link
+      href="/sign-in"
+      aria-label="Sign in"
+      className={cn(
+        buttonVariants({ variant: "secondary" }),
+        "min-w-18 max-w-40",
+      )}
     >
-      <PopoverTrigger
-        type="button"
-        aria-label="Sign in"
-        className={cn(
-          buttonVariants({ variant: "secondary" }),
-          "min-w-18 max-w-40",
-        )}
-      >
-        {isPending ? (
-          <Spinner aria-hidden="true" className="text-foreground" />
-        ) : (
-          "Sign in"
-        )}
-      </PopoverTrigger>
-
-      <PopoverContent
-        align="end"
-        className="w-full md:w-95 space-y-step-200 p-step-250"
-      >
-        <Title level="h3" className="preset-4 uppercase text-neutral-200">
-          {mode === "sign-in" ? "Sign in" : "Create an account"}
-        </Title>
-
-        {mode === "sign-in" ? (
-          <SignInForm onSuccess={() => setOpen(false)} />
-        ) : (
-          <SignUpForm onSuccess={() => setOpen(false)} />
-        )}
-
-        <p className="preset-5 text-neutral-200 text-center">
-          {mode === "sign-in" ? (
-            <React.Fragment>
-              No account yet?{" "}
-              <button
-                type="button"
-                className="text-primary underline-offset-2 hover:underline"
-                onClick={() => setMode("sign-up")}
-              >
-                Sign up
-              </button>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              Already have one?{" "}
-              <button
-                type="button"
-                className="text-primary underline-offset-2 hover:underline"
-                onClick={() => setMode("sign-in")}
-              >
-                Sign in
-              </button>
-            </React.Fragment>
-          )}
-        </p>
-      </PopoverContent>
-    </Popover>
+      {isPending ? (
+        <Spinner aria-hidden="true" className="text-foreground" />
+      ) : (
+        "Sign in"
+      )}
+    </Link>
   );
 };
-
-AuthPopover.displayName = "AuthPopover";
 
 export default AuthPopover;

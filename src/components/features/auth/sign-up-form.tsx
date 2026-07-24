@@ -1,15 +1,20 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import { toast } from "sonner";
-import TextInput from "@/components/shared/text-input";
+import Logo from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { signUp } from "@/lib/auth-client";
-import type { SignUpFormPropsType } from "@/types/ui.types";
 import { signUpSchema } from "@/validators";
+import AuthTextInput from "./auth-text-input";
+import OAuthButtons from "./oauth-buttons";
 
-const SignUpForm = ({ onSuccess }: SignUpFormPropsType) => {
+const SignUpForm = () => {
+  const router = useRouter();
+
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -57,53 +62,86 @@ const SignUpForm = ({ onSuccess }: SignUpFormPropsType) => {
     }
 
     toast.success("Your account is ready — welcome aboard!");
-    onSuccess();
+    router.replace("/");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-step-200">
-      <TextInput
-        label="Name"
-        type="text"
-        autoComplete="name"
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-        error={fieldErrors.name}
-      />
+    <div className="flex flex-col gap-step-400">
+      <Link href={"/"}>
+        <Logo />
+      </Link>
 
-      <TextInput
-        label="Email"
-        type="email"
-        autoComplete="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        error={fieldErrors.email}
-      />
+      <div className="flex flex-col gap-step-200">
+        <h1 className="preset-1 text-foreground">Create An account</h1>
 
-      <TextInput
-        label="Password"
-        type="password"
-        autoComplete="new-password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-        error={fieldErrors.password}
-      />
+        <p className="preset-4 leading-snug! text-neutral-200">
+          Enter your personal information to create your account.
+        </p>
+      </div>
 
-      {formError && <p className="preset-5 text-destructive">{formError}</p>}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-step-400">
+        <div className="flex flex-col gap-step-200">
+          <AuthTextInput
+            label="Fullname"
+            type="text"
+            autoComplete="name"
+            placeholder="Enter your fullname"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            error={fieldErrors.name}
+          />
 
-      <Button
-        type="submit"
-        variant="primary"
-        disabled={isSubmitting}
-        aria-busy={isSubmitting}
-        className="w-full"
-      >
-        {isSubmitting && (
-          <Spinner aria-hidden="true" className="text-primary-foreground" />
-        )}
-        {isSubmitting ? "Creating account..." : "Create account"}
-      </Button>
-    </form>
+          <AuthTextInput
+            label="Email"
+            type="email"
+            autoComplete="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            error={fieldErrors.email}
+          />
+
+          <AuthTextInput
+            label="Password"
+            type="password"
+            autoComplete="new-password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            error={fieldErrors.password}
+          />
+
+          {formError && (
+            <p className="preset-5 text-destructive">{formError}</p>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={isSubmitting}
+          aria-busy={isSubmitting}
+          className="w-full normal-case"
+        >
+          {isSubmitting && (
+            <Spinner aria-hidden="true" className="text-primary-foreground" />
+          )}
+          {isSubmitting ? "Creating account..." : "Sign Up"}
+        </Button>
+      </form>
+
+      <p className="preset-5 text-neutral-200 text-center">
+        Already have an account?{" "}
+        <Link
+          href="/sign-in"
+          className="text-primary underline underline-offset-2"
+        >
+          Sign In
+        </Link>
+      </p>
+
+      <OAuthButtons />
+    </div>
   );
 };
 
