@@ -3,15 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 
 import "@/style/globals.css";
 
-import AccountSync from "@/components/common/account-sync";
-import KeyboardShortcuts from "@/components/common/keyboard-shortcuts";
-import RecentPairsTracker from "@/components/common/recent-pairs-tracker";
-import AlertsWatcher from "@/components/features/alerts/alerts-watcher";
-import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header";
-import AppLoader from "@/components/loaders/app-loader";
 import { SWRProvider } from "@/components/providers/swr-provider";
-import ShortcutsHelp from "@/components/shared/shortcuts-help";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { THEME_INIT_SCRIPT } from "@/utils/theme-script";
@@ -66,17 +58,8 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <SWRProvider>
           <TooltipProvider>
-            <KeyboardShortcuts />
-            <AccountSync />
-            <RecentPairsTracker />
-            <AlertsWatcher />
+            {children}
             <Toaster />
-            <AppLoader>
-              <Header />
-              {children}
-              <Footer />
-              <ShortcutsHelp />
-            </AppLoader>
           </TooltipProvider>
         </SWRProvider>
       </body>
