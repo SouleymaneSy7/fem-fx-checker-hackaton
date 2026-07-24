@@ -1,5 +1,6 @@
 export * from "./animation";
 export * from "./api";
+export * from "./auth";
 export * from "./currencies";
 export * from "./limits";
 export * from "./ranges";

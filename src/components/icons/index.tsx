@@ -5,10 +5,13 @@ import {
   ArrowUpFromLine,
   Bell,
   Calendar,
+  Camera,
   Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Eye,
+  EyeOff,
   Info,
   Loader2Icon,
   Plus,
@@ -24,6 +27,8 @@ import { AdjustHalfSvg } from "./adjust-half-icon";
 import { ChevronDownSvg } from "./chevron-down-icon";
 import { DeleteFilledSvg } from "./delete-filled-icon";
 import { DeleteSvg } from "./delete-icon";
+import { GithubSvg } from "./github-icon";
+import { GoogleSvg } from "./google-icon";
 import { LogoSvg } from "./logo-icon";
 import { QuestionSvg } from "./question-icon";
 import { StarFilledSvg } from "./star-filled-icon";
@@ -264,6 +269,42 @@ export const InfoIcon = ({
     {...props}
   />
 );
+export const CameraIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Camera}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const EyeIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon icon={Eye} size={size} label={label} className={className} {...props} />
+);
+export const EyeOffIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={EyeOff}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
 
 /* ── local SVGs ─────────────────────────────────────────────────────── */
 
@@ -359,6 +400,34 @@ export const QuestionIcon = ({
 }: IconComponentProps) => (
   <Icon
     icon={QuestionSvg}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const GoogleIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={GoogleSvg}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const GithubIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={GithubSvg}
     size={size}
     label={label}
     className={className}

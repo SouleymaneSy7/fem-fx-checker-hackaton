@@ -16,6 +16,26 @@ export const auth = betterAuth({
     enabled: true,
   },
 
+  // Redirect-flow OAuth — Better Auth handles the provider round-trip and
+  // lands the user back on `callbackURL` (see oauth-buttons.tsx). Callback
+  // URLs to register with each provider:
+  //   {BETTER_AUTH_URL}/api/auth/callback/google
+  //   {BETTER_AUTH_URL}/api/auth/callback/github
+  socialProviders: {
+    google: {
+      // biome-ignore lint/style/noNonNullAssertion: GOOGLE_CLIENT_ID is guaranteed by .env.local and validated at startup
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      // biome-ignore lint/style/noNonNullAssertion: GOOGLE_CLIENT_SECRET is guaranteed by .env.local and validated at startup
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+    github: {
+      // biome-ignore lint/style/noNonNullAssertion: GITHUB_CLIENT_ID is guaranteed by .env.local and validated at startup
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      // biome-ignore lint/style/noNonNullAssertion: GITHUB_CLIENT_SECRET is guaranteed by .env.local and validated at startup
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+  },
+
   baseURL: process.env.BETTER_AUTH_URL,
 
   session: {
