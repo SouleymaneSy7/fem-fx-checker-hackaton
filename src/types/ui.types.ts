@@ -1,6 +1,8 @@
 import type { LucideIcon } from "lucide-react";
+import type { SpringOptions } from "motion/react";
 import type * as React from "react";
 import type {
+  BubbleColorsType,
   CompareChartPointType,
   ConverterSectionValueType,
   RatePointType,
@@ -153,12 +155,14 @@ export type TickerPropsType = {
 
 /* ── Input ─────────────────────────────────────────────────── */
 
-export interface SearchInputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface SearchInputPropsType
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: IconSource;
   keys?: { firstKey: string; secondKey: string };
 }
 
-export interface TextInputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputPropsType
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
 }
@@ -318,13 +322,24 @@ export type SWRProviderPropsType = {
 
 /* ── Auth ─────────────────────────────────────────────────── */
 
-type onSuccess = {
-  onSuccess: () => void;
+// type onSuccess = {
+//   onSuccess: () => void;
+// };
+
+// export type SignUpFormPropsType = onSuccess;
+//
+// export type SignInFormPropsType = onSuccess;
+//
+
+export type AuthCardPropsType = {
+  children: React.ReactNode;
 };
 
-export type SignUpFormPropsType = onSuccess;
-
-export type SignInFormPropsType = onSuccess;
+export type AuthTextInputPropsType =
+  React.InputHTMLAttributes<HTMLInputElement> & {
+    label: string;
+    error?: string;
+  };
 
 /* ── Alerts ─────────────────────────────────────────────────── */
 
@@ -378,4 +393,12 @@ export type DatePickerPropsType = {
   label: string;
   placeholder?: string;
   className?: string;
+};
+
+/* ── Bubble ─────────────────────────────────────────────────── */
+
+export type BubbleBackgroundPropsType = React.ComponentProps<"div"> & {
+  interactive?: boolean;
+  transition?: SpringOptions;
+  colors?: BubbleColorsType;
 };

@@ -208,7 +208,7 @@ export type RouteContextType = {
   params: Promise<{ id: string }>;
 };
 
-/* ── Time Machine ─────────────────────────────────────────────────── */
+/* ── Historical Rates ─────────────────────────────────────────────────── */
 
 export type HistoricalRatesResultType = {
   requestedDate: string;
@@ -220,4 +220,15 @@ export type HistoricalRatesResultType = {
   currentAmount: number;
   absoluteChange: number;
   percentChange: number;
+};
+
+/* ── Bubble Background ─────────────────────────────────────────────────── */
+
+export type BubbleColorsType = {
+  first: string;
+  second: string;
+  third: string;
+  fourth: string;
+  fifth: string;
+  sixth: string;
 };
