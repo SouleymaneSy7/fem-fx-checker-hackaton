@@ -91,6 +91,8 @@ function BubbleBackground({
       data-slot="bubble-background"
       className={cn(
         "relative size-full overflow-hidden bg-linear-to-br from-violet-900 to-blue-900",
+        // "dark:from-primary-accent dark:to-neutral-900",
+        "dark:bg-none dark:bg-primary-accent",
         className,
       )}
       {...delegatedProps}

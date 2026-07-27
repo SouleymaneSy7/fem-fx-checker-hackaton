@@ -59,7 +59,7 @@ const AuthCard = ({ children }: AuthCardPropsType) => {
     mounted && theme === "light" ? LIGHT_BUBBLE_COLORS : DARK_BUBBLE_COLORS;
 
   return (
-    <div className="flex min-h-dvh flex-col gap-step-300 bg-background p-step-250 md:flex-row md:gap-step-400">
+    <div className="flex min-h-dvh flex-col gap-step-300 bg-background p-step-200 md:flex-row md:gap-step-400">
       <div className="hidden overflow-hidden rounded-10 md:block md:flex-1">
         <BubbleBackground
           interactive
@@ -69,7 +69,7 @@ const AuthCard = ({ children }: AuthCardPropsType) => {
       </div>
 
       <div className="flex flex-1 items-center justify-center">
-        <div className="w-full max-w-100">{children}</div>
+        <div className="w-full max-w-110">{children}</div>
       </div>
     </div>
   );

@@ -41,14 +41,14 @@ const OAuthButtons = () => {
         <Separator className="flex-1" />
       </div>
 
-      <div className="flex flex-col gap-step-100 md:gap-step-125">
+      <div className="w-full flex flex-wrap items-center gap-step-100 md:gap-step-125">
         <Button
           type="button"
           variant="secondary"
           disabled={loadingProvider !== null}
           aria-busy={loadingProvider === "google"}
           onClick={() => handleSignIn("google")}
-          className="w-full normal-case"
+          className="flex-1 normal-case"
         >
           {loadingProvider === "google" ? (
             <React.Fragment>
@@ -72,7 +72,7 @@ const OAuthButtons = () => {
           disabled={loadingProvider !== null}
           aria-busy={loadingProvider === "github"}
           onClick={() => handleSignIn("github")}
-          className="w-full normal-case"
+          className="flex-1 normal-case"
         >
           {loadingProvider === "github" ? (
             <React.Fragment>
