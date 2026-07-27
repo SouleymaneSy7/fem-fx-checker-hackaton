@@ -1,14 +1,17 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import Logo from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { SHORTCUT_EVENTS } from "@/constants";
 import { signIn } from "@/lib/auth-client";
+import type { SignInSchemaType } from "@/types/api.types";
 import { signInSchema } from "@/validators";
 import AuthTextInput from "./auth-text-input";
 import OAuthButtons from "./oauth-buttons";
@@ -18,13 +21,17 @@ type FillTestCredentialsDetail = { email: string; password: string };
 const SignInForm = () => {
   const router = useRouter();
 
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [fieldErrors, setFieldErrors] = React.useState<Record<string, string>>(
-    {},
-  );
   const [formError, setFormError] = React.useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<SignInSchemaType>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: { email: "", password: "" },
+  });
 
   // Fired by test-credentials-hint.tsx's "Fill in test credentials"
   // button — fills the fields but doesn't submit, so the person still
@@ -34,9 +41,8 @@ const SignInForm = () => {
       const detail = (event as CustomEvent<FillTestCredentialsDetail>).detail;
       if (!detail) return;
 
-      setEmail(detail.email);
-      setPassword(detail.password);
-      setFieldErrors({});
+      setValue("email", detail.email, { shouldValidate: true });
+      setValue("password", detail.password, { shouldValidate: true });
       setFormError(null);
     };
 
@@ -49,31 +55,12 @@ const SignInForm = () => {
         SHORTCUT_EVENTS.fillTestCredentials,
         handleFillTestCredentials,
       );
-  }, []);
+  }, [setValue]);
 
-  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit = async (data: SignInSchemaType) => {
     setFormError(null);
 
-    const result = signInSchema.safeParse({ email, password });
-
-    if (!result.success) {
-      const nextErrors: Record<string, string> = {};
-      for (const issue of result.error.issues) {
-        const key = issue.path[0];
-        if (typeof key === "string" && !nextErrors[key])
-          nextErrors[key] = issue.message;
-      }
-      setFieldErrors(nextErrors);
-      return;
-    }
-
-    setFieldErrors({});
-    setIsSubmitting(true);
-
-    const { error } = await signIn.email(result.data);
-
-    setIsSubmitting(false);
+    const { error } = await signIn.email(data);
 
     if (error) {
       toast.error(
@@ -105,16 +92,18 @@ const SignInForm = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-step-400">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-step-400"
+      >
         <div className="flex flex-col gap-step-200">
           <AuthTextInput
             label="Email"
             type="email"
             autoComplete="email"
             placeholder="Enter you email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            error={fieldErrors.email}
+            error={errors.email?.message}
+            {...register("email")}
           />
 
           <AuthTextInput
@@ -122,9 +111,8 @@ const SignInForm = () => {
             type="password"
             autoComplete="current-password"
             placeholder="Enter you password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            error={fieldErrors.password}
+            error={errors.password?.message}
+            {...register("password")}
           />
 
           {formError && (

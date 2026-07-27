@@ -1,19 +1,41 @@
 import * as z from "zod";
 
+const nameSchema = z
+  .string()
+  .trim()
+  .min(2, "Name must be at least 2 characters long")
+  .max(50, "Name cannot exceed 50 characters")
+  .regex(
+    /^[a-zA-ZÀ-ÿ\s'-]+$/,
+    "Name can only contain letters, spaces, hyphens, and apostrophes",
+  );
+
+const emailSchema = z
+  .string()
+  .min(1, "Email is required")
+  .trim()
+  .toLowerCase()
+  .email("Please enter a valid email address")
+  .max(254, "Email is too long");
+
+const passwordSchema = z
+  .string()
+  .min(8, "Password must be at least 8 characters long")
+  .max(128, "Password is too long");
+
 export const signInSchema = z.object({
-  email: z.email("Enter a valid email address."),
-  password: z.string().min(1, "Password is required."),
+  email: emailSchema,
+  password: z.string().min(1, "Password is required"),
 });
 
-export const signUpSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, "At least 2 characters.")
-    .max(60, "60 characters max."),
-  email: z.email("Enter a valid email address."),
-  password: z
-    .string()
-    .min(8, "At least 8 characters.")
-    .max(128, "128 characters max."),
-});
+export const signUpSchema = z
+  .object({
+    name: nameSchema,
+    email: emailSchema,
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
