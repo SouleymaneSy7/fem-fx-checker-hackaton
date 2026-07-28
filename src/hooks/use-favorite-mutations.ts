@@ -49,11 +49,11 @@ export function useFavoriteMutations() {
   const unpinPair = (id: string) => {
     storeUnpinPair(id);
 
-    if (!session) return;
-
     const [fromCurrency, toCurrency] = id.split("-");
     if (!fromCurrency || !toCurrency) return;
     toast.success(`${fromCurrency}/${toCurrency} removed from your favorites.`);
+
+    if (!session) return;
 
     setPending(id, true);
     deleteFavorite(fromCurrency, toCurrency)

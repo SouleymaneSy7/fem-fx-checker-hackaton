@@ -188,8 +188,9 @@ const LogPanel = () => {
           <EmptyTitle>No conversions logged yet</EmptyTitle>
 
           <EmptyDescription>
-            Every conversion is recorded here automatically when you tap LOG
-            CONVERSION. Your log is private to this session and this browser.{" "}
+            Every conversion is recorded here automatically when you tap Log
+            Conversion. Your log is private to this session and this
+            browser.{" "}
           </EmptyDescription>
         </Empty>
       )}

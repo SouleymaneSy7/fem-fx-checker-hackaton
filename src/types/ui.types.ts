@@ -111,8 +111,6 @@ export interface NavbarPropsType {
 export type TabNavPropsType = {
   value: ConverterSectionValueType;
   onValueChange: (value: ConverterSectionValueType) => void;
-  favoritesCount?: number;
-  logCount?: number;
 };
 
 /* ── Main Component ─────────────────────────────────────────────────── */
@@ -153,14 +151,12 @@ export type TickerPropsType = {
 
 /* ── Input ─────────────────────────────────────────────────── */
 
-export interface SearchInputPropsType
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface SearchInputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: IconSource;
   keys?: { firstKey: string; secondKey: string };
 }
 
-export interface TextInputPropsType
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
 }

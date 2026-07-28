@@ -9,7 +9,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useThemeStore } from "@/store/theme-store";
-import VisuallyHidden from "../common/visually-hidden";
 import { AdjustHalfIcon } from "../icons";
 
 const ThemeToggle = () => {
@@ -60,12 +59,6 @@ const ThemeToggle = () => {
             ? "Switch to light mode."
             : "Switch to dark mode."}
         </TooltipContent>
-
-        <VisuallyHidden>
-          {activeTheme === "dark"
-            ? "Switch to light mode"
-            : "Switch to dark mode"}
-        </VisuallyHidden>
       </Tooltip>
     </div>
   );

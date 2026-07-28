@@ -101,7 +101,7 @@ const SignInForm = () => {
             label="Email"
             type="email"
             autoComplete="email"
-            placeholder="Enter you email"
+            placeholder="Enter your email"
             error={errors.email?.message}
             {...register("email")}
           />
@@ -110,7 +110,7 @@ const SignInForm = () => {
             label="Password"
             type="password"
             autoComplete="current-password"
-            placeholder="Enter you password"
+            placeholder="Enter your password"
             error={errors.password?.message}
             {...register("password")}
           />

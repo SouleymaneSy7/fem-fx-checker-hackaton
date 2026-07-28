@@ -32,7 +32,7 @@ function buildPresets(minDateObj: Date, maxDateObj: Date): DatePresetType[] {
     { label: "1y ago", date: clampToMin(subYears(maxDateObj, 1)) },
     { label: "5y ago", date: clampToMin(subYears(maxDateObj, 5)) },
     { label: "10y ago", date: clampToMin(subYears(maxDateObj, 10)) },
-    { label: "1999", date: minDateObj },
+    { label: format(minDateObj, "yyyy"), date: minDateObj },
   ];
 }
 
