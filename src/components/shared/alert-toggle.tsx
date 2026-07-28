@@ -46,13 +46,21 @@ const AlertToggle = ({
 
   const { addAlert, isSubmitting } = useAlertMutations();
 
-  // Prefill with the live rate whenever the popover opens, so the user
+  // Prefill with the live rate the moment the popover opens, so the user
   // edits a realistic starting point rather than a blank field.
+  // `currentRate` is read through a ref rather than listed as a
+  // dependency: depending on it directly would re-run this effect (and
+  // stomp any threshold the user already typed) every time the
+  // underlying rate refreshes while the popover is still open, not just
+  // on the open transition.
+  const currentRateRef = React.useRef(currentRate);
+  currentRateRef.current = currentRate;
+
   React.useEffect(() => {
-    if (open && currentRate !== undefined) {
-      setThresholdInput(currentRate.toFixed(2));
+    if (open && currentRateRef.current !== undefined) {
+      setThresholdInput(currentRateRef.current.toFixed(2));
     }
-  }, [open, currentRate]);
+  }, [open]);
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,11 +68,8 @@ const AlertToggle = ({
     const threshold = Number.parseFloat(thresholdInput.replace(",", "."));
     if (Number.isNaN(threshold) || threshold <= 0) return;
 
+    // Success toast now lives inside useAlertMutations.addAlert itself.
     await addAlert(fromCurrency, toCurrency, condition, threshold);
-
-    toast.success(
-      `You'll be notified when ${fromCurrency}/${toCurrency} goes ${condition === "above" ? "above" : "below"} ${threshold.toFixed(2)}.`,
-    );
     setOpen(false);
   };
 

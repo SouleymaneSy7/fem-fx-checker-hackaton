@@ -9,7 +9,7 @@ import {
   updateAlert,
 } from "@/services/alerts.service";
 import { useAlertsStore } from "@/store/alerts-store";
-import type { RateAlertConditionType } from "@/types/data.types";
+import type { RateAlertConditionType, RateAlertType } from "@/types/data.types";
 
 export function useAlertMutations() {
   const { data: session } = useSession();
@@ -28,8 +28,11 @@ export function useAlertMutations() {
     condition: RateAlertConditionType,
     threshold: number,
   ) => {
+    const successMessage = `You'll be notified when ${fromCurrency}/${toCurrency} goes ${condition === "above" ? "above" : "below"} ${threshold.toFixed(2)}.`;
+
     if (!session) {
       storeAddAlert({ fromCurrency, toCurrency, condition, threshold });
+      toast.success(successMessage);
       return;
     }
 
@@ -43,6 +46,7 @@ export function useAlertMutations() {
         threshold,
       );
       storeAddSyncedAlert(created);
+      toast.success(successMessage);
     } catch {
       storeAddAlert({ fromCurrency, toCurrency, condition, threshold });
       toast.warning(
@@ -53,8 +57,13 @@ export function useAlertMutations() {
     }
   };
 
-  const removeAlert = (id: string) => {
+  const removeAlert = (
+    id: string,
+    fromCurrency: string,
+    toCurrency: string,
+  ) => {
     storeRemoveAlert(id);
+    toast.success(`Alert for ${fromCurrency}/${toCurrency} has been removed.`);
 
     if (!session) return;
 
@@ -65,20 +74,33 @@ export function useAlertMutations() {
     });
   };
 
-  // Called by the watcher when a threshold crosses. Kept silent on sync
-  // failure — the "Rate alert triggered!" toast already fired there, and
-  // a second failure toast for a background sync would just be noise.
-  const triggerAlert = (id: string) => {
+  // Called by the watcher when a threshold crosses. Takes the full alert
+  // plus the rate that tripped it so it can build the "triggered" toast
+  // itself — kept silent on server-sync failure, since a second failure
+  // toast on top of the "triggered" one would just be noise.
+  const triggerAlert = (alert: RateAlertType, rate: number) => {
     const triggeredAt = Date.now();
-    storeTriggerAlert(id, triggeredAt);
+    storeTriggerAlert(alert.id, triggeredAt);
+
+    toast("Rate alert triggered!", {
+      description: `${alert.fromCurrency}/${alert.toCurrency} has ${alert.condition === "above" ? "risen above" : "dropped below"} your ${alert.threshold.toFixed(2)} threshold — currently at ${rate.toFixed(2)}.`,
+    });
 
     if (!session) return;
 
-    updateAlert(id, { enabled: false, triggeredAt }).catch(() => {});
+    updateAlert(alert.id, { enabled: false, triggeredAt }).catch(() => {});
   };
 
-  const resetAlert = (id: string) => {
+  const resetAlert = (
+    id: string,
+    fromCurrency: string,
+    toCurrency: string,
+    threshold: number,
+  ) => {
     storeResetAlert(id);
+    toast.info(
+      `Watching ${fromCurrency}/${toCurrency} again — you'll be notified when the rate crosses ${threshold.toFixed(2)}.`,
+    );
 
     if (!session) return;
 

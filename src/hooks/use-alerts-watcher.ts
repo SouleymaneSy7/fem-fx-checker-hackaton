@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { toast } from "sonner";
 import useSWR from "swr";
-import { SWR_STALE_5M } from "@/constants";
+import { SWR_STALE_1H } from "@/constants";
 import { fetchLatestRates } from "@/services/rates.service";
 import { useAlertsStore } from "@/store/alerts-store";
 import type { RateAlertType } from "@/types/data.types";
@@ -46,6 +45,10 @@ export function useAlertsWatcher() {
         ]
       : null;
 
+  // Frankfurter only publishes a new EOD rate once per business day, so
+  // polling every 5 minutes bought nothing but extra requests. Hourly is
+  // still frequent enough to catch the day's update within a reasonable
+  // window of it landing.
   const { data } = useSWR(
     swrKey,
     () =>
@@ -55,7 +58,7 @@ export function useAlertsWatcher() {
           rows: await fetchLatestRates(base, quotes),
         })),
       ),
-    { refreshInterval: SWR_STALE_5M, dedupingInterval: SWR_STALE_5M },
+    { refreshInterval: SWR_STALE_1H, dedupingInterval: SWR_STALE_1H },
   );
 
   React.useEffect(() => {
@@ -69,11 +72,9 @@ export function useAlertsWatcher() {
 
       if (rate === undefined || !isThresholdCrossed(alert, rate)) continue;
 
-      triggerAlert(alert.id);
-
-      toast("Rate alert triggered!", {
-        description: `${alert.fromCurrency}/${alert.toCurrency} has ${alert.condition === "above" ? "risen above" : "dropped below"} your ${alert.threshold.toFixed(2)} threshold — currently at ${rate.toFixed(2)}.`,
-      });
+      // Builds and shows its own "triggered" toast internally now — see
+      // useAlertMutations.
+      triggerAlert(alert, rate);
 
       window.dispatchEvent(
         new CustomEvent("fx:alert-triggered", { detail: { id: alert.id } }),
