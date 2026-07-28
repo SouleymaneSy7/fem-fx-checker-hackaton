@@ -203,7 +203,7 @@ const CurrencyPicker = ({
         <ScrollArea className="h-115 w-78 md:w-114 flex-col gap-step-125 p-step-100">
           <SearchInput
             icon={SearchIcon}
-            keys={keyboards}
+            keys={focusShortcutTarget === "send" ? keyboards : undefined}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search currencies..."

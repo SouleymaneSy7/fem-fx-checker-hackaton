@@ -82,10 +82,18 @@ function MarqueeContent({
     return () => resizeObserver.disconnect();
   }, []);
 
-  const copyKeys = React.useMemo(
-    () => Array.from({ length: repeatCount }, () => crypto.randomUUID()),
-    [repeatCount],
-  );
+  // A stable, append-only pool: index N keeps the same key forever once
+  // assigned. repeatCount shrinking/growing back and forth (e.g. during a
+  // window resize drag) no longer hands out fresh UUIDs for copies that
+  // already existed, so React doesn't tear down and remount them.
+  const keysRef = React.useRef<string[]>([]);
+
+  const copyKeys = React.useMemo(() => {
+    while (keysRef.current.length < repeatCount) {
+      keysRef.current.push(crypto.randomUUID());
+    }
+    return keysRef.current.slice(0, repeatCount);
+  }, [repeatCount]);
 
   return (
     <div

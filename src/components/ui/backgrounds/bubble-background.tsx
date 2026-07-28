@@ -25,6 +25,12 @@ function BubbleBackground({
   const containerRef = React.useRef<HTMLDivElement>(null);
   React.useImperativeHandle(ref, () => containerRef.current as HTMLDivElement);
 
+  // Unique per mount so two BubbleBackground instances on the same page
+  // never collide on a hardcoded "goo" id — url(#goo) would otherwise
+  // always resolve to whichever <filter> happens to come first in the
+  // DOM (same fix already applied to liquid-wave.tsx's clipPath).
+  const gooFilterId = React.useId();
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, transition);
@@ -91,7 +97,6 @@ function BubbleBackground({
       data-slot="bubble-background"
       className={cn(
         "relative size-full overflow-hidden bg-linear-to-br from-violet-900 to-blue-900",
-        // "dark:from-primary-accent dark:to-neutral-900",
         "dark:bg-none dark:bg-primary-accent",
         className,
       )}
@@ -116,7 +121,7 @@ function BubbleBackground({
         className="absolute top-0 left-0 w-0 h-0"
       >
         <defs>
-          <filter id="goo">
+          <filter id={gooFilterId}>
             <feGaussianBlur
               in="SourceGraphic"
               stdDeviation="16"
@@ -135,7 +140,7 @@ function BubbleBackground({
 
       <div
         className="absolute inset-0"
-        style={{ filter: "url(#goo) blur(40px)" }}
+        style={{ filter: `url(#${gooFilterId}) blur(40px)` }}
       >
         <motion.div
           className="absolute rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--first-color),0.8)_0%,rgba(var(--first-color),0)_50%)]"

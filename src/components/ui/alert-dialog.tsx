@@ -95,7 +95,11 @@ function AlertDialogAction({
       data-slot="alert-dialog-action"
       className={cn(
         buttonVariants({ variant }),
-        "border border-destructive",
+        // Only the destructive variant gets a reinforcing colored
+        // border — buttonVariants' own "primary" variant already sets
+        // border-primary, so forcing border-destructive on top of it
+        // regardless of variant used to fight that styling.
+        variant === "destructive" && "border border-destructive",
         className,
       )}
       {...delegatedProps}

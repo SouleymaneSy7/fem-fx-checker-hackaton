@@ -425,24 +425,25 @@ const ComparePanel = () => {
                     </p>
                   )}
 
-                  <span> · </span>
-
                   {showTopLoser && movers.topLoser && (
-                    <p className="flex items-center gap-step-075 preset-5 uppercase text-neutral-200">
-                      Top loser
-                      <span className="preset-5-med text-foreground">
-                        {movers.topLoser.currency}
-                      </span>
-                      <TrendIndicator
-                        isPositive={movers.topLoser.changePercent >= 0}
-                        value={`${Math.abs(movers.topLoser.changePercent).toFixed(1)}%`}
-                        className={
-                          movers.topLoser.changePercent >= 0
-                            ? "text-green"
-                            : "text-red"
-                        }
-                      />
-                    </p>
+                    <React.Fragment>
+                      <span> · </span>
+                      <p className="flex items-center gap-step-075 preset-5 uppercase text-neutral-200">
+                        Top loser
+                        <span className="preset-5-med text-foreground">
+                          {movers.topLoser.currency}
+                        </span>
+                        <TrendIndicator
+                          isPositive={movers.topLoser.changePercent >= 0}
+                          value={`${Math.abs(movers.topLoser.changePercent).toFixed(1)}%`}
+                          className={
+                            movers.topLoser.changePercent >= 0
+                              ? "text-green"
+                              : "text-red"
+                          }
+                        />
+                      </p>
+                    </React.Fragment>
                   )}
                 </div>
 
