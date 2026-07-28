@@ -41,9 +41,20 @@ import { useRecentPairsStore } from "@/store/recent-pairs-store";
  *    upsert means re-uploading never regresses a pair that's already
  *    more recent on the server. Then replaces the local list with the
  *    server's canonical, already-sorted-and-capped one.
+ *
+ * The effect keys off `userId` (a plain string, or null when signed
+ * out) rather than the `session` object itself: `useSession()` is backed
+ * by a nanostores atom that gets a fresh reference on every background
+ * revalidation, even when the session's content hasn't actually changed
+ * (see RecentPairsTracker's `addRecentPairRef` for the same underlying
+ * issue). Depending on `session` directly would re-run this whole
+ * upload-then-replace cycle on every revalidation, not just on an actual
+ * sign-in/sign-out/account switch.
  */
 const AccountSync = () => {
   const { data: session } = useSession();
+  const userId = session?.user.id ?? null;
+
   const replaceFavorites = useFavoritesStore((state) => state.replaceFavorites);
   const replaceEntries = useLogStore((state) => state.replaceEntries);
   const replaceAlerts = useAlertsStore((state) => state.replaceAlerts);
@@ -52,7 +63,7 @@ const AccountSync = () => {
   );
 
   React.useEffect(() => {
-    if (!session) return;
+    if (!userId) return;
 
     let cancelled = false;
 
@@ -99,7 +110,7 @@ const AccountSync = () => {
       cancelled = true;
     };
   }, [
-    session,
+    userId,
     replaceFavorites,
     replaceEntries,
     replaceAlerts,
@@ -108,7 +119,5 @@ const AccountSync = () => {
 
   return null;
 };
-
-AccountSync.displayName = "AccountSync";
 
 export default AccountSync;
