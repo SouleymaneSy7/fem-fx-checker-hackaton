@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 
 import Container from "@/components/common/container";
@@ -16,7 +17,7 @@ import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { MAX_CHART_CURRENCIES } from "@/constants";
+import { MAX_CHART_CURRENCIES, SPRING_PANEL } from "@/constants";
 import { useCompare } from "@/hooks/use-compare";
 import { useCompareChart } from "@/hooks/use-compare-chart";
 import { useCompareChartCurrencies } from "@/hooks/use-compare-chart-currencies";
@@ -35,6 +36,8 @@ import CompareChartSkeleton from "./compare-chart/compare-chart-skeleton";
 import CompareCurrencyPicker from "./compare-currency-picker";
 
 type CompareViewModeType = "table" | "chart";
+
+const COMPARE_VIEW_INDICATOR_LAYOUT_ID = "compare-view-indicator";
 
 const ComparePanel = () => {
   const {
@@ -55,6 +58,7 @@ const ComparePanel = () => {
   const { currencies } = useCurrencies();
 
   const [viewMode, setViewMode] = React.useState<CompareViewModeType>("table");
+  const shouldReduceMotion = useReducedMotion();
 
   const {
     quotes: chartCurrencies,
@@ -223,14 +227,38 @@ const ComparePanel = () => {
               className="flex-1"
               aria-label="Table view"
             >
-              Table
+              {viewMode === "table" && (
+                <motion.span
+                  aria-hidden="true"
+                  layout
+                  layoutId={COMPARE_VIEW_INDICATOR_LAYOUT_ID}
+                  className="absolute inset-0 rounded-md bg-neutral-500"
+                  style={{ originY: "0px" }}
+                  transition={
+                    shouldReduceMotion ? { duration: 0 } : SPRING_PANEL
+                  }
+                />
+              )}
+              <span className="relative z-10">Table</span>
             </ToggleGroupItem>
             <ToggleGroupItem
               value="chart"
               className="flex-1"
               aria-label="Chart view"
             >
-              Chart
+              {viewMode === "chart" && (
+                <motion.span
+                  aria-hidden="true"
+                  layout
+                  layoutId={COMPARE_VIEW_INDICATOR_LAYOUT_ID}
+                  className="absolute inset-0 rounded-md bg-neutral-500"
+                  style={{ originY: "0px" }}
+                  transition={
+                    shouldReduceMotion ? { duration: 0 } : SPRING_PANEL
+                  }
+                />
+              )}
+              <span className="relative z-10">Chart</span>
             </ToggleGroupItem>
           </ToggleGroup>
         </div>

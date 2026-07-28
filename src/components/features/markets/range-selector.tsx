@@ -1,11 +1,17 @@
 "use client";
 
+import { motion, useReducedMotion } from "motion/react";
+import * as React from "react";
+
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { RANGES } from "@/constants";
+import { RANGES, SPRING_PANEL } from "@/constants";
 import type { RateRangeType } from "@/types/data.types";
 import type { RangeSelectorPropsType } from "@/types/ui.types";
 
 const RangeSelector = ({ value, onValueChange }: RangeSelectorPropsType) => {
+  const shouldReduceMotion = useReducedMotion();
+  const indicatorLayoutId = React.useId();
+
   return (
     <ToggleGroup
       type="single"
@@ -22,7 +28,17 @@ const RangeSelector = ({ value, onValueChange }: RangeSelectorPropsType) => {
           value={range.value}
           aria-label={`${range.label} range`}
         >
-          {range.label}
+          {value === range.value && (
+            <motion.span
+              aria-hidden="true"
+              layout
+              layoutId={indicatorLayoutId}
+              className="absolute inset-0 rounded-md bg-neutral-500"
+              style={{ originY: "0px" }}
+              transition={shouldReduceMotion ? { duration: 0 } : SPRING_PANEL}
+            />
+          )}
+          <span className="relative z-10">{range.label}</span>
         </ToggleGroupItem>
       ))}
     </ToggleGroup>

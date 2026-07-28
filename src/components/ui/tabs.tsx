@@ -46,8 +46,6 @@ function TabsTrigger({
         "focus-ring rounded-sm",
         "disabled:pointer-events-none disabled:opacity-50",
         "data-[state=active]:text-foreground",
-        "after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:rounded-full after:bg-primary after:opacity-0 after:transition-opacity",
-        "data-[state=active]:after:opacity-100",
         className,
       )}
       {...props}

@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 
 import List from "@/components/common/list";
@@ -11,6 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SPRING_PANEL } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useAlertsStore } from "@/store/alerts-store";
 import { useFavoritesStore } from "@/store/favorites-store";
@@ -27,8 +29,11 @@ const SECTIONS: { value: ConverterSectionValueType; label: string }[] = [
   { value: "log", label: "Log" },
 ];
 
+const TAB_INDICATOR_LAYOUT_ID = "tab-nav-indicator";
+
 const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
   const [open, setOpen] = React.useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   const favoritesCount = useFavoritesStore((state) => state.favorites.length);
   const alertsCount = useAlertsStore((state) => state.alerts.length);
@@ -55,9 +60,22 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
       <TabsList aria-label="Converter sections" className="hidden md:flex">
         {SECTIONS.map((section) => {
           const count = countByValue[section.value];
+          const isActive = section.value === value;
 
           return (
             <TabsTrigger key={section.value} value={section.value}>
+              {isActive && (
+                <motion.span
+                  aria-hidden="true"
+                  layout
+                  layoutId={TAB_INDICATOR_LAYOUT_ID}
+                  className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-primary"
+                  style={{ originY: "0px" }}
+                  transition={
+                    shouldReduceMotion ? { duration: 0 } : SPRING_PANEL
+                  }
+                />
+              )}
               {section.label}
               {count !== undefined && <Badge>{count}</Badge>}
             </TabsTrigger>

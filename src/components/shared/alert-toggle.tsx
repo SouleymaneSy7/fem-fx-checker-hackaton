@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 import { toast } from "sonner";
 import { BellIcon } from "@/components/icons";
@@ -16,11 +17,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { SPRING_PANEL } from "@/constants";
 import { useAlertMutations } from "@/hooks/use-alert-mutations";
 import { cn } from "@/lib/utils";
 import type { RateAlertConditionType } from "@/types/data.types";
 import type { AlertTogglePropsType } from "@/types/ui.types";
 import { Spinner } from "../ui/spinner";
+
+const CONDITION_INDICATOR_LAYOUT_ID = "alert-condition-indicator";
 
 const AlertToggle = ({
   fromCurrency,
@@ -34,6 +38,8 @@ const AlertToggle = ({
   const [condition, setCondition] =
     React.useState<RateAlertConditionType>("above");
   const [thresholdInput, setThresholdInput] = React.useState("");
+
+  const shouldReduceMotion = useReducedMotion();
 
   const generatedId = React.useId();
   const inputId = `threshold-input-${generatedId}`;
@@ -115,14 +121,38 @@ const AlertToggle = ({
               aria-label="Above threshold"
               className="flex-1"
             >
-              Goes Above
+              {condition === "above" && (
+                <motion.span
+                  aria-hidden="true"
+                  layout
+                  layoutId={CONDITION_INDICATOR_LAYOUT_ID}
+                  className="absolute inset-0 rounded-md bg-neutral-500"
+                  style={{ originY: "0px" }}
+                  transition={
+                    shouldReduceMotion ? { duration: 0 } : SPRING_PANEL
+                  }
+                />
+              )}
+              <span className="relative z-10">Goes Above</span>
             </ToggleGroupItem>
             <ToggleGroupItem
               value="below"
               aria-label="Below threshold"
               className="flex-1"
             >
-              Drops Below
+              {condition === "below" && (
+                <motion.span
+                  aria-hidden="true"
+                  layout
+                  layoutId={CONDITION_INDICATOR_LAYOUT_ID}
+                  className="absolute inset-0 rounded-md bg-neutral-500"
+                  style={{ originY: "0px" }}
+                  transition={
+                    shouldReduceMotion ? { duration: 0 } : SPRING_PANEL
+                  }
+                />
+              )}
+              <span className="relative z-10">Drops Below</span>
             </ToggleGroupItem>
           </ToggleGroup>
 
