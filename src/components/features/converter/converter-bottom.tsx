@@ -30,7 +30,16 @@ const ConverterBottom = () => {
     toggleLog,
   } = useConverter();
 
-  const rateDisplay = `1 ${fromCurrency} = ${rate !== undefined && formatAmount(rate)} ${toCurrency}`;
+  // Ternary instead of `rate !== undefined && formatAmount(rate)`: the
+  // old pattern would have printed the literal string "false" into the
+  // UI if this were ever read while `rate` was undefined. It never was
+  // in practice (only rendered in the branch below that already checks
+  // `rate !== undefined`), but the ternary makes that safe by
+  // construction instead of by coincidence.
+  const rateDisplay =
+    rate !== undefined
+      ? `1 ${fromCurrency} = ${formatAmount(rate)} ${toCurrency}`
+      : "";
   const canLog = isLogged || (rate !== undefined && !isLoading);
   const canFavorite = isPinned || (rate !== undefined && !isLoading);
   const canAlert = rate !== undefined && !isLoading;
@@ -51,6 +60,7 @@ const ConverterBottom = () => {
               {rateDisplay}
             </p>
           </TooltipTrigger>
+
           <TooltipContent>
             1 {fromCurrency} = {formatPreciseAmount(rate)} {toCurrency}
           </TooltipContent>

@@ -106,9 +106,15 @@ const ConverterTop = () => {
       );
   }, [setFromCurrency, setToCurrency]);
 
+  // Skipped while the field is focused: the buffer already reflects
+  // whatever the user is typing, including an intentionally-emptied
+  // field. Without this guard, clearing the input drives `amount` to 0
+  // via handleAmountChange below, which re-fires this effect and snaps
+  // the buffer back to "0" before the user gets to type a replacement.
   React.useEffect(() => {
+    if (isAmountFocused) return;
     setAmountInput(String(amount));
-  }, [amount]);
+  }, [amount, isAmountFocused]);
 
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const raw = event.target.value;

@@ -2,8 +2,6 @@
 
 import * as React from "react";
 
-import { DEBOUNCE_DEFAULT_MS } from "@/constants";
-import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { useFavoriteMutations } from "@/hooks/use-favorite-mutations";
 import { useLogMutations } from "@/hooks/use-log-mutations";
 import { useRate } from "@/hooks/use-rate";
@@ -25,13 +23,16 @@ export function useConverter() {
   // one quote.
   const { rate, isLoading, error } = useRate(fromCurrency, toCurrency);
 
-  const debouncedAmount = useDebouncedValue(amount, DEBOUNCE_DEFAULT_MS);
-
+  // Plain multiplication against an already-fetched, already-cached
+  // rate — no network cost to debounce against, so `amount` is used
+  // as-is rather than through useDebouncedValue (that only earns its
+  // keep ahead of an actual async/expensive step, e.g.
+  // converter-url-sync.tsx's router.replace).
   const convertedAmount = React.useMemo(() => {
     if (rate === undefined) return null;
 
-    return debouncedAmount * rate;
-  }, [debouncedAmount, rate]);
+    return amount * rate;
+  }, [amount, rate]);
 
   // Favorite
   const favorites = useFavoritesStore((state) => state.favorites);
