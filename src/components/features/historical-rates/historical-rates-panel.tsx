@@ -23,10 +23,49 @@ const HistoricalRatesPanel = () => {
   const { amount, fromCurrency, toCurrency, result, isLoading, error } =
     useHistoricalRates(date);
 
-  // Memoized so the DatePicker's `maxDate` prop stays referentially stable
-  // across re-renders — otherwise every keystroke elsewhere in the app
-  // would recompute "today" and needlessly re-render the calendar grid.
-  const maxDate = React.useMemo(() => format(new Date(), "yyyy-MM-dd"), []);
+  // Kept in state rather than recomputed every render, so the DatePicker's
+  // `maxDate` prop stays referentially stable — a keystroke elsewhere in
+  // the app shouldn't needlessly re-render the calendar grid. Refreshed on
+  // tab focus and at the next local midnight so a panel left open
+  // overnight doesn't keep "today" pinned to yesterday.
+  const [maxDate, setMaxDate] = React.useState(() =>
+    format(new Date(), "yyyy-MM-dd"),
+  );
+
+  React.useEffect(() => {
+    const refresh = () => {
+      const today = format(new Date(), "yyyy-MM-dd");
+      setMaxDate((current) => (current === today ? current : today));
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") refresh();
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Also catches a tab that stays visible and active straight through
+    // midnight — one precise timer for the next rollover. Once it fires,
+    // `maxDate` changes, this effect re-runs, and the next one gets
+    // scheduled relative to the new "now".
+    const now = new Date();
+    const nextMidnight = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1,
+      0,
+      0,
+      5,
+    );
+    const timeoutId = window.setTimeout(
+      refresh,
+      nextMidnight.getTime() - now.getTime(),
+    );
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.clearTimeout(timeoutId);
+    };
+  });
 
   const showDateMismatch =
     result !== undefined && result.historicalDate !== result.requestedDate;

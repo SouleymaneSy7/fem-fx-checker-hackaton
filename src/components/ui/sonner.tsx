@@ -7,15 +7,21 @@ import {
   OctagonXIcon,
   TriangleAlertIcon,
 } from "lucide-react";
-import { useTheme } from "next-themes";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 
+import { useThemeStore } from "@/store/theme-store";
+
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme();
+  // The app's own dark/light state lives in useThemeStore (see
+  // theme-toggle.tsx), not in next-themes — there's no next-themes
+  // ThemeProvider mounted anywhere, so reading useTheme() here would
+  // always fall back to its own "system" default and never match what
+  // the user actually picked in the app.
+  const theme = useThemeStore((state) => state.theme);
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme={theme}
       className="toaster group"
       icons={{
         success: <CircleCheckIcon className="size-4" />,
