@@ -7,13 +7,9 @@ import Container from "@/components/common/container";
 import Title from "@/components/common/title";
 import VisuallyHidden from "@/components/common/visually-hidden";
 import DatePicker from "@/components/shared/date-picker";
+import TextTooltip from "@/components/shared/text-tooltip";
 import TrendIndicator from "@/components/shared/trend-indicator";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { HISTORICAL_RATES_MIN_DATE } from "@/constants";
 import { useHistoricalRates } from "@/hooks/use-historical-rates";
 import { cn } from "@/lib/utils";
@@ -98,98 +94,61 @@ const HistoricalRatesPanel = () => {
         <div className="flex flex-col gap-step-150">
           <div className="grid grid-cols-1 gap-step-150 sm:grid-cols-2">
             <div className="flex flex-col gap-step-100 rounded-10 border border-neutral-500 bg-neutral-600 p-step-150 md:p-step-200">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <p className="preset-5 uppercase text-neutral-200">
-                    Then · {formatFullDate(result.historicalDate)}
-                  </p>
-                </TooltipTrigger>
+              <TextTooltip
+                className="preset-5 uppercase text-neutral-200"
+                content={`European Central Bank end-of-day rate for ${formatFullDate(result.historicalDate)}`}
+              >
+                Then · {formatFullDate(result.historicalDate)}
+              </TextTooltip>
 
-                <TooltipContent>
-                  European Central Bank end-of-day rate for{" "}
-                  {formatFullDate(result.historicalDate)}
-                </TooltipContent>
-              </Tooltip>
+              <TextTooltip
+                className="preset-3 uppercase text-foreground"
+                content={`${formatPreciseAmount(result.historicalAmount)} ${toCurrency}`}
+              >
+                {formatAmount(result.historicalAmount)} {toCurrency}
+              </TextTooltip>
 
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <p className="preset-3 uppercase text-foreground">
-                    {formatAmount(result.historicalAmount)} {toCurrency}
-                  </p>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  {formatPreciseAmount(result.historicalAmount)} {toCurrency}
-                </TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <p className="preset-6 uppercase text-neutral-200">
-                    1 {fromCurrency} = {formatAmount(result.historicalRate)}{" "}
-                    {toCurrency}
-                  </p>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  1 {fromCurrency} ={" "}
-                  {formatPreciseAmount(result.historicalRate)} {toCurrency}
-                </TooltipContent>
-              </Tooltip>
+              <TextTooltip
+                className="preset-6 uppercase text-neutral-200"
+                content={`1 ${fromCurrency} = ${formatPreciseAmount(result.historicalRate)} ${toCurrency}`}
+              >
+                1 {fromCurrency} = {formatAmount(result.historicalRate)}{" "}
+                {toCurrency}
+              </TextTooltip>
             </div>
 
             <div className="flex flex-col gap-step-100 rounded-10 border border-neutral-500 bg-neutral-600 p-step-150 md:p-step-200">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <p className="preset-5 uppercase text-neutral-200">
-                    Now · {formatFullDate(result.currentDate)}
-                  </p>
-                </TooltipTrigger>
+              <TextTooltip
+                className="preset-5 uppercase text-neutral-200"
+                content={`Latest European Central Bank end-of-day rate (${formatFullDate(result.currentDate)})`}
+              >
+                Now · {formatFullDate(result.currentDate)}
+              </TextTooltip>
 
-                <TooltipContent>
-                  Latest European Central Bank end-of-day rate (
-                  {formatFullDate(result.currentDate)})
-                </TooltipContent>
-              </Tooltip>
+              <TextTooltip
+                className="preset-3 uppercase text-primary"
+                content={`${formatPreciseAmount(result.currentAmount)} ${toCurrency}`}
+              >
+                {formatAmount(result.currentAmount)} {toCurrency}
+              </TextTooltip>
 
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <p className="preset-3 uppercase text-primary">
-                    {formatAmount(result.currentAmount)} {toCurrency}
-                  </p>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  {formatPreciseAmount(result.currentAmount)} {toCurrency}
-                </TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <p className="preset-6 uppercase text-neutral-200">
-                    1 {fromCurrency} = {formatAmount(result.currentRate)}{" "}
-                    {toCurrency}
-                  </p>
-                </TooltipTrigger>
-
-                <TooltipContent>
-                  1 {fromCurrency} = {formatPreciseAmount(result.currentRate)}{" "}
-                  {toCurrency}
-                </TooltipContent>
-              </Tooltip>
+              <TextTooltip
+                className="preset-6 uppercase text-neutral-200"
+                content={`1 ${fromCurrency} = ${formatPreciseAmount(result.currentRate)} ${toCurrency}`}
+              >
+                1 {fromCurrency} = {formatAmount(result.currentRate)}{" "}
+                {toCurrency}
+              </TextTooltip>
             </div>
           </div>
 
           <div className="flex items-center justify-between gap-step-150 rounded-10 border border-neutral-500 bg-neutral-600 px-step-150 py-step-150 md:px-step-200">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <p className="preset-4 uppercase text-neutral-200">Change</p>
-              </TooltipTrigger>
-
-              <TooltipContent>
-                Difference between the historical rate and today's rate
-              </TooltipContent>
-            </Tooltip>
+            <TextTooltip
+              className="preset-4 uppercase text-neutral-200"
+              content="Difference between the historical rate and today's rate."
+            >
+              Change
+            </TextTooltip>
 
             <TrendIndicator
               isPositive={result.percentChange >= 0}

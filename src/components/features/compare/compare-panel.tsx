@@ -11,8 +11,8 @@ import ConfirmDialog from "@/components/shared/confirm-dialog";
 import { CurrencyFlag } from "@/components/shared/currency-flag";
 import DeleteButton from "@/components/shared/delete-button";
 import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
+import TextTooltip from "@/components/shared/text-tooltip";
 import TrendIndicator from "@/components/shared/trend-indicator";
-import TruncateTooltip from "@/components/shared/truncate-tooltip";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -310,9 +310,9 @@ const ComparePanel = () => {
                         {row.currency}
                       </p>
 
-                      <TruncateTooltip className="preset-5 text-neutral-200">
+                      <span className="preset-5 text-neutral-200 truncate">
                         {namesByCode.get(row.currency) ?? row.currency}
-                      </TruncateTooltip>
+                      </span>
                     </div>
 
                     <div className="text-right flex flex-col gap-step-075">
@@ -330,12 +330,12 @@ const ComparePanel = () => {
                           </p>
 
                           {row.rate !== undefined ? (
-                            <TruncateTooltip
-                              className="preset-6 uppercase text-neutral-200"
+                            <TextTooltip
+                              className="preset-6 uppercase text-neutral-200 truncate"
                               content={`@ ${formatPreciseAmount(row.rate)}`}
                             >
                               @ {row.rate.toFixed(2)}
-                            </TruncateTooltip>
+                            </TextTooltip>
                           ) : (
                             <p className="preset-6 uppercase text-neutral-200" />
                           )}

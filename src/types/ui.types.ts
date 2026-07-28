@@ -79,12 +79,10 @@ export type LoadingStatusPropsType = {
   className?: string;
 };
 
-/* ── TruncateTooltip ─────────────────────────────────────────────────── */
+/* ── TextTooltip ─────────────────────────────────────────────────── */
 
-export type TruncateTooltipPropsType = {
-  children: React.ReactNode;
-  content?: React.ReactNode;
-  className?: string;
+export type TextTooltipPropsType = React.ComponentPropsWithoutRef<"span"> & {
+  content: React.ReactNode;
   side?: "top" | "right" | "bottom" | "left";
 };
 
@@ -321,15 +319,6 @@ export type SWRProviderPropsType = {
 };
 
 /* ── Auth ─────────────────────────────────────────────────── */
-
-// type onSuccess = {
-//   onSuccess: () => void;
-// };
-
-// export type SignUpFormPropsType = onSuccess;
-//
-// export type SignInFormPropsType = onSuccess;
-//
 
 export type AuthCardPropsType = {
   children: React.ReactNode;

@@ -1,5 +1,5 @@
 import Container from "@/components/common/container";
-import TruncateTooltip from "@/components/shared/truncate-tooltip";
+import TextTooltip from "@/components/shared/text-tooltip";
 import { cn } from "@/lib/utils";
 import type { HistoryStatPropsType } from "@/types/ui.types";
 
@@ -23,9 +23,12 @@ const HistoryStat = ({
       <p className="preset-4 uppercase text-neutral-200">{label}</p>
 
       {resolvedContent !== undefined ? (
-        <TruncateTooltip className={valueClassName} content={resolvedContent}>
+        <TextTooltip
+          className={cn(valueClassName, "truncate")}
+          content={resolvedContent}
+        >
           {value}
-        </TruncateTooltip>
+        </TextTooltip>
       ) : (
         <p className={cn(valueClassName, "truncate")}>{value}</p>
       )}

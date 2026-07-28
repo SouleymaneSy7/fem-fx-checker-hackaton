@@ -6,6 +6,7 @@ import Title from "@/components/common/title";
 import { ArrowRightIcon, ArrowUpFromLineIcon } from "@/components/icons";
 import ConfirmDialog from "@/components/shared/confirm-dialog";
 import DeleteButton from "@/components/shared/delete-button";
+import TextTooltip from "@/components/shared/text-tooltip";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import {
@@ -138,17 +139,12 @@ const LogPanel = () => {
               return (
                 <li className="flex items-center gap-step-125 rounded-10 border border-neutral-500 bg-neutral-600 p-step-150 md:gap-step-200 md:p-step-200">
                   <div className="flex-1 flex flex-col gap-step-050 md:flex-row md:items-center">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <p className="shrink-0 preset-4 uppercase text-neutral-200 md:w-step-1000">
-                          {formatRelativeTime(createdAtIso)}
-                        </p>
-                      </TooltipTrigger>
-
-                      <TooltipContent>
-                        {formatFullDateTime(createdAtIso)}
-                      </TooltipContent>
-                    </Tooltip>
+                    <TextTooltip
+                      className="shrink-0 preset-4 uppercase text-neutral-200 md:w-step-1000"
+                      content={formatFullDateTime(createdAtIso)}
+                    >
+                      {formatRelativeTime(createdAtIso)}
+                    </TextTooltip>
 
                     <div className="flex items-center gap-step-100">
                       <p className="preset-4 uppercase text-foreground">

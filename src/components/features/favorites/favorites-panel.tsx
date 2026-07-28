@@ -6,14 +6,10 @@ import Title from "@/components/common/title";
 import VisuallyHidden from "@/components/common/visually-hidden";
 import { ArrowRightIcon } from "@/components/icons";
 import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
+import TextTooltip from "@/components/shared/text-tooltip";
 import TrendIndicator from "@/components/shared/trend-indicator";
 import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useFavorites } from "@/hooks/use-favorites";
 import { cn } from "@/lib/utils";
 import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
@@ -76,43 +72,32 @@ const FavoritesPanel = () => {
                     ) : (
                       <React.Fragment>
                         {item.rate !== undefined ? (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <p className="preset-3 text-foreground">
-                                {formatAmount(item.rate)}
-                              </p>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              1 {item.fromCurrency} ={" "}
-                              {formatPreciseAmount(item.rate)} {item.toCurrency}
-                            </TooltipContent>
-                          </Tooltip>
+                          <TextTooltip
+                            className="preset-3 text-foreground"
+                            content={`1 ${item.fromCurrency} = ${formatPreciseAmount(item.rate)} ${item.toCurrency}`}
+                          >
+                            {formatAmount(item.rate)}
+                          </TextTooltip>
                         ) : (
                           <p className="preset-3 text-foreground">—</p>
                         )}
 
                         {item.changePercent !== undefined && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              {/* TrendIndicator isn't forwardRef — wrap it
-                                  in a native span so Radix's asChild ref
-                                  lands on a real DOM node (same fix as
-                                  buttonVariants() over <Button asChild>). */}
-                              <span>
-                                <TrendIndicator
-                                  isPositive={isPositive}
-                                  value={`${Math.abs(item.changePercent).toFixed(2)}%`}
-                                  className={cn(
-                                    "preset-6",
-                                    isPositive ? "text-green" : "text-red",
-                                  )}
-                                />
-                              </span>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {`${isPositive ? "+" : "-"}${Math.abs(item.changePercent).toFixed(4)}% over the last week`}
-                            </TooltipContent>
-                          </Tooltip>
+                          // TextTooltip's own <span> is the Radix asChild ref
+                          // target, so TrendIndicator (not forwardRef) can sit
+                          // directly inside it — no extra wrapping span needed.
+                          <TextTooltip
+                            content={`${isPositive ? "+" : "-"}${Math.abs(item.changePercent).toFixed(4)}% over the last week.`}
+                          >
+                            <TrendIndicator
+                              isPositive={isPositive}
+                              value={`${Math.abs(item.changePercent).toFixed(2)}%`}
+                              className={cn(
+                                "preset-6",
+                                isPositive ? "text-green" : "text-red",
+                              )}
+                            />
+                          </TextTooltip>
                         )}
                       </React.Fragment>
                     )}

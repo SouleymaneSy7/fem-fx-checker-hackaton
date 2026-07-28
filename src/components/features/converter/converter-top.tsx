@@ -8,6 +8,7 @@ import { ArrowLeftRightIcon } from "@/components/icons";
 import SpinnerEllipsis from "@/components/loaders/spinner-ellipsis";
 import CurrencyPicker from "@/components/shared/currency-picker";
 import NumericInput from "@/components/shared/numeric-input";
+import TextTooltip from "@/components/shared/text-tooltip";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -188,20 +189,13 @@ const ConverterTop = () => {
           {error ? (
             <p className="preset-1 uppercase text-destructive/80">———</p>
           ) : convertedAmount !== null ? (
-            <Tooltip>
-              <TooltipTrigger>
-                <p
-                  className="preset-1 uppercase text-primary"
-                  aria-live="polite"
-                >
-                  {formatAmount(convertedAmount)}
-                </p>
-              </TooltipTrigger>
-
-              <TooltipContent>
-                {formatPreciseAmount(convertedAmount)}
-              </TooltipContent>
-            </Tooltip>
+            <TextTooltip
+              className="preset-1 uppercase text-primary"
+              aria-live="polite"
+              content={formatPreciseAmount(convertedAmount)}
+            >
+              {formatAmount(convertedAmount)}
+            </TextTooltip>
           ) : isLoading ? (
             <SpinnerEllipsis />
           ) : (

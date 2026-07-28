@@ -3,7 +3,6 @@
 import Link from "next/link";
 import * as React from "react";
 
-import TruncateTooltip from "@/components/shared/truncate-tooltip";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -34,9 +33,7 @@ const AuthPopover = () => {
           {isPending ? (
             <Spinner aria-hidden="true" className="text-foreground" />
           ) : (
-            <TruncateTooltip className="preset-5-med">
-              {session.user.name}
-            </TruncateTooltip>
+            <span className="preset-5-med truncate">{session.user.name}</span>
           )}
         </PopoverTrigger>
 
@@ -49,13 +46,13 @@ const AuthPopover = () => {
             </Avatar>
 
             <div className="flex flex-col gap-step-050">
-              <TruncateTooltip className="preset-4 uppercase text-foreground">
+              <span className="preset-4 uppercase text-foreground truncate">
                 {session.user.name}
-              </TruncateTooltip>
+              </span>
 
-              <TruncateTooltip className="preset-5 text-neutral-200">
+              <span className="preset-5 text-neutral-200 truncate">
                 {session.user.email}
-              </TruncateTooltip>
+              </span>
             </div>
           </div>
 

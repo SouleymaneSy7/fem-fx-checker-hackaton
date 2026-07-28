@@ -7,7 +7,6 @@ import VisuallyHidden from "@/components/common/visually-hidden";
 import { PlusIcon, SearchIcon } from "@/components/icons";
 import { CurrencyFlag } from "@/components/shared/currency-flag";
 import SearchInput from "@/components/shared/search-input";
-import TruncateTooltip from "@/components/shared/truncate-tooltip";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Popover,
@@ -125,9 +124,9 @@ const CompareCurrencyPicker = ({
                       {currency.code}
                     </span>
 
-                    <TruncateTooltip className="hidden md:inline flex-1 preset-5 text-muted-foreground">
+                    <span className="hidden md:inline flex-1 preset-5 text-muted-foreground truncate">
                       {currency.name}
-                    </TruncateTooltip>
+                    </span>
                   </button>
                 </li>
               )}
@@ -146,7 +145,5 @@ const CompareCurrencyPicker = ({
     </Popover>
   );
 };
-
-CompareCurrencyPicker.displayName = "CompareCurrencyPicker";
 
 export default CompareCurrencyPicker;

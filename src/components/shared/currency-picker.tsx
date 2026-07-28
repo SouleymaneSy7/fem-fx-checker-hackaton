@@ -37,7 +37,6 @@ import { ScrollArea } from "../ui/scroll-area";
 import { Skeleton } from "../ui/skeleton";
 import { Spinner } from "../ui/spinner";
 import { CurrencyFlag } from "./currency-flag";
-import TruncateTooltip from "./truncate-tooltip";
 
 const CurrencyPicker = ({
   value,
@@ -151,9 +150,9 @@ const CurrencyPicker = ({
             {currency.code}
           </span>
 
-          <TruncateTooltip className="hidden md:inline flex-1 preset-5 text-muted-foreground">
+          <span className="hidden md:inline flex-1 preset-5 text-muted-foreground truncate">
             {currency.name}
-          </TruncateTooltip>
+          </span>
 
           {isSelected && <CheckIcon className="text-foreground" />}
         </button>
@@ -243,10 +242,7 @@ const CurrencyPicker = ({
                       className="flex items-center gap-step-075 preset-5 uppercase text-foreground cursor-pointer focus-ring rounded-full"
                     >
                       <span>{pair.fromCurrency}</span>
-                      <ArrowRightIcon
-                        size={10}
-                        className="text-neutral-200"
-                      />
+                      <ArrowRightIcon size={10} className="text-neutral-200" />
                       <span>{pair.toCurrency}</span>
                     </button>
 
