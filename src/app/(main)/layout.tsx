@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import AccountSync from "@/components/common/account-sync";
 import KeyboardShortcuts from "@/components/common/keyboard-shortcuts";
-import RecentPairsTracker from "@/components/common/recent-pairs-tracker";
 import AlertsWatcher from "@/components/features/alerts/alerts-watcher";
+import AccountSync from "@/components/features/auth/account-sync";
+import RecentPairsTracker from "@/components/features/converter/recent-pairs-tracker";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import AppLoader from "@/components/loaders/app-loader";
