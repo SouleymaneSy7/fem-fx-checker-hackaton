@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import * as React from "react";
-import { BubbleBackground } from "@/components/ui/backgrounds/bubble-background";
+
+import { BubbleBackground } from "@/components/shared/bubble-background";
 import { Spinner } from "@/components/ui/spinner";
 import { useSession } from "@/lib/auth-client";
 import { useThemeStore } from "@/store/theme-store";
