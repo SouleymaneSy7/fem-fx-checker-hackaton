@@ -113,14 +113,14 @@ const HistoryPanel = () => {
             <RangeSelector value={range} onValueChange={setRange} />
           </div>
 
-          <div className="flex flex-col gap-step-250 rounded-xl border border-neutral-500 dark:border-neutral-600 bg-card px-step-150 py-step-200 md:p-step-250">
-            <div className="flex flex-wrap gap-step-200 items-center justify-between">
-              <Title level="h3" className="preset-3 uppercase text-foreground">
+          <div className="flex flex-col gap-step-250 rounded-xl border border-neutral-500 bg-card px-step-150 py-step-200 md:p-step-250 dark:border-neutral-600">
+            <div className="flex flex-wrap items-center justify-between gap-step-200">
+              <Title level="h3" className="preset-3 text-foreground uppercase">
                 {pair}
               </Title>
 
               {lastTimestamp && (
-                <p className="preset-5 uppercase text-neutral-200">
+                <p className="preset-5 text-neutral-200 uppercase">
                   {formatAmount(lastRate)} ·{" "}
                   {formatDateForRange(lastTimestamp, range)}
                 </p>

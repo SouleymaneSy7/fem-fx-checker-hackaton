@@ -116,7 +116,7 @@ const LiquidWaveSpinner = React.memo(
       <motion.div
         ref={containerRef}
         className={cn(
-          "w-full rounded-b-lg overflow-hidden flex flex-col items-center justify-center bg-background",
+          "flex w-full flex-col items-center justify-center overflow-hidden rounded-b-lg bg-background",
           config.container,
           className,
         )}
@@ -187,7 +187,7 @@ const LiquidWaveSpinner = React.memo(
           </g>
         </svg>
 
-        <div className="flex items-center gap-1 text-muted-foreground select-none">
+        <div className="flex select-none items-center gap-1 text-muted-foreground">
           <TextMorph
             words={[
               "Fetching live rates ...",

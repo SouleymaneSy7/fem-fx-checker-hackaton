@@ -47,16 +47,16 @@ const ConverterBottom = () => {
   const canAlert = rate !== undefined && !isLoading;
 
   return (
-    <Container className="w-full bg-card rounded-b-20 border-t border-dashed border-border py-step-200 px-step-200 flex flex-col items-center justify-center gap-step-200 md:px-step-250 md:flex-row md:justify-between">
+    <Container className="flex w-full flex-col items-center justify-center gap-step-200 rounded-b-20 border-border border-t border-dashed bg-card px-step-200 py-step-200 md:flex-row md:justify-between md:px-step-250">
       {error ? (
-        <p className="text-destructive/80 preset-6 uppercase">
+        <p className="preset-6 text-destructive/80 uppercase">
           Rate unavailable
         </p>
       ) : rate !== undefined ? (
         <Tooltip>
           <TooltipTrigger asChild>
             <p
-              className="preset-6 uppercase text-foreground"
+              className="preset-6 text-foreground uppercase"
               aria-live="polite"
             >
               {rateDisplay}
@@ -70,7 +70,7 @@ const ConverterBottom = () => {
       ) : isLoading ? (
         <Skeleton className="h-3.5 w-24" />
       ) : (
-        <p className="text-destructive/80 preset-6 uppercase">
+        <p className="preset-6 text-destructive/80 uppercase">
           Rate unavailable
         </p>
       )}

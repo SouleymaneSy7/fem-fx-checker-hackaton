@@ -48,16 +48,16 @@ const AlertsPanel = () => {
   return (
     <React.Fragment>
       {hasAlerts ? (
-        <Container className="bg-card border border-neutral-600 rounded-xl space-y-step-200 p-step-200 md:space-y-step-250 md:p-step-250">
+        <Container className="space-y-step-200 rounded-xl border border-neutral-600 bg-card p-step-200 md:space-y-step-250 md:p-step-250">
           <div className="flex flex-wrap items-baseline justify-between gap-step-100">
             <Title
               level="h3"
-              className="preset-3-med uppercase text-foreground"
+              className="preset-3-med text-foreground uppercase"
             >
               Rate alerts
             </Title>
 
-            <p className="preset-5 text-neutral-100 truncate">
+            <p className="preset-5 truncate text-neutral-100">
               {alerts.length} alerts
             </p>
           </div>
@@ -72,20 +72,20 @@ const AlertsPanel = () => {
 
               return (
                 <li className="flex items-center gap-step-125 rounded-10 border border-neutral-500 bg-neutral-600 px-step-150 py-step-150 md:gap-step-250 md:px-step-200">
-                  <div className="flex-1 flex flex-col gap-step-075">
+                  <div className="flex flex-1 flex-col gap-step-075">
                     <div className="flex items-center gap-step-100">
-                      <p className="preset-4 uppercase text-foreground">
+                      <p className="preset-4 text-foreground uppercase">
                         {alert.fromCurrency}
                       </p>
 
                       <ArrowRightIcon className="text-neutral-200" size={12} />
 
-                      <p className="preset-4 uppercase text-foreground">
+                      <p className="preset-4 text-foreground uppercase">
                         {alert.toCurrency}
                       </p>
                     </div>
 
-                    <p className="preset-5 uppercase text-neutral-200">
+                    <p className="preset-5 text-neutral-200 uppercase">
                       {symbol} {alert.threshold.toFixed(2)}
                     </p>
                   </div>

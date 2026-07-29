@@ -41,7 +41,7 @@ const TestCredentialsHint = () => {
             aria-label="Test credentials"
             className={cn(
               buttonVariants({ variant: "secondary", size: "icon-md" }),
-              "fixed bottom-step-250 right-step-250 z-40 rounded-full shadow-none",
+              "fixed right-step-250 bottom-step-250 z-40 rounded-full shadow-none",
             )}
           >
             <InfoIcon
@@ -66,14 +66,14 @@ const TestCredentialsHint = () => {
         <div className="space-y-step-075 rounded-10 border border-neutral-500 bg-neutral-600 p-step-100 md:p-step-200">
           <p className="preset-5 text-neutral-200">
             Email:{" "}
-            <span className="text-primary font-medium">
+            <span className="font-medium text-primary">
               {TEST_ACCOUNT_EMAIL}
             </span>
           </p>
 
           <p className="preset-5 text-neutral-200">
             Password:{" "}
-            <span className="text-primary font-medium">
+            <span className="font-medium text-primary">
               {TEST_ACCOUNT_PASSWORD}
             </span>
           </p>

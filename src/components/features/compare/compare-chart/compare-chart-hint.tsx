@@ -66,7 +66,7 @@ const CompareChartHint = ({
       </Tooltip>
 
       <PopoverContent className="w-full max-w-80 space-y-step-200 p-step-250">
-        <Title level="h3" className="preset-4 uppercase text-neutral-200">
+        <Title level="h3" className="preset-4 text-neutral-200 uppercase">
           About this chart
         </Title>
 

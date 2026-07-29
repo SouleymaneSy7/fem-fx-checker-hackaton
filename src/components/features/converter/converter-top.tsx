@@ -134,9 +134,9 @@ const ConverterTop = () => {
   const sendAmountValue = isAmountFocused ? amountInput : formatAmount(amount);
 
   return (
-    <Container className="w-full bg-card rounded-t-20 p-step-200 flex flex-col items-center justify-center gap-step-200 md:p-step-250 md:flex-row md:gap-step-300">
-      <div className="w-full bg-neutral-600 border border-neutral-500 flex flex-col gap-step-200 p-step-200 rounded-16 md:p-step-250 md:gap-step-250">
-        <Title level="h2" className="preset-4 uppercase text-neutral-100">
+    <Container className="flex w-full flex-col items-center justify-center gap-step-200 rounded-t-20 bg-card p-step-200 md:flex-row md:gap-step-300 md:p-step-250">
+      <div className="flex w-full flex-col gap-step-200 rounded-16 border border-neutral-500 bg-neutral-600 p-step-200 md:gap-step-250 md:p-step-250">
+        <Title level="h2" className="preset-4 text-neutral-100 uppercase">
           Send
         </Title>
 
@@ -180,17 +180,17 @@ const ConverterTop = () => {
         </TooltipContent>
       </Tooltip>
 
-      <div className="w-full bg-neutral-600 border border-neutral-500 flex flex-col gap-step-200 p-step-200 rounded-16 md:p-step-250 md:gap-step-250">
-        <Title level="h2" className="preset-4 uppercase text-neutral-100">
+      <div className="flex w-full flex-col gap-step-200 rounded-16 border border-neutral-500 bg-neutral-600 p-step-200 md:gap-step-250 md:p-step-250">
+        <Title level="h2" className="preset-4 text-neutral-100 uppercase">
           Receive
         </Title>
 
         <div className="flex items-center justify-between gap-step-100">
           {error ? (
-            <p className="preset-1 uppercase text-destructive/80">———</p>
+            <p className="preset-1 text-destructive/80 uppercase">———</p>
           ) : convertedAmount !== null ? (
             <TextTooltip
-              className="preset-1 uppercase text-primary"
+              className="preset-1 text-primary uppercase"
               aria-live="polite"
               content={formatPreciseAmount(convertedAmount)}
             >
@@ -199,7 +199,7 @@ const ConverterTop = () => {
           ) : isLoading ? (
             <SpinnerEllipsis />
           ) : (
-            <p className="preset-1 uppercase text-destructive/80">———</p>
+            <p className="preset-1 text-destructive/80 uppercase">———</p>
           )}
 
           <CurrencyPicker

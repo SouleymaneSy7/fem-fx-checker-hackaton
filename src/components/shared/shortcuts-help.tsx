@@ -65,7 +65,7 @@ const ShortcutsHelp = () => {
             aria-label="Keyboard shortcuts"
             className={cn(
               buttonVariants({ variant: "secondary", size: "icon-md" }),
-              "fixed bottom-step-250 right-step-250 z-40 rounded-full shadow-none",
+              "fixed right-step-250 bottom-step-250 z-40 rounded-full shadow-none",
             )}
           >
             <QuestionIcon
@@ -80,9 +80,9 @@ const ShortcutsHelp = () => {
       <PopoverContent
         side="top"
         sideOffset={10}
-        className="w-full max-w-74 sm:max-w-95 space-y-step-200 p-step-250"
+        className="w-full max-w-74 space-y-step-200 p-step-250 sm:max-w-95"
       >
-        <Title level="h3" className="preset-4 uppercase text-neutral-200">
+        <Title level="h3" className="preset-4 text-neutral-200 uppercase">
           Keyboard shortcuts
         </Title>
 
@@ -98,13 +98,13 @@ const ShortcutsHelp = () => {
                 ) : (
                   <KbdGroup>
                     <Kbd>{shortcut.keys.first}</Kbd>
-                    <span className="hidden md:inline text-neutral-200">+</span>
+                    <span className="hidden text-neutral-200 md:inline">+</span>
                     <Kbd>{shortcut.keys.second}</Kbd>
                   </KbdGroup>
                 )}
               </span>
 
-              <span className="preset-4 uppercase text-foreground">
+              <span className="preset-4 text-foreground uppercase">
                 {shortcut.label}
               </span>
             </li>

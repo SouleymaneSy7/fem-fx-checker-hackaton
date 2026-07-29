@@ -74,19 +74,19 @@ const HistoricalRatesPanel = () => {
     : "";
 
   return (
-    <Container className="bg-card border border-neutral-600 rounded-xl space-y-step-200 p-step-200 md:space-y-step-250 md:p-step-250">
+    <Container className="space-y-step-200 rounded-xl border border-neutral-600 bg-card p-step-200 md:space-y-step-250 md:p-step-250">
       <div className="flex flex-wrap items-baseline justify-between gap-step-125">
         <div className="flex flex-wrap items-center gap-step-150">
-          <Title level="h3" className="preset-4 uppercase text-neutral-200">
+          <Title level="h3" className="preset-4 text-neutral-200 uppercase">
             Historical Rates
           </Title>
 
           <div className="flex items-center gap-step-100">
-            <span className="preset-3-med uppercase text-neutral-50">
+            <span className="preset-3-med text-neutral-50 uppercase">
               {formatAmount(amount)} {fromCurrency}
             </span>
             <ArrowRightIcon className="text-neutral-200" size={12} />
-            <span className="preset-3-med uppercase text-neutral-50">
+            <span className="preset-3-med text-neutral-50 uppercase">
               {toCurrency}
             </span>
           </div>
@@ -121,7 +121,7 @@ const HistoricalRatesPanel = () => {
       ) : isLoading ? (
         <HistoricalRatesSkeleton date={date} />
       ) : error || !result ? (
-        <p className="preset-5 text-destructive/80 text-center py-step-300">
+        <p className="preset-5 py-step-300 text-center text-destructive/80">
           Couldn't load the rate for {formatFullDate(date)}. This usually clears
           up in a minute.
         </p>
@@ -130,21 +130,21 @@ const HistoricalRatesPanel = () => {
           <div className="grid grid-cols-1 gap-step-150 sm:grid-cols-2">
             <div className="flex flex-col gap-step-100 rounded-10 border border-neutral-500 bg-neutral-600 p-step-150 md:p-step-200">
               <TextTooltip
-                className="preset-5 uppercase text-neutral-200"
+                className="preset-5 text-neutral-200 uppercase"
                 content={`European Central Bank end-of-day rate for ${formatFullDate(result.historicalDate)}`}
               >
                 Then · {formatFullDate(result.historicalDate)}
               </TextTooltip>
 
               <TextTooltip
-                className="preset-3 uppercase text-foreground"
+                className="preset-3 text-foreground uppercase"
                 content={`${formatPreciseAmount(result.historicalAmount)} ${toCurrency}`}
               >
                 {formatAmount(result.historicalAmount)} {toCurrency}
               </TextTooltip>
 
               <TextTooltip
-                className="preset-6 uppercase text-neutral-200"
+                className="preset-6 text-neutral-200 uppercase"
                 content={`1 ${fromCurrency} = ${formatPreciseAmount(result.historicalRate)} ${toCurrency}`}
               >
                 1 {fromCurrency} = {formatAmount(result.historicalRate)}{" "}
@@ -154,21 +154,21 @@ const HistoricalRatesPanel = () => {
 
             <div className="flex flex-col gap-step-100 rounded-10 border border-neutral-500 bg-neutral-600 p-step-150 md:p-step-200">
               <TextTooltip
-                className="preset-5 uppercase text-neutral-200"
+                className="preset-5 text-neutral-200 uppercase"
                 content={`Latest European Central Bank end-of-day rate (${formatFullDate(result.currentDate)})`}
               >
                 Now · {formatFullDate(result.currentDate)}
               </TextTooltip>
 
               <TextTooltip
-                className="preset-3 uppercase text-primary"
+                className="preset-3 text-primary uppercase"
                 content={`${formatPreciseAmount(result.currentAmount)} ${toCurrency}`}
               >
                 {formatAmount(result.currentAmount)} {toCurrency}
               </TextTooltip>
 
               <TextTooltip
-                className="preset-6 uppercase text-neutral-200"
+                className="preset-6 text-neutral-200 uppercase"
                 content={`1 ${fromCurrency} = ${formatPreciseAmount(result.currentRate)} ${toCurrency}`}
               >
                 1 {fromCurrency} = {formatAmount(result.currentRate)}{" "}
@@ -179,7 +179,7 @@ const HistoricalRatesPanel = () => {
 
           <div className="flex items-center justify-between gap-step-150 rounded-10 border border-neutral-500 bg-neutral-600 px-step-150 py-step-150 md:px-step-200">
             <TextTooltip
-              className="preset-4 uppercase text-neutral-200"
+              className="preset-4 text-neutral-200 uppercase"
               content="Difference between the historical rate and today's rate."
             >
               Change

@@ -141,8 +141,8 @@ function CalendarDayButton({
       data-outside={modifiers.outside}
       data-disabled={modifiers.disabled}
       className={cn(
-        "flex aspect-square size-(--cell-size) items-center justify-center rounded-6 preset-5 uppercase text-foreground border border-transparent transition-colors cursor-pointer focus-ring",
-        "hover:bg-primary-foreground hover:border-primary hover:text-primary",
+        "preset-5 focus-ring flex aspect-square size-(--cell-size) cursor-pointer items-center justify-center rounded-6 border border-transparent text-foreground uppercase transition-colors",
+        "hover:border-primary hover:bg-primary-foreground hover:text-primary",
         "data-[today=true]:bg-neutral-500",
         "data-[outside=true]:text-neutral-300",
         "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-30",

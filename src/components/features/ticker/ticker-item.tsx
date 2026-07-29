@@ -8,14 +8,14 @@ const TickerItem = ({ pair }: { pair: TickerPairType }) => {
   const isPositive = pair.changePercent > 0;
 
   return (
-    <div className="flex items-center gap-step-125 py-step-150 px-step-250 whitespace-nowrap preset-5 uppercase bg-card border-r border-border">
+    <div className="preset-5 flex items-center gap-step-125 whitespace-nowrap border-border border-r bg-card px-step-250 py-step-150 uppercase">
       <span className="text-neutral-200">
         {pair.base}/{pair.quote}
       </span>
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="text-neutral-50 preset-5-med">
+          <span className="preset-5-med text-neutral-50">
             {pair.rate.toFixed(2)}
           </span>
         </TooltipTrigger>

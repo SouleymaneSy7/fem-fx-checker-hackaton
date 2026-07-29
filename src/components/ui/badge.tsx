@@ -4,13 +4,13 @@ import type * as React from "react";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex h-step-250 min-w-step-250 shrink-0 items-center justify-center whitespace-nowrap rounded-full preset-6 px-step-075 tabular-nums",
+  "preset-6 inline-flex h-step-250 min-w-step-250 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-step-075 tabular-nums",
   {
     variants: {
       variant: {
         default: "bg-primary-foreground text-primary",
         primary: "bg-primary text-primary-foreground",
-        muted: "text-neutral-200 preset-5 p-0",
+        muted: "preset-5 p-0 text-neutral-200",
       },
     },
     defaultVariants: {

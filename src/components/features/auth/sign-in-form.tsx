@@ -134,7 +134,7 @@ const SignInForm = () => {
         </Button>
       </form>
 
-      <p className="preset-5 text-neutral-200 text-center">
+      <p className="preset-5 text-center text-neutral-200">
         Don&apos;t have an account?{" "}
         <Link
           href="/sign-up"

@@ -41,7 +41,7 @@ const CustomTooltip = ({
 
   return (
     <div className="flex flex-col gap-step-075 rounded-8 border border-border bg-popover px-step-150 py-step-100 shadow-lg">
-      <p className="preset-6 uppercase text-neutral-200">
+      <p className="preset-6 text-neutral-200 uppercase">
         {dateFormatter(label)}
       </p>
 
@@ -54,7 +54,7 @@ const CustomTooltip = ({
           return (
             <p
               key={entry.dataKey}
-              className="preset-5-med uppercase flex items-center gap-step-075"
+              className="preset-5-med flex items-center gap-step-075 uppercase"
             >
               <span
                 aria-hidden="true"
@@ -169,8 +169,8 @@ const CompareChart = ({
         </LineChart>
       </ResponsiveContainer>
 
-      <div className="flex flex-col gap-step-200 mt-step-200 md:mt-step-250">
-        <p className="preset-6 uppercase text-neutral-200">
+      <div className="mt-step-200 flex flex-col gap-step-200 md:mt-step-250">
+        <p className="preset-6 text-neutral-200 uppercase">
           Select a currency to show or hide its line
         </p>
 
@@ -193,7 +193,7 @@ const CompareChart = ({
                     aria-pressed={!isHidden}
                     onClick={() => toggleCurrency(code)}
                     className={cn(
-                      "flex items-center gap-step-050 rounded-6 p-step-075 preset-5 uppercase transition-opacity border border-neutral-500 bg-neutral-600 focus-ring",
+                      "preset-5 focus-ring flex items-center gap-step-050 rounded-6 border border-neutral-500 bg-neutral-600 p-step-075 uppercase transition-opacity",
                       isHidden ? "opacity-50" : "opacity-100",
                     )}
                   >

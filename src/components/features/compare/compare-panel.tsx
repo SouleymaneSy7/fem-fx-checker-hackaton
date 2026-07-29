@@ -179,14 +179,14 @@ const ComparePanel = () => {
     movers.topLoser && movers.topLoser.currency !== movers.topGainer?.currency;
 
   return (
-    <Container className="bg-card border border-neutral-600 rounded-xl space-y-step-200 p-step-200 md:space-y-step-250 md:p-step-250">
+    <Container className="space-y-step-200 rounded-xl border border-neutral-600 bg-card p-step-200 md:space-y-step-250 md:p-step-250">
       <div className="flex flex-wrap items-baseline justify-between gap-step-125">
         <div className="flex flex-wrap items-center gap-step-150">
-          <Title level="h3" className="preset-4 uppercase text-neutral-200">
+          <Title level="h3" className="preset-4 text-neutral-200 uppercase">
             Multi-currency
           </Title>
 
-          <span className="preset-3-med uppercase text-neutral-50">
+          <span className="preset-3-med text-neutral-50 uppercase">
             {formatAmount(amount)} from {baseCurrency}
           </span>
         </div>
@@ -314,25 +314,25 @@ const ComparePanel = () => {
                       isLoading={isLoading}
                     />
 
-                    <div className="min-w-0 flex flex-col gap-step-075 flex-1">
-                      <p className="preset-4 uppercase text-foreground">
+                    <div className="flex min-w-0 flex-1 flex-col gap-step-075">
+                      <p className="preset-4 text-foreground uppercase">
                         {row.currency}
                       </p>
 
-                      <span className="preset-5 text-neutral-200 truncate">
+                      <span className="preset-5 truncate text-neutral-200">
                         {namesByCode.get(row.currency) ?? row.currency}
                       </span>
                     </div>
 
-                    <div className="text-right flex flex-col gap-step-075">
+                    <div className="flex flex-col gap-step-075 text-right">
                       {isRowLoading ? (
                         <React.Fragment>
-                          <Skeleton className="h-4 w-20 ml-auto" />
-                          <Skeleton className="h-3 w-14 ml-auto" />
+                          <Skeleton className="ml-auto h-4 w-20" />
+                          <Skeleton className="ml-auto h-3 w-14" />
                         </React.Fragment>
                       ) : (
                         <React.Fragment>
-                          <p className="preset-3 uppercase text-foreground">
+                          <p className="preset-3 text-foreground uppercase">
                             {row.convertedAmount !== undefined
                               ? formatAmount(row.convertedAmount)
                               : "—"}
@@ -340,19 +340,19 @@ const ComparePanel = () => {
 
                           {row.rate !== undefined ? (
                             <TextTooltip
-                              className="preset-6 uppercase text-neutral-200 truncate"
+                              className="preset-6 truncate text-neutral-200 uppercase"
                               content={`@ ${formatPreciseAmount(row.rate)}`}
                             >
                               @ {row.rate.toFixed(2)}
                             </TextTooltip>
                           ) : (
-                            <p className="preset-6 uppercase text-neutral-200" />
+                            <p className="preset-6 text-neutral-200 uppercase" />
                           )}
                         </React.Fragment>
                       )}
                     </div>
 
-                    <div className="flex item-center gap-step-100">
+                    <div className="item-center flex gap-step-100">
                       <FavoriteToggleIcon
                         isFavorite={row.isPinned}
                         isSyncing={row.isFavoriteSyncing}
@@ -417,7 +417,7 @@ const ComparePanel = () => {
               <div className="flex flex-wrap items-center justify-between gap-step-200">
                 <div className="flex flex-wrap items-center gap-step-150">
                   {movers.topGainer && (
-                    <p className="flex items-center gap-step-075 preset-5 uppercase text-neutral-200">
+                    <p className="preset-5 flex items-center gap-step-075 text-neutral-200 uppercase">
                       Top gainer
                       <span className="preset-5-med text-foreground">
                         {movers.topGainer.currency}
@@ -437,7 +437,7 @@ const ComparePanel = () => {
                   {showTopLoser && movers.topLoser && (
                     <React.Fragment>
                       <span> · </span>
-                      <p className="flex items-center gap-step-075 preset-5 uppercase text-neutral-200">
+                      <p className="preset-5 flex items-center gap-step-075 text-neutral-200 uppercase">
                         Top loser
                         <span className="preset-5-med text-foreground">
                           {movers.topLoser.currency}
@@ -466,7 +466,7 @@ const ComparePanel = () => {
               />
             </React.Fragment>
           ) : (
-            <p className="preset-5 text-neutral-200 text-center py-step-800">
+            <p className="preset-5 py-step-800 text-center text-neutral-200">
               No chart data available for this range.
             </p>
           )}

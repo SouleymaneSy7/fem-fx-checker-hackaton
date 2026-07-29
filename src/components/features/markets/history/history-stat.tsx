@@ -19,8 +19,8 @@ const HistoryStat = ({
     tooltipContent ?? (typeof value === "string" ? value : undefined);
 
   return (
-    <Container className="flex flex-col gap-step-200 rounded-xl border border-neutral-500 dark:border-neutral-600 bg-card px-step-250 py-step-150">
-      <p className="preset-4 uppercase text-neutral-200">{label}</p>
+    <Container className="flex flex-col gap-step-200 rounded-xl border border-neutral-500 bg-card px-step-250 py-step-150 dark:border-neutral-600">
+      <p className="preset-4 text-neutral-200 uppercase">{label}</p>
 
       {resolvedContent !== undefined ? (
         <TextTooltip

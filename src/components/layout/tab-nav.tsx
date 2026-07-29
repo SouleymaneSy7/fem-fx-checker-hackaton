@@ -67,7 +67,7 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
                   aria-hidden="true"
                   layout
                   layoutId={TAB_INDICATOR_LAYOUT_ID}
-                  className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-primary"
+                  className="-bottom-px absolute inset-x-0 h-0.5 rounded-full bg-primary"
                   style={{ originY: "0px" }}
                   transition={
                     shouldReduceMotion ? { duration: 0 } : SPRING_PANEL
@@ -88,9 +88,9 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
             type="button"
             aria-label={`Converter sections: ${activeSection.label}`}
             className={cn(
-              "flex w-full h-10 items-center justify-between gap-step-150 rounded-md border border-neutral-400 bg-card px-step-150",
-              "preset-3 uppercase text-foreground transition-colors",
-              "hover:border-neutral-500 hover:bg-neutral-500 focus-ring",
+              "flex h-10 w-full items-center justify-between gap-step-150 rounded-md border border-neutral-400 bg-card px-step-150",
+              "preset-3 text-foreground uppercase transition-colors",
+              "focus-ring hover:border-neutral-500 hover:bg-neutral-500",
             )}
           >
             <span className="flex items-center gap-step-100">
@@ -107,7 +107,7 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
             />
           </PopoverTrigger>
 
-          <PopoverContent className="w-(--radix-popover-trigger-width) rounded-10 border-neutral-500 dark:border-neutral-600 bg-card p-step-100">
+          <PopoverContent className="w-(--radix-popover-trigger-width) rounded-10 border-neutral-500 bg-card p-step-100 dark:border-neutral-600">
             <div role="listbox" aria-label="Converter sections">
               <List
                 items={SECTIONS}
@@ -124,7 +124,7 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
                         aria-selected={isActive}
                         onClick={() => handleSelect(section.value)}
                         className={cn(
-                          "flex w-full cursor-pointer items-center justify-between gap-step-150 rounded-sm border border-transparent px-step-100 py-step-125 text-left preset-3 uppercase transition-colors",
+                          "preset-3 flex w-full cursor-pointer items-center justify-between gap-step-150 rounded-sm border border-transparent px-step-100 py-step-125 text-left uppercase transition-colors",
                           isActive ? "text-foreground" : "text-neutral-200",
                           "hover:border-muted-foreground hover:text-foreground",
                         )}

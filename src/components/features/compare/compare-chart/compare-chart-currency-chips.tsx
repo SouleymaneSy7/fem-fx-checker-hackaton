@@ -32,7 +32,7 @@ const CompareChartCurrencyChips = ({
                 type="button"
                 onClick={() => onRemove(code)}
                 aria-label={`Remove ${code} from chart`}
-                className="group flex items-center gap-step-075 rounded-full border border-neutral-500 bg-neutral-600 pl-step-100 pr-step-075 py-step-075 preset-5 uppercase text-foreground transition-colors cursor-pointer hover:border-destructive/40 hover:bg-destructive/10 focus-ring"
+                className="group preset-5 focus-ring flex cursor-pointer items-center gap-step-075 rounded-full border border-neutral-500 bg-neutral-600 py-step-075 pr-step-075 pl-step-100 text-foreground uppercase transition-colors hover:border-destructive/40 hover:bg-destructive/10"
               >
                 <CurrencyFlag
                   currencyCode={code}
@@ -44,7 +44,7 @@ const CompareChartCurrencyChips = ({
 
                 <span
                   aria-hidden="true"
-                  className="preset-4 leading-none text-neutral-200 transition-colors group-hover:text-destructive"
+                  className="preset-4 text-neutral-200 leading-none transition-colors group-hover:text-destructive"
                 >
                   ×
                 </span>

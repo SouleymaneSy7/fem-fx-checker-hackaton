@@ -80,13 +80,13 @@ const DatePicker = ({
             aria-label={label}
             className={cn(
               buttonVariants({ variant: "popover" }),
-              "justify-start items-center",
+              "items-center justify-start",
               className,
             )}
           >
             <CalendarIcon size={16} className="text-neutral-200" />
 
-            <span className="preset-4 uppercase text-neutral-50">
+            <span className="preset-4 text-neutral-50 uppercase">
               {selectedDate ? format(selectedDate, "MMM d, yyyy") : placeholder}
             </span>
           </PopoverTrigger>
@@ -119,8 +119,8 @@ const DatePicker = ({
               type="button"
               onClick={() => handleSelect(preset.date)}
               className={cn(
-                "cursor-pointer rounded-full border border-neutral-500 bg-neutral-600 px-step-125 py-step-075 preset-5 uppercase text-foreground transition-colors",
-                "hover:bg-primary-foreground hover:border hover:border-primary hover:text-primary focus-ring",
+                "preset-5 cursor-pointer rounded-full border border-neutral-500 bg-neutral-600 px-step-125 py-step-075 text-foreground uppercase transition-colors",
+                "focus-ring hover:border hover:border-primary hover:bg-primary-foreground hover:text-primary",
               )}
             >
               {preset.label}

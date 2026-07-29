@@ -32,9 +32,9 @@ const AuthTextInput = React.forwardRef<
           aria-invalid={!!error}
           aria-describedby={errorId}
           className={cn(
-            "w-full py-step-125 px-step-150 rounded-10 bg-neutral-600 border border-neutral-500 preset-4 text-foreground",
+            "preset-4 w-full rounded-10 border border-neutral-500 bg-neutral-600 px-step-150 py-step-125 text-foreground",
             "placeholder:text-neutral-300",
-            "focus:outline-none focus:border-primary",
+            "focus:border-primary focus:outline-none",
             "disabled:cursor-not-allowed disabled:opacity-50",
             "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
             isPasswordField && "pr-step-500",
@@ -50,7 +50,7 @@ const AuthTextInput = React.forwardRef<
             onClick={() => setShowPassword((current) => !current)}
             aria-label={showPassword ? "Hide password" : "Show password"}
             aria-pressed={showPassword}
-            className="absolute right-step-125 top-1/2 -translate-y-1/2 text-neutral-200 transition-colors hover:text-foreground focus-ring rounded-sm cursor-pointer"
+            className="-translate-y-1/2 focus-ring absolute top-1/2 right-step-125 cursor-pointer rounded-sm text-neutral-200 transition-colors hover:text-foreground"
           >
             {showPassword ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
           </button>

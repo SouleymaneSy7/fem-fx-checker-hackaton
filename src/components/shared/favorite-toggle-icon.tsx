@@ -44,7 +44,7 @@ const FavoriteToggleIcon = ({
           {isSyncing && (
             <Spinner
               aria-hidden="true"
-              className="absolute -right-0.5 -bottom-0.5 size-2.5 text-neutral-100"
+              className="-right-0.5 -bottom-0.5 absolute size-2.5 text-neutral-100"
             />
           )}
         </Button>

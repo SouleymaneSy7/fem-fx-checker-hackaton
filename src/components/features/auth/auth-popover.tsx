@@ -69,20 +69,20 @@ const AuthPopover = () => {
           )}
         </PopoverTrigger>
 
-        <PopoverContent className="w-full md:w-80 space-y-step-200 p-step-200">
+        <PopoverContent className="w-full space-y-step-200 p-step-200 md:w-80">
           <div className="flex items-center gap-step-150">
             <Avatar className="h-10 w-10">
-              <AvatarFallback className="preset-3 uppercase text-foreground">
+              <AvatarFallback className="preset-3 text-foreground uppercase">
                 {getNameInitials(session.user.name)}
               </AvatarFallback>
             </Avatar>
 
             <div className="flex flex-col gap-step-050">
-              <span className="preset-4 uppercase text-foreground truncate">
+              <span className="preset-4 truncate text-foreground uppercase">
                 {session.user.name}
               </span>
 
-              <span className="preset-5 text-neutral-200 truncate">
+              <span className="preset-5 truncate text-neutral-200">
                 {session.user.email}
               </span>
             </div>

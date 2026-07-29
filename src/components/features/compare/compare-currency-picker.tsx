@@ -107,7 +107,7 @@ const CompareCurrencyPicker = ({
                     aria-selected={false}
                     onClick={() => handleSelect(currency.code)}
                     className={cn(
-                      "w-full cursor-pointer border border-transparent flex items-center gap-step-150 rounded-sm px-step-100 py-step-150 text-left preset-4 transition-colors",
+                      "preset-4 flex w-full cursor-pointer items-center gap-step-150 rounded-sm border border-transparent px-step-100 py-step-150 text-left transition-colors",
                       "hover:border-muted-foreground",
                     )}
                   >
@@ -116,11 +116,11 @@ const CompareCurrencyPicker = ({
                       isLoading={isLoading}
                     />
 
-                    <span className="flex-1 md:flex-none preset-4 text-foreground">
+                    <span className="preset-4 flex-1 text-foreground md:flex-none">
                       {currency.code}
                     </span>
 
-                    <span className="hidden md:inline flex-1 preset-5 text-muted-foreground truncate">
+                    <span className="preset-5 hidden flex-1 truncate text-muted-foreground md:inline">
                       {currency.name}
                     </span>
                   </button>
@@ -129,7 +129,7 @@ const CompareCurrencyPicker = ({
             />
 
             {filtered.length === 0 && (
-              <p className="px-step-150 py-step-200 text-center preset-5 text-neutral-200">
+              <p className="preset-5 px-step-150 py-step-200 text-center text-neutral-200">
                 {query
                   ? `No currency matches "${query}".`
                   : "You've added every available currency."}

@@ -92,19 +92,19 @@ const AlertToggle = ({
         </TooltipContent>
       </Tooltip>
 
-      <PopoverContent className="w-80 md:w-94 space-y-step-250 p-step-200">
+      <PopoverContent className="w-80 space-y-step-250 p-step-200 md:w-94">
         <form onSubmit={handleSubmit} className="space-y-step-250">
           <div className="space-y-step-125">
-            <p className="preset-3 uppercase text-neutral-100">
+            <p className="preset-3 text-neutral-100 uppercase">
               Get notified when
             </p>
 
             <div className="space-y-step-125">
-              <p className="preset-5-med uppercase text-neutral-200">
+              <p className="preset-5-med text-neutral-200 uppercase">
                 {fromCurrency}/{toCurrency}
               </p>
 
-              <p className="preset-5  text-neutral-100">
+              <p className="preset-5 text-neutral-100">
                 Current rate:{" "}
                 <span className="preset-5-med">{currentRate?.toFixed(2)}</span>
               </p>
@@ -163,7 +163,7 @@ const AlertToggle = ({
           <div className="flex flex-col gap-step-125">
             <Label
               htmlFor={inputId}
-              className="preset-5 uppercase text-neutral-100"
+              className="preset-5 text-neutral-100 uppercase"
             >
               this threshold:
             </Label>
@@ -182,7 +182,7 @@ const AlertToggle = ({
               }}
               aria-label="Alert threshold"
               placeholder="0.00"
-              className="w-full py-step-100 px-step-100 rounded-6 bg-transparent border border-neutral-200 preset-5 text-foreground outline-none focus:border-primary placeholder:text-neutral-200"
+              className="preset-5 w-full rounded-6 border border-neutral-200 bg-transparent px-step-100 py-step-100 text-foreground outline-none placeholder:text-neutral-200 focus:border-primary"
             />
           </div>
 

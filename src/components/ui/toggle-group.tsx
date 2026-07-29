@@ -29,7 +29,7 @@ function ToggleGroupItem({
     <ToggleGroupPrimitive.Item
       data-slot="toggle-group-item"
       className={cn(
-        "relative inline-flex cursor-pointer items-center justify-center rounded-md px-step-200 py-step-150 preset-5 uppercase text-neutral-200 transition-colors",
+        "preset-5 relative inline-flex cursor-pointer items-center justify-center rounded-md px-step-200 py-step-150 text-neutral-200 uppercase transition-colors",
         "hover:text-foreground",
         "focus-ring",
         "disabled:pointer-events-none disabled:opacity-50",

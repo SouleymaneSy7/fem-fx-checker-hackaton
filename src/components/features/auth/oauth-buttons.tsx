@@ -39,7 +39,7 @@ const OAuthButtons = () => {
         <Separator className="flex-1" />
       </div>
 
-      <div className="w-full flex flex-wrap items-center gap-step-100 md:gap-step-125">
+      <div className="flex w-full flex-wrap items-center gap-step-100 md:gap-step-125">
         <Button
           type="button"
           variant="secondary"

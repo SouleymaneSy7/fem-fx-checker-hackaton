@@ -15,11 +15,11 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
     const Icon = icon;
 
     return (
-      <Container className="w-full relative">
+      <Container className="relative w-full">
         {Icon && (
           <label
             htmlFor={searchId}
-            className="absolute left-step-150 top-1/2 transform -translate-y-1/2"
+            className="-translate-y-1/2 absolute top-1/2 left-step-150 transform"
           >
             <Icon />
           </label>
@@ -30,9 +30,9 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
           type={type}
           data-slot="input"
           className={cn(
-            "w-full flex items-center flex-1 gap-step-125 py-step-150  px-step-150 rounded-6 bg-transparent border border-neutral-200",
+            "flex w-full flex-1 items-center gap-step-125 rounded-6 border border-neutral-200 bg-transparent px-step-150 py-step-150",
             "placeholder:text-neutral-200",
-            "focus:outline-none focus:border-primary",
+            "focus:border-primary focus:outline-none",
             "disabled:cursor-not-allowed disabled:opacity-50",
             "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
             Icon ? "pl-step-500" : "",
@@ -48,7 +48,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
             className={cn(
               "hidden md:inline-block",
               "order-last pr-step-050 has-[>kbd]:mr-step-050",
-              "absolute right-step-050 top-1/2 transform -translate-y-1/2",
+              "-translate-y-1/2 absolute top-1/2 right-step-050 transform",
             )}
           >
             <KbdGroup className="gap-step-025">

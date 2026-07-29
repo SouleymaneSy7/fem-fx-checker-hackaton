@@ -67,7 +67,7 @@ const SignUpForm = () => {
       <div className="flex flex-col gap-step-200">
         <h1 className="preset-1 text-foreground">Create An account</h1>
 
-        <p className="preset-4 leading-snug! text-neutral-200">
+        <p className="preset-4 text-neutral-200 leading-snug!">
           Enter your personal information to create your account.
         </p>
       </div>
@@ -132,7 +132,7 @@ const SignUpForm = () => {
         </Button>
       </form>
 
-      <p className="preset-5 text-neutral-200 text-center">
+      <p className="preset-5 text-center text-neutral-200">
         Already have an account?{" "}
         <Link
           href="/sign-in"

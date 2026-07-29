@@ -65,7 +65,7 @@ function AlertDialogTitle({
   return (
     <AlertDialogPrimitive.Title
       data-slot="alert-dialog-title"
-      className={cn("preset-3-bold uppercase text-foreground", className)}
+      className={cn("preset-3-bold text-foreground uppercase", className)}
       {...delegatedProps}
     />
   );

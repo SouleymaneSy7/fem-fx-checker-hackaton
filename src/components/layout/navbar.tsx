@@ -9,7 +9,7 @@ import ThemeToggle from "./theme-toggle";
 
 const Navbar = ({ availableCurrencies, isLoading }: NavbarPropsType) => {
   return (
-    <Container className="container-header | flex flex-wrap gap-step-100 justify-between items-center py-step-250">
+    <Container className="container-header | flex flex-wrap items-center justify-between gap-step-100 py-step-250">
       <Link href={"/"}>
         <Logo />
       </Link>

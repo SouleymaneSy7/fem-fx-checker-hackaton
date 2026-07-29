@@ -13,7 +13,7 @@ const NumericInput = ({
       data-slot="numeric-input"
       placeholder="0"
       className={cn(
-        "relative preset-1 px-step-050 w-full max-w-50 rounded-md bg-transparent text-foreground outline-none",
+        "preset-1 relative w-full max-w-50 rounded-md bg-transparent px-step-050 text-foreground outline-none",
         "placeholder:text-neutral-200",
         "transition",
         "focus-ring focus-visible:border-transparent",

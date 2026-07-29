@@ -12,7 +12,7 @@ function Marquee({
 }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("overflow-hidden relative", className)}
+      className={cn("relative overflow-hidden", className)}
       {...delegatedProps}
     />
   );
@@ -25,7 +25,7 @@ function MarqueeHeader({
   return (
     <div
       className={cn(
-        "absolute left-0 top-0 bottom-0 z-10 px-step-200 py-step-150 bg-primary flex items-center gap-step-100 pointer-events-none",
+        "pointer-events-none absolute top-0 bottom-0 left-0 z-10 flex items-center gap-step-100 bg-primary px-step-200 py-step-150",
         className,
       )}
       {...delegatedProps}
@@ -39,7 +39,7 @@ function MarqueeTitle({
 }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("preset-5-med uppercase text-neutral-900", className)}
+      className={cn("preset-5-med text-neutral-900 uppercase", className)}
       {...delegatedProps}
     />
   );

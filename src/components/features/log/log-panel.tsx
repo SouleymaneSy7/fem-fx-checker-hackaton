@@ -72,7 +72,7 @@ const LogPanel = () => {
   return (
     <React.Fragment>
       {hasEntries ? (
-        <Container className="bg-card border border-neutral-600 rounded-xl space-y-step-250 py-step-250 px-step-200 md:p-step-250">
+        <Container className="space-y-step-250 rounded-xl border border-neutral-600 bg-card px-step-200 py-step-250 md:p-step-250">
           <div className="flex flex-col flex-wrap gap-step-125 md:flex-row md:items-center md:justify-between">
             <Title
               level="h3"
@@ -140,22 +140,22 @@ const LogPanel = () => {
 
               return (
                 <li className="flex items-center gap-step-125 rounded-10 border border-neutral-500 bg-neutral-600 p-step-150 md:gap-step-200 md:p-step-200">
-                  <div className="flex-1 flex flex-col gap-step-050 md:flex-row md:items-center">
+                  <div className="flex flex-1 flex-col gap-step-050 md:flex-row md:items-center">
                     <TextTooltip
-                      className="shrink-0 preset-4 uppercase text-neutral-200 md:w-step-1000"
+                      className="preset-4 shrink-0 text-neutral-200 uppercase md:w-step-1000"
                       content={formatFullDateTime(createdAtIso)}
                     >
                       {formatRelativeTime(createdAtIso)}
                     </TextTooltip>
 
                     <div className="flex items-center gap-step-100">
-                      <p className="preset-4 uppercase text-foreground">
+                      <p className="preset-4 text-foreground uppercase">
                         {entry.fromCurrency}
                       </p>
 
                       <ArrowRightIcon className="text-neutral-200" size={12} />
 
-                      <p className="preset-4 uppercase text-foreground">
+                      <p className="preset-4 text-foreground uppercase">
                         {entry.toCurrency}
                       </p>
                     </div>

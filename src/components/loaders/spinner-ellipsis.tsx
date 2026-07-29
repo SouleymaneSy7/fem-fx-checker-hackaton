@@ -25,7 +25,7 @@ export default function SpinnerEllipsis({
             // biome-ignore lint/suspicious/noArrayIndexKey: static delay array [0, 0.2, 0.4] — index key is stable
             key={i}
             className={cn(
-              "size-2 rounded-full bg-primary spinner-ellipsis-dot",
+              "spinner-ellipsis-dot size-2 rounded-full bg-primary",
               className,
             )}
             style={{ animationDelay: `${delay}s` }}

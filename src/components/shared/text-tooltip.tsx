@@ -13,7 +13,7 @@ const TextTooltip = React.forwardRef<HTMLSpanElement, TextTooltipPropsType>(
         <TooltipTrigger asChild>
           <span
             ref={ref}
-            className={cn("cursor-default! rounded-sm focus-ring", className)}
+            className={cn("focus-ring cursor-default! rounded-sm", className)}
             {...delegatedProps}
           >
             {children}

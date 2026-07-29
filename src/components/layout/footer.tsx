@@ -2,14 +2,14 @@ import { Container } from "@/components/common";
 
 const Footer = () => {
   return (
-    <Container as="footer" className="py-step-400 space-y-1 text-center">
+    <Container as="footer" className="space-y-1 py-step-400 text-center">
       <p className="preset-5 text-neutral-200">
         Challenge by{" "}
         <a
           href="https://www.frontendmentor.io/challenges/foreign-exchange-currency-converter"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary preset-5-med underline underline-offset-2 hover:text-primary"
+          className="preset-5-med text-primary underline underline-offset-2 hover:text-primary"
         >
           Frontend Mentor
         </a>
@@ -25,7 +25,7 @@ const Footer = () => {
           href="https://terminal-portfolio-website-xi.vercel.app/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary preset-5-med underline underline-offset-2 hover:text-primary"
+          className="preset-5-med text-primary underline underline-offset-2 hover:text-primary"
         >
           Souleymane Sy
         </a>

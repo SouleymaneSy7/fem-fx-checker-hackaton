@@ -105,7 +105,7 @@ const ConfirmDialog = ({
 
             <AlertDialogPrimitive.Content asChild forceMount>
               <motion.div
-                className="fixed top-1/2 left-1/2 z-50 w-full max-w-[calc(100%-2rem)] space-y-step-200 rounded-16 border border-neutral-500 bg-card p-step-250 shadow-sm dark:shadow-lg dark:border-neutral-600 sm:max-w-100"
+                className="fixed top-1/2 left-1/2 z-50 w-full max-w-[calc(100%-2rem)] space-y-step-200 rounded-16 border border-neutral-500 bg-card p-step-250 shadow-sm sm:max-w-100 dark:border-neutral-600 dark:shadow-lg"
                 initial={
                   shouldReduceMotion
                     ? {

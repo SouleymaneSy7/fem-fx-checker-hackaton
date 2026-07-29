@@ -15,7 +15,7 @@ export function CurrencyFlag({
   if (isLoading) {
     return (
       <Skeleton
-        className="bg-neutral-400 rounded-full"
+        className="rounded-full bg-neutral-400"
         style={{ width: size, height: size }}
       />
     );
@@ -27,7 +27,7 @@ export function CurrencyFlag({
     return (
       <span
         aria-hidden="true"
-        className="inline-block shrink-0 bg-neutral-400 rounded-full"
+        className="inline-block shrink-0 rounded-full bg-neutral-400"
         style={{ width: size, height: size }}
       />
     );
@@ -45,7 +45,7 @@ export function CurrencyFlag({
         alt=""
         width={size}
         height={size}
-        className="w-full h-full object-cover rounded-full"
+        className="h-full w-full rounded-full object-cover"
       />
     </div>
   );

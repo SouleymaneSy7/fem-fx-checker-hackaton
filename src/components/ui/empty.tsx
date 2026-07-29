@@ -30,7 +30,7 @@ function EmptyDescription({
 }: React.ComponentProps<"p">) {
   return (
     <p
-      className={cn("mx-auto max-w-185 preset-4 text-neutral-200", className)}
+      className={cn("preset-4 mx-auto max-w-185 text-neutral-200", className)}
       {...delegatedProps}
     />
   );

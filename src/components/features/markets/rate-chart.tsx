@@ -25,7 +25,7 @@ const CustomTooltip = ({
 
   return (
     <div className="flex flex-col gap-step-075 rounded-8 border border-border bg-popover px-step-150 py-step-100 shadow-lg">
-      <p className="preset-6 uppercase text-neutral-200">
+      <p className="preset-6 text-neutral-200 uppercase">
         {dateFormatter(point.date)}
       </p>
 

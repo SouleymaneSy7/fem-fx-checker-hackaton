@@ -135,17 +135,17 @@ const CurrencyPicker = ({
           aria-selected={isSelected}
           onClick={() => handleSelect(currency.code)}
           className={cn(
-            "w-full cursor-pointer border border-transparent flex items-center gap-step-150 rounded-sm px-step-100 py-step-150 text-left preset-4 transition-colors",
+            "preset-4 flex w-full cursor-pointer items-center gap-step-150 rounded-sm border border-transparent px-step-100 py-step-150 text-left transition-colors",
             "hover:border-muted-foreground",
           )}
         >
           <CurrencyFlag currencyCode={currency.code} isLoading={isLoading} />
 
-          <span className="flex-1 md:flex-none preset-4 text-foreground">
+          <span className="preset-4 flex-1 text-foreground md:flex-none">
             {currency.code}
           </span>
 
-          <span className="hidden md:inline flex-1 preset-5 text-muted-foreground truncate">
+          <span className="preset-5 hidden flex-1 truncate text-muted-foreground md:inline">
             {currency.name}
           </span>
 
@@ -178,9 +178,9 @@ const CurrencyPicker = ({
         />
 
         {isLoading ? (
-          <Skeleton className="w-7 h-4 bg-neutral-400" />
+          <Skeleton className="h-4 w-7 bg-neutral-400" />
         ) : (
-          <span className="preset-4 uppercase text-neutral-50">
+          <span className="preset-4 text-neutral-50 uppercase">
             {selected?.code ?? "———"}
           </span>
         )}
@@ -188,14 +188,14 @@ const CurrencyPicker = ({
         <ChevronDownIcon
           size={12}
           className={cn(
-            "transition-transform text-neutral-50",
+            "text-neutral-50 transition-transform",
             open && "rotate-180",
           )}
         />
       </PopoverTrigger>
 
       <PopoverContent>
-        <ScrollArea className="h-115 w-78 md:w-114 flex-col gap-step-125 p-step-100">
+        <ScrollArea className="h-115 w-78 flex-col gap-step-125 p-step-100 md:w-114">
           <SearchInput
             icon={SearchIcon}
             keys={focusShortcutTarget === "send" ? keyboards : undefined}
@@ -207,10 +207,10 @@ const CurrencyPicker = ({
 
           {recentPairs.length > 0 && !query && (
             <div className="space-y-step-050 pb-step-050">
-              <div className="p-step-100 flex items-center justify-between gap-step-150 w-full border-b border-border">
+              <div className="flex w-full items-center justify-between gap-step-150 border-border border-b p-step-100">
                 <Title
                   level="h4"
-                  className="preset-5 uppercase text-neutral-200"
+                  className="preset-5 text-neutral-200 uppercase"
                 >
                   Recent
                 </Title>
@@ -226,7 +226,7 @@ const CurrencyPicker = ({
                 renderItem={(pair) => (
                   <div
                     className={cn(
-                      "flex items-center gap-step-025 rounded-full border border-neutral-500 bg-neutral-600 py-step-050 pl-step-125 pr-step-050 transition-colors",
+                      "flex items-center gap-step-025 rounded-full border border-neutral-500 bg-neutral-600 py-step-050 pr-step-050 pl-step-125 transition-colors",
                       "hover:border-neutral-400 hover:bg-neutral-500",
                     )}
                   >
@@ -234,7 +234,7 @@ const CurrencyPicker = ({
                       type="button"
                       onClick={() => handleSelectRecentPair(pair)}
                       aria-label={`Switch to ${pair.fromCurrency} to ${pair.toCurrency}`}
-                      className="flex items-center gap-step-075 preset-5 uppercase text-foreground cursor-pointer focus-ring rounded-full"
+                      className="preset-5 focus-ring flex cursor-pointer items-center gap-step-075 rounded-full text-foreground uppercase"
                     >
                       <span>{pair.fromCurrency}</span>
                       <ArrowRightIcon size={10} className="text-neutral-200" />
@@ -245,7 +245,7 @@ const CurrencyPicker = ({
                       type="button"
                       onClick={() => removeRecentPair(pair.id)}
                       aria-label={`Remove recent pair: ${pair.fromCurrency} to ${pair.toCurrency}`}
-                      className="flex items-center justify-center rounded-full p-step-075 text-neutral-200 transition-colors cursor-pointer hover:bg-neutral-400 hover:text-foreground focus-ring"
+                      className="focus-ring flex cursor-pointer items-center justify-center rounded-full p-step-075 text-neutral-200 transition-colors hover:bg-neutral-400 hover:text-foreground"
                     >
                       <XIcon size={10} />
                     </button>
@@ -264,10 +264,10 @@ const CurrencyPicker = ({
 
             {popular.length > 0 && (
               <div className="space-y-step-050 pb-step-050">
-                <div className="p-step-100 flex items-center justify-between gap-step-150 w-full border-b border-border">
+                <div className="flex w-full items-center justify-between gap-step-150 border-border border-b p-step-100">
                   <Title
                     level="h4"
-                    className="preset-5 uppercase text-neutral-200"
+                    className="preset-5 text-neutral-200 uppercase"
                   >
                     Popular
                   </Title>
@@ -286,10 +286,10 @@ const CurrencyPicker = ({
 
             {others.length > 0 && (
               <div className="space-y-step-050">
-                <div className="p-step-100 flex items-center justify-between gap-step-150 w-full border-b border-border">
+                <div className="flex w-full items-center justify-between gap-step-150 border-border border-b p-step-100">
                   <Title
                     level="h4"
-                    className="preset-5 uppercase text-neutral-200"
+                    className="preset-5 text-neutral-200 uppercase"
                   >
                     {popular.length > 0 ? "Other currencies" : "Currencies"}
                   </Title>
@@ -315,7 +315,7 @@ const CurrencyPicker = ({
                   </p>
                 </div>
               ) : (
-                <p className="px-step-150 py-step-200 text-center preset-5 text-neutral-200">
+                <p className="preset-5 px-step-150 py-step-200 text-center text-neutral-200">
                   No currency matches "{query}".
                 </p>
               ))}
