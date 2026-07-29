@@ -1,7 +1,7 @@
 import Container from "@/components/common/container";
 import TextTooltip from "@/components/shared/text-tooltip";
 import { cn } from "@/lib/utils";
-import type { HistoryStatPropsType } from "@/types/ui.types";
+import type { HistoryStatPropsType } from "@/types";
 
 const HistoryStat = ({
   label,

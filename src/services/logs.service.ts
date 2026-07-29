@@ -3,8 +3,8 @@ import { ENDPOINT_LOGS } from "@/constants";
 import type {
   CreateLogEntryInputType,
   LogEntryRowType,
-} from "@/types/api.types";
-import type { LogEntryType } from "@/types/data.types";
+  LogEntryType,
+} from "@/types";
 
 // The API returns `createdAt` as an ISO string (Date serializes that way
 // through JSON) — LogEntryType expects a number (Date.now()-style), same

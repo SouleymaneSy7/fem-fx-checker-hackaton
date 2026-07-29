@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { IconPropsType } from "@/types/ui.types";
+import type { IconPropsType } from "@/types";
 
 /**
  * Anything renderable by this wrapper: a lucide-react icon, or a local SVG

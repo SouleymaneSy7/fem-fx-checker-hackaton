@@ -17,7 +17,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import type { DatePickerPropsType } from "@/types/ui.types";
+import type { DatePickerPropsType } from "@/types";
 
 export type DatePresetType = {
   label: string;

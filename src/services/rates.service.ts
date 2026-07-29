@@ -1,5 +1,5 @@
 import { ENDPOINT_RATES } from "@/constants";
-import type { FetchRatesParamsType, RateType } from "@/types/api.types";
+import type { FetchRatesParamsType, RateType } from "@/types";
 import { ratesSchema } from "@/validators";
 import { httpClient } from "./http-client";
 

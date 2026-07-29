@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-
-import type { MarqueePropsType } from "@/types/ui.types";
+import type { MarqueePropsType } from "@/types";
 
 const MIN_REPEAT_COUNT = 2;
 

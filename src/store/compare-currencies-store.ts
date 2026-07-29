@@ -5,7 +5,7 @@ import {
   DEFAULT_COMPARE_CURRENCIES,
   STORAGE_KEY_COMPARE_CURRENCIES,
 } from "@/constants";
-import type { CompareCurrenciesStoreType } from "@/types/data.types";
+import type { CompareCurrenciesStoreType } from "@/types";
 import { safeLocalStorage } from "@/utils/safe-storage";
 
 export const useCompareCurrenciesStore = create<CompareCurrenciesStoreType>()(

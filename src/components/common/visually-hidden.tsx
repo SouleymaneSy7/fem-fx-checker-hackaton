@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { VisuallyHiddenPropsType } from "@/types/ui.types";
+import type { VisuallyHiddenPropsType } from "@/types";
 
 const VisuallyHidden = React.forwardRef<
   HTMLSpanElement,

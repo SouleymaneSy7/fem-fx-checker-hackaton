@@ -1,6 +1,6 @@
 import { addDays, format } from "date-fns";
 import { DAYS_BY_RANGE } from "@/constants";
-import type { RateRangeType } from "@/types/data.types";
+import type { RateRangeType } from "@/types";
 
 function toISODate(date: Date): string {
   return format(date, "yyyy-MM-dd");

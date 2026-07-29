@@ -1,4 +1,4 @@
-import type { RateType } from "@/types/api.types";
+import type { RateType } from "@/types";
 import { rateSchema } from "@/validators";
 import { httpClient } from "./http-client";
 

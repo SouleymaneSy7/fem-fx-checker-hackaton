@@ -1,8 +1,7 @@
 import axios from "axios";
 
 import { ENDPOINT_RECENT_PAIRS } from "@/constants";
-import type { RecentPairRowType } from "@/types/api.types";
-import type { RecentPairType } from "@/types/data.types";
+import type { RecentPairRowType, RecentPairType } from "@/types";
 
 // Composite `${from}-${to}` id, not the server-assigned uuid — keeps ids
 // consistent with locally-added pairs (see recent-pairs-store.ts), so the

@@ -4,7 +4,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import type { FavoritePropsType } from "@/types/ui.types";
+import type { FavoritePropsType } from "@/types";
 import { StarFilledIcon, StarIcon } from "../icons";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";

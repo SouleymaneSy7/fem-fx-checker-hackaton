@@ -4,7 +4,7 @@ import {
   DEFAULT_FROM_CURRENCY,
   DEFAULT_TO_CURRENCY,
 } from "@/constants";
-import type { ConverterStoreType } from "@/types/data.types";
+import type { ConverterStoreType } from "@/types";
 
 export const useConverterStore = create<ConverterStoreType>((set) => ({
   amount: DEFAULT_AMOUNT,

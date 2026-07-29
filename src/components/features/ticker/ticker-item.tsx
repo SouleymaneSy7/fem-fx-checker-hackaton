@@ -4,7 +4,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import type { TickerPairType } from "@/types/ui.types";
+import type { TickerPairType } from "@/types";
 import { formatPreciseAmount } from "@/utils/format-amount";
 
 const TickerItem = ({ pair }: { pair: TickerPairType }) => {

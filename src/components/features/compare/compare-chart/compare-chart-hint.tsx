@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/tooltip";
 import { MAX_CHART_CURRENCIES } from "@/constants";
 import { cn } from "@/lib/utils";
-import type { CompareChartHintPropsType } from "@/types/ui.types";
+import type { CompareChartHintPropsType } from "@/types";
 
 const CompareChartHint = ({
   baseCurrency,

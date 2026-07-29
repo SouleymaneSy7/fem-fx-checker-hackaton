@@ -6,7 +6,7 @@ import * as React from "react";
 import LoadingStatus from "@/components/common/loading-status";
 import LiquidWaveSpinner from "@/components/loaders/liquid-wave";
 import { useAppReadiness } from "@/hooks/use-app-readiness";
-import type { AppLoaderPropsType } from "@/types/ui.types";
+import type { AppLoaderPropsType } from "@/types";
 
 /**
  * Full-screen splash shown on first visit. `children` mount immediately

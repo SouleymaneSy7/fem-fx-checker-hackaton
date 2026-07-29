@@ -3,12 +3,7 @@
 import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
 import { memo, useEffect, useId, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-
-type TextMorphProps = {
-  words: string[];
-  interval?: number;
-  className?: string;
-};
+import type { TextMorphProps } from "@/types";
 
 export function TextMorph({
   words,

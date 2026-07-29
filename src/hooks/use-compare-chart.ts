@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { DEFAULT_CHART_RANGE } from "@/constants";
 import { fetchRateHistory } from "@/services/rates.service";
 import { useConverterStore } from "@/store/converter-store";
-import type { CompareChartPointType, RateRangeType } from "@/types/data.types";
+import type { CompareChartPointType, RateRangeType } from "@/types";
 import { getDateRangeFromPeriod } from "@/utils/date-range";
 
 type UseCompareChartOptionsType = {

@@ -6,7 +6,7 @@ import { useFavoriteMutations } from "@/hooks/use-favorite-mutations";
 import { useLatestRates } from "@/hooks/use-latest-rates";
 import { useConverterStore } from "@/store/converter-store";
 import { useFavoritesStore } from "@/store/favorites-store";
-import type { CompareRowType } from "@/types/data.types";
+import type { CompareRowType } from "@/types";
 
 export function useCompare(targetCurrencies: string[]) {
   const amount = useConverterStore((state) => state.amount);

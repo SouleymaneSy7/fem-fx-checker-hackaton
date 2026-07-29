@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 import { MAX_RECENT_PAIRS, STORAGE_KEY_RECENT_PAIRS } from "@/constants";
-import type { RecentPairsStoreType } from "@/types/data.types";
+import type { RecentPairsStoreType } from "@/types";
 import { safeLocalStorage } from "@/utils/safe-storage";
 
 const buildPairId = (from: string, to: string) => `${from}-${to}`;

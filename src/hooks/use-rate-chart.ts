@@ -3,7 +3,7 @@
 import * as React from "react";
 import { DEFAULT_CHART_RANGE } from "@/constants";
 import { useRateHistory } from "@/hooks/use-rate-history";
-import type { RatePointType, RateRangeType } from "@/types/data.types";
+import type { RatePointType, RateRangeType } from "@/types";
 
 export function useRateChart(
   base: string,

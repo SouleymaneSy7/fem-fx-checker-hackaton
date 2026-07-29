@@ -10,10 +10,7 @@ import {
   YAxis,
 } from "recharts";
 
-import type {
-  CustomTooltipPropsType,
-  RateChartPropsType,
-} from "@/types/ui.types";
+import type { CustomTooltipPropsType, RateChartPropsType } from "@/types";
 import { formatAmount } from "@/utils/format-amount";
 
 const CustomTooltip = ({

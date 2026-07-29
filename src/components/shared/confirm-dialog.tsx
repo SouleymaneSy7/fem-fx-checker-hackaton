@@ -17,10 +17,7 @@ import {
   SPRING_PANEL,
   STAGGER_DELAY_SECONDS,
 } from "@/constants";
-import type {
-  ConfirmDialogPropsType,
-  StaggerItemPropsType,
-} from "@/types/ui.types";
+import type { ConfirmDialogPropsType, StaggerItemPropsType } from "@/types";
 
 const StaggerItem = ({
   children,

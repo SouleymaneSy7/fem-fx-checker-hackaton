@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 
 import { Icon } from "@/components/common/icon";
-import type { IconPropsType } from "@/types/ui.types";
+import type { IconPropsType } from "@/types";
 import { AdjustHalfSvg } from "./adjust-half-icon";
 import { ChevronDownSvg } from "./chevron-down-icon";
 import { DeleteFilledSvg } from "./delete-filled-icon";

@@ -3,7 +3,7 @@
 import { SWRConfig } from "swr";
 
 import { SWR_RETRY_COUNT, SWR_RETRY_INTERVAL_MS } from "@/constants";
-import type { SWRProviderPropsType } from "@/types/ui.types";
+import type { SWRProviderPropsType } from "@/types";
 
 export function SWRProvider({ children }: SWRProviderPropsType) {
   return (

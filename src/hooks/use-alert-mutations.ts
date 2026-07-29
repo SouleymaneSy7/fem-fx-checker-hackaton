@@ -9,7 +9,7 @@ import {
   updateAlert,
 } from "@/services/alerts.service";
 import { useAlertsStore } from "@/store/alerts-store";
-import type { RateAlertConditionType, RateAlertType } from "@/types/data.types";
+import type { RateAlertConditionType, RateAlertType } from "@/types";
 
 export function useAlertMutations() {
   const { data: session } = useSession();

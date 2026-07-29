@@ -1,4 +1,4 @@
-import type { LoadingStatusPropsType } from "@/types/ui.types";
+import type { LoadingStatusPropsType } from "@/types";
 import VisuallyHidden from "./visually-hidden";
 
 /**

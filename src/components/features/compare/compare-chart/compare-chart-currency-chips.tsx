@@ -6,7 +6,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { CompareChartCurrencyChipsPropsType } from "@/types/ui.types";
+import type { CompareChartCurrencyChipsPropsType } from "@/types";
 
 // Compact "currently in this chart" summary, one removable chip per
 // selected currency — the chart's equivalent of the table's per-row

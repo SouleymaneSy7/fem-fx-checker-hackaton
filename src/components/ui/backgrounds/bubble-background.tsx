@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring } from "motion/react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import type { BubbleBackgroundPropsType } from "@/types/ui.types";
+import type { BubbleBackgroundPropsType } from "@/types";
 
 function BubbleBackground({
   ref,

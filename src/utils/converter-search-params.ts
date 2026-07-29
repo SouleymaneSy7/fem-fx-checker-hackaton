@@ -1,4 +1,4 @@
-import type { ConverterSearchParamsType } from "@/types/api.types";
+import type { ConverterSearchParamsType } from "@/types";
 
 export function buildConverterSearchParams({
   from,

@@ -24,14 +24,12 @@ import { useIsMac } from "@/hooks/use-is-mac";
 import { useRecentPairMutations } from "@/hooks/use-recent-pair-mutations";
 import { cn } from "@/lib/utils";
 import type {
+  CurrencyOptionType,
+  CurrencyPickerPropsType,
   FocusCurrencySearchDetail,
   RecentPairType,
   SelectRecentPairDetail,
-} from "@/types/data.types";
-import type {
-  CurrencyOptionType,
-  CurrencyPickerPropsType,
-} from "@/types/ui.types";
+} from "@/types";
 import { Badge } from "../ui/badge";
 import { ScrollArea } from "../ui/scroll-area";
 import { Skeleton } from "../ui/skeleton";

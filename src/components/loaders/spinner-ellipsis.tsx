@@ -1,9 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-
-type SpinnerEllipsisPropsType = {
-  className?: string;
-};
+import type { SpinnerEllipsisPropsType } from "@/types";
 
 export default function SpinnerEllipsis({
   className,

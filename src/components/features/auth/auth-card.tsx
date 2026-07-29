@@ -6,7 +6,7 @@ import { BubbleBackground } from "@/components/ui/backgrounds/bubble-background"
 import { Spinner } from "@/components/ui/spinner";
 import { useSession } from "@/lib/auth-client";
 import { useThemeStore } from "@/store/theme-store";
-import type { AuthCardPropsType } from "@/types/ui.types";
+import type { AuthCardPropsType } from "@/types";
 
 // Computed from the app's oklch --primary token per theme (tokens.css),
 // not eyeballed — dark resolves to the project's own lime accent

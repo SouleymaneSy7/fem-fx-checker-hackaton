@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-
-import type { SearchInputPropsType } from "@/types/ui.types";
+import type { SearchInputPropsType } from "@/types";
 import Container from "../common/container";
 import { Kbd, KbdGroup } from "../ui/kbd";
 

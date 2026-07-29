@@ -1,8 +1,11 @@
 import axios from "axios";
 
 import { ENDPOINT_ALERTS } from "@/constants";
-import type { AlertRowType, UpdateAlertInputType } from "@/types/api.types";
-import type { RateAlertType } from "@/types/data.types";
+import type {
+  AlertRowType,
+  RateAlertType,
+  UpdateAlertInputType,
+} from "@/types";
 
 function toRateAlertType(row: AlertRowType): RateAlertType {
   return {

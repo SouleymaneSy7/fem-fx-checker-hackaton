@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 import type {
   CompareChartPropsType,
   CompareChartTooltipPropsType,
-} from "@/types/ui.types";
+} from "@/types";
 import { formatAmount } from "@/utils/format-amount";
 
 const formatPercent = (value: number) =>

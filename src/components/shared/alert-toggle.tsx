@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
-import { toast } from "sonner";
+
 import { BellIcon } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -20,8 +20,7 @@ import {
 import { SPRING_PANEL } from "@/constants";
 import { useAlertMutations } from "@/hooks/use-alert-mutations";
 import { cn } from "@/lib/utils";
-import type { RateAlertConditionType } from "@/types/data.types";
-import type { AlertTogglePropsType } from "@/types/ui.types";
+import type { AlertTogglePropsType, RateAlertConditionType } from "@/types";
 import { Spinner } from "../ui/spinner";
 
 const CONDITION_INDICATOR_LAYOUT_ID = "alert-condition-indicator";

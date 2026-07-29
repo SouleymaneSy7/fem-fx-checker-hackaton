@@ -4,7 +4,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import type { LogButtonPropsType } from "@/types/ui.types";
+import type { LogButtonPropsType } from "@/types";
 import { CheckIcon } from "../icons";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";

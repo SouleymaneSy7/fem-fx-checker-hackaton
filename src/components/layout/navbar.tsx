@@ -3,7 +3,7 @@ import Link from "next/link";
 import Logo from "@/components/shared/logo";
 import TextTooltip from "@/components/shared/text-tooltip";
 import { Separator } from "@/components/ui/separator";
-import type { NavbarPropsType } from "@/types/ui.types";
+import type { NavbarPropsType } from "@/types";
 import Container from "../common/container";
 import AuthPopover from "../features/auth/auth-popover";
 import { Spinner } from "../ui/spinner";

@@ -189,8 +189,7 @@ const LogPanel = () => {
 
           <EmptyDescription>
             Every conversion is recorded here automatically when you tap Log
-            Conversion. Your log is private to this session and this
-            browser.{" "}
+            Conversion. Your log is private to this session and this browser.{" "}
           </EmptyDescription>
         </Empty>
       )}

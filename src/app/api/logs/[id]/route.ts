@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { logEntry } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { writeRatelimit } from "@/lib/rate-limit";
-import type { RouteContextType } from "@/types/data.types";
+import type { RouteContextType } from "@/types";
 
 export async function DELETE(_request: Request, context: RouteContextType) {
   const session = await auth.api.getSession({ headers: await headers() });

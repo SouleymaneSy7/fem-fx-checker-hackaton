@@ -1,4 +1,4 @@
-import type { RateRangeType } from "@/types/data.types";
+import type { RateRangeType } from "@/types";
 
 export const DAYS_BY_RANGE = {
   "1d": 1,

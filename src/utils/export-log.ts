@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import type { LogEntryType } from "@/types/data.types";
+import type { LogEntryType } from "@/types";
 
 const CSV_HEADERS = [
   "Date",

@@ -24,8 +24,7 @@ import { useCompareChartCurrencies } from "@/hooks/use-compare-chart-currencies"
 import { useCompareCurrencies } from "@/hooks/use-compare-currencies";
 import { useCurrencies } from "@/hooks/use-currencies";
 import { getCurrencyFlagCode } from "@/services/currency-flags.service";
-import type { CompareChartMoverType } from "@/types/data.types";
-import type { CurrencyOptionType } from "@/types/ui.types";
+import type { CompareChartMoverType, CurrencyOptionType } from "@/types";
 import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 import { formatChartDate, formatFullDate } from "@/utils/format-date";
 import RangeSelector from "../markets/range-selector";

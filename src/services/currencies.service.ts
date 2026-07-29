@@ -1,8 +1,5 @@
 import { ENDPOINT_CURRENCIES } from "@/constants";
-import type {
-  CurrencyType,
-  FetchCurrenciesOptionsType,
-} from "@/types/api.types";
+import type { CurrencyType, FetchCurrenciesOptionsType } from "@/types";
 import { currenciesSchema } from "@/validators";
 import { httpClient } from "./http-client";
 

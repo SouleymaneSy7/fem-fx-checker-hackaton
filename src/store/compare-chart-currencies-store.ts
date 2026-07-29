@@ -6,7 +6,7 @@ import {
   MAX_CHART_CURRENCIES,
   STORAGE_KEY_COMPARE_CHART_CURRENCIES,
 } from "@/constants";
-import type { CompareChartCurrenciesStoreType } from "@/types/data.types";
+import type { CompareChartCurrenciesStoreType } from "@/types";
 import { safeLocalStorage } from "@/utils/safe-storage";
 
 export const useCompareChartCurrenciesStore =

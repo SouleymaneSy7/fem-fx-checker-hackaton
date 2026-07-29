@@ -5,8 +5,7 @@ import * as React from "react";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { RANGES, SPRING_PANEL } from "@/constants";
-import type { RateRangeType } from "@/types/data.types";
-import type { RangeSelectorPropsType } from "@/types/ui.types";
+import type { RangeSelectorPropsType, RateRangeType } from "@/types";
 
 const RangeSelector = ({ value, onValueChange }: RangeSelectorPropsType) => {
   const shouldReduceMotion = useReducedMotion();

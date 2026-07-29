@@ -1,14 +1,11 @@
 import type { LucideIcon } from "lucide-react";
 import type { SpringOptions } from "motion/react";
 import type * as React from "react";
-import type {
-  BubbleColorsType,
-  CompareChartPointType,
-  ConverterSectionValueType,
-  RatePointType,
-  RateRangeType,
-  RecentPairType,
-} from "./data.types";
+
+import type { CompareChartPointType } from "./compare.types";
+import type { ConverterSectionValueType } from "./converter.types";
+import type { RatePointType, RateRangeType } from "./rate.types";
+import type { RecentPairType } from "./recent-pairs.types";
 
 /* ────────────────────────────────────────────────────────────────────────
  * Polymorphic component helpers
@@ -151,12 +148,14 @@ export type TickerPropsType = {
 
 /* ── Input ─────────────────────────────────────────────────── */
 
-export interface SearchInputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface SearchInputPropsType
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: IconSource;
   keys?: { firstKey: string; secondKey: string };
 }
 
-export interface TextInputPropsType extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputPropsType
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
 }
@@ -382,8 +381,31 @@ export type DatePickerPropsType = {
 
 /* ── Bubble ─────────────────────────────────────────────────── */
 
+export type BubbleColorsType = {
+  first: string;
+  second: string;
+  third: string;
+  fourth: string;
+  fifth: string;
+  sixth: string;
+};
+
 export type BubbleBackgroundPropsType = React.ComponentProps<"div"> & {
   interactive?: boolean;
   transition?: SpringOptions;
   colors?: BubbleColorsType;
+};
+
+/* ── LiquidWave ─────────────────────────────────────────────────── */
+
+export type TextMorphProps = {
+  words: string[];
+  interval?: number;
+  className?: string;
+};
+
+/* ── SpinnerEllipsis ─────────────────────────────────────────────────── */
+
+export type SpinnerEllipsisPropsType = {
+  className?: string;
 };

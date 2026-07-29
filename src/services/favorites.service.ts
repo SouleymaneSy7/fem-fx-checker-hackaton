@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { ENDPOINT_FAVORITES } from "@/constants";
-import type { FavoriteRowType } from "@/types/data.types";
+import type { FavoriteRowType } from "@/types";
 
 // Same-origin calls to our own Route Handlers — no baseURL override
 // needed (unlike httpClient, which targets the external Frankfurter API).

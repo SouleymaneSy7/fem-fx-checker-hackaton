@@ -20,7 +20,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import type { CompareCurrencyPickerPropsType } from "@/types/ui.types";
+import type { CompareCurrencyPickerPropsType } from "@/types";
 
 const CompareCurrencyPicker = ({
   currencies,

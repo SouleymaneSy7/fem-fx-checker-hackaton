@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { STORAGE_KEY_THEME } from "@/constants";
-import type { ThemeStoreType } from "@/types/data.types";
+import type { ThemeStoreType } from "@/types";
 import { safeLocalStorage } from "@/utils/safe-storage";
 
 export const useThemeStore = create<ThemeStoreType>()(

@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { SWR_STALE_1H } from "@/constants";
 import { fetchLatestRates } from "@/services/rates.service";
 import { useAlertsStore } from "@/store/alerts-store";
-import type { RateAlertType } from "@/types/data.types";
+import type { RateAlertType } from "@/types";
 import { useAlertMutations } from "./use-alert-mutations";
 
 function isThresholdCrossed(alert: RateAlertType, rate: number): boolean {

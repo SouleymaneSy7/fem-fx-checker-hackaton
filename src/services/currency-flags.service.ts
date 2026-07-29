@@ -1,5 +1,5 @@
 import { ENDPOINT_CURRENCIES, FLAG_CDN_URL } from "@/constants";
-import type { CurrencyType } from "@/types/api.types";
+import type { CurrencyType } from "@/types";
 import { currenciesSchema } from "@/validators";
 import { httpClient } from "./http-client";
 

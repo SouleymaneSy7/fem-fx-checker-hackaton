@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { ContainerPropsType, PolymorphicRef } from "@/types/ui.types";
+import type { ContainerPropsType, PolymorphicRef } from "@/types";
 
 type ContainerComponent = (<C extends React.ElementType = "div">(
   props: ContainerPropsType<C>,

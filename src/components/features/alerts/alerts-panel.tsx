@@ -11,7 +11,7 @@ import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { useAlertMutations } from "@/hooks/use-alert-mutations";
 import { useAlerts } from "@/hooks/use-alerts";
 import { cn } from "@/lib/utils";
-import type { PendingAlertActionType } from "@/types/data.types";
+import type { PendingAlertActionType } from "@/types";
 
 const AlertsPanel = () => {
   const { alerts } = useAlerts();

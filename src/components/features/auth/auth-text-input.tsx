@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { EyeIcon, EyeOffIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
-import type { AuthTextInputPropsType } from "@/types/ui.types";
+import type { AuthTextInputPropsType } from "@/types";
 
 const AuthTextInput = React.forwardRef<
   HTMLInputElement,

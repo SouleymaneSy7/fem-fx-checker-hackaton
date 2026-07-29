@@ -8,7 +8,7 @@ import {
   MarqueeHeader,
   MarqueeTitle,
 } from "@/components/ui/marquee";
-import type { TickerPropsType } from "@/types/ui.types";
+import type { TickerPropsType } from "@/types";
 import TickerItem from "./ticker-item";
 
 const Ticker = ({ pairs }: TickerPropsType) => {

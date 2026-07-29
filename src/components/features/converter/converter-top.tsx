@@ -20,8 +20,7 @@ import { useConverter } from "@/hooks/use-converter";
 import { useCurrencies } from "@/hooks/use-currencies";
 import { useRecentPairs } from "@/hooks/use-recent-pairs";
 import { getCurrencyFlagCode } from "@/services/currency-flags.service";
-import type { SelectRecentPairDetail } from "@/types/data.types";
-import type { CurrencyOptionType } from "@/types/ui.types";
+import type { CurrencyOptionType, SelectRecentPairDetail } from "@/types";
 import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 
 const ConverterTop = () => {

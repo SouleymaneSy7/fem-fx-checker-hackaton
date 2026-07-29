@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { rateAlert } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { writeRatelimit } from "@/lib/rate-limit";
-import type { RouteContextType } from "@/types/data.types";
+import type { RouteContextType } from "@/types";
 import { updateAlertSchema } from "@/validators";
 
 export async function PATCH(request: Request, context: RouteContextType) {

@@ -1,6 +1,6 @@
 import LoadingStatus from "@/components/common/loading-status";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { HistorySkeletonPropsType } from "@/types/ui.types";
+import type { HistorySkeletonPropsType } from "@/types";
 
 const HISTORY_STAT_SKELETON_LABELS = ["Open", "Last", "Change", "% change"];
 

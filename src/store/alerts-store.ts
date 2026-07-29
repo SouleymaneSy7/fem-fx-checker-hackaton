@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 import { STORAGE_KEY_ALERTS } from "@/constants";
-import type { AlertsStoreType, RateAlertType } from "@/types/data.types";
+import type { AlertsStoreType, RateAlertType } from "@/types";
 import { safeLocalStorage } from "@/utils/safe-storage";
 
 export const useAlertsStore = create<AlertsStoreType>()(

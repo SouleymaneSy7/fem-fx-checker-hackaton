@@ -1,4 +1,4 @@
-import type { MainPropsType } from "@/types/ui.types";
+import type { MainPropsType } from "@/types";
 import Container from "../common/container";
 
 const Main = ({ children }: MainPropsType) => {

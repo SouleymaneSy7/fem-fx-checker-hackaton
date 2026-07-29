@@ -17,8 +17,7 @@ import { cn } from "@/lib/utils";
 import { useAlertsStore } from "@/store/alerts-store";
 import { useFavoritesStore } from "@/store/favorites-store";
 import { useLogStore } from "@/store/log-store";
-import type { ConverterSectionValueType } from "@/types/data.types";
-import type { TabNavPropsType } from "@/types/ui.types";
+import type { ConverterSectionValueType, TabNavPropsType } from "@/types";
 
 const SECTIONS: { value: ConverterSectionValueType; label: string }[] = [
   { value: "history", label: "History" },

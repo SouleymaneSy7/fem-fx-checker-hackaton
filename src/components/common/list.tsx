@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { ListPropsType, PolymorphicRef } from "@/types/ui.types";
+import type { ListPropsType, PolymorphicRef } from "@/types";
 
 type ListComponent = (<Item, As extends React.ElementType = "ul">(
   props: ListPropsType<Item, As>,

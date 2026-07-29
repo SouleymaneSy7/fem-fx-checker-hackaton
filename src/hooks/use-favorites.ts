@@ -7,7 +7,7 @@ import { SWR_STALE_5M } from "@/constants";
 import { useFavoriteMutations } from "@/hooks/use-favorite-mutations";
 import { fetchLatestRates, fetchRateHistory } from "@/services/rates.service";
 import { useFavoritesStore } from "@/store/favorites-store";
-import type { FavoriteRowType } from "@/types/data.types";
+import type { FavoritePairType, FavoriteWithRateType } from "@/types";
 import { getDateRangeFromPeriod } from "@/utils/date-range";
 
 export function useFavorites() {
@@ -56,8 +56,8 @@ export function useFavorites() {
     { dedupingInterval: SWR_STALE_5M },
   );
 
-  const rows = React.useMemo<FavoriteRowType[]>(() => {
-    return favorites.map((pair) => {
+  const rows = React.useMemo<FavoriteWithRateType[]>(() => {
+    return favorites.map((pair: FavoritePairType) => {
       const group = data?.find((entry) => entry.base === pair.fromCurrency);
       const latestRow = group?.latest.find(
         (row) => row.quote === pair.toCurrency,

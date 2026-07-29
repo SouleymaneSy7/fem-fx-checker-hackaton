@@ -9,7 +9,7 @@ import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
 import { SHORTCUT_EVENTS } from "@/constants";
 import { useRateChart } from "@/hooks/use-rate-chart";
 import { useConverterStore } from "@/store/converter-store";
-import type { SetRateRangeDetail } from "@/types/data.types";
+import type { SetRateRangeDetail } from "@/types";
 import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
 import { formatChartDate, formatDateForRange } from "@/utils/format-date";
 import RangeSelector from "../range-selector";

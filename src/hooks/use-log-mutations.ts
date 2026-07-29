@@ -10,7 +10,7 @@ import {
   deleteLogEntry,
 } from "@/services/logs.service";
 import { useLogStore } from "@/store/log-store";
-import type { LogEntryType } from "@/types/data.types";
+import type { LogEntryType } from "@/types";
 
 export function useLogMutations() {
   const { data: session } = useSession();

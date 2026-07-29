@@ -10,7 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { ShareButtonPropsType } from "@/types/ui.types";
+import type { ShareButtonPropsType } from "@/types";
 import { buildConverterSearchParams } from "@/utils/converter-search-params";
 
 const COPIED_RESET_MS = 2000;

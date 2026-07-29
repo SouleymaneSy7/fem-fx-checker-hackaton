@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { HeadingLevel, TitlePropsType } from "@/types/ui.types";
+import type { HeadingLevel, TitlePropsType } from "@/types";
 
 const HEADING_TAGS = new Set<HeadingLevel>([
   "h1",
