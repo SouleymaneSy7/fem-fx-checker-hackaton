@@ -1,6 +1,7 @@
 export * from "./alerts";
 export * from "./api";
 export * from "./auth";
+export * from "./currency";
 export * from "./favorite";
 export * from "./log";
 export * from "./recent-pair";
