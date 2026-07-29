@@ -2,9 +2,9 @@
 
 import useSWR from "swr";
 
-import { fetchRateHistory } from "@/services/rates.service";
+import { fetchRateHistory } from "@/services";
 import type { RateRangeType } from "@/types";
-import { getDateRangeFromPeriod } from "@/utils/date-range";
+import { getDateRangeFromPeriod } from "@/utils";
 
 export function useRateHistory(
   base: string,

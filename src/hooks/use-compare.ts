@@ -2,11 +2,10 @@
 
 import * as React from "react";
 
-import { useFavoriteMutations } from "@/hooks/use-favorite-mutations";
-import { useLatestRates } from "@/hooks/use-latest-rates";
-import { useConverterStore } from "@/store/converter-store";
-import { useFavoritesStore } from "@/store/favorites-store";
+import { useConverterStore, useFavoritesStore } from "@/store";
 import type { CompareRowType } from "@/types";
+import { useFavoriteMutations } from "./use-favorite-mutations";
+import { useLatestRates } from "./use-latest-rates";
 
 export function useCompare(targetCurrencies: string[]) {
   const amount = useConverterStore((state) => state.amount);

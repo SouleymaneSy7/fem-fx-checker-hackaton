@@ -1,7 +1,8 @@
 "use client";
 
 import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
-import { memo, useEffect, useId, useMemo, useRef, useState } from "react";
+import * as React from "react";
+
 import { cn } from "@/lib/utils";
 import type { TextMorphProps } from "@/types";
 
@@ -10,9 +11,9 @@ export function TextMorph({
   interval = 2000,
   className,
 }: TextMorphProps) {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = React.useState(0);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!words.length) return;
 
     const timer = setInterval(() => {
@@ -22,7 +23,7 @@ export function TextMorph({
     return () => clearInterval(timer);
   }, [words, interval]);
 
-  const chars = useMemo(() => {
+  const chars = React.useMemo(() => {
     return Array.from(words[index] ?? "");
   }, [index, words]);
 
@@ -94,16 +95,22 @@ const WAVE_PATH =
   "C 948.56 36.5, 997.30 7, 1057.63 7 C 1117.96 7, 1139.66 36.5, 1200 36.5 " +
   "L 1200 800 L 0 800 Z";
 
-const LiquidWaveSpinner = memo(
+const LiquidWaveSpinner = React.memo(
   ({ size = "md", className, ...props }: LiquidWaveSpinnerProps) => {
     const config = sizeConfig[size] || sizeConfig.md;
-    const containerRef = useRef<HTMLDivElement>(null);
-    const clipId = useId();
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const clipId = React.useId();
 
-    const randomYDuration = useMemo(() => 5.5 + Math.random() * 1.5, []);
-    const randomXDurationBg = useMemo(() => 3.5 + Math.random() * 1.0, []);
-    const randomXDurationFg = useMemo(() => 2.5 + Math.random() * 1.0, []);
-    const randomDelay = useMemo(() => Math.random() * 0.5, []);
+    const randomYDuration = React.useMemo(() => 5.5 + Math.random() * 1.5, []);
+    const randomXDurationBg = React.useMemo(
+      () => 3.5 + Math.random() * 1.0,
+      [],
+    );
+    const randomXDurationFg = React.useMemo(
+      () => 2.5 + Math.random() * 1.0,
+      [],
+    );
+    const randomDelay = React.useMemo(() => Math.random() * 0.5, []);
 
     return (
       <motion.div

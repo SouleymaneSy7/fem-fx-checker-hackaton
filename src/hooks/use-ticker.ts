@@ -2,9 +2,9 @@
 
 import * as React from "react";
 
-import { useLatestRates } from "@/hooks/use-latest-rates";
-import { useRateHistory } from "@/hooks/use-rate-history";
 import type { TickerEntryType } from "@/types";
+import { useLatestRates } from "./use-latest-rates";
+import { useRateHistory } from "./use-rate-history";
 
 export function useTicker(base: string, quotes: string[]) {
   const {

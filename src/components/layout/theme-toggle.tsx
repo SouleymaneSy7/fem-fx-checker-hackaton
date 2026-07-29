@@ -2,14 +2,9 @@
 
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useThemeStore } from "@/store/theme-store";
+import { useThemeStore } from "@/store";
 import { AdjustHalfIcon } from "../icons";
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from "../ui";
 
 const ThemeToggle = () => {
   const [mounted, setMounted] = React.useState(false);

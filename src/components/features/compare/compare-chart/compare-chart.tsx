@@ -10,22 +10,23 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import VisuallyHidden from "@/components/common/visually-hidden";
-import TrendIndicator from "@/components/shared/trend-indicator";
-import { Button } from "@/components/ui/button";
+
+import { VisuallyHidden } from "@/components/common";
+import { TrendIndicator } from "@/components/shared";
 import {
+  Button,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/components/ui";
 import { CHART_SERIES_COLORS } from "@/constants";
-import { getRawRateKey } from "@/hooks/use-compare-chart";
+import { getRawRateKey } from "@/hooks";
 import { cn } from "@/lib/utils";
 import type {
   CompareChartPropsType,
   CompareChartTooltipPropsType,
 } from "@/types";
-import { formatAmount } from "@/utils/format-amount";
+import { formatAmount } from "@/utils";
 
 const formatPercent = (value: number) =>
   `${value > 0 ? "+" : ""}${value.toFixed(2)}%`;

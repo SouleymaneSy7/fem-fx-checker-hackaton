@@ -1,13 +1,13 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { LogButtonPropsType } from "@/types";
 import { CheckIcon } from "../icons";
-import { Button } from "../ui/button";
-import { Spinner } from "../ui/spinner";
+import {
+  Button,
+  Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../ui";
 
 const LogButton = ({
   disabled,

@@ -1,8 +1,9 @@
 "use client";
 
 import useSWR from "swr";
+
 import { SWR_STALE_5M } from "@/constants";
-import { fetchRate } from "@/services/rate.service";
+import { fetchRate } from "@/services";
 
 export function useRate(base: string, quote: string) {
   const key = base && quote ? ["rate", base, quote] : null;

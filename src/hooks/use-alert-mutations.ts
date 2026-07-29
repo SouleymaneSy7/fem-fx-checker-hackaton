@@ -2,13 +2,10 @@
 
 import * as React from "react";
 import { toast } from "sonner";
+
 import { useSession } from "@/lib/auth-client";
-import {
-  createAlert,
-  deleteAlert,
-  updateAlert,
-} from "@/services/alerts.service";
-import { useAlertsStore } from "@/store/alerts-store";
+import { createAlert, deleteAlert, updateAlert } from "@/services";
+import { useAlertsStore } from "@/store";
 import type { RateAlertConditionType, RateAlertType } from "@/types";
 
 export function useAlertMutations() {

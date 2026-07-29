@@ -1,9 +1,8 @@
 "use client";
 
+import { Container } from "@/components/common";
 import { TICKER_BASE_CURRENCY, TICKER_QUOTE_CURRENCIES } from "@/constants";
-import { useCurrencies } from "@/hooks/use-currencies";
-import { useTicker } from "@/hooks/use-ticker";
-import Container from "../common/container";
+import { useCurrencies, useTicker } from "@/hooks";
 import Ticker from "../features/ticker/ticker";
 import TickerLoading from "../features/ticker/ticker-loading";
 import Navbar from "./navbar";

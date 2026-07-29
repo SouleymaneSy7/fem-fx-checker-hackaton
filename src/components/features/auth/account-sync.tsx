@@ -3,17 +3,20 @@
 import * as React from "react";
 
 import { useSession } from "@/lib/auth-client";
-import { fetchAlerts } from "@/services/alerts.service";
-import { createFavorite, fetchFavorites } from "@/services/favorites.service";
-import { fetchLogEntries } from "@/services/logs.service";
 import {
+  createFavorite,
   createRecentPair,
+  fetchAlerts,
+  fetchFavorites,
+  fetchLogEntries,
   fetchRecentPairs,
-} from "@/services/recent-pairs.service";
-import { useAlertsStore } from "@/store/alerts-store";
-import { useFavoritesStore } from "@/store/favorites-store";
-import { useLogStore } from "@/store/log-store";
-import { useRecentPairsStore } from "@/store/recent-pairs-store";
+} from "@/services";
+import {
+  useAlertsStore,
+  useFavoritesStore,
+  useLogStore,
+  useRecentPairsStore,
+} from "@/store";
 
 /**
  * Renders nothing — mounted once in layout.tsx (see KeyboardShortcuts for

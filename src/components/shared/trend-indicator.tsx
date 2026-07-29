@@ -1,6 +1,6 @@
-import VisuallyHidden from "@/components/common/visually-hidden";
 import { cn } from "@/lib/utils";
 import type { TrendIndicatorPropsType } from "@/types";
+import { VisuallyHidden } from "../common";
 
 /**
  * Direction arrow (▲/▼) plus a formatted value (e.g. "+2.34%"). The glyph

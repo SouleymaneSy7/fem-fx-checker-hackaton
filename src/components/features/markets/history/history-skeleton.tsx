@@ -1,14 +1,9 @@
-import LoadingStatus from "@/components/common/loading-status";
-import { Skeleton } from "@/components/ui/skeleton";
+import { LoadingStatus } from "@/components/common";
+import { Skeleton } from "@/components/ui";
 import type { HistorySkeletonPropsType } from "@/types";
 
 const HISTORY_STAT_SKELETON_LABELS = ["Open", "Last", "Change", "% change"];
 
-/**
- * Shown while `useRateChart` is loading. Mirrors the shape of the loaded
- * panel (stat grid + range selector + chart card) so there's no layout
- * jump once real data arrives.
- */
 const HistorySkeleton = ({ pair }: HistorySkeletonPropsType) => {
   return (
     <LoadingStatus

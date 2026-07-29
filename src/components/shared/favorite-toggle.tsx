@@ -1,8 +1,7 @@
 import { StarFilledIcon, StarIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 import type { FavoritePropsType } from "@/types";
+import { Button, Spinner } from "../ui";
 
 const FavoriteToggle = ({
   isFavorite,

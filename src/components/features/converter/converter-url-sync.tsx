@@ -8,9 +8,9 @@ import {
   DEFAULT_TO_CURRENCY,
   URL_SYNC_DEBOUNCE_MS,
 } from "@/constants";
-import { useIsomorphicLayoutEffect } from "@/hooks/use-isomorphic-layout-effect";
-import { useConverterStore } from "@/store/converter-store";
-import { buildConverterSearchParams } from "@/utils/converter-search-params";
+import { useIsomorphicLayoutEffect } from "@/hooks";
+import { useConverterStore } from "@/store";
+import { buildConverterSearchParams } from "@/utils";
 import { converterSearchParamsSchema } from "@/validators";
 
 // Picks a `to` that never collides with `from`. If the candidate already

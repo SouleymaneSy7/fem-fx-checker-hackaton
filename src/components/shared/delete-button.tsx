@@ -1,12 +1,7 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { DeleteButtonPropsType } from "@/types";
 import { DeleteFilledIcon, DeleteIcon } from "../icons";
-import { Button } from "../ui/button";
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from "../ui";
 
 const DeleteButton = ({
   label = "Delete",

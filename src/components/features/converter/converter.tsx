@@ -1,5 +1,4 @@
-import Container from "@/components/common/container";
-import Title from "@/components/common/title";
+import { Container, Title } from "@/components/common";
 import ConverterBottom from "./converter-bottom";
 import ConverterTop from "./converter-top";
 import ConverterUrlSync from "./converter-url-sync";

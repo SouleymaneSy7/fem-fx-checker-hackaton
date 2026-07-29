@@ -2,9 +2,6 @@
 
 import * as React from "react";
 
-import List from "@/components/common/list";
-import Title from "@/components/common/title";
-import VisuallyHidden from "@/components/common/visually-hidden";
 import {
   ArrowRightIcon,
   CheckIcon,
@@ -12,16 +9,8 @@ import {
   SearchIcon,
   XIcon,
 } from "@/components/icons";
-import SearchInput from "@/components/shared/search-input";
-import { buttonVariants } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { POPULAR_CURRENCIES, SHORTCUT_EVENTS } from "@/constants";
-import { useIsMac } from "@/hooks/use-is-mac";
-import { useRecentPairMutations } from "@/hooks/use-recent-pair-mutations";
+import { useIsMac, useRecentPairMutations } from "@/hooks";
 import { cn } from "@/lib/utils";
 import type {
   CurrencyOptionType,
@@ -30,11 +19,19 @@ import type {
   RecentPairType,
   SelectRecentPairDetail,
 } from "@/types";
-import { Badge } from "../ui/badge";
-import { ScrollArea } from "../ui/scroll-area";
-import { Skeleton } from "../ui/skeleton";
-import { Spinner } from "../ui/spinner";
+import { List, Title, VisuallyHidden } from "../common";
+import {
+  Badge,
+  buttonVariants,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  ScrollArea,
+  Skeleton,
+  Spinner,
+} from "../ui";
 import { CurrencyFlag } from "./currency-flag";
+import SearchInput from "./search-input";
 
 const CurrencyPicker = ({
   value,

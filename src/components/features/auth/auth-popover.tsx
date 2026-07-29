@@ -3,21 +3,25 @@
 import Link from "next/link";
 import * as React from "react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button, buttonVariants } from "@/components/ui/button";
 import {
+  Avatar,
+  AvatarFallback,
+  Button,
+  buttonVariants,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Spinner } from "@/components/ui/spinner";
+  Spinner,
+} from "@/components/ui";
 import { signOut, useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import { useAlertsStore } from "@/store/alerts-store";
-import { useFavoritesStore } from "@/store/favorites-store";
-import { useLogStore } from "@/store/log-store";
-import { useRecentPairsStore } from "@/store/recent-pairs-store";
-import { getNameInitials } from "@/utils/get-name-initials";
+import {
+  useAlertsStore,
+  useFavoritesStore,
+  useLogStore,
+  useRecentPairsStore,
+} from "@/store";
+import { getNameInitials } from "@/utils";
 
 const AuthPopover = () => {
   const [open, setOpen] = React.useState(false);

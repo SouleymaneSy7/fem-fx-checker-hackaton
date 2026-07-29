@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+
 import { RANGE_BY_CODE, SHORTCUT_EVENTS } from "@/constants";
 import type { FocusCurrencySearchDetail, SetRateRangeDetail } from "@/types";
 

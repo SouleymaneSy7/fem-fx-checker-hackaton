@@ -1,13 +1,13 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { FavoritePropsType } from "@/types";
 import { StarFilledIcon, StarIcon } from "../icons";
-import { Button } from "../ui/button";
-import { Spinner } from "../ui/spinner";
+import {
+  Button,
+  Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../ui";
 
 const FavoriteToggleIcon = ({
   isFavorite,

@@ -4,24 +4,24 @@ import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 
 import { BellIcon } from "@/components/icons";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { SPRING_PANEL } from "@/constants";
+import { useAlertMutations } from "@/hooks";
+import { cn } from "@/lib/utils";
+import type { AlertTogglePropsType, RateAlertConditionType } from "@/types";
 import {
+  Button,
+  buttonVariants,
+  Label,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import {
+  Spinner,
+  ToggleGroup,
+  ToggleGroupItem,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { SPRING_PANEL } from "@/constants";
-import { useAlertMutations } from "@/hooks/use-alert-mutations";
-import { cn } from "@/lib/utils";
-import type { AlertTogglePropsType, RateAlertConditionType } from "@/types";
-import { Spinner } from "../ui/spinner";
+} from "../ui";
 
 const CONDITION_INDICATOR_LAYOUT_ID = "alert-condition-indicator";
 

@@ -1,11 +1,6 @@
-import List from "@/components/common/list";
-import VisuallyHidden from "@/components/common/visually-hidden";
-import { CurrencyFlag } from "@/components/shared/currency-flag";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { List, VisuallyHidden } from "@/components/common";
+import { CurrencyFlag } from "@/components/shared";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import type { CompareChartCurrencyChipsPropsType } from "@/types";
 
 // Compact "currently in this chart" summary, one removable chip per

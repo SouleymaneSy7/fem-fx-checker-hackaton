@@ -4,11 +4,11 @@ import * as React from "react";
 import useSWR from "swr";
 
 import { SWR_STALE_5M } from "@/constants";
-import { useFavoriteMutations } from "@/hooks/use-favorite-mutations";
-import { fetchLatestRates, fetchRateHistory } from "@/services/rates.service";
-import { useFavoritesStore } from "@/store/favorites-store";
+import { fetchLatestRates, fetchRateHistory } from "@/services";
+import { useFavoritesStore } from "@/store";
 import type { FavoritePairType, FavoriteWithRateType } from "@/types";
-import { getDateRangeFromPeriod } from "@/utils/date-range";
+import { getDateRangeFromPeriod } from "@/utils";
+import { useFavoriteMutations } from "./use-favorite-mutations";
 
 export function useFavorites() {
   const favorites = useFavoritesStore((state) => state.favorites);

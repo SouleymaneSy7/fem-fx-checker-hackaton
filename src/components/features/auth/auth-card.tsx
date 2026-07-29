@@ -3,10 +3,10 @@
 import { useRouter } from "next/navigation";
 import * as React from "react";
 
-import { BubbleBackground } from "@/components/shared/bubble-background";
-import { Spinner } from "@/components/ui/spinner";
+import { BubbleBackground } from "@/components/shared";
+import { Spinner } from "@/components/ui";
 import { useSession } from "@/lib/auth-client";
-import { useThemeStore } from "@/store/theme-store";
+import { useThemeStore } from "@/store";
 import type { AuthCardPropsType } from "@/types";
 
 // Computed from the app's oklch --primary token per theme (tokens.css),

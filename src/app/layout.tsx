@@ -4,8 +4,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "@/style/globals.css";
 
 import { SWRProvider } from "@/components/providers/swr-provider";
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster, TooltipProvider } from "@/components/ui";
 import { THEME_INIT_SCRIPT } from "@/utils/theme-script";
 
 // ─── Font ─────────────────────────────────────────────────────────────────────

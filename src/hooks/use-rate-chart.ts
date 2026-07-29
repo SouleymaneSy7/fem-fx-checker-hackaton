@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
+
 import { DEFAULT_CHART_RANGE } from "@/constants";
-import { useRateHistory } from "@/hooks/use-rate-history";
 import type { RatePointType, RateRangeType } from "@/types";
+import { useRateHistory } from "./use-rate-history";
 
 export function useRateChart(
   base: string,

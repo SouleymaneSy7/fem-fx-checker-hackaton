@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import { toast } from "sonner";
+
 import { useSession } from "@/lib/auth-client";
-import { createFavorite, deleteFavorite } from "@/services/favorites.service";
-import { useFavoritesStore } from "@/store/favorites-store";
+import { createFavorite, deleteFavorite } from "@/services";
+import { useFavoritesStore } from "@/store";
 
 // Single entry point for pinning/unpinning — used by use-converter.ts,
 // use-compare.ts, and (via use-favorites.ts) FavoritesPanel, so every

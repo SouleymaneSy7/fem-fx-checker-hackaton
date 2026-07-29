@@ -2,8 +2,8 @@
 
 import * as React from "react";
 
-import TabNav from "@/components/layout/tab-nav";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { TabNav } from "@/components/layout";
+import { Tabs, TabsContent } from "@/components/ui";
 import type { ConverterSectionValueType } from "@/types";
 import AlertsPanel from "../alerts/alerts-panel";
 import ComparePanel from "../compare/compare-panel";

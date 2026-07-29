@@ -7,7 +7,7 @@ import {
   STORAGE_KEY_COMPARE_CHART_CURRENCIES,
 } from "@/constants";
 import type { CompareChartCurrenciesStoreType } from "@/types";
-import { safeLocalStorage } from "@/utils/safe-storage";
+import { safeLocalStorage } from "@/utils";
 
 export const useCompareChartCurrenciesStore =
   create<CompareChartCurrenciesStoreType>()(

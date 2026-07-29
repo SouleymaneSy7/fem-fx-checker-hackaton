@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui";
 import { RANGES, SPRING_PANEL } from "@/constants";
 import type { RangeSelectorPropsType, RateRangeType } from "@/types";
 

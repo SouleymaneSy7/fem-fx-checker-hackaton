@@ -2,26 +2,21 @@
 
 import * as React from "react";
 
-import Container from "@/components/common/container";
-import Title from "@/components/common/title";
+import { Container, Title } from "@/components/common";
 import { ArrowLeftRightIcon } from "@/components/icons";
 import SpinnerEllipsis from "@/components/loaders/spinner-ellipsis";
-import CurrencyPicker from "@/components/shared/currency-picker";
-import NumericInput from "@/components/shared/numeric-input";
-import TextTooltip from "@/components/shared/text-tooltip";
-import { Button } from "@/components/ui/button";
+import { CurrencyPicker, NumericInput, TextTooltip } from "@/components/shared";
 import {
+  Button,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/components/ui";
 import { SHORTCUT_EVENTS } from "@/constants";
-import { useConverter } from "@/hooks/use-converter";
-import { useCurrencies } from "@/hooks/use-currencies";
-import { useRecentPairs } from "@/hooks/use-recent-pairs";
-import { getCurrencyFlagCode } from "@/services/currency-flags.service";
+import { useConverter, useCurrencies, useRecentPairs } from "@/hooks";
+import { getCurrencyFlagCode } from "@/services";
 import type { CurrencyOptionType, SelectRecentPairDetail } from "@/types";
-import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
+import { formatAmount, formatPreciseAmount } from "@/utils";
 
 const ConverterTop = () => {
   const {

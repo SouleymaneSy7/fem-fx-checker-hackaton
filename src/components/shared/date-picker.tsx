@@ -2,22 +2,21 @@
 
 import { format, isBefore, parseISO, subYears } from "date-fns";
 import * as React from "react";
+
 import { CalendarIcon } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import type { DatePickerPropsType } from "@/types";
 import {
+  buttonVariants,
+  Calendar,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
-import {
+  Separator,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import type { DatePickerPropsType } from "@/types";
+} from "../ui";
 
 export type DatePresetType = {
   label: string;

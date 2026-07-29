@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { MAX_LOG_ENTRIES, STORAGE_KEY_CONVERSION_LOG } from "@/constants";
 import type { LogEntryType, LogStoreType } from "@/types";
-import { safeLocalStorage } from "@/utils/safe-storage";
+import { safeLocalStorage } from "@/utils";
 
 export const useLogStore = create<LogStoreType>()(
   persist(

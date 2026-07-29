@@ -1,15 +1,10 @@
 import * as React from "react";
 
-import Container from "@/components/common/container";
-import List from "@/components/common/list";
-import Title from "@/components/common/title";
+import { Container, List, Title } from "@/components/common";
 import { ArrowRightIcon } from "@/components/icons";
-import ConfirmDialog from "@/components/shared/confirm-dialog";
-import DeleteButton from "@/components/shared/delete-button";
-import { Button } from "@/components/ui/button";
-import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
-import { useAlertMutations } from "@/hooks/use-alert-mutations";
-import { useAlerts } from "@/hooks/use-alerts";
+import { ConfirmDialog, DeleteButton } from "@/components/shared";
+import { Button, Empty, EmptyDescription, EmptyTitle } from "@/components/ui";
+import { useAlertMutations, useAlerts } from "@/hooks";
 import { cn } from "@/lib/utils";
 import type { PendingAlertActionType } from "@/types";
 

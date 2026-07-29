@@ -1,20 +1,16 @@
 "use client";
 
 import { format } from "date-fns";
-import { ArrowRightIcon } from "lucide-react";
 import * as React from "react";
-import Container from "@/components/common/container";
-import Title from "@/components/common/title";
-import VisuallyHidden from "@/components/common/visually-hidden";
-import DatePicker from "@/components/shared/date-picker";
-import TextTooltip from "@/components/shared/text-tooltip";
-import TrendIndicator from "@/components/shared/trend-indicator";
-import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+
+import { Container, Title, VisuallyHidden } from "@/components/common";
+import { ArrowRightIcon } from "@/components/icons";
+import { DatePicker, TextTooltip, TrendIndicator } from "@/components/shared";
+import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui";
 import { HISTORICAL_RATES_MIN_DATE } from "@/constants";
-import { useHistoricalRates } from "@/hooks/use-historical-rates";
+import { useHistoricalRates } from "@/hooks";
 import { cn } from "@/lib/utils";
-import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
-import { formatFullDate } from "@/utils/format-date";
+import { formatAmount, formatFullDate, formatPreciseAmount } from "@/utils";
 import HistoricalRatesSkeleton from "./historical-rates-skeleton";
 
 const HistoricalRatesPanel = () => {

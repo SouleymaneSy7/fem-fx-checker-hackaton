@@ -1,12 +1,10 @@
 import Link from "next/link";
 
-import Logo from "@/components/shared/logo";
-import TextTooltip from "@/components/shared/text-tooltip";
-import { Separator } from "@/components/ui/separator";
+import { Container } from "@/components/common";
 import type { NavbarPropsType } from "@/types";
-import Container from "../common/container";
 import AuthPopover from "../features/auth/auth-popover";
-import { Spinner } from "../ui/spinner";
+import { Logo, TextTooltip } from "../shared";
+import { Separator, Spinner } from "../ui";
 import ThemeToggle from "./theme-toggle";
 
 const Navbar = ({ availableCurrencies, isLoading }: NavbarPropsType) => {

@@ -1,18 +1,16 @@
 import * as React from "react";
 
-import Container from "@/components/common/container";
-import List from "@/components/common/list";
-import Title from "@/components/common/title";
-import VisuallyHidden from "@/components/common/visually-hidden";
+import { Container, List, Title, VisuallyHidden } from "@/components/common";
 import { ArrowRightIcon } from "@/components/icons";
-import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
-import TextTooltip from "@/components/shared/text-tooltip";
-import TrendIndicator from "@/components/shared/trend-indicator";
-import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useFavorites } from "@/hooks/use-favorites";
+import {
+  FavoriteToggleIcon,
+  TextTooltip,
+  TrendIndicator,
+} from "@/components/shared";
+import { Empty, EmptyDescription, EmptyTitle, Skeleton } from "@/components/ui";
+import { useFavorites } from "@/hooks";
 import { cn } from "@/lib/utils";
-import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
+import { formatAmount, formatPreciseAmount } from "@/utils";
 
 const FavoritesPanel = () => {
   const { rows, unpinPair, isLoading } = useFavorites();

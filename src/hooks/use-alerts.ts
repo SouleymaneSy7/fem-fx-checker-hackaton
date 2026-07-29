@@ -1,6 +1,6 @@
 "use client";
 
-import { useAlertsStore } from "@/store/alerts-store";
+import { useAlertsStore } from "@/store";
 
 export function useAlerts() {
   const alerts = useAlertsStore((state) => state.alerts);

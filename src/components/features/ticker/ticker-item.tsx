@@ -1,11 +1,7 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import type { TickerPairType } from "@/types";
-import { formatPreciseAmount } from "@/utils/format-amount";
+import { formatPreciseAmount } from "@/utils";
 
 const TickerItem = ({ pair }: { pair: TickerPairType }) => {
   const isNeutral = pair.changePercent === 0;

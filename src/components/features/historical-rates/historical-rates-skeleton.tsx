@@ -1,6 +1,6 @@
-import LoadingStatus from "@/components/common/loading-status";
-import { Skeleton } from "@/components/ui/skeleton";
-import { formatFullDate } from "@/utils/format-date";
+import { LoadingStatus } from "@/components/common";
+import { Skeleton } from "@/components/ui";
+import { formatFullDate } from "@/utils";
 
 const HistoricalRatesSkeleton = ({ date }: { date: string | undefined }) => {
   return (

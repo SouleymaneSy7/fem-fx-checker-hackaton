@@ -1,6 +1,6 @@
 "use client";
 
-import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
+import { useKeyboardShortcuts } from "@/hooks";
 
 /**
  * Renders nothing — just mounts the global keydown listener once, high up

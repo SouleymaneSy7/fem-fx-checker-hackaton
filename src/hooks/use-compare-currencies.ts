@@ -1,6 +1,6 @@
 "use client";
 
-import { useCompareCurrenciesStore } from "@/store/compare-currencies-store";
+import { useCompareCurrenciesStore } from "@/store";
 
 export function useCompareCurrencies() {
   const currencies = useCompareCurrenciesStore((state) => state.currencies);

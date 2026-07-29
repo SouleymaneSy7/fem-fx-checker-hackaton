@@ -1,11 +1,8 @@
 "use client";
 
 import { useSession } from "@/lib/auth-client";
-import {
-  createRecentPair,
-  deleteRecentPair,
-} from "@/services/recent-pairs.service";
-import { useRecentPairsStore } from "@/store/recent-pairs-store";
+import { createRecentPair, deleteRecentPair } from "@/services";
+import { useRecentPairsStore } from "@/store";
 
 // Single entry point for adding/removing recent pairs — used by
 // RecentPairsTracker (automatic, on every pair change) and CurrencyPicker

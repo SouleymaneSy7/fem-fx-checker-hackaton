@@ -4,9 +4,7 @@ import * as React from "react";
 import { toast } from "sonner";
 
 import { GithubIcon, GoogleIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Spinner } from "@/components/ui/spinner";
+import { Button, Separator, Spinner } from "@/components/ui";
 import { signIn } from "@/lib/auth-client";
 
 type OAuthProviderType = "google" | "github";

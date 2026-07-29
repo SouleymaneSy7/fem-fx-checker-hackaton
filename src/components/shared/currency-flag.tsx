@@ -1,9 +1,9 @@
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
-import { getCurrencyFlagUrl } from "@/services/currency-flags.service";
+import { getCurrencyFlagUrl } from "@/services";
 import type { CurrencyFlagProps } from "@/types";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../ui";
 
 export function CurrencyFlag({
   currencyCode,

@@ -3,21 +3,20 @@
 import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 
-import List from "@/components/common/list";
+import { List } from "@/components/common";
 import { ChevronDown2Icon } from "@/components/icons";
-import { Badge } from "@/components/ui/badge";
+import { SPRING_PANEL } from "@/constants";
+import { cn } from "@/lib/utils";
+import { useAlertsStore, useFavoritesStore, useLogStore } from "@/store";
+import type { ConverterSectionValueType, TabNavPropsType } from "@/types";
 import {
+  Badge,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SPRING_PANEL } from "@/constants";
-import { cn } from "@/lib/utils";
-import { useAlertsStore } from "@/store/alerts-store";
-import { useFavoritesStore } from "@/store/favorites-store";
-import { useLogStore } from "@/store/log-store";
-import type { ConverterSectionValueType, TabNavPropsType } from "@/types";
+  TabsList,
+  TabsTrigger,
+} from "../ui";
 
 const SECTIONS: { value: ConverterSectionValueType; label: string }[] = [
   { value: "history", label: "History" },

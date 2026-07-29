@@ -2,23 +2,19 @@
 
 import * as React from "react";
 
-import List from "@/components/common/list";
-import VisuallyHidden from "@/components/common/visually-hidden";
+import { List, VisuallyHidden } from "@/components/common";
 import { PlusIcon, SearchIcon } from "@/components/icons";
-import { CurrencyFlag } from "@/components/shared/currency-flag";
-import SearchInput from "@/components/shared/search-input";
-import { buttonVariants } from "@/components/ui/button";
+import { CurrencyFlag, SearchInput } from "@/components/shared";
 import {
+  buttonVariants,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
+  ScrollArea,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/components/ui";
 import { cn } from "@/lib/utils";
 import type { CompareCurrencyPickerPropsType } from "@/types";
 

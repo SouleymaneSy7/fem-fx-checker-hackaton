@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import useSWR from "swr";
+
 import { SWR_STALE_1H } from "@/constants";
-import { fetchLatestRates } from "@/services/rates.service";
-import { useAlertsStore } from "@/store/alerts-store";
+import { fetchLatestRates } from "@/services";
+import { useAlertsStore } from "@/store";
 import type { RateAlertType } from "@/types";
 import { useAlertMutations } from "./use-alert-mutations";
 

@@ -3,17 +3,16 @@
 import * as React from "react";
 
 import { InfoIcon } from "@/components/icons";
-import { Button, buttonVariants } from "@/components/ui/button";
 import {
+  Button,
+  buttonVariants,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/components/ui";
 import {
   SHORTCUT_EVENTS,
   TEST_ACCOUNT_EMAIL,

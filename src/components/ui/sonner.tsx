@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 
-import { useThemeStore } from "@/store/theme-store";
+import { useThemeStore } from "@/store";
 
 const Toaster = ({ ...props }: ToasterProps) => {
   // The app's own dark/light state lives in useThemeStore (see

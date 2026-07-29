@@ -1,12 +1,12 @@
 "use client";
 
 import useSWR from "swr";
-import { SWR_STALE_5M } from "@/constants";
 
-import { useRate } from "@/hooks/use-rate";
-import { fetchRate } from "@/services/rate.service";
-import { useConverterStore } from "@/store/converter-store";
+import { SWR_STALE_5M } from "@/constants";
+import { fetchRate } from "@/services";
+import { useConverterStore } from "@/store";
 import type { HistoricalRatesResultType } from "@/types";
+import { useRate } from "./use-rate";
 
 // `date` undefined means "no date picked yet" — the historical fetch stays
 // idle (SWR key is null) until the user selects one, but the current rate

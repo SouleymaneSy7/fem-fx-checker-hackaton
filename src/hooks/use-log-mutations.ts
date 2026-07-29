@@ -2,14 +2,15 @@
 
 import * as React from "react";
 import { toast } from "sonner";
+
 import { useSession } from "@/lib/auth-client";
 import {
   createLogEntry,
   deleteAllLogEntries,
   deleteLogEntriesForPair,
   deleteLogEntry,
-} from "@/services/logs.service";
-import { useLogStore } from "@/store/log-store";
+} from "@/services";
+import { useLogStore } from "@/store";
 import type { LogEntryType } from "@/types";
 
 export function useLogMutations() {

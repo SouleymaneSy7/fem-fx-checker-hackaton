@@ -2,16 +2,19 @@
 
 import * as React from "react";
 
-import Container from "@/components/common/container";
-import Title from "@/components/common/title";
-import TrendIndicator from "@/components/shared/trend-indicator";
-import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
+import { Container, Title } from "@/components/common";
+import { TrendIndicator } from "@/components/shared";
+import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui";
 import { SHORTCUT_EVENTS } from "@/constants";
-import { useRateChart } from "@/hooks/use-rate-chart";
-import { useConverterStore } from "@/store/converter-store";
+import { useRateChart } from "@/hooks";
+import { useConverterStore } from "@/store";
 import type { SetRateRangeDetail } from "@/types";
-import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
-import { formatChartDate, formatDateForRange } from "@/utils/format-date";
+import {
+  formatAmount,
+  formatChartDate,
+  formatDateForRange,
+  formatPreciseAmount,
+} from "@/utils";
 import RangeSelector from "../range-selector";
 import RateChart from "../rate-chart";
 import HistorySkeleton from "./history-skeleton";

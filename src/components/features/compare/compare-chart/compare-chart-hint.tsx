@@ -2,20 +2,17 @@
 
 import * as React from "react";
 
-import List from "@/components/common/list";
-import Title from "@/components/common/title";
+import { List, Title } from "@/components/common";
 import { InfoIcon } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
 import {
+  buttonVariants,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/components/ui";
 import { MAX_CHART_CURRENCIES } from "@/constants";
 import { cn } from "@/lib/utils";
 import type { CompareChartHintPropsType } from "@/types";

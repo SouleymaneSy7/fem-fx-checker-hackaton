@@ -1,5 +1,5 @@
+import { Container } from "@/components/common";
 import type { MainPropsType } from "@/types";
-import Container from "../common/container";
 
 const Main = ({ children }: MainPropsType) => {
   return (

@@ -3,7 +3,7 @@
 import useSWR from "swr";
 
 import { SWR_STALE_1D } from "@/constants";
-import { fetchCurrenciesForFlags } from "@/services/currency-flags.service";
+import { fetchCurrenciesForFlags } from "@/services";
 
 export function useCurrencyFlags() {
   const { data, error, isLoading } = useSWR(

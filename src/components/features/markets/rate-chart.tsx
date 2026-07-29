@@ -11,7 +11,7 @@ import {
 } from "recharts";
 
 import type { CustomTooltipPropsType, RateChartPropsType } from "@/types";
-import { formatAmount } from "@/utils/format-amount";
+import { formatAmount } from "@/utils";
 
 const CustomTooltip = ({
   active,

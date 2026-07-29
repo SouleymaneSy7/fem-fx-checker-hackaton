@@ -3,10 +3,10 @@
 import { AnimatePresence, motion } from "motion/react";
 import * as React from "react";
 
-import LoadingStatus from "@/components/common/loading-status";
-import LiquidWaveSpinner from "@/components/loaders/liquid-wave";
-import { useAppReadiness } from "@/hooks/use-app-readiness";
+import { useAppReadiness } from "@/hooks";
 import type { AppLoaderPropsType } from "@/types";
+import { LoadingStatus } from "../common";
+import LiquidWaveSpinner from "./liquid-wave";
 
 /**
  * Full-screen splash shown on first visit. `children` mount immediately
@@ -31,7 +31,7 @@ const AppLoader = ({ children }: AppLoaderPropsType) => {
       <AnimatePresence>
         {!isReady && (
           <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-background px-step-200"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background px-step-200"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}

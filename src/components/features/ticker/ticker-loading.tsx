@@ -1,6 +1,5 @@
-import Container from "@/components/common/container";
-import { Marquee, MarqueeHeader, MarqueeTitle } from "@/components/ui/marquee";
-import { Spinner } from "@/components/ui/spinner";
+import { Container } from "@/components/common";
+import { Marquee, MarqueeHeader, MarqueeTitle, Spinner } from "@/components/ui";
 
 /**
  * Shown while `useTicker` is loading (see layout/header.tsx). Reuses the

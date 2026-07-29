@@ -3,30 +3,40 @@
 import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 
-import Container from "@/components/common/container";
-import List from "@/components/common/list";
-import Title from "@/components/common/title";
-import VisuallyHidden from "@/components/common/visually-hidden";
-import ConfirmDialog from "@/components/shared/confirm-dialog";
-import { CurrencyFlag } from "@/components/shared/currency-flag";
-import DeleteButton from "@/components/shared/delete-button";
-import FavoriteToggleIcon from "@/components/shared/favorite-toggle-icon";
-import TextTooltip from "@/components/shared/text-tooltip";
-import TrendIndicator from "@/components/shared/trend-indicator";
-import { Empty, EmptyDescription, EmptyTitle } from "@/components/ui/empty";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Container, List, Title, VisuallyHidden } from "@/components/common";
+import {
+  ConfirmDialog,
+  CurrencyFlag,
+  DeleteButton,
+  FavoriteToggleIcon,
+  TextTooltip,
+  TrendIndicator,
+} from "@/components/shared";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyTitle,
+  Separator,
+  Skeleton,
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui";
 import { MAX_CHART_CURRENCIES, SPRING_PANEL } from "@/constants";
-import { useCompare } from "@/hooks/use-compare";
-import { useCompareChart } from "@/hooks/use-compare-chart";
-import { useCompareChartCurrencies } from "@/hooks/use-compare-chart-currencies";
-import { useCompareCurrencies } from "@/hooks/use-compare-currencies";
-import { useCurrencies } from "@/hooks/use-currencies";
-import { getCurrencyFlagCode } from "@/services/currency-flags.service";
+import {
+  useCompare,
+  useCompareChart,
+  useCompareChartCurrencies,
+  useCompareCurrencies,
+  useCurrencies,
+} from "@/hooks";
+import { getCurrencyFlagCode } from "@/services";
 import type { CompareChartMoverType, CurrencyOptionType } from "@/types";
-import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
-import { formatChartDate, formatFullDate } from "@/utils/format-date";
+import {
+  formatAmount,
+  formatChartDate,
+  formatFullDate,
+  formatPreciseAmount,
+} from "@/utils";
 import RangeSelector from "../markets/range-selector";
 import CompareChart from "./compare-chart/compare-chart";
 import CompareChartCurrencyChips from "./compare-chart/compare-chart-currency-chips";

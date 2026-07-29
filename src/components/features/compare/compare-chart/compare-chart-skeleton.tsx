@@ -1,5 +1,5 @@
-import LoadingStatus from "@/components/common/loading-status";
-import { Skeleton } from "@/components/ui/skeleton";
+import { LoadingStatus } from "@/components/common";
+import { Skeleton } from "@/components/ui";
 
 const CompareChartSkeleton = () => {
   return (

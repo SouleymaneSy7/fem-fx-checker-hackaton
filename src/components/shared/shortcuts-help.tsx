@@ -2,24 +2,22 @@
 
 import * as React from "react";
 
-import List from "@/components/common/list";
-import Title from "@/components/common/title";
 import { QuestionIcon } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
+import { SHORTCUT_EVENTS } from "@/constants";
+import { useIsMac } from "@/hooks";
+import { cn } from "@/lib/utils";
+import { List, Title } from "../common";
 import {
+  buttonVariants,
+  Kbd,
+  KbdGroup,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { SHORTCUT_EVENTS } from "@/constants";
-import { useIsMac } from "@/hooks/use-is-mac";
-import { cn } from "@/lib/utils";
-import { Kbd, KbdGroup } from "../ui/kbd";
+} from "../ui";
 
 const ShortcutsHelp = () => {
   const [open, setOpen] = React.useState(false);

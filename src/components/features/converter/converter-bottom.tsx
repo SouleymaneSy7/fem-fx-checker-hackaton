@@ -1,18 +1,20 @@
 "use client";
 
-import Container from "@/components/common/container";
-import AlertToggle from "@/components/shared/alert-toggle";
-import FavoriteToggle from "@/components/shared/favorite-toggle";
-import LogButton from "@/components/shared/log-button";
-import ShareButton from "@/components/shared/share-button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Container } from "@/components/common";
 import {
+  AlertToggle,
+  FavoriteToggle,
+  LogButton,
+  ShareButton,
+} from "@/components/shared";
+import {
+  Skeleton,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useConverter } from "@/hooks/use-converter";
-import { formatAmount, formatPreciseAmount } from "@/utils/format-amount";
+} from "@/components/ui";
+import { useConverter } from "@/hooks";
+import { formatAmount, formatPreciseAmount } from "@/utils";
 
 const ConverterBottom = () => {
   const {

@@ -4,10 +4,10 @@ import * as React from "react";
 import useSWR from "swr";
 
 import { DEFAULT_CHART_RANGE } from "@/constants";
-import { fetchRateHistory } from "@/services/rates.service";
-import { useConverterStore } from "@/store/converter-store";
+import { fetchRateHistory } from "@/services";
+import { useConverterStore } from "@/store";
 import type { CompareChartPointType, RateRangeType } from "@/types";
-import { getDateRangeFromPeriod } from "@/utils/date-range";
+import { getDateRangeFromPeriod } from "@/utils";
 
 type UseCompareChartOptionsType = {
   initialRange?: RateRangeType;

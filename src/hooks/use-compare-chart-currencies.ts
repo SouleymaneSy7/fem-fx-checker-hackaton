@@ -1,7 +1,7 @@
 "use client";
 
 import { MAX_CHART_CURRENCIES } from "@/constants";
-import { useCompareChartCurrenciesStore } from "@/store/compare-chart-currencies-store";
+import { useCompareChartCurrenciesStore } from "@/store";
 
 export function useCompareChartCurrencies() {
   const currencies = useCompareChartCurrenciesStore(

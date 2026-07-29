@@ -4,14 +4,9 @@ import * as React from "react";
 import { toast } from "sonner";
 
 import { CheckIcon, ShareIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import type { ShareButtonPropsType } from "@/types";
-import { buildConverterSearchParams } from "@/utils/converter-search-params";
+import { buildConverterSearchParams } from "@/utils";
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from "../ui";
 
 const COPIED_RESET_MS = 2000;
 

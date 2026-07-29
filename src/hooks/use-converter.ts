@@ -2,12 +2,10 @@
 
 import * as React from "react";
 
-import { useFavoriteMutations } from "@/hooks/use-favorite-mutations";
-import { useLogMutations } from "@/hooks/use-log-mutations";
-import { useRate } from "@/hooks/use-rate";
-import { useConverterStore } from "@/store/converter-store";
-import { useFavoritesStore } from "@/store/favorites-store";
-import { useLogStore } from "@/store/log-store";
+import { useConverterStore, useFavoritesStore, useLogStore } from "@/store";
+import { useFavoriteMutations } from "./use-favorite-mutations";
+import { useLogMutations } from "./use-log-mutations";
+import { useRate } from "./use-rate";
 
 export function useConverter() {
   // Converter

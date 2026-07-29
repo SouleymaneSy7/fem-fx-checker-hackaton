@@ -1,8 +1,7 @@
 "use client";
 
 import * as React from "react";
-
-import { useRecentPairsStore } from "@/store/recent-pairs-store";
+import { useRecentPairsStore } from "@/store";
 
 // Excludes whichever pair is currently active in the converter — offering
 // it back as a "recent" shortcut would be a no-op click.

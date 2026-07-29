@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { STORAGE_KEY_FAVORITES } from "@/constants";
 import type { FavoritesStoreType } from "@/types";
-import { safeLocalStorage } from "@/utils/safe-storage";
+import { safeLocalStorage } from "@/utils";
 
 const buildPairId = (from: string, to: string) => `${from}-${to}`;
 

@@ -1,13 +1,11 @@
-import Container from "@/components/common/container";
-import List from "@/components/common/list";
-import VisuallyHidden from "@/components/common/visually-hidden";
-import { PillIndicator } from "@/components/shared/pill-indicator";
+import { Container, List, VisuallyHidden } from "@/components/common";
+import { PillIndicator } from "@/components/shared";
 import {
   Marquee,
   MarqueeContent,
   MarqueeHeader,
   MarqueeTitle,
-} from "@/components/ui/marquee";
+} from "@/components/ui";
 import type { TickerPropsType } from "@/types";
 import TickerItem from "./ticker-item";
 

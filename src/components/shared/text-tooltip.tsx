@@ -2,13 +2,9 @@
 
 import * as React from "react";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { TextTooltipPropsType } from "@/types";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui";
 
 const TextTooltip = React.forwardRef<HTMLSpanElement, TextTooltipPropsType>(
   ({ content, children, className, side, ...delegatedProps }, ref) => {

@@ -4,7 +4,7 @@ import * as React from "react";
 import useSWR from "swr";
 
 import { SWR_STALE_5M } from "@/constants";
-import { fetchLatestRates } from "@/services/rates.service";
+import { fetchLatestRates } from "@/services";
 
 export function useLatestRates(base: string, quotes?: string[]) {
   // `quotes === undefined` still fetches (no filter = every rate for the

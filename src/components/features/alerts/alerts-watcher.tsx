@@ -1,6 +1,6 @@
 "use client";
 
-import { useAlertsWatcher } from "@/hooks/use-alerts-watcher";
+import { useAlertsWatcher } from "@/hooks";
 
 // Mounted once at the root layout so rate alerts keep watching regardless
 // of which tab is active — this component has no visual output.

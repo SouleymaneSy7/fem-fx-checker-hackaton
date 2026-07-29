@@ -7,9 +7,8 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import Logo from "@/components/shared/logo";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
+import { Logo } from "@/components/shared";
+import { Button, Spinner } from "@/components/ui";
 import { SHORTCUT_EVENTS } from "@/constants";
 import { signIn } from "@/lib/auth-client";
 import type { SignInSchemaType } from "@/types";

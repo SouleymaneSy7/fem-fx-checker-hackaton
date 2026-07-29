@@ -13,8 +13,8 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "./button";
 
 function Calendar({
   className,

@@ -2,8 +2,8 @@
 
 import * as React from "react";
 
-import { useRecentPairMutations } from "@/hooks/use-recent-pair-mutations";
-import { useConverterStore } from "@/store/converter-store";
+import { useRecentPairMutations } from "@/hooks";
+import { useConverterStore } from "@/store";
 
 /**
  * Renders nothing — mounted once in layout.tsx (see AccountSync for the

@@ -5,19 +5,19 @@ import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
 import * as React from "react";
 
 import {
+  BACKDROP_DURATION_SECONDS,
+  SPRING_PANEL,
+  STAGGER_DELAY_SECONDS,
+} from "@/constants";
+import type { ConfirmDialogPropsType, StaggerItemPropsType } from "@/types";
+import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import {
-  BACKDROP_DURATION_SECONDS,
-  SPRING_PANEL,
-  STAGGER_DELAY_SECONDS,
-} from "@/constants";
-import type { ConfirmDialogPropsType, StaggerItemPropsType } from "@/types";
+} from "../ui";
 
 const StaggerItem = ({
   children,

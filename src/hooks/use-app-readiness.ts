@@ -1,11 +1,11 @@
 "use client";
 
 import { TICKER_BASE_CURRENCY, TICKER_QUOTE_CURRENCIES } from "@/constants";
-import { useCurrencies } from "@/hooks/use-currencies";
-import { useRate } from "@/hooks/use-rate";
-import { useRateChart } from "@/hooks/use-rate-chart";
-import { useTicker } from "@/hooks/use-ticker";
-import { useConverterStore } from "@/store/converter-store";
+import { useConverterStore } from "@/store";
+import { useCurrencies } from "./use-currencies";
+import { useRate } from "./use-rate";
+import { useRateChart } from "./use-rate-chart";
+import { useTicker } from "./use-ticker";
 
 /**
  * Tracks every SWR request behind the first fully-rendered paint:
