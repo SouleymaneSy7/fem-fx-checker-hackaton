@@ -6,9 +6,9 @@ import { nextCookies } from "better-auth/next-js";
 import { TEST_ACCOUNT_EMAIL } from "@/constants";
 import { db } from "@/db";
 import * as userSchema from "@/db/schemas/user.schema";
+import { env } from "@/env";
 import { sendEmail } from "@/lib/email";
 import { redis } from "@/lib/redis";
-import { env } from "@/env";
 
 function buildDeleteAccountEmailHtml(
   userName: string,
