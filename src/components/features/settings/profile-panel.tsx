@@ -79,7 +79,7 @@ const ProfilePanel = () => {
         return;
       }
 
-      toast.success("Your photo has been updated.");
+      toast.success("Your picture has been updated.");
     } catch {
       toast.error("Couldn't process that image.");
     } finally {
@@ -87,7 +87,9 @@ const ProfilePanel = () => {
     }
   };
 
-  const handleSaveName = async () => {
+  const handleSaveName = async (event: React.SubmitEvent) => {
+    event.preventDefault();
+
     const result = updateNameSchema.safeParse({ name });
 
     if (!result.success) {
@@ -183,7 +185,7 @@ const ProfilePanel = () => {
           Profile photo
         </Title>
 
-        <div className="flex items-center gap-step-200">
+        <div className="flex flex-wrap items-center gap-step-200">
           <div className="relative">
             <Avatar className="h-16 w-16">
               {session.user.image && (
@@ -202,31 +204,42 @@ const ProfilePanel = () => {
             )}
           </div>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                type="button"
-                variant="secondary"
-                disabled={isUploadingAvatar}
-                onClick={handleAvatarClick}
-                aria-label="Change profile photo"
-              >
-                <CameraIcon className="text-foreground" />
-                Change photo
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              JPEG, PNG, or WebP — resized automatically
-            </TooltipContent>
-          </Tooltip>
+          <div className="flex flex-col gap-step-150">
+            <div>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="capitalize"
+                    disabled={isUploadingAvatar}
+                    onClick={handleAvatarClick}
+                    aria-label="Change profile photo"
+                  >
+                    <CameraIcon className="text-foreground" />
+                    Change picture
+                  </Button>
+                </TooltipTrigger>
 
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            className="sr-only"
-            onChange={handleAvatarChange}
-          />
+                <TooltipContent>
+                  JPEG, PNG, or WebP — resized automatically.
+                </TooltipContent>
+              </Tooltip>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="sr-only"
+                onChange={handleAvatarChange}
+              />
+            </div>
+
+            <p className="preset-5 text-neutral-200">
+              We support JPEG, PNG or WebP files under 10 MB. Images are resized
+              automatically.
+            </p>
+          </div>
         </div>
       </Container>
 
@@ -235,7 +248,10 @@ const ProfilePanel = () => {
           Name
         </Title>
 
-        <div className="flex flex-col gap-step-150 sm:flex-row sm:items-end">
+        <form
+          onSubmit={handleSaveName}
+          className="flex flex-col gap-step-150 sm:flex-row sm:items-end"
+        >
           <div className="flex-1">
             <TextInput
               label="Full name"
@@ -249,18 +265,18 @@ const ProfilePanel = () => {
           </div>
 
           <Button
-            type="button"
+            type="submit"
             variant="primary"
+            className="sm:mb-0.5"
             disabled={isSavingName || name.trim() === session.user.name}
             aria-busy={isSavingName}
-            onClick={handleSaveName}
           >
             {isSavingName && (
               <Spinner aria-hidden="true" className="text-primary-foreground" />
             )}
             {isSavingName ? "Saving..." : "Save"}
           </Button>
-        </div>
+        </form>
       </Container>
 
       <Container className="space-y-step-200 rounded-xl border border-neutral-600 bg-card p-step-200 md:space-y-step-250 md:p-step-250">
