@@ -3,15 +3,23 @@
 import { Container } from "@/components/common";
 import { TICKER_BASE_CURRENCY, TICKER_QUOTE_CURRENCIES } from "@/constants";
 import { useCurrencies, useTicker } from "@/hooks";
+import { usePreferencesStore } from "@/store";
 import Ticker from "../features/ticker/ticker";
 import TickerLoading from "../features/ticker/ticker-loading";
 import Navbar from "./navbar";
 
 const Header = () => {
   const { currencies, isLoading: isCurrenciesLoading } = useCurrencies();
+
+  const tickerQuoteCurrencies = usePreferencesStore(
+    (state) => state.tickerQuoteCurrencies,
+  );
+  const effectiveTickerCurrencies =
+    tickerQuoteCurrencies ?? TICKER_QUOTE_CURRENCIES;
+
   const { entries, isLoading } = useTicker(
     TICKER_BASE_CURRENCY,
-    TICKER_QUOTE_CURRENCIES,
+    effectiveTickerCurrencies,
   );
 
   const availableCurrencies = currencies?.length;

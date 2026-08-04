@@ -29,6 +29,13 @@ export const useCompareChartCurrenciesStore =
               (currency) => currency !== code,
             ),
           })),
+
+        // Wholesale replace — used by Settings > Preferences (Display &
+        // data). Defensively re-capped even though the UI (
+        // MultiCurrencyPicker's `maxSelected`) already prevents exceeding
+        // it.
+        setCurrencies: (codes) =>
+          set({ currencies: codes.slice(0, MAX_CHART_CURRENCIES) }),
       }),
       {
         name: STORAGE_KEY_COMPARE_CHART_CURRENCIES,

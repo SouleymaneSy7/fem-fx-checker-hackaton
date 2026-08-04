@@ -5,11 +5,15 @@ import { toast } from "sonner";
 
 import { useSession } from "@/lib/auth-client";
 import { createAlert, deleteAlert, updateAlert } from "@/services";
-import { useAlertsStore } from "@/store";
+import { useAlertsStore, usePreferencesStore } from "@/store";
 import type { RateAlertConditionType, RateAlertType } from "@/types";
+import { playAlertSound } from "@/utils";
 
 export function useAlertMutations() {
   const { data: session } = useSession();
+  const alertSoundEnabled = usePreferencesStore(
+    (state) => state.alertSoundEnabled,
+  );
 
   const storeAddAlert = useAlertsStore((state) => state.addAlert);
   const storeAddSyncedAlert = useAlertsStore((state) => state.addSyncedAlert);
@@ -73,11 +77,14 @@ export function useAlertMutations() {
 
   // Called by the watcher when a threshold crosses. Takes the full alert
   // plus the rate that tripped it so it can build the "triggered" toast
-  // itself — kept silent on server-sync failure, since a second failure
-  // toast on top of the "triggered" one would just be noise.
+  // (and play the alert sound, if enabled) itself — kept silent on
+  // server-sync failure, since a second failure toast on top of the
+  // "triggered" one would just be noise.
   const triggerAlert = (alert: RateAlertType, rate: number) => {
     const triggeredAt = Date.now();
     storeTriggerAlert(alert.id, triggeredAt);
+
+    if (alertSoundEnabled) playAlertSound();
 
     toast("Rate alert triggered!", {
       description: `${alert.fromCurrency}/${alert.toCurrency} has ${alert.condition === "above" ? "risen above" : "dropped below"} your ${alert.threshold.toFixed(2)} threshold — currently at ${rate.toFixed(2)}.`,

@@ -9,7 +9,7 @@ import {
   URL_SYNC_DEBOUNCE_MS,
 } from "@/constants";
 import { useIsomorphicLayoutEffect } from "@/hooks";
-import { useConverterStore } from "@/store";
+import { useConverterStore, usePreferencesStore } from "@/store";
 import { buildConverterSearchParams } from "@/utils";
 import { converterSearchParamsSchema } from "@/validators";
 
@@ -38,12 +38,16 @@ function ConverterUrlSyncInner() {
 
   const hasHydrated = React.useRef(false);
 
-  // Hydrate the store from a shared link exactly once, before the first
-  // paint — a plain `useEffect` here would flash the default USD/EUR/1000
-  // state for a frame before the URL's values took over.
+  // Hydrate the store exactly once, before the first paint — a plain
+  // `useEffect` here would flash the default state for a frame before
+  // the resolved values took over. Priority for each field: shared-link
+  // URL param > saved Settings preference > whatever's already in the
+  // store (converter-store.ts's own hardcoded default).
   useIsomorphicLayoutEffect(() => {
     if (hasHydrated.current) return;
     hasHydrated.current = true;
+
+    const preferences = usePreferencesStore.getState();
 
     const parsed = converterSearchParamsSchema.parse({
       from: searchParams.get("from"),
@@ -53,21 +57,27 @@ function ConverterUrlSyncInner() {
 
     const hasFrom = searchParams.has("from");
     const hasTo = searchParams.has("to");
+    const hasAmount = searchParams.has("amount");
 
-    const resolvedFrom = hasFrom ? parsed.from : fromCurrency;
+    const resolvedFrom = hasFrom
+      ? parsed.from
+      : (preferences.defaultFromCurrency ?? fromCurrency);
 
-    // Falls back to the current `to` when the URL doesn't specify one,
-    // then nudges away to the other default whenever it would collide
-    // with `resolvedFrom` — covers a to-only link, a from-only link, and
-    // a link where both sides accidentally (or deliberately) encode the
-    // same pair.
-    const pendingTo = hasTo ? parsed.to : toCurrency;
+    // Falls back to the preference (or the current `to`) when the URL
+    // doesn't specify one, then nudges away to the other default
+    // whenever it would collide with `resolvedFrom`.
+    const pendingTo = hasTo
+      ? parsed.to
+      : (preferences.defaultToCurrency ?? toCurrency);
     const resolvedTo = resolveNonCollidingTo(resolvedFrom, pendingTo);
 
-    if (hasFrom) setFromCurrency(resolvedFrom);
+    if (resolvedFrom !== fromCurrency) setFromCurrency(resolvedFrom);
     if (resolvedTo !== toCurrency) setToCurrency(resolvedTo);
 
-    if (searchParams.has("amount")) setAmount(parsed.amount);
+    const resolvedAmount = hasAmount
+      ? parsed.amount
+      : (preferences.defaultAmount ?? amount);
+    if (resolvedAmount !== amount) setAmount(resolvedAmount);
   }, []);
 
   // Reflect the live converter state back into the URL so the address bar

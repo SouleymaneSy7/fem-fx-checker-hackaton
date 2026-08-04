@@ -8,6 +8,9 @@ export function useCompareCurrencies() {
   const removeCurrency = useCompareCurrenciesStore(
     (state) => state.removeCurrency,
   );
+  const setCurrencies = useCompareCurrenciesStore(
+    (state) => state.setCurrencies,
+  );
 
-  return { currencies, addCurrency, removeCurrency };
+  return { currencies, addCurrency, removeCurrency, setCurrencies };
 }

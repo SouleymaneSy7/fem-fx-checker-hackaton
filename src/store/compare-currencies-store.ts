@@ -23,6 +23,11 @@ export const useCompareCurrenciesStore = create<CompareCurrenciesStoreType>()(
         set((state) => ({
           currencies: state.currencies.filter((currency) => currency !== code),
         })),
+
+      // Wholesale replace — used by Settings > Preferences (Display &
+      // data), which edits this list directly rather than going through
+      // a separate preferences-store field.
+      setCurrencies: (codes) => set({ currencies: codes }),
     }),
     {
       name: STORAGE_KEY_COMPARE_CURRENCIES,

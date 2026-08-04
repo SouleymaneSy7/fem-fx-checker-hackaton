@@ -5,7 +5,7 @@ import useSWR from "swr";
 
 import { SWR_STALE_1H } from "@/constants";
 import { fetchLatestRates } from "@/services";
-import { useAlertsStore } from "@/store";
+import { useAlertsStore, usePreferencesStore } from "@/store";
 import type { RateAlertType } from "@/types";
 import { useAlertMutations } from "./use-alert-mutations";
 
@@ -18,6 +18,11 @@ function isThresholdCrossed(alert: RateAlertType, rate: number): boolean {
 export function useAlertsWatcher() {
   const alerts = useAlertsStore((state) => state.alerts);
   const { triggerAlert } = useAlertMutations();
+
+  const alertRefreshIntervalMs = usePreferencesStore(
+    (state) => state.alertRefreshIntervalMs,
+  );
+  const effectiveInterval = alertRefreshIntervalMs ?? SWR_STALE_1H;
 
   const watchedAlerts = React.useMemo(
     () => alerts.filter((alert) => alert.enabled && !alert.triggeredAt),
@@ -46,10 +51,10 @@ export function useAlertsWatcher() {
         ]
       : null;
 
-  // Frankfurter only publishes a new EOD rate once per business day, so
-  // polling every 5 minutes bought nothing but extra requests. Hourly is
-  // still frequent enough to catch the day's update within a reasonable
-  // window of it landing.
+  // Refresh cadence is a Settings > Preferences > Alerts preference
+  // (falls back to the hourly default) — Frankfurter only publishes a
+  // new EOD rate once per business day, so anything shorter just polls
+  // for the same unchanged rate more often.
   const { data } = useSWR(
     swrKey,
     () =>
@@ -59,7 +64,10 @@ export function useAlertsWatcher() {
           rows: await fetchLatestRates(base, quotes),
         })),
       ),
-    { refreshInterval: SWR_STALE_1H, dedupingInterval: SWR_STALE_1H },
+    {
+      refreshInterval: effectiveInterval,
+      dedupingInterval: effectiveInterval,
+    },
   );
 
   React.useEffect(() => {
@@ -73,8 +81,8 @@ export function useAlertsWatcher() {
 
       if (rate === undefined || !isThresholdCrossed(alert, rate)) continue;
 
-      // Builds and shows its own "triggered" toast internally now — see
-      // useAlertMutations.
+      // Builds and shows its own "triggered" toast (and plays the alert
+      // sound, if enabled) internally now — see useAlertMutations.
       triggerAlert(alert, rate);
 
       window.dispatchEvent(

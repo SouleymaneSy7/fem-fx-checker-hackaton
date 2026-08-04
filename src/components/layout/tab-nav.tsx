@@ -5,7 +5,7 @@ import * as React from "react";
 
 import { List } from "@/components/common";
 import { ChevronDown2Icon } from "@/components/icons";
-import { SPRING_PANEL } from "@/constants";
+import { CONVERTER_SECTIONS, SPRING_PANEL } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useAlertsStore, useFavoritesStore, useLogStore } from "@/store";
 import type { ConverterSectionValueType, TabNavPropsType } from "@/types";
@@ -17,15 +17,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "../ui";
-
-const SECTIONS: { value: ConverterSectionValueType; label: string }[] = [
-  { value: "history", label: "History" },
-  { value: "compare", label: "Compare" },
-  { value: "historicalRates", label: "Historical Rates" },
-  { value: "favorites", label: "Favorites" },
-  { value: "alerts", label: "Alerts" },
-  { value: "log", label: "Log" },
-];
 
 const TAB_INDICATOR_LAYOUT_ID = "tab-nav-indicator";
 
@@ -44,7 +35,8 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
   };
 
   const activeSection =
-    SECTIONS.find((section) => section.value === value) ?? SECTIONS[0];
+    CONVERTER_SECTIONS.find((section) => section.value === value) ??
+    CONVERTER_SECTIONS[0];
   const activeCount = countByValue[activeSection.value];
 
   const handleSelect = (nextValue: ConverterSectionValueType) => {
@@ -56,7 +48,7 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
     <React.Fragment>
       {/* Desktop / tablet — horizontal tabs */}
       <TabsList aria-label="Converter sections" className="hidden md:flex">
-        {SECTIONS.map((section) => {
+        {CONVERTER_SECTIONS.map((section) => {
           const count = countByValue[section.value];
           const isActive = section.value === value;
 
@@ -110,7 +102,7 @@ const TabNav = ({ value, onValueChange }: TabNavPropsType) => {
           <PopoverContent className="w-(--radix-popover-trigger-width) rounded-10 border-neutral-500 bg-card p-step-100 dark:border-neutral-600">
             <div role="listbox" aria-label="Converter sections">
               <List
-                items={SECTIONS}
+                items={CONVERTER_SECTIONS}
                 keyExtractor={(section) => section.value}
                 renderItem={(section) => {
                   const isActive = section.value === value;

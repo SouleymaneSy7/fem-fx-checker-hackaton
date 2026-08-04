@@ -13,8 +13,11 @@ export function useCompareChartCurrencies() {
   const removeCurrency = useCompareChartCurrenciesStore(
     (state) => state.removeCurrency,
   );
+  const setCurrencies = useCompareChartCurrenciesStore(
+    (state) => state.setCurrencies,
+  );
 
   const isFull = currencies.length >= MAX_CHART_CURRENCIES;
 
-  return { currencies, addCurrency, removeCurrency, isFull };
+  return { currencies, addCurrency, removeCurrency, setCurrencies, isFull };
 }
