@@ -1,7 +1,7 @@
 import { Resend } from "resend";
+import { env } from "@/env";
 
-// biome-ignore lint/style/noNonNullAssertion: RESEND_API_KEY is guaranteed by .env.local and validated at startup
-export const resend = new Resend(process.env.RESEND_API_KEY!);
+export const resend = new Resend(env.RESEND_API_KEY);
 
 // Sandbox limitation without a verified Resend domain: only
 // "onboarding@resend.dev" is accepted as a sender, and only the Resend
@@ -9,7 +9,7 @@ export const resend = new Resend(process.env.RESEND_API_KEY!);
 // verified, swap RESEND_FROM_EMAIL to a real address on that domain — no
 // other code here needs to change.
 export const RESEND_FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
+  env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
 
 type SendEmailParamsType = {
   to: string;

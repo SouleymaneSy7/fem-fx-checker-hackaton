@@ -8,6 +8,7 @@ import { db } from "@/db";
 import * as userSchema from "@/db/schemas/user.schema";
 import { sendEmail } from "@/lib/email";
 import { redis } from "@/lib/redis";
+import { env } from "@/env";
 
 function buildDeleteAccountEmailHtml(
   userName: string,
@@ -42,20 +43,16 @@ export const auth = betterAuth({
   //   {BETTER_AUTH_URL}/api/auth/callback/github
   socialProviders: {
     google: {
-      // biome-ignore lint/style/noNonNullAssertion: GOOGLE_CLIENT_ID is guaranteed by .env.local and validated at startup
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      // biome-ignore lint/style/noNonNullAssertion: GOOGLE_CLIENT_SECRET is guaranteed by .env.local and validated at startup
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     },
     github: {
-      // biome-ignore lint/style/noNonNullAssertion: GITHUB_CLIENT_ID is guaranteed by .env.local and validated at startup
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      // biome-ignore lint/style/noNonNullAssertion: GITHUB_CLIENT_SECRET is guaranteed by .env.local and validated at startup
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
     },
   },
 
-  baseURL: process.env.BETTER_AUTH_URL,
+  baseURL: env.BETTER_AUTH_URL,
 
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
@@ -113,7 +110,7 @@ export const auth = betterAuth({
       // settings-shell.tsx reads `confirmDelete` from the query string on
       // mount and calls `authClient.deleteUser({ token })` itself.
       sendDeleteAccountVerification: async ({ user, token }) => {
-        const confirmUrl = `${process.env.BETTER_AUTH_URL}/settings?confirmDelete=${token}`;
+        const confirmUrl = `${env.BETTER_AUTH_URL}/settings?confirmDelete=${token}`;
 
         await sendEmail({
           to: user.email,
