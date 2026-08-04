@@ -4,5 +4,8 @@ export * from "./export-log";
 export * from "./format-amount";
 export * from "./format-date";
 export * from "./get-name-initials";
+export * from "./parse-user-agent";
+export * from "./play-alert-sound";
+export * from "./resize-image";
 export * from "./safe-storage";
 export * from "./theme-script";

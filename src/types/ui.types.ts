@@ -6,6 +6,7 @@ import type { CompareChartPointType } from "./compare.types";
 import type { ConverterSectionValueType } from "./converter.types";
 import type { RatePointType, RateRangeType } from "./rate.types";
 import type { RecentPairType } from "./recent-pairs.types";
+import type { SettingsSectionValueType } from "./settings.types";
 
 /* ────────────────────────────────────────────────────────────────────────
  * Polymorphic component helpers
@@ -108,6 +109,13 @@ export interface NavbarPropsType {
 export type TabNavPropsType = {
   value: ConverterSectionValueType;
   onValueChange: (value: ConverterSectionValueType) => void;
+};
+
+/* ── SettingsTabNav ─────────────────────────────────────────────────── */
+
+export type SettingsTabNavPropsType = {
+  value: SettingsSectionValueType;
+  onValueChange: (value: SettingsSectionValueType) => void;
 };
 
 /* ── Main Component ─────────────────────────────────────────────────── */
@@ -289,6 +297,17 @@ export type CompareCurrencyPickerPropsType = {
   isLoading?: boolean;
   disabled?: boolean;
   disabledLabel?: string;
+  className?: string;
+};
+
+/* ── MultiCurrencyPicker ─────────────────────────────────────────────────── */
+
+export type MultiCurrencyPickerPropsType = {
+  selected: string[];
+  onChange: (next: string[]) => void;
+  currencies: CurrencyOptionType[];
+  maxSelected?: number;
+  label?: string;
   className?: string;
 };
 

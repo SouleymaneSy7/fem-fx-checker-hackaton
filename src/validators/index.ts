@@ -4,5 +4,6 @@ export * from "./auth";
 export * from "./currency";
 export * from "./favorite";
 export * from "./log";
+export * from "./profile";
 export * from "./recent-pair";
 export * from "./search-params";

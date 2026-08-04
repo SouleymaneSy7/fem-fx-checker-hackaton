@@ -10,12 +10,14 @@ export type CompareCurrenciesStoreType = {
   currencies: string[];
   addCurrency: (code: string) => void;
   removeCurrency: (code: string) => void;
+  setCurrencies: (codes: string[]) => void;
 };
 
 export type CompareChartCurrenciesStoreType = {
   currencies: string[];
   addCurrency: (code: string) => void;
   removeCurrency: (code: string) => void;
+  setCurrencies: (codes: string[]) => void;
 };
 
 // Recharts needs one flat object per date, with each currency as its own

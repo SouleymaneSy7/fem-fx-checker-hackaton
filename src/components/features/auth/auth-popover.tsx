@@ -6,33 +6,24 @@ import * as React from "react";
 import {
   Avatar,
   AvatarFallback,
+  AvatarImage,
   Button,
   buttonVariants,
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Separator,
   Spinner,
 } from "@/components/ui";
+import { useClearSyncedStores } from "@/hooks";
 import { signOut, useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import {
-  useAlertsStore,
-  useFavoritesStore,
-  useLogStore,
-  useRecentPairsStore,
-} from "@/store";
 import { getNameInitials } from "@/utils";
 
 const AuthPopover = () => {
   const [open, setOpen] = React.useState(false);
   const { data: session, isPending } = useSession();
-
-  const replaceFavorites = useFavoritesStore((state) => state.replaceFavorites);
-  const clearLog = useLogStore((state) => state.clearLog);
-  const replaceAlerts = useAlertsStore((state) => state.replaceAlerts);
-  const replaceRecentPairs = useRecentPairsStore(
-    (state) => state.replaceRecentPairs,
-  );
+  const clearSyncedStores = useClearSyncedStores();
 
   // The four synced stores are persisted to localStorage and hold this
   // account's server data (see AccountSync). Without clearing them here,
@@ -42,12 +33,7 @@ const AuthPopover = () => {
   // browser.
   const handleSignOut = async () => {
     await signOut();
-
-    replaceFavorites([]);
-    clearLog();
-    replaceAlerts([]);
-    replaceRecentPairs([]);
-
+    clearSyncedStores();
     setOpen(false);
   };
 
@@ -59,25 +45,29 @@ const AuthPopover = () => {
           aria-label="Account menu"
           className={cn(
             buttonVariants({ variant: "secondary" }),
-            "min-w-18 max-w-40 text-foreground",
+            "min-w-18 max-w-40 border-primary bg-primary-accent text-primary hover:bg-primary-accent",
           )}
         >
           {isPending ? (
-            <Spinner aria-hidden="true" className="text-foreground" />
+            <Spinner aria-hidden="true" className="text-primary" />
           ) : (
             <span className="preset-5-med truncate">{session.user.name}</span>
           )}
         </PopoverTrigger>
 
         <PopoverContent className="w-full space-y-step-200 p-step-200 md:w-80">
-          <div className="flex items-center gap-step-150">
+          <div className="flex w-full items-center gap-step-150">
             <Avatar className="h-10 w-10">
+              {session.user.image && (
+                <AvatarImage src={session.user.image} alt={session.user.name} />
+              )}
+
               <AvatarFallback className="preset-3 text-foreground uppercase">
                 {getNameInitials(session.user.name)}
               </AvatarFallback>
             </Avatar>
 
-            <div className="flex flex-col gap-step-050">
+            <div className="flex w-full flex-col gap-step-050">
               <span className="preset-4 truncate text-foreground uppercase">
                 {session.user.name}
               </span>
@@ -88,10 +78,25 @@ const AuthPopover = () => {
             </div>
           </div>
 
+          <Link
+            href="/settings"
+            onClick={() => setOpen(false)}
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              "w-full bg-muted",
+            )}
+          >
+            Settings
+          </Link>
+
+          <Separator />
+
           <Button
             type="button"
-            variant="secondary"
-            className="w-full"
+            className={cn(
+              buttonVariants({ variant: "secondary" }),
+              "w-full border-primary bg-primary-accent text-primary hover:bg-primary-accent",
+            )}
             onClick={handleSignOut}
           >
             Sign out
@@ -107,7 +112,7 @@ const AuthPopover = () => {
       aria-label="Sign in"
       className={cn(
         buttonVariants({ variant: "secondary" }),
-        "min-w-18 max-w-40",
+        "min-w-18 max-w-40 border-primary bg-primary-accent text-primary hover:bg-primary-accent",
       )}
     >
       {isPending ? (

@@ -4,6 +4,7 @@ export * from "./currency-flags.service";
 export * from "./favorites.service";
 export * from "./http-client";
 export * from "./logs.service";
+export * from "./profile.service";
 export * from "./rate.service";
 export * from "./rates.service";
 export * from "./recent-pairs.service";
