@@ -56,7 +56,7 @@ const ConverterBottom = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <p
-              className="preset-6 text-foreground uppercase"
+              className="preset-6 cursor-default text-foreground uppercase"
               aria-live="polite"
             >
               {rateDisplay}

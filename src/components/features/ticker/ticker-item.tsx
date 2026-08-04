@@ -9,13 +9,13 @@ const TickerItem = ({ pair }: { pair: TickerPairType }) => {
 
   return (
     <div className="preset-5 flex items-center gap-step-125 whitespace-nowrap border-border border-r bg-card px-step-250 py-step-150 uppercase">
-      <span className="text-neutral-200">
+      <span className="cursor-default text-neutral-200">
         {pair.base}/{pair.quote}
       </span>
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="preset-5-med text-neutral-50">
+          <span className="preset-5-med cursor-default text-neutral-50">
             {pair.rate.toFixed(2)}
           </span>
         </TooltipTrigger>
@@ -29,7 +29,7 @@ const TickerItem = ({ pair }: { pair: TickerPairType }) => {
         <TooltipTrigger asChild>
           <p
             className={cn(
-              "flex items-center gap-step-075",
+              "flex cursor-default items-center gap-step-075",
               isNeutral && "text-neutral-200",
               !isNeutral && isPositive && "text-green",
               !isNeutral && !isPositive && "text-red",
@@ -39,6 +39,7 @@ const TickerItem = ({ pair }: { pair: TickerPairType }) => {
             <span>{Math.abs(pair.changePercent).toFixed(2)}%</span>
           </p>
         </TooltipTrigger>
+
         <TooltipContent>
           {isNeutral
             ? "No change in the last 24h"

@@ -140,7 +140,7 @@ const ConverterTop = () => {
           Send
         </Title>
 
-        <div className="flex items-center justify-between gap-step-100">
+        <div className="flex flex-wrap items-center justify-between gap-step-100">
           <NumericInput
             value={sendAmountValue}
             onChange={handleAmountChange}
@@ -185,7 +185,7 @@ const ConverterTop = () => {
           Receive
         </Title>
 
-        <div className="flex items-center justify-between gap-step-100">
+        <div className="flex flex-wrap items-center justify-between gap-step-100">
           {error ? (
             <p className="preset-1 text-destructive/80 uppercase">———</p>
           ) : convertedAmount !== null ? (
@@ -199,7 +199,7 @@ const ConverterTop = () => {
           ) : isLoading ? (
             <SpinnerEllipsis />
           ) : (
-            <p className="preset-1 text-destructive/80 uppercase">———</p>
+            <p className="preset-1 text-destructive/80 uppercase">---</p>
           )}
 
           <CurrencyPicker

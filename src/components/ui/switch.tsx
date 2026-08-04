@@ -30,10 +30,10 @@ function Switch({
           onTap={() => setIsPressed(false)}
           onTapCancel={() => setIsPressed(false)}
           className={cn(
-            "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-transparent bg-neutral-500 transition-colors",
+            "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-transparent bg-neutral-400 transition-colors",
             "focus-ring",
             "disabled:cursor-not-allowed disabled:opacity-50",
-            "data-[state=checked]:bg-primary",
+            "data-[state=checked]:bg-primary-accent",
             className,
           )}
         >
@@ -61,7 +61,7 @@ function SwitchThumb() {
         transition={{ type: "spring", duration: 0.2, bounce: 0.35 }}
         className={cn(
           "pointer-events-none block h-5 rounded-full bg-neutral-50 shadow-lg ring-0 transition-transform",
-          "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0.5",
+          "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0.5 data-[state=checked]:bg-primary",
         )}
       />
     </SwitchPrimitive.Thumb>
