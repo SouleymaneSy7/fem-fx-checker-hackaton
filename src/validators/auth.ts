@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const nameSchema = z
+export const nameSchema = z
   .string()
   .trim()
   .min(2, "Name must be at least 2 characters long")
@@ -10,7 +10,7 @@ const nameSchema = z
     "Name can only contain letters, spaces, hyphens, and apostrophes",
   );
 
-const emailSchema = z
+export const emailSchema = z
   .string()
   .min(1, "Email is required")
   .trim()
