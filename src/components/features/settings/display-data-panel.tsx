@@ -1,7 +1,7 @@
 "use client";
 
+import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
-
 import { Container, Title } from "@/components/common";
 import { MultiCurrencyPicker } from "@/components/shared";
 import { Button, ToggleGroup, ToggleGroupItem } from "@/components/ui";
@@ -9,6 +9,7 @@ import {
   DEFAULT_CHART_CURRENCIES,
   DEFAULT_COMPARE_CURRENCIES,
   MAX_CHART_CURRENCIES,
+  SPRING_PANEL,
   TICKER_QUOTE_CURRENCIES,
 } from "@/constants";
 import {
@@ -21,9 +22,11 @@ import { usePreferencesStore } from "@/store";
 import type { CurrencyOptionType, DecimalPrecisionType } from "@/types";
 
 const PRECISION_OPTIONS: DecimalPrecisionType[] = [2, 4, 6];
+const DEFAULT_PRECISION_LAYOUT_ID = "settings-display-data-interval-indicator";
 
 const DisplayDataPanel = () => {
   const { currencies } = useCurrencies();
+  const shouldReduceMotion = useReducedMotion();
 
   const decimalPrecision = usePreferencesStore(
     (state) => state.decimalPrecision,
@@ -82,14 +85,26 @@ const DisplayDataPanel = () => {
         >
           {PRECISION_OPTIONS.map((precision) => (
             <ToggleGroupItem key={precision} value={String(precision)}>
-              {precision} digits
+              {String(effectivePrecision) === String(precision) && (
+                <motion.span
+                  aria-hidden="true"
+                  layout
+                  layoutId={DEFAULT_PRECISION_LAYOUT_ID}
+                  className="absolute inset-0 rounded-md bg-neutral-500"
+                  style={{ originY: "0px" }}
+                  transition={
+                    shouldReduceMotion ? { duration: 0 } : SPRING_PANEL
+                  }
+                />
+              )}
+              <span className="relative z-10">{precision} digits</span>
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
       </div>
 
       <div className="flex flex-col gap-step-100">
-        <div className="flex items-baseline justify-between gap-step-100">
+        <div className="flex flex-wrap items-baseline justify-between gap-step-100">
           <span className="preset-4 text-foreground">Live markets ticker</span>
 
           {tickerQuoteCurrencies !== null && (
@@ -117,7 +132,7 @@ const DisplayDataPanel = () => {
       </div>
 
       <div className="flex flex-col gap-step-100">
-        <div className="flex items-baseline justify-between gap-step-100">
+        <div className="flex flex-wrap items-baseline justify-between gap-step-100">
           <span className="preset-4 text-foreground">
             Compare table currencies
           </span>
@@ -145,7 +160,7 @@ const DisplayDataPanel = () => {
       </div>
 
       <div className="flex flex-col gap-step-100">
-        <div className="flex items-baseline justify-between gap-step-100">
+        <div className="flex flex-wrap items-baseline justify-between gap-step-100">
           <span className="preset-4 text-foreground">
             Compare chart currencies
           </span>

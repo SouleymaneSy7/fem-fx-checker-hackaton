@@ -48,7 +48,7 @@ const AlertPreferencesPanel = () => {
         Rate alerts
       </Title>
 
-      <div className="flex items-center justify-between gap-step-200">
+      <div className="flex flex-wrap items-center justify-between gap-step-200">
         <div className="flex flex-col gap-step-050">
           <Label htmlFor="alert-sound-toggle" className="preset-4 normal-case">
             Play a sound when an alert triggers
@@ -100,7 +100,7 @@ const AlertPreferencesPanel = () => {
             if (next) setAlertRefreshIntervalMs(Number(next));
           }}
           aria-label="Alert refresh interval"
-          className="flex-wrap bg-neutral-600"
+          className="w-fit flex-wrap bg-neutral-600"
         >
           {ALERT_REFRESH_INTERVAL_OPTIONS.map((option) => (
             <ToggleGroupItem key={option.value} value={String(option.value)}>

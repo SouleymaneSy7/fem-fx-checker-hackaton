@@ -136,6 +136,7 @@ const ConverterBehaviorPanel = () => {
       <div className="max-w-50">
         <TextInput
           label="Default amount"
+          placeholder="1000"
           inputMode="decimal"
           value={amountInput}
           onChange={handleAmountChange}
@@ -152,7 +153,7 @@ const ConverterBehaviorPanel = () => {
             if (next) setDefaultTab(next as ConverterSectionValueType);
           }}
           aria-label="Default tab"
-          className="flex-wrap bg-neutral-600"
+          className="w-fit flex-wrap bg-neutral-600"
         >
           {CONVERTER_SECTIONS.map((section) => (
             <ToggleGroupItem key={section.value} value={section.value}>
