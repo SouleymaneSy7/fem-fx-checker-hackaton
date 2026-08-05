@@ -7,6 +7,7 @@ export * from "./historical-rates.types";
 export * from "./keyboard.types";
 export * from "./log.types";
 export * from "./next.types";
+export * from "./offline.types";
 export * from "./preferences.types";
 export * from "./rate.types";
 export * from "./recent-pairs.types";

@@ -3,6 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 
 import "@/style/globals.css";
 
+import { ServiceWorkerRegistration } from "@/components/common";
 import { SWRProvider } from "@/components/providers/swr-provider";
 import { Toaster, TooltipProvider } from "@/components/ui";
 import { THEME_INIT_SCRIPT } from "@/utils/theme-script";
@@ -55,6 +56,7 @@ export default function RootLayout({
             hydration to avoid a flash of the wrong theme. */}
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: synchronous theme-init script must run before hydration to prevent FOUC — content is a static constant, not user input */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <ServiceWorkerRegistration />
         <SWRProvider>
           <TooltipProvider>
             {children}

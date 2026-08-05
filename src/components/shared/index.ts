@@ -12,6 +12,7 @@ export { default as LogButton } from "./log-button";
 export { default as Logo } from "./logo";
 export { default as MultiCurrencyPicker } from "./multi-currency-picker";
 export { default as NumericInput } from "./numeric-input";
+export { default as OfflineBanner } from "./offline-banner";
 export * from "./pill-indicator";
 export { default as SearchInput } from "./search-input";
 export { default as ShareButton } from "./share-button";

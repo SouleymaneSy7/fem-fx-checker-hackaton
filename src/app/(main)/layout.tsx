@@ -6,6 +6,7 @@ import AccountSync from "@/components/features/auth/account-sync";
 import RecentPairsTracker from "@/components/features/converter/recent-pairs-tracker";
 import { Header } from "@/components/layout";
 import AppLoader from "@/components/loaders/app-loader";
+import { OfflineBanner } from "@/components/shared";
 
 // Everything that belongs to the "main app" experience — home page and
 // Settings — and makes no sense on the full-bleed /login or /signup
@@ -24,6 +25,7 @@ export default function AppLayout({
       <RecentPairsTracker />
       <AlertsWatcher />
       <AppLoader>
+        <OfflineBanner />
         <Header />
         {children}
       </AppLoader>
