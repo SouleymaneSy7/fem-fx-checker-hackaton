@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Eye,
   EyeOff,
+  Globe,
   Info,
   Loader2Icon,
   Plus,
@@ -299,6 +300,20 @@ export const EyeOffIcon = ({
 }: IconComponentProps) => (
   <Icon
     icon={EyeOff}
+    size={size}
+    label={label}
+    className={className}
+    {...props}
+  />
+);
+export const GlobeIcon = ({
+  size,
+  label,
+  className,
+  ...props
+}: IconComponentProps) => (
+  <Icon
+    icon={Globe}
     size={size}
     label={label}
     className={className}

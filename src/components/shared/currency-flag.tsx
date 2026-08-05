@@ -3,6 +3,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { getCurrencyFlagUrl } from "@/services";
 import type { CurrencyFlagProps } from "@/types";
+import { GlobeIcon } from "../icons";
 import { Skeleton } from "../ui";
 
 export function CurrencyFlag({
@@ -22,12 +23,12 @@ export function CurrencyFlag({
   }
 
   if (!flagUrl) {
-    // No flag asset for some currency — render a neutral
-    // placeholder instead of a broken image.
+    // No flag asset for some currency — render an
+    // globe icon instead of a broken image.
     return (
-      <span
+      <GlobeIcon
         aria-hidden="true"
-        className="inline-block shrink-0 rounded-full bg-neutral-400"
+        className="shrink-0 text-foreground"
         style={{ width: size, height: size }}
       />
     );
