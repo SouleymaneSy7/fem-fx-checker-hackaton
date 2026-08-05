@@ -10,18 +10,16 @@ import * as React from "react";
  *
  */
 
-const userAgentData = navigator as Navigator & {
-  userAgentData?: {
-    platform?: string;
-  };
+type NavigatorWithUAData = Navigator & {
+  userAgentData?: { platform?: string };
 };
 
 export const useIsMac = () => {
   const [isMac, setIsMac] = React.useState(false);
 
   React.useEffect(() => {
-    const platform =
-      userAgentData.userAgentData?.platform ?? navigator.userAgent;
+    const nav = navigator as NavigatorWithUAData;
+    const platform = nav.userAgentData?.platform ?? nav.userAgent;
 
     setIsMac(/Mac|iPhone|iPad|iPod/.test(platform));
   }, []);
