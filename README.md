@@ -1,6 +1,6 @@
 # FX Checker — Foreign Exchange Currency Converter
 
-![Design preview for the FX Checker coding challenge](./public/preview.jpg)
+![Design preview for the FX Checker coding challenge](./public/assets/images/preview.jpg)
 
 **FM30 Hackathon** · Frontend Mentor · June 12 – July 13, 2026
 
@@ -55,11 +55,11 @@ _Last updated: July 2026 — All phases complete_
 
 ## Screenshots
 
-![Converter — dark theme](./public/screenshots/converter-dark.png)
-![Converter — light theme](./public/screenshots/converter-light.png)
-![Compare — multi-currency](./public/screenshots/compare.png)
-![Favorites](./public/screenshots/favorites.png)
-![Mobile — responsive](./public/screenshots/mobile.png)
+![Converter — dark theme](./public/assets/images/screenshots/converter-dark.png)
+![Converter — light theme](./public/assets/images/screenshots/converter-light.png)
+![Compare — multi-currency](./public/assets/images/screenshots/compare.png)
+![Favorites](./public/assets/images/screenshots/favorites.png)
+![Mobile — responsive](./public/assets/images/screenshots/mobile.png)
 
 ---
 
@@ -558,7 +558,7 @@ src/
 
 Measured on [July 13, 2026](https://pagespeed.web.dev/analysis/https-fem-fx-checker-hackaton-vercel-app/xgzl3b2dvk?hl=fr&form_factor=mobile) via PageSpeed Insights (Lighthouse 13.4.0).
 
-![Lighthouse Score](./public/lighthouse-score.png)
+![Lighthouse Score](./public/assets/images/lighthouse-score.png)
 
 | Category       | Mobile | Desktop |
 | -------------- | ------ | ------- |
