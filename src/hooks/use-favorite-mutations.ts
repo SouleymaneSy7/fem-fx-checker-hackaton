@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useSession } from "@/lib/auth-client";
 import { createFavorite, deleteFavorite } from "@/services";
 import { useFavoritesStore } from "@/store";
+import { runOptimisticMutation } from "@/utils";
 
 // Single entry point for pinning/unpinning — used by use-converter.ts,
 // use-compare.ts, and (via use-favorites.ts) FavoritesPanel, so every
@@ -30,40 +31,76 @@ export function useFavoriteMutations() {
     });
   };
 
-  const pinPair = (fromCurrency: string, toCurrency: string) => {
+  const pinPair = async (fromCurrency: string, toCurrency: string) => {
     const id = `${fromCurrency}-${toCurrency}`;
-    storePinPair(fromCurrency, toCurrency);
-    toast.success(`${fromCurrency}/${toCurrency} added to your favorites.`);
+    const toastId = `favorite-${id}`;
 
-    if (!session) return;
+    if (!session) {
+      storePinPair(fromCurrency, toCurrency);
+      toast.success(`${fromCurrency}/${toCurrency} added to your favorites.`, {
+        id: toastId,
+      });
+      return;
+    }
 
     setPending(id, true);
-    createFavorite(fromCurrency, toCurrency)
-      .catch(() => {
-        toast.error(
-          "Sync failed — your change was saved locally and will retry next time.",
+
+    await runOptimisticMutation({
+      apply: () => {
+        storePinPair(fromCurrency, toCurrency);
+        toast.success(
+          `${fromCurrency}/${toCurrency} added to your favorites.`,
+          { id: toastId },
         );
-      })
-      .finally(() => setPending(id, false));
+      },
+      rollback: () => {
+        storeUnpinPair(id);
+        toast.error(`Couldn't pin ${fromCurrency}/${toCurrency} — try again.`, {
+          id: toastId,
+        });
+      },
+      request: () => createFavorite(fromCurrency, toCurrency),
+    });
+
+    setPending(id, false);
   };
 
-  const unpinPair = (id: string) => {
-    storeUnpinPair(id);
-
+  const unpinPair = async (id: string) => {
     const [fromCurrency, toCurrency] = id.split("-");
     if (!fromCurrency || !toCurrency) return;
-    toast.success(`${fromCurrency}/${toCurrency} removed from your favorites.`);
 
-    if (!session) return;
+    const toastId = `favorite-${id}`;
+
+    if (!session) {
+      storeUnpinPair(id);
+      toast.success(
+        `${fromCurrency}/${toCurrency} removed from your favorites.`,
+        { id: toastId },
+      );
+      return;
+    }
 
     setPending(id, true);
-    deleteFavorite(fromCurrency, toCurrency)
-      .catch(() => {
-        toast.error(
-          "Sync failed — your change was saved locally and will retry next time.",
+
+    await runOptimisticMutation({
+      apply: () => {
+        storeUnpinPair(id);
+        toast.success(
+          `${fromCurrency}/${toCurrency} removed from your favorites.`,
+          { id: toastId },
         );
-      })
-      .finally(() => setPending(id, false));
+      },
+      rollback: () => {
+        storePinPair(fromCurrency, toCurrency);
+        toast.error(
+          `Couldn't unpin ${fromCurrency}/${toCurrency} — try again.`,
+          { id: toastId },
+        );
+      },
+      request: () => deleteFavorite(fromCurrency, toCurrency),
+    });
+
+    setPending(id, false);
   };
 
   const isPending = React.useCallback(

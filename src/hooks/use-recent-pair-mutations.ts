@@ -3,16 +3,17 @@
 import { useSession } from "@/lib/auth-client";
 import { createRecentPair, deleteRecentPair } from "@/services";
 import { useRecentPairsStore } from "@/store";
+import { runOptimisticMutation } from "@/utils";
 
 // Single entry point for adding/removing recent pairs — used by
 // RecentPairsTracker (automatic, on every pair change) and CurrencyPicker
 // (explicit removal via the "x" on a recent-pair chip), so both paths
 // stay sync-aware without duplicating the "also tell the server" logic.
-// Unlike useFavoriteMutations/useLogMutations, neither action surfaces a
-// toast: adding fires silently on every currency change (a toast there
-// would fire on nearly every interaction), and removing a low-stakes,
-// easily-regenerated chip doesn't warrant one either — the chip
-// disappearing from the list is feedback enough.
+// Both actions stay silent on failure (no toast) — this fires on every
+// currency swap, and a failed background sync is low-stakes enough that
+// a retry toast would just be noise. Rollback is silent for the same
+// reason: the chip quietly not appearing (or reappearing) is sufficient
+// feedback on its own.
 export function useRecentPairMutations() {
   const { data: session } = useSession();
 
@@ -22,28 +23,43 @@ export function useRecentPairMutations() {
   const storeRemoveRecentPair = useRecentPairsStore(
     (state) => state.removeRecentPair,
   );
+  const storeReplaceRecentPairs = useRecentPairsStore(
+    (state) => state.replaceRecentPairs,
+  );
 
-  const addRecentPair = (fromCurrency: string, toCurrency: string) => {
+  const addRecentPair = async (fromCurrency: string, toCurrency: string) => {
     const lastUsedAt = Date.now();
-    storeAddRecentPair(fromCurrency, toCurrency, lastUsedAt);
 
-    if (!session) return;
+    if (!session) {
+      storeAddRecentPair(fromCurrency, toCurrency, lastUsedAt);
+      return;
+    }
 
-    // Fire-and-forget: a failed sync here just means this device's
-    // activity doesn't reach the server this time — not worth a retry
-    // toast on every currency swap.
-    createRecentPair(fromCurrency, toCurrency, lastUsedAt).catch(() => {});
+    const snapshot = useRecentPairsStore.getState().recentPairs;
+
+    await runOptimisticMutation({
+      apply: () => storeAddRecentPair(fromCurrency, toCurrency, lastUsedAt),
+      rollback: () => storeReplaceRecentPairs(snapshot),
+      request: () => createRecentPair(fromCurrency, toCurrency, lastUsedAt),
+    });
   };
 
-  const removeRecentPair = (id: string) => {
-    storeRemoveRecentPair(id);
-
-    if (!session) return;
+  const removeRecentPair = async (id: string) => {
+    if (!session) {
+      storeRemoveRecentPair(id);
+      return;
+    }
 
     const [fromCurrency, toCurrency] = id.split("-");
     if (!fromCurrency || !toCurrency) return;
 
-    deleteRecentPair(fromCurrency, toCurrency).catch(() => {});
+    const snapshot = useRecentPairsStore.getState().recentPairs;
+
+    await runOptimisticMutation({
+      apply: () => storeRemoveRecentPair(id),
+      rollback: () => storeReplaceRecentPairs(snapshot),
+      request: () => deleteRecentPair(fromCurrency, toCurrency),
+    });
   };
 
   return { addRecentPair, removeRecentPair };

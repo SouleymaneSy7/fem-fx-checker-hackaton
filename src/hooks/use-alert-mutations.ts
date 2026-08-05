@@ -7,7 +7,7 @@ import { useSession } from "@/lib/auth-client";
 import { createAlert, deleteAlert, updateAlert } from "@/services";
 import { useAlertsStore, usePreferencesStore } from "@/store";
 import type { RateAlertConditionType, RateAlertType } from "@/types";
-import { playAlertSound } from "@/utils";
+import { playAlertSound, runOptimisticMutation } from "@/utils";
 
 export function useAlertMutations() {
   const { data: session } = useSession();
@@ -20,6 +20,7 @@ export function useAlertMutations() {
   const storeRemoveAlert = useAlertsStore((state) => state.removeAlert);
   const storeTriggerAlert = useAlertsStore((state) => state.triggerAlert);
   const storeResetAlert = useAlertsStore((state) => state.resetAlert);
+  const storeReplaceAlerts = useAlertsStore((state) => state.replaceAlerts);
 
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
@@ -37,53 +38,84 @@ export function useAlertMutations() {
       return;
     }
 
+    const tempId = crypto.randomUUID();
+    const tempAlert: RateAlertType = {
+      id: tempId,
+      fromCurrency,
+      toCurrency,
+      condition,
+      threshold,
+      enabled: true,
+      createdAt: Date.now(),
+      triggeredAt: null,
+    };
+
     setIsSubmitting(true);
 
-    try {
-      const created = await createAlert(
-        fromCurrency,
-        toCurrency,
-        condition,
-        threshold,
-      );
-      storeAddSyncedAlert(created);
-      toast.success(successMessage);
-    } catch {
-      storeAddAlert({ fromCurrency, toCurrency, condition, threshold });
-      toast.warning(
-        "Couldn't reach the server — your alert was saved locally.",
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
+    await runOptimisticMutation({
+      apply: () => {
+        storeAddSyncedAlert(tempAlert);
+        toast.success(successMessage);
+      },
+      rollback: () => {
+        storeRemoveAlert(tempId);
+        toast.error(
+          `Couldn't create the alert for ${fromCurrency}/${toCurrency} — try again.`,
+        );
+      },
+      request: () =>
+        createAlert(fromCurrency, toCurrency, condition, threshold),
+      onSuccess: (created) => {
+        storeRemoveAlert(tempId);
+        storeAddSyncedAlert(created);
+      },
+    });
+
+    setIsSubmitting(false);
   };
 
-  const removeAlert = (
+  const removeAlert = async (
     id: string,
     fromCurrency: string,
     toCurrency: string,
   ) => {
-    storeRemoveAlert(id);
-    toast.success(`Alert for ${fromCurrency}/${toCurrency} has been removed.`);
-
-    if (!session) return;
-
-    deleteAlert(id).catch(() => {
-      toast.error(
-        "Sync failed — your change was saved locally and will retry next time.",
+    if (!session) {
+      storeRemoveAlert(id);
+      toast.success(
+        `Alert for ${fromCurrency}/${toCurrency} has been removed.`,
       );
+      return;
+    }
+
+    const snapshot = useAlertsStore.getState().alerts;
+
+    await runOptimisticMutation({
+      apply: () => {
+        storeRemoveAlert(id);
+        toast.success(
+          `Alert for ${fromCurrency}/${toCurrency} has been removed.`,
+        );
+      },
+      rollback: () => {
+        storeReplaceAlerts(snapshot);
+        toast.error(
+          `Couldn't remove the alert for ${fromCurrency}/${toCurrency} — try again.`,
+        );
+      },
+      request: () => deleteAlert(id),
     });
   };
 
-  // Called by the watcher when a threshold crosses. Takes the full alert
-  // plus the rate that tripped it so it can build the "triggered" toast
-  // (and play the alert sound, if enabled) itself — kept silent on
-  // server-sync failure, since a second failure toast on top of the
-  // "triggered" one would just be noise.
+  // Called by the watcher when a threshold crosses — stays optimistic
+  // with a silent server-sync failure (no rollback, no error toast) by
+  // design: this fires automatically, not from a direct user action, and
+  // a failed sync here just means the next sign-in's AccountSync
+  // reconciliation (which replaces local alerts with the server's
+  // canonical list) resolves the drift instead of an immediate rollback.
   const triggerAlert = (alert: RateAlertType, rate: number) => {
     const triggeredAt = Date.now();
-    storeTriggerAlert(alert.id, triggeredAt);
 
+    storeTriggerAlert(alert.id, triggeredAt);
     if (alertSoundEnabled) playAlertSound();
 
     toast("Rate alert triggered!", {
@@ -95,25 +127,44 @@ export function useAlertMutations() {
     updateAlert(alert.id, { enabled: false, triggeredAt }).catch(() => {});
   };
 
-  const resetAlert = (
+  const resetAlert = async (
     id: string,
     fromCurrency: string,
     toCurrency: string,
     threshold: number,
   ) => {
-    storeResetAlert(id);
-    toast.info(
-      `Watching ${fromCurrency}/${toCurrency} again — you'll be notified when the rate crosses ${threshold.toFixed(2)}.`,
-    );
-
-    if (!session) return;
-
-    updateAlert(id, { enabled: true, triggeredAt: null }).catch(() => {
-      toast.error(
-        "Sync failed — your change was saved locally and will retry next time.",
+    if (!session) {
+      storeResetAlert(id);
+      toast.info(
+        `Watching ${fromCurrency}/${toCurrency} again — you'll be notified when the rate crosses ${threshold.toFixed(2)}.`,
       );
+      return;
+    }
+
+    const snapshot = useAlertsStore.getState().alerts;
+
+    await runOptimisticMutation({
+      apply: () => {
+        storeResetAlert(id);
+        toast.info(
+          `Watching ${fromCurrency}/${toCurrency} again — you'll be notified when the rate crosses ${threshold.toFixed(2)}.`,
+        );
+      },
+      rollback: () => {
+        storeReplaceAlerts(snapshot);
+        toast.error(
+          `Couldn't reset the alert for ${fromCurrency}/${toCurrency} — try again.`,
+        );
+      },
+      request: () => updateAlert(id, { enabled: true, triggeredAt: null }),
     });
   };
 
-  return { addAlert, removeAlert, triggerAlert, resetAlert, isSubmitting };
+  return {
+    addAlert,
+    removeAlert,
+    triggerAlert,
+    resetAlert,
+    isSubmitting,
+  };
 }
