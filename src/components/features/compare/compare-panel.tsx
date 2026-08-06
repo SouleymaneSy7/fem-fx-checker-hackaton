@@ -21,7 +21,11 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/components/ui";
-import { MAX_CHART_CURRENCIES, SPRING_PANEL } from "@/constants";
+import {
+  MAX_CHART_CURRENCIES,
+  SHORTCUT_EVENTS,
+  SPRING_PANEL,
+} from "@/constants";
 import {
   useCompare,
   useCompareChart,
@@ -68,6 +72,26 @@ const ComparePanel = () => {
 
   const [viewMode, setViewMode] = React.useState<CompareViewModeType>("table");
   const shouldReduceMotion = useReducedMotion();
+
+  // Keyboard shortcut (V, see constants/shortcut-registry.ts) — only live
+  // while this panel is mounted (Radix Tabs unmounts inactive
+  // TabsContent), so it naturally only fires while the Compare tab is
+  // actually open.
+  React.useEffect(() => {
+    const handleToggleView = () => {
+      setViewMode((current) => (current === "table" ? "chart" : "table"));
+    };
+
+    window.addEventListener(
+      SHORTCUT_EVENTS.toggleCompareView,
+      handleToggleView,
+    );
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.toggleCompareView,
+        handleToggleView,
+      );
+  }, []);
 
   const {
     quotes: chartCurrencies,
@@ -199,6 +223,7 @@ const ComparePanel = () => {
               <CompareCurrencyPicker
                 currencies={addableTableCurrencyOptions}
                 onSelect={addCurrency}
+                openShortcut
               />
             </React.Fragment>
           ) : (
@@ -213,6 +238,7 @@ const ComparePanel = () => {
                   onSelect={addChartCurrency}
                   disabled={isChartFull}
                   disabledLabel={`Chart is full (${MAX_CHART_CURRENCIES}/${MAX_CHART_CURRENCIES}) — remove one to add another`}
+                  openShortcut
                 />
 
                 <CompareChartHint baseCurrency={baseCurrency} />

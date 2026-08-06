@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 
 import { BellIcon } from "@/components/icons";
-import { SPRING_PANEL } from "@/constants";
+import { SHORTCUT_EVENTS, SPRING_PANEL } from "@/constants";
 import { useAlertMutations } from "@/hooks";
 import { cn } from "@/lib/utils";
 import type { AlertTogglePropsType, RateAlertConditionType } from "@/types";
@@ -60,6 +60,27 @@ const AlertToggle = ({
       setThresholdInput(currentRateRef.current.toFixed(2));
     }
   }, [open]);
+
+  // Keyboard shortcut (A, see constants/shortcut-registry.ts) —
+  // force-opens the popover for the active pair, same as clicking the
+  // trigger. Doesn't toggle closed on a second press, matching the
+  // Send/Receive search shortcuts' own force-open behavior for
+  // predictability.
+  React.useEffect(() => {
+    const handleOpenShortcut = () => {
+      if (!disabled) setOpen(true);
+    };
+
+    window.addEventListener(
+      SHORTCUT_EVENTS.openAlertPopover,
+      handleOpenShortcut,
+    );
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.openAlertPopover,
+        handleOpenShortcut,
+      );
+  }, [disabled]);
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();

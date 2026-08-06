@@ -1,5 +1,8 @@
 "use client";
 
+import * as React from "react";
+import { toast } from "sonner";
+
 import { Container } from "@/components/common";
 import {
   AlertToggle,
@@ -13,6 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui";
+import { SHORTCUT_EVENTS } from "@/constants";
 import { useConverter } from "@/hooks";
 import { formatAmount, formatPreciseAmount } from "@/utils";
 
@@ -45,6 +49,80 @@ const ConverterBottom = () => {
   const canLog = isLogged || (rate !== undefined && !isLoading);
   const canFavorite = isPinned || (rate !== undefined && !isLoading);
   const canAlert = rate !== undefined && !isLoading;
+
+  // Keyboard shortcuts (F / L, see constants/shortcut-registry.ts) act on
+  // whichever pair is currently active in the converter. `toggleFavorite`
+  // / `toggleLog` are read through refs rather than listed as effect
+  // dependencies: both are fresh closures on every render (useConverter
+  // recomputes them), so depending on them directly would tear down and
+  // re-add the window listener on every keystroke in the amount field.
+  const toggleFavoriteRef = React.useRef(toggleFavorite);
+  toggleFavoriteRef.current = toggleFavorite;
+
+  const toggleLogRef = React.useRef(toggleLog);
+  toggleLogRef.current = toggleLog;
+
+  React.useEffect(() => {
+    const handleFavoriteShortcut = () => {
+      if (canFavorite) toggleFavoriteRef.current();
+    };
+
+    window.addEventListener(
+      SHORTCUT_EVENTS.favoriteActivePair,
+      handleFavoriteShortcut,
+    );
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.favoriteActivePair,
+        handleFavoriteShortcut,
+      );
+  }, [canFavorite]);
+
+  React.useEffect(() => {
+    const handleLogShortcut = () => {
+      if (canLog) toggleLogRef.current();
+    };
+
+    window.addEventListener(SHORTCUT_EVENTS.logActivePair, handleLogShortcut);
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.logActivePair,
+        handleLogShortcut,
+      );
+  }, [canLog]);
+
+  // Copies just the precise numeric rate (not the "1 USD = ..." sentence
+  // — that's what ShareButton's link is for). `copyRate` is read through
+  // a ref rather than listed as an effect dependency, same reasoning as
+  // toggleFavorite/toggleLog above.
+  const copyRate = React.useCallback(async () => {
+    if (rate === undefined) return;
+
+    try {
+      await navigator.clipboard.writeText(formatPreciseAmount(rate));
+      toast.success(
+        `Rate copied: 1 ${fromCurrency} = ${formatPreciseAmount(rate)} ${toCurrency}.`,
+      );
+    } catch {
+      toast.error("Couldn't copy the rate — copy it from the tooltip instead.");
+    }
+  }, [rate, fromCurrency, toCurrency]);
+
+  const copyRateRef = React.useRef(copyRate);
+  copyRateRef.current = copyRate;
+
+  React.useEffect(() => {
+    const handleCopyRateShortcut = () => {
+      if (rate !== undefined) copyRateRef.current();
+    };
+
+    window.addEventListener(SHORTCUT_EVENTS.copyRate, handleCopyRateShortcut);
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.copyRate,
+        handleCopyRateShortcut,
+      );
+  }, [rate]);
 
   return (
     <Container className="flex w-full flex-col items-center justify-center gap-step-200 rounded-b-20 border-border border-t border-dashed bg-card px-step-200 py-step-200 md:flex-row md:justify-between md:px-step-250">

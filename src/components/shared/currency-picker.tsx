@@ -97,10 +97,10 @@ const CurrencyPicker = ({
     );
   };
 
-  // "Ctrl+K" / "Cmd+K" shortcut → open this picker if it's the target one.
-  // Radix's Popover already auto-focuses the first focusable element (the
-  // search input) as soon as the content mounts, so no manual ref/focus
-  // call is needed here.
+  // "Ctrl/Cmd+K" (Send) or "Ctrl/Cmd+Shift+K" (Receive) shortcut → open
+  // this picker if it's the target one. Radix's Popover already
+  // auto-focuses the first focusable element (the search input) as soon
+  // as the content mounts, so no manual ref/focus call is needed here.
   React.useEffect(() => {
     if (!focusShortcutTarget) return;
 
@@ -122,7 +122,22 @@ const CurrencyPicker = ({
 
   const isMac = useIsMac();
   const modKey = isMac ? "⌘" : "Ctrl";
-  const keyboards = { firstKey: modKey, secondKey: "K" };
+
+  // Only Send and Receive pass focusShortcutTarget — any other
+  // CurrencyPicker instance simply renders no shortcut hint.
+  const shortcutKeys =
+    focusShortcutTarget === "send"
+      ? { firstKey: modKey, secondKey: "K" }
+      : focusShortcutTarget === "receive"
+        ? { firstKey: modKey, secondKey: "Shift", thirdKey: "K" }
+        : undefined;
+
+  const shortcutAriaKeys =
+    focusShortcutTarget === "send"
+      ? "Control+K Meta+K"
+      : focusShortcutTarget === "receive"
+        ? "Control+Shift+K Meta+Shift+K"
+        : undefined;
 
   const renderOption = (currency: CurrencyOptionType) => {
     const isSelected = currency.code === value;
@@ -142,11 +157,11 @@ const CurrencyPicker = ({
           <CurrencyFlag currencyCode={currency.code} isLoading={isLoading} />
 
           <span className="preset-4 flex-1 text-foreground md:flex-none">
-            {currency.code}
+            {currency.code ?? "---"}
           </span>
 
           <span className="preset-5 hidden flex-1 truncate text-muted-foreground md:inline">
-            {currency.name}
+            {currency.name ?? "---"}
           </span>
 
           {isSelected && <CheckIcon className="text-foreground" />}
@@ -166,9 +181,7 @@ const CurrencyPicker = ({
       <PopoverTrigger
         type="button"
         aria-label={label}
-        aria-keyshortcuts={
-          focusShortcutTarget === "send" ? "Control+K Meta+K" : undefined
-        }
+        aria-keyshortcuts={shortcutAriaKeys}
         className={cn(buttonVariants({ variant: "popover" }), className)}
       >
         <CurrencyFlag
@@ -181,7 +194,7 @@ const CurrencyPicker = ({
           <Skeleton className="h-4 w-7 bg-neutral-400" />
         ) : (
           <span className="preset-4 text-neutral-50 uppercase">
-            {selected?.code ?? "———"}
+            {selected?.code ?? "---"}
           </span>
         )}
 
@@ -198,7 +211,7 @@ const CurrencyPicker = ({
         <ScrollArea className="h-115 w-78 flex-col gap-step-125 p-step-100 md:w-114">
           <SearchInput
             icon={SearchIcon}
-            keys={focusShortcutTarget === "send" ? keyboards : undefined}
+            keys={shortcutKeys}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search currencies..."

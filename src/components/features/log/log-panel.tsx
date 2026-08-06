@@ -13,6 +13,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui";
+import { SHORTCUT_EVENTS } from "@/constants";
 import { useLogMutations } from "@/hooks";
 import { useLogStore } from "@/store";
 import {
@@ -40,6 +41,25 @@ const LogPanel = () => {
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
 
   const hasEntries = entries.length > 0;
+
+  const handleExportCsv = React.useCallback(() => {
+    if (!hasEntries) return;
+
+    exportLogToCsv(entries);
+    toast.success(
+      `Your ${entries.length} conversion${entries.length !== 1 ? "s have" : " has"} been exported as CSV.`,
+    );
+  }, [entries, hasEntries]);
+
+  // Keyboard shortcut (E, see constants/shortcut-registry.ts) — only live
+  // while this panel is mounted (Radix Tabs unmounts inactive
+  // TabsContent), so it naturally only fires while the Log tab is
+  // actually open.
+  React.useEffect(() => {
+    window.addEventListener(SHORTCUT_EVENTS.exportLogCsv, handleExportCsv);
+    return () =>
+      window.removeEventListener(SHORTCUT_EVENTS.exportLogCsv, handleExportCsv);
+  }, [handleExportCsv]);
 
   const openConfirm = (action: PendingLogActionType) => {
     setPendingAction(action);
@@ -92,13 +112,9 @@ const LogPanel = () => {
                     <TooltipTrigger asChild>
                       <Button
                         type="button"
-                        onClick={() => {
-                          exportLogToCsv(entries);
-                          toast.success(
-                            `Your ${entries.length} conversion${entries.length !== 1 ? "s have" : " has"} been exported as CSV.`,
-                          );
-                        }}
+                        onClick={handleExportCsv}
                         aria-label="Download your conversion history as a CSV file"
+                        aria-keyshortcuts="E"
                       >
                         <ArrowUpFromLineIcon />
                         Export CSV

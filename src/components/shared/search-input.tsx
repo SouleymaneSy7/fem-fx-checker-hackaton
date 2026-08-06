@@ -19,7 +19,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
         {Icon && (
           <label
             htmlFor={searchId}
-            className="-translate-y-1/2 absolute top-1/2 left-step-150 transform"
+            className="-translate-y-1/2 absolute top-[calc(50%-1px)] left-step-150 transform"
           >
             <Icon />
           </label>
@@ -36,7 +36,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
             "disabled:cursor-not-allowed disabled:opacity-50",
             "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
             Icon ? "pl-step-500" : "",
-            keys ? "pr-step-150 md:pr-step-1400" : "",
+            keys ? "pr-step-150 md:pr-45" : "",
             className,
           )}
           ref={ref}
@@ -48,12 +48,15 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputPropsType>(
             className={cn(
               "hidden md:inline-block",
               "order-last pr-step-050 has-[>kbd]:mr-step-050",
-              "-translate-y-1/2 absolute top-1/2 right-step-050 transform",
+              "-translate-y-1/2 absolute top-[calc(50%-1px)] right-step-050 transform",
             )}
           >
             <KbdGroup className="gap-step-025">
               <Kbd className="p-step-025">{keys.firstKey}</Kbd>
               <Kbd className="p-step-025">{keys.secondKey}</Kbd>
+              {keys.thirdKey && (
+                <Kbd className="p-step-025">{keys.thirdKey}</Kbd>
+              )}
             </KbdGroup>
           </div>
         )}

@@ -4,9 +4,10 @@ import * as React from "react";
 
 import { TabNav } from "@/components/layout";
 import { Tabs, TabsContent } from "@/components/ui";
+import { SHORTCUT_EVENTS } from "@/constants";
 import { useIsomorphicLayoutEffect } from "@/hooks";
 import { usePreferencesStore } from "@/store";
-import type { ConverterSectionValueType } from "@/types";
+import type { ConverterSectionValueType, SwitchTabDetail } from "@/types";
 import AlertsPanel from "../alerts/alerts-panel";
 import ComparePanel from "../compare/compare-panel";
 import FavoritesPanel from "../favorites/favorites-panel";
@@ -27,6 +28,19 @@ const ConverterSections = () => {
   useIsomorphicLayoutEffect(() => {
     const defaultTab = usePreferencesStore.getState().defaultTab;
     if (defaultTab) setActiveTab(defaultTab);
+  }, []);
+
+  // Keyboard shortcut (bare 1...6, see constants/shortcut-registry.ts) —
+  // same event-listening pattern as HistoryPanel's own range shortcut.
+  React.useEffect(() => {
+    const handleSwitchTab = (event: Event) => {
+      const detail = (event as CustomEvent<SwitchTabDetail>).detail;
+      if (detail?.section) setActiveTab(detail.section);
+    };
+
+    window.addEventListener(SHORTCUT_EVENTS.switchTab, handleSwitchTab);
+    return () =>
+      window.removeEventListener(SHORTCUT_EVENTS.switchTab, handleSwitchTab);
   }, []);
 
   return (

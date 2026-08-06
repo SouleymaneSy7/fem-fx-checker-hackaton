@@ -15,6 +15,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui";
+import { SHORTCUT_EVENTS } from "@/constants";
 import { cn } from "@/lib/utils";
 import type { CompareCurrencyPickerPropsType } from "@/types";
 
@@ -24,6 +25,7 @@ const CompareCurrencyPicker = ({
   isLoading,
   disabled,
   disabledLabel,
+  openShortcut,
   className,
 }: CompareCurrencyPickerPropsType) => {
   const [open, setOpen] = React.useState(false);
@@ -46,6 +48,29 @@ const CompareCurrencyPicker = ({
     setQuery("");
   };
 
+  // Keyboard shortcut (N, see constants/shortcut-registry.ts). ComparePanel
+  // sets `openShortcut` on both the table and chart instance, but Radix
+  // Tabs only ever mounts one of the two at a time (whichever view is
+  // active), so only one listener ends up registered — no extra routing
+  // needed to target "whichever picker is currently visible".
+  React.useEffect(() => {
+    if (!openShortcut) return;
+
+    const handleOpenShortcut = () => {
+      if (!disabled) setOpen(true);
+    };
+
+    window.addEventListener(
+      SHORTCUT_EVENTS.openCompareCurrencyPicker,
+      handleOpenShortcut,
+    );
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.openCompareCurrencyPicker,
+        handleOpenShortcut,
+      );
+  }, [openShortcut, disabled]);
+
   const triggerLabel = disabled
     ? (disabledLabel ?? "Add a currency to compare")
     : "Add a currency to compare";
@@ -65,6 +90,7 @@ const CompareCurrencyPicker = ({
             <PopoverTrigger
               type="button"
               aria-label={triggerLabel}
+              aria-keyshortcuts={openShortcut ? "N" : undefined}
               disabled={disabled}
               className={cn(
                 buttonVariants({ variant: "secondary", size: "icon" }),

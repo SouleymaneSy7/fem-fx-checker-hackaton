@@ -4,6 +4,7 @@ import * as React from "react";
 import { toast } from "sonner";
 
 import { CheckIcon, ShareIcon } from "@/components/icons";
+import { SHORTCUT_EVENTS } from "@/constants";
 import type { ShareButtonPropsType } from "@/types";
 import { buildConverterSearchParams } from "@/utils";
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "../ui";
@@ -65,6 +66,31 @@ const ShareButton = ({
     }
   };
 
+  // Keyboard shortcut (S, see constants/shortcut-registry.ts).
+  // `handleShare` is read through a ref rather than listed as a
+  // dependency: it's a new closure on every render (it closes over
+  // `fromCurrency`/`toCurrency`/`amount`, which change on every keystroke
+  // in the amount field), so depending on it directly would tear down and
+  // re-add the window listener far more often than necessary.
+  const handleShareRef = React.useRef(handleShare);
+  handleShareRef.current = handleShare;
+
+  React.useEffect(() => {
+    const handleShareShortcut = () => {
+      if (!disabled) handleShareRef.current();
+    };
+
+    window.addEventListener(
+      SHORTCUT_EVENTS.shareActivePair,
+      handleShareShortcut,
+    );
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.shareActivePair,
+        handleShareShortcut,
+      );
+  }, [disabled]);
+
   const label = `Share: ${fromCurrency} to ${toCurrency}`;
 
   return (
@@ -86,11 +112,10 @@ const ShareButton = ({
           {isCopied ? "Copied" : "Share"}
         </Button>
       </TooltipTrigger>
+
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>
   );
 };
-
-ShareButton.displayName = "ShareButton";
 
 export default ShareButton;

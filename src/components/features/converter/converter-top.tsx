@@ -45,6 +45,11 @@ const ConverterTop = () => {
   // Formatting live, keystroke by keystroke, would fight the caret.
   const [isAmountFocused, setIsAmountFocused] = React.useState(false);
 
+  // Imperative target for the "/" keyboard shortcut below — a plain ref
+  // rather than state, since focusing/selecting an input is a DOM
+  // side-effect, not something that should trigger a re-render.
+  const amountInputRef = React.useRef<HTMLInputElement>(null);
+
   const currencyOptions = React.useMemo<CurrencyOptionType[]>(
     () =>
       currencies?.map((currency) => ({
@@ -100,6 +105,29 @@ const ConverterTop = () => {
       );
   }, [setFromCurrency, setToCurrency]);
 
+  // Keyboard shortcut (/, see constants/shortcut-registry.ts) — focuses
+  // and selects the Send amount field, so typing immediately replaces
+  // whatever's already there. use-keyboard-shortcuts.ts already calls
+  // `event.preventDefault()` before dispatching this, which also keeps
+  // Firefox's "quick find" (also bound to bare "/") from triggering.
+  React.useEffect(() => {
+    const handleFocusAmountShortcut = () => {
+      amountInputRef.current?.focus();
+      amountInputRef.current?.select();
+    };
+
+    window.addEventListener(
+      SHORTCUT_EVENTS.focusAmountInput,
+      handleFocusAmountShortcut,
+    );
+
+    return () =>
+      window.removeEventListener(
+        SHORTCUT_EVENTS.focusAmountInput,
+        handleFocusAmountShortcut,
+      );
+  }, []);
+
   // Skipped while the field is focused: the buffer already reflects
   // whatever the user is typing, including an intentionally-emptied
   // field. Without this guard, clearing the input drives `amount` to 0
@@ -142,11 +170,13 @@ const ConverterTop = () => {
 
         <div className="flex flex-wrap items-center justify-between gap-step-100">
           <NumericInput
+            ref={amountInputRef}
             value={sendAmountValue}
             onChange={handleAmountChange}
             onFocus={handleAmountFocus}
             onBlur={handleAmountBlur}
             aria-label="Amount to send"
+            aria-keyshortcuts="/"
           />
 
           <CurrencyPicker
@@ -187,7 +217,7 @@ const ConverterTop = () => {
 
         <div className="flex flex-wrap items-center justify-between gap-step-100">
           {error ? (
-            <p className="preset-1 text-destructive/80 uppercase">———</p>
+            <p className="preset-1 text-destructive/80 uppercase">---</p>
           ) : convertedAmount !== null ? (
             <TextTooltip
               className="preset-1 text-primary uppercase"
@@ -199,7 +229,7 @@ const ConverterTop = () => {
           ) : isLoading ? (
             <SpinnerEllipsis />
           ) : (
-            <p className="preset-1 text-destructive/80 uppercase">---</p>
+            <p className="preset-1 text-destructive/80 uppercase">———</p>
           )}
 
           <CurrencyPicker
@@ -209,6 +239,7 @@ const ConverterTop = () => {
             onValueChange={setToCurrency}
             currencies={receiveCurrencyOptions}
             recentPairs={recentPairs}
+            focusShortcutTarget="receive"
           />
         </div>
       </div>

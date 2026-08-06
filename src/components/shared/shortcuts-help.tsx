@@ -3,7 +3,12 @@
 import * as React from "react";
 
 import { QuestionIcon } from "@/components/icons";
-import { SHORTCUT_EVENTS } from "@/constants";
+import {
+  ALT_KEY_TOKEN,
+  MOD_KEY_TOKEN,
+  SHORTCUT_EVENTS,
+  SHORTCUT_REGISTRY,
+} from "@/constants";
 import { useIsMac } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { List, Title } from "../common";
@@ -14,6 +19,8 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  ScrollArea,
+  Separator,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -37,24 +44,15 @@ const ShortcutsHelp = () => {
       );
   }, []);
 
-  const shortcuts = [
-    {
-      id: "shortcuts-search",
-      label: "Search Send currency",
-      keys: { first: modKey, second: "K" },
-    },
-    {
-      id: "shortcuts-swap",
-      label: "Swap currencies",
-      keys: { first: modKey, second: "S" },
-    },
-    {
-      id: "shortcuts-range",
-      label: "History range",
-      keys: { first: altKey, second: "1...6" },
-    },
-    { id: "shortcuts-toggle", label: "Toggle this panel", keys: ["?"] },
-  ];
+  // Resolves the registry's platform-independent tokens ($mod/$alt) into
+  // the symbol this platform actually uses. The registry itself stays
+  // free of any React/DOM dependency so use-keyboard-shortcuts.ts can
+  // import it too.
+  const resolveKeyLabel = (key: string) => {
+    if (key === MOD_KEY_TOKEN) return modKey;
+    if (key === ALT_KEY_TOKEN) return altKey;
+    return key;
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -74,6 +72,7 @@ const ShortcutsHelp = () => {
             />
           </PopoverTrigger>
         </TooltipTrigger>
+
         <TooltipContent>Keyboard shortcuts (press ?)</TooltipContent>
       </Tooltip>
 
@@ -86,30 +85,50 @@ const ShortcutsHelp = () => {
           Keyboard shortcuts
         </Title>
 
-        <List
-          items={shortcuts}
-          keyExtractor={(shortcut) => shortcut.id}
-          className="flex flex-col gap-step-150"
-          renderItem={(shortcut) => (
-            <li className="flex flex-wrap items-center justify-between gap-step-200">
-              <span className="flex items-center gap-step-050">
-                {Array.isArray(shortcut.keys) ? (
-                  shortcut.keys.map((key) => <Kbd key={key}>{key}</Kbd>)
-                ) : (
-                  <KbdGroup>
-                    <Kbd>{shortcut.keys.first}</Kbd>
-                    <span className="hidden text-neutral-200 md:inline">+</span>
-                    <Kbd>{shortcut.keys.second}</Kbd>
-                  </KbdGroup>
-                )}
-              </span>
+        <ScrollArea className="h-80 pr-step-100">
+          <List
+            items={SHORTCUT_REGISTRY}
+            keyExtractor={(group) => group.id}
+            className="flex flex-col gap-step-150"
+            renderItem={(group) => (
+              <React.Fragment>
+                <li className="flex flex-col gap-step-100">
+                  <div className="flex items-center gap-step-025">
+                    {Array.isArray(group.displayKeys) ? (
+                      group.displayKeys.map((key) => (
+                        <Kbd key={key}>{resolveKeyLabel(key)}</Kbd>
+                      ))
+                    ) : (
+                      <KbdGroup>
+                        <Kbd>{resolveKeyLabel(group.displayKeys.first)}</Kbd>
+                        <span className="hidden text-neutral-200 md:inline">
+                          +
+                        </span>
+                        <Kbd>{resolveKeyLabel(group.displayKeys.second)}</Kbd>
+                        {group.displayKeys.third && (
+                          <React.Fragment>
+                            <span className="hidden text-neutral-200 md:inline">
+                              +
+                            </span>
+                            <Kbd>
+                              {resolveKeyLabel(group.displayKeys.third)}
+                            </Kbd>
+                          </React.Fragment>
+                        )}
+                      </KbdGroup>
+                    )}
+                  </div>
 
-              <span className="preset-4 text-foreground uppercase">
-                {shortcut.label}
-              </span>
-            </li>
-          )}
-        />
+                  <p className="preset-5 text-foreground">
+                    {group.label} - {group.description}
+                  </p>
+                </li>
+
+                <Separator className="my-step-100" />
+              </React.Fragment>
+            )}
+          />
+        </ScrollArea>
       </PopoverContent>
     </Popover>
   );

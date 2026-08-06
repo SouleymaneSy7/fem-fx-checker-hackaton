@@ -1,12 +1,17 @@
+import * as React from "react";
+
 import { cn } from "@/lib/utils";
 
-const NumericInput = ({
-  className,
-  type,
-  ...delegatedProps
-}: React.ComponentProps<"input">) => {
+// Forwards its ref down to the real <input> — needed so converter-top.tsx
+// can imperatively focus/select it from the "/" keyboard shortcut (see
+// constants/shortcut-registry.ts).
+const NumericInput = React.forwardRef<
+  HTMLInputElement,
+  React.ComponentProps<"input">
+>(({ className, type, ...delegatedProps }, ref) => {
   return (
     <input
+      ref={ref}
       type="text"
       inputMode="decimal"
       autoComplete="off"
@@ -23,6 +28,8 @@ const NumericInput = ({
       {...delegatedProps}
     />
   );
-};
+});
+
+NumericInput.displayName = "NumericInput";
 
 export default NumericInput;

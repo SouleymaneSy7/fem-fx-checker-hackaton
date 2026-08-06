@@ -159,7 +159,9 @@ export type TickerPropsType = {
 export interface SearchInputPropsType
   extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: IconSource;
-  keys?: { firstKey: string; secondKey: string };
+  // `thirdKey` covers 3-segment combos (e.g. Ctrl+Shift+K) — optional
+  // since most shortcuts shown here only need two.
+  keys?: { firstKey: string; secondKey: string; thirdKey?: string };
 }
 
 export interface TextInputPropsType
@@ -297,6 +299,10 @@ export type CompareCurrencyPickerPropsType = {
   isLoading?: boolean;
   disabled?: boolean;
   disabledLabel?: string;
+  // Wires up the "N" keyboard shortcut on this instance — ComparePanel
+  // sets it on both the table and chart pickers, but only one is ever
+  // mounted at a time, so only one listener is ever active.
+  openShortcut?: boolean;
   className?: string;
 };
 
