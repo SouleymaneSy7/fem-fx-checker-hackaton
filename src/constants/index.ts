@@ -4,6 +4,7 @@ export * from "./auth";
 export * from "./currencies";
 export * from "./limits";
 export * from "./ranges";
+export * from "./shortcut-registry";
 export * from "./shortcuts";
 export * from "./storage";
 export * from "./tabs";
