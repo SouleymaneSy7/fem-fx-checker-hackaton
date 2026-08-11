@@ -4,6 +4,7 @@ import type * as React from "react";
 
 import type { CompareChartPointType } from "./compare.types";
 import type { ConverterSectionValueType } from "./converter.types";
+import type { HeatmapRowType } from "./heatmap.types";
 import type { RatePointType, RateRangeType } from "./rate.types";
 import type { RecentPairType } from "./recent-pairs.types";
 import type { SettingsSectionValueType } from "./settings.types";
@@ -227,6 +228,7 @@ export type LogButtonPropsType = {
 /* ── RateRange ─────────────────────────────────────────────────── */
 
 export type RangeSelectorPropsType = {
+  className?: string;
   value: RateRangeType;
   onValueChange: (range: RateRangeType) => void;
 };
@@ -262,6 +264,17 @@ export type CompareChartTooltipPropsType = {
   }[];
   label?: string;
   dateFormatter: (isoDate: string) => string;
+};
+
+/* ── Heatmap ─────────────────────────────────────────────────── */
+
+export type HeatmapGridPropsType = {
+  currencies: string[];
+  rows: HeatmapRowType[];
+};
+
+export type HeatmapHintPropsType = {
+  className?: string;
 };
 
 /* ── CurrencyFlag ─────────────────────────────────────────────────── */

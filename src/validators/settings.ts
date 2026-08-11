@@ -6,6 +6,7 @@ import { currencyCodeSchema } from "./currency";
 const settingsTabSchema = z.enum([
   "history",
   "compare",
+  "heatmap",
   "historicalRates",
   "favorites",
   "alerts",

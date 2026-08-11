@@ -13,6 +13,7 @@ export * from "./use-currency-flags";
 export * from "./use-debounced-value";
 export * from "./use-favorite-mutations";
 export * from "./use-favorites";
+export * from "./use-heatmap";
 export * from "./use-historical-rates";
 export * from "./use-is-mac";
 export * from "./use-isomorphic-layout-effect";

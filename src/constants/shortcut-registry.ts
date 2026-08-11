@@ -14,20 +14,21 @@ import { SHORTCUT_EVENTS } from "./shortcuts";
 export const MOD_KEY_TOKEN = "$mod";
 export const ALT_KEY_TOKEN = "$alt";
 
-// Mirrors the tab order in components/layout/tab-nav.tsx's `SECTIONS` —
-// kept as its own small map (rather than importing SECTIONS, which also
-// carries display labels this registry doesn't need) so this file has no
-// dependency on a specific tab UI component. Keep both in sync if the
-// tab order ever changes. Alt+digit is a modifier combo, so it stays
-// `code`-based like Ctrl+K/Ctrl+S — see the ShortcutMatcherType comment
-// in types/keyboard.types.ts for why.
+// Mirrors the tab order in constants/tabs.ts's `CONVERTER_SECTIONS` —
+// kept as its own small map (rather than importing CONVERTER_SECTIONS,
+// which also carries display labels this registry doesn't need) so this
+// file has no dependency on a specific tab UI component. Keep both in
+// sync if the tab order ever changes. Alt+digit is a modifier combo, so
+// it stays `code`-based like Ctrl+K/Ctrl+S — see the ShortcutMatcherType
+// comment in types/keyboard.types.ts for why.
 const TAB_SECTION_BY_CODE: Record<string, ConverterSectionValueType> = {
   Digit1: "history",
   Digit2: "compare",
-  Digit3: "historicalRates",
-  Digit4: "favorites",
-  Digit5: "alerts",
-  Digit6: "log",
+  Digit3: "heatmap",
+  Digit4: "historicalRates",
+  Digit5: "favorites",
+  Digit6: "alerts",
+  Digit7: "log",
 };
 
 // Single declarative source of truth for every keyboard shortcut in the
@@ -162,19 +163,20 @@ export const SHORTCUT_REGISTRY: ShortcutGroupType[] = [
     id: "switch-tab",
     label: "Jump to a tab",
     description:
-      "1 - History, 2 - Compare, 3 - Historical Rates, 4 - Favorites, 5 - Alerts, 6 - Log",
+      "1 - History, 2 - Compare, 3 - Heatmap, 4 - Historical Rates, 5 - Favorites, 6 - Alerts, 7 - Log",
     eventName: SHORTCUT_EVENTS.switchTab,
     matchers: Object.entries(TAB_SECTION_BY_CODE).map(([code, section]) => ({
       code,
       modifiers: { alt: true },
       buildDetail: (): SwitchTabDetail => ({ section }),
     })),
-    displayKeys: { first: ALT_KEY_TOKEN, second: "1...6" },
+    displayKeys: { first: ALT_KEY_TOKEN, second: "1...7" },
   },
   {
     id: "set-rate-range",
     label: "Change the chart's time range",
-    description: "Historical Rates chart: 1 through 6 = 1D, 1W, 1M, 3M, 1Y, 5Y",
+    description:
+      "History and Heatmap tabs: 1 through 6 = 1D, 1W, 1M, 3M, 1Y, 5Y",
     eventName: SHORTCUT_EVENTS.setRateRange,
     matchers: Object.entries(RANGE_BY_KEY).map(([key, range]) => ({
       key,

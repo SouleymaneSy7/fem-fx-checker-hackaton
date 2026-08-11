@@ -9,6 +9,7 @@ export const CONVERTER_SECTIONS: {
 }[] = [
   { value: "history", label: "History" },
   { value: "compare", label: "Compare" },
+  { value: "heatmap", label: "Heatmap" },
   { value: "historicalRates", label: "Historical Rates" },
   { value: "favorites", label: "Favorites" },
   { value: "alerts", label: "Alerts" },

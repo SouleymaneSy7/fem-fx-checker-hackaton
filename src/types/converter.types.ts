@@ -11,6 +11,7 @@ export type ConverterStoreType = {
 export type ConverterSectionValueType =
   | "history"
   | "compare"
+  | "heatmap"
   | "historicalRates"
   | "favorites"
   | "alerts"

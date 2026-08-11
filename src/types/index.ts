@@ -3,6 +3,7 @@ export * from "./api.types";
 export * from "./compare.types";
 export * from "./converter.types";
 export * from "./favorites.types";
+export * from "./heatmap.types";
 export * from "./historical-rates.types";
 export * from "./keyboard.types";
 export * from "./log.types";

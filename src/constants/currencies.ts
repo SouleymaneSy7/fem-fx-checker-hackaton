@@ -34,7 +34,38 @@ export const DEFAULT_COMPARE_CURRENCIES: string[] = [
 // this split.
 export const DEFAULT_CHART_CURRENCIES: string[] = DEFAULT_COMPARE_CURRENCIES;
 
-export const POPULAR_CURRENCIES: string[] = ["USD", "EUR", "GBP", "JPY", "CHF"];
+// Pivot used to triangulate every cross-currency rate in the heatmap —
+// EUR is the ECB's own reference currency (Frankfurter's native base),
+// so every cross-rate stays one hop away from source data instead of
+// compounding rounding through an arbitrary third currency.
+export const HEATMAP_PIVOT_CURRENCY = "EUR";
+
+// Deliberately includes USD and EUR — DEFAULT_COMPARE_CURRENCIES leaves
+// both out (it's built to compare AGAINST the app's current base), but
+// they're the two currencies most people expect to see in a strength
+// heatmap. Capped at 8 for a readable 8×8 grid; a customizable selection
+// can come later, same as compare's currency picker.
+export const DEFAULT_HEATMAP_CURRENCIES: string[] = [
+  "USD",
+  "EUR",
+  "GBP",
+  "JPY",
+  "CHF",
+  "CAD",
+  "AUD",
+  "CNY",
+];
+
+export const POPULAR_CURRENCIES: string[] = [
+  "USD",
+  "EUR",
+  "GBP",
+  "JPY",
+  "CHF",
+  "CAD",
+  "AUD",
+  "CNY",
+];
 
 // Reusable line-series palette for the compare chart — assigned by
 // position (index within the currently-selected chart currencies), not

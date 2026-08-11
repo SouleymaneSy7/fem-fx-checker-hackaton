@@ -11,6 +11,7 @@ import type { ConverterSectionValueType, SwitchTabDetail } from "@/types";
 import AlertsPanel from "../alerts/alerts-panel";
 import ComparePanel from "../compare/compare-panel";
 import FavoritesPanel from "../favorites/favorites-panel";
+import HeatmapPanel from "../heatmap/heatmap-panel";
 import HistoricalRatesPanel from "../historical-rates/historical-rates-panel";
 import LogPanel from "../log/log-panel";
 import HistoryPanel from "../markets/history/history-panel";
@@ -30,7 +31,7 @@ const ConverterSections = () => {
     if (defaultTab) setActiveTab(defaultTab);
   }, []);
 
-  // Keyboard shortcut (bare 1...6, see constants/shortcut-registry.ts) —
+  // Keyboard shortcut (Alt+1...7, see constants/shortcut-registry.ts) —
   // same event-listening pattern as HistoryPanel's own range shortcut.
   React.useEffect(() => {
     const handleSwitchTab = (event: Event) => {
@@ -56,6 +57,10 @@ const ConverterSections = () => {
 
       <TabsContent value="compare">
         <ComparePanel />
+      </TabsContent>
+
+      <TabsContent value="heatmap">
+        <HeatmapPanel />
       </TabsContent>
 
       <TabsContent value="historicalRates">
