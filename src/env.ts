@@ -19,8 +19,6 @@ const serverEnvSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string().trim().min(1),
   GOOGLE_CLIENT_ID: z.string().trim().min(1),
   GOOGLE_CLIENT_SECRET: z.string().trim().min(1),
-  RESEND_API_KEY: z.string().trim().min(1),
-  RESEND_FROM_EMAIL: z.string().trim().min(1),
 });
 
 // ! Every NEXT_PUBLIC_* variable must be written literally:

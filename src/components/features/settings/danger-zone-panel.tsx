@@ -1,26 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import * as React from "react";
 import { toast } from "sonner";
 
 import { Container, Title } from "@/components/common";
 import { TextInput } from "@/components/shared";
-import {
-  Button,
-  Empty,
-  EmptyDescription,
-  EmptyTitle,
-  Spinner,
-} from "@/components/ui";
+import { Button, Spinner } from "@/components/ui";
 import { TEST_ACCOUNT_EMAIL } from "@/constants";
 import { useClearSyncedStores, useLinkedAccounts } from "@/hooks";
-import { authClient, useSession } from "@/lib/auth-client";
+import { authClient, signOut, useSession } from "@/lib/auth-client";
 
 const DELETE_CONFIRMATION_WORD = "DELETE";
 
+// Gives the "account deleted" toast a moment on screen before the hard
+// reload below wipes the page — see the comment in handleDelete for why
+// this is a full navigation rather than router.replace.
+const ACCOUNT_DELETED_REDIRECT_DELAY_MS = 1200;
+
 const DangerZonePanel = () => {
-  const router = useRouter();
   const { data: session } = useSession();
   const { hasPassword, isLoading: isLoadingAccounts } = useLinkedAccounts();
   const clearSyncedStores = useClearSyncedStores();
@@ -30,7 +27,6 @@ const DangerZonePanel = () => {
   const [password, setPassword] = React.useState("");
   const [formError, setFormError] = React.useState<string | null>(null);
   const [isDeleting, setIsDeleting] = React.useState(false);
-  const [emailSent, setEmailSent] = React.useState(false);
 
   if (!session) return null;
 
@@ -49,23 +45,29 @@ const DangerZonePanel = () => {
         : await authClient.deleteUser();
 
       if (error) {
-        setFormError(error.message ?? "Couldn't delete your account.");
+        setFormError(
+          error.code === "SESSION_EXPIRED"
+            ? "Your session isn't recent enough for this — sign out and back in, then try again."
+            : (error.message ?? "Couldn't delete your account."),
+        );
         return;
       }
 
-      // OAuth-only accounts have no password to re-confirm freshness with
-      // — Better Auth instead emailed a confirmation link (see
-      // sendDeleteAccountVerification in lib/auth.ts), so nothing is
-      // deleted yet.
-      if (!hasPassword) {
-        setEmailSent(true);
-        setIsExpanded(false);
-        return;
-      }
-
+      // The account (and, via cascade, its session row) is already gone
+      // server-side, but the client's own session cache doesn't know
+      // that yet — sign out explicitly so useSession() stops reporting
+      // an authenticated user. Then force a full page load rather than
+      // a client-side navigation: a soft router.replace leaves
+      // AccountSync's effect and any cached SWR data alive in memory,
+      // which can race with the redirect and make the app look like
+      // deletion silently did nothing.
+      await signOut().catch(() => {});
       clearSyncedStores();
       toast.success("Your account has been permanently deleted.");
-      router.replace("/sign-in");
+
+      window.setTimeout(() => {
+        window.location.href = "/sign-in";
+      }, ACCOUNT_DELETED_REDIRECT_DELAY_MS);
     } finally {
       setIsDeleting(false);
     }
@@ -89,14 +91,6 @@ const DangerZonePanel = () => {
           Account deletion is disabled for the shared demo account, so other
           visitors can keep using the published test credentials.
         </p>
-      ) : emailSent ? (
-        <Empty className="py-step-300">
-          <EmptyTitle>Check your inbox</EmptyTitle>
-          <EmptyDescription>
-            We sent a confirmation link to {session.user.email}. Your account
-            stays exactly as it is until you click it.
-          </EmptyDescription>
-        </Empty>
       ) : (
         <React.Fragment>
           <p className="preset-5 text-neutral-200">
@@ -133,13 +127,6 @@ const DangerZonePanel = () => {
                 />
               )}
 
-              {!hasPassword && (
-                <p className="preset-6 text-neutral-200">
-                  Your account has no password — we'll email a confirmation link
-                  to {session.user.email} instead.
-                </p>
-              )}
-
               {formError && (
                 <p className="preset-5 text-destructive">{formError}</p>
               )}
@@ -153,11 +140,7 @@ const DangerZonePanel = () => {
                   onClick={handleDelete}
                 >
                   {isDeleting && <Spinner aria-hidden="true" />}
-                  {isDeleting
-                    ? "Deleting..."
-                    : hasPassword
-                      ? "Permanently delete account"
-                      : "Send confirmation email"}
+                  {isDeleting ? "Deleting..." : "Permanently delete account"}
                 </Button>
 
                 <Button
