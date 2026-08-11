@@ -6,9 +6,14 @@ import * as React from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui";
 import { RANGES, SPRING_PANEL } from "@/constants";
 import { useReducedMotion } from "@/hooks";
+import { cn } from "@/lib/utils";
 import type { RangeSelectorPropsType, RateRangeType } from "@/types";
 
-const RangeSelector = ({ value, onValueChange }: RangeSelectorPropsType) => {
+const RangeSelector = ({
+  className,
+  value,
+  onValueChange,
+}: RangeSelectorPropsType) => {
   const shouldReduceMotion = useReducedMotion();
   const indicatorLayoutId = React.useId();
 
@@ -20,7 +25,7 @@ const RangeSelector = ({ value, onValueChange }: RangeSelectorPropsType) => {
         if (next) onValueChange(next as RateRangeType);
       }}
       aria-label="Rate history range"
-      className="w-fit max-w-72"
+      className={cn("w-fit max-w-72", className)}
     >
       {RANGES.map((range) => (
         <ToggleGroupItem

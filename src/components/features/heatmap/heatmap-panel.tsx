@@ -63,7 +63,10 @@ const HeatmapPanel = () => {
         <div className="flex flex-wrap items-center gap-step-200">
           <HeatmapHint />
 
-          <Separator orientation="vertical" className="hidden sm:inline-block" />
+          <Separator
+            orientation="vertical"
+            className="hidden sm:inline-block"
+          />
 
           <RangeSelector
             value={range}
