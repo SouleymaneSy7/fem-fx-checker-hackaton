@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 
 import { Container, Title } from "@/components/common";
 import { BellIcon } from "@/components/icons";
@@ -19,6 +19,7 @@ import {
   SPRING_PANEL,
   SWR_STALE_1H,
 } from "@/constants";
+import { useReducedMotion, useSettingsSync } from "@/hooks";
 import { usePreferencesStore } from "@/store";
 import { playAlertSound } from "@/utils";
 
@@ -26,6 +27,7 @@ const INTERVAL_INDICATOR_LAYOUT_ID = "settings-alert-interval-indicator";
 
 const AlertPreferencesPanel = () => {
   const shouldReduceMotion = useReducedMotion();
+  const { syncSetting } = useSettingsSync();
 
   const alertSoundEnabled = usePreferencesStore(
     (state) => state.alertSoundEnabled,
@@ -41,6 +43,18 @@ const AlertPreferencesPanel = () => {
   );
 
   const effectiveInterval = alertRefreshIntervalMs ?? SWR_STALE_1H;
+
+  const handleSoundToggle = (checked: boolean) => {
+    setAlertSoundEnabled(checked);
+    syncSetting({ alertSoundEnabled: checked });
+  };
+
+  const handleIntervalChange = (next: string) => {
+    if (!next) return;
+    const ms = Number(next);
+    setAlertRefreshIntervalMs(ms);
+    syncSetting({ alertRefreshIntervalMs: ms });
+  };
 
   return (
     <Container className="space-y-step-200 rounded-xl border border-neutral-600 bg-card p-step-200 md:space-y-step-250 md:p-step-250">
@@ -79,7 +93,7 @@ const AlertPreferencesPanel = () => {
           <Switch
             id="alert-sound-toggle"
             checked={alertSoundEnabled}
-            onCheckedChange={setAlertSoundEnabled}
+            onCheckedChange={handleSoundToggle}
           />
         </div>
       </div>
@@ -96,9 +110,7 @@ const AlertPreferencesPanel = () => {
         <ToggleGroup
           type="single"
           value={String(effectiveInterval)}
-          onValueChange={(next) => {
-            if (next) setAlertRefreshIntervalMs(Number(next));
-          }}
+          onValueChange={handleIntervalChange}
           aria-label="Alert refresh interval"
           className="w-fit flex-wrap bg-neutral-600"
         >

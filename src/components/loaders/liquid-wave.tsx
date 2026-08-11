@@ -3,6 +3,7 @@
 import { AnimatePresence, type HTMLMotionProps, motion } from "motion/react";
 import * as React from "react";
 
+import { useReducedMotion } from "@/hooks";
 import { cn } from "@/lib/utils";
 import type { TextMorphProps } from "@/types";
 
@@ -12,6 +13,7 @@ export function TextMorph({
   className,
 }: TextMorphProps) {
   const [index, setIndex] = React.useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   React.useEffect(() => {
     if (!words.length) return;
@@ -34,22 +36,34 @@ export function TextMorph({
       <motion.span
         key={index}
         className={cn("flex gap-px overflow-hidden", className)}
-        initial={{ opacity: 0, y: 5 }}
+        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -5 }}
-        transition={{ duration: 0.4 }}
+        exit={
+          shouldReduceMotion
+            ? { opacity: 1, transition: { duration: 0 } }
+            : { opacity: 0, y: -5 }
+        }
+        transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
       >
         {chars.map((char, i) => (
           <motion.span
             // biome-ignore lint/suspicious/noArrayIndexKey: chars array is static and never reordered — index key is stable
             key={i}
             className="inline-block"
-            initial={{ opacity: 0, y: 5, filter: "blur(5px)" }}
+            initial={
+              shouldReduceMotion
+                ? { opacity: 1 }
+                : { opacity: 0, y: 5, filter: "blur(5px)" }
+            }
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: -5, filter: "blur(5px)" }}
+            exit={
+              shouldReduceMotion
+                ? { opacity: 1, transition: { duration: 0 } }
+                : { opacity: 0, y: -5, filter: "blur(5px)" }
+            }
             transition={{
-              delay: i * 0.03,
-              duration: 0.3,
+              delay: shouldReduceMotion ? 0 : i * 0.03,
+              duration: shouldReduceMotion ? 0 : 0.3,
             }}
           >
             {char === " " ? "\u00A0" : char}
@@ -100,6 +114,7 @@ const LiquidWaveSpinner = React.memo(
     const config = sizeConfig[size] || sizeConfig.md;
     const containerRef = React.useRef<HTMLDivElement>(null);
     const clipId = React.useId();
+    const shouldReduceMotion = useReducedMotion();
 
     const randomYDuration = React.useMemo(() => 5.5 + Math.random() * 1.5, []);
     const randomXDurationBg = React.useMemo(
@@ -138,22 +153,26 @@ const LiquidWaveSpinner = React.memo(
 
           <g clipPath={`url(#${clipId})`}>
             <motion.g
-              initial={{ y: 330.6 }}
+              initial={{ y: shouldReduceMotion ? 170.1 : 330.6 }}
               animate={{ y: 170.1 }}
               transition={{
-                duration: randomYDuration,
-                delay: randomDelay,
+                duration: shouldReduceMotion ? 0 : randomYDuration,
+                delay: shouldReduceMotion ? 0 : randomDelay,
                 ease: "easeOut",
               }}
             >
               <motion.g
-                initial={{ x: -600 }}
+                initial={{ x: shouldReduceMotion ? 0 : -600 }}
                 animate={{ x: 0 }}
-                transition={{
-                  duration: randomXDurationBg,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0 }
+                    : {
+                        duration: randomXDurationBg,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }
+                }
               >
                 <path
                   d={WAVE_PATH}
@@ -164,22 +183,26 @@ const LiquidWaveSpinner = React.memo(
             </motion.g>
 
             <motion.g
-              initial={{ y: 330.6 }}
+              initial={{ y: shouldReduceMotion ? 180.1 : 330.6 }}
               animate={{ y: 180.1 }}
               transition={{
-                duration: randomYDuration,
-                delay: randomDelay,
+                duration: shouldReduceMotion ? 0 : randomYDuration,
+                delay: shouldReduceMotion ? 0 : randomDelay,
                 ease: "easeOut",
               }}
             >
               <motion.g
                 initial={{ x: 0 }}
-                animate={{ x: -600 }}
-                transition={{
-                  duration: randomXDurationFg,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+                animate={{ x: shouldReduceMotion ? 0 : -600 }}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0 }
+                    : {
+                        duration: randomXDurationFg,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }
+                }
               >
                 <path d={WAVE_PATH} className="fill-primary" />
               </motion.g>
@@ -203,7 +226,5 @@ const LiquidWaveSpinner = React.memo(
     );
   },
 );
-
-LiquidWaveSpinner.displayName = "LiquidWaveSpinner";
 
 export default LiquidWaveSpinner;

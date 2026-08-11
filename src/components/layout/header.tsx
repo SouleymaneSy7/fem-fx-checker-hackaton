@@ -14,6 +14,10 @@ const Header = () => {
   const tickerQuoteCurrencies = usePreferencesStore(
     (state) => state.tickerQuoteCurrencies,
   );
+  const tickerVisible = usePreferencesStore((state) => state.tickerVisible);
+  const tickerSpeedSeconds = usePreferencesStore(
+    (state) => state.tickerSpeedSeconds,
+  );
   const effectiveTickerCurrencies =
     tickerQuoteCurrencies ?? TICKER_QUOTE_CURRENCIES;
 
@@ -38,7 +42,19 @@ const Header = () => {
         availableCurrencies={availableCurrencies}
         isLoading={isCurrenciesLoading}
       />
-      {isLoading ? <TickerLoading /> : <Ticker pairs={pairs} />}
+      {/* Data still fetches regardless of tickerVisible — the rates are
+          cheap and SWR-cached, and useAppReadiness already gates the
+          splash screen on this same request finishing. Hiding it is a
+          display choice, not a fetch one. */}
+      {tickerVisible &&
+        (isLoading ? (
+          <TickerLoading />
+        ) : (
+          <Ticker
+            pairs={pairs}
+            durationSeconds={tickerSpeedSeconds ?? undefined}
+          />
+        ))}
     </Container>
   );
 };

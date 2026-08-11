@@ -25,5 +25,7 @@ export * from "./use-rate-chart";
 export * from "./use-rate-history";
 export * from "./use-recent-pair-mutations";
 export * from "./use-recent-pairs";
+export * from "./use-reduced-motion";
 export * from "./use-sessions";
+export * from "./use-settings-sync";
 export * from "./use-ticker";

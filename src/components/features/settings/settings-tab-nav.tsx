@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import * as React from "react";
 
 import { List } from "@/components/common";
@@ -13,6 +13,7 @@ import {
   TabsTrigger,
 } from "@/components/ui";
 import { SETTINGS_SECTIONS, SPRING_PANEL } from "@/constants";
+import { useReducedMotion } from "@/hooks";
 import { cn } from "@/lib/utils";
 import type {
   SettingsSectionValueType,
@@ -118,7 +119,5 @@ const SettingsTabNav = ({ value, onValueChange }: SettingsTabNavPropsType) => {
     </React.Fragment>
   );
 };
-
-SettingsTabNav.displayName = "SettingsTabNav";
 
 export default SettingsTabNav;

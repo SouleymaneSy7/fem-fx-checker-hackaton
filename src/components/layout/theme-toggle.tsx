@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { SHORTCUT_EVENTS } from "@/constants";
+import { useSettingsSync } from "@/hooks";
 import { useThemeStore } from "@/store";
 import { AdjustHalfIcon } from "../icons";
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "../ui";
@@ -11,7 +12,8 @@ const ThemeToggle = () => {
   const [mounted, setMounted] = React.useState(false);
 
   const theme = useThemeStore((state) => state.theme);
-  const toggleTheme = useThemeStore((state) => state.toggleTheme);
+  const setTheme = useThemeStore((state) => state.setTheme);
+  const { syncSetting } = useSettingsSync();
 
   React.useEffect(() => {
     setMounted(true);
@@ -28,20 +30,28 @@ const ThemeToggle = () => {
     root.classList.add(theme);
   }, [theme, mounted]);
 
-  // Keyboard shortcut (T, see constants/shortcut-registry.ts).
-  // `toggleTheme` is a Zustand action and stays referentially stable
-  // across renders, so no ref indirection is needed here (unlike the
-  // callbacks in share-button.tsx / converter-bottom.tsx).
-  React.useEffect(() => {
-    const handleThemeShortcut = () => toggleTheme();
+  // Read through a ref rather than listed as a dependency below: `theme`
+  // changes on every toggle, and depending on it directly would tear
+  // down and re-add the keyboard shortcut listener on every flip instead
+  // of just once.
+  const themeRef = React.useRef(theme);
+  themeRef.current = theme;
 
-    window.addEventListener(SHORTCUT_EVENTS.toggleTheme, handleThemeShortcut);
+  const handleToggleTheme = React.useCallback(() => {
+    const nextTheme = themeRef.current === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    syncSetting({ theme: nextTheme });
+  }, [setTheme, syncSetting]);
+
+  // Keyboard shortcut (T, see constants/shortcut-registry.ts).
+  React.useEffect(() => {
+    window.addEventListener(SHORTCUT_EVENTS.toggleTheme, handleToggleTheme);
     return () =>
       window.removeEventListener(
         SHORTCUT_EVENTS.toggleTheme,
-        handleThemeShortcut,
+        handleToggleTheme,
       );
-  }, [toggleTheme]);
+  }, [handleToggleTheme]);
 
   const activeTheme = mounted ? theme : "dark";
 
@@ -59,7 +69,7 @@ const ThemeToggle = () => {
                 ? "Switch to light mode"
                 : "Switch to dark mode"
             }
-            onClick={toggleTheme}
+            onClick={handleToggleTheme}
           >
             <AdjustHalfIcon />
           </Button>

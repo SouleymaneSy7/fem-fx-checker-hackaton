@@ -22,3 +22,12 @@ export const ALERT_REFRESH_INTERVAL_OPTIONS: {
   { label: "Every 3 hours", value: 1000 * 60 * 60 * 3 },
   { label: "Every 6 hours", value: 1000 * 60 * 60 * 6 },
 ];
+
+// Options surfaced in Settings > Interface. "Normal" (30s) matches
+// MarqueeContent's own hardcoded default, so a never-customized ticker
+// behaves identically to before this setting existed.
+export const TICKER_SPEED_OPTIONS: { label: string; value: number }[] = [
+  { label: "Slow", value: 45 },
+  { label: "Normal", value: 30 },
+  { label: "Fast", value: 15 },
+];

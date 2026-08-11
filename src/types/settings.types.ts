@@ -1,1 +1,5 @@
-export type SettingsSectionValueType = "profile" | "preferences" | "danger";
+export type SettingsSectionValueType =
+  | "profile"
+  | "preferences"
+  | "interface"
+  | "danger";

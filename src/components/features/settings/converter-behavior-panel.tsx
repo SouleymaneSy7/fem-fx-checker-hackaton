@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import * as React from "react";
 
 import { Container, Title } from "@/components/common";
@@ -12,7 +12,7 @@ import {
   DEFAULT_TO_CURRENCY,
   SPRING_PANEL,
 } from "@/constants";
-import { useCurrencies } from "@/hooks";
+import { useCurrencies, useReducedMotion, useSettingsSync } from "@/hooks";
 import { getCurrencyFlagCode } from "@/services";
 import { usePreferencesStore } from "@/store";
 import type { ConverterSectionValueType, CurrencyOptionType } from "@/types";
@@ -22,6 +22,7 @@ const DEFAULT_TAB_INDICATOR_LAYOUT_ID = "settings-default-tab-indicator";
 const ConverterBehaviorPanel = () => {
   const { currencies, isLoading } = useCurrencies();
   const shouldReduceMotion = useReducedMotion();
+  const { syncSetting } = useSettingsSync();
 
   const defaultFromCurrency = usePreferencesStore(
     (state) => state.defaultFromCurrency,
@@ -56,6 +57,16 @@ const ConverterBehaviorPanel = () => {
     [currencies],
   );
 
+  const handleFromCurrencyChange = (code: string) => {
+    setDefaultFromCurrency(code);
+    syncSetting({ defaultFromCurrency: code });
+  };
+
+  const handleToCurrencyChange = (code: string) => {
+    setDefaultToCurrency(code);
+    syncSetting({ defaultToCurrency: code });
+  };
+
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const raw = event.target.value;
     if (!/^\d*[.,]?\d*$/.test(raw)) return;
@@ -64,13 +75,22 @@ const ConverterBehaviorPanel = () => {
 
     if (raw === "") {
       setDefaultAmount(null);
+      syncSetting({ defaultAmount: null });
       return;
     }
 
     const parsed = Number.parseFloat(raw.replace(",", "."));
     if (!Number.isNaN(parsed) && parsed > 0) {
       setDefaultAmount(parsed);
+      syncSetting({ defaultAmount: parsed });
     }
+  };
+
+  const handleTabChange = (next: string) => {
+    if (!next) return;
+    const tab = next as ConverterSectionValueType;
+    setDefaultTab(tab);
+    syncSetting({ defaultTab: tab });
   };
 
   const handleReset = () => {
@@ -79,6 +99,12 @@ const ConverterBehaviorPanel = () => {
     setDefaultAmount(null);
     setDefaultTab(null);
     setAmountInput("");
+    syncSetting({
+      defaultFromCurrency: null,
+      defaultToCurrency: null,
+      defaultAmount: null,
+      defaultTab: null,
+    });
   };
 
   const effectiveTab: ConverterSectionValueType = defaultTab ?? "history";
@@ -114,7 +140,7 @@ const ConverterBehaviorPanel = () => {
             label="Default send currency"
             isLoading={isLoading}
             value={defaultFromCurrency ?? DEFAULT_FROM_CURRENCY}
-            onValueChange={setDefaultFromCurrency}
+            onValueChange={handleFromCurrencyChange}
             currencies={currencyOptions}
           />
         </div>
@@ -127,7 +153,7 @@ const ConverterBehaviorPanel = () => {
             label="Default receive currency"
             isLoading={isLoading}
             value={defaultToCurrency ?? DEFAULT_TO_CURRENCY}
-            onValueChange={setDefaultToCurrency}
+            onValueChange={handleToCurrencyChange}
             currencies={currencyOptions}
           />
         </div>
@@ -149,9 +175,7 @@ const ConverterBehaviorPanel = () => {
         <ToggleGroup
           type="single"
           value={effectiveTab}
-          onValueChange={(next) => {
-            if (next) setDefaultTab(next as ConverterSectionValueType);
-          }}
+          onValueChange={handleTabChange}
           aria-label="Default tab"
           className="w-fit flex-wrap bg-neutral-600"
         >

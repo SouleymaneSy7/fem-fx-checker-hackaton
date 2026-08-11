@@ -16,6 +16,9 @@ export const usePreferencesStore = create<PreferencesStoreType>()(
       decimalPrecision: null,
       alertSoundEnabled: true,
       alertRefreshIntervalMs: null,
+      reducedMotion: null,
+      tickerVisible: true,
+      tickerSpeedSeconds: null,
 
       setDefaultFromCurrency: (code) => set({ defaultFromCurrency: code }),
       setDefaultToCurrency: (code) => set({ defaultToCurrency: code }),
@@ -26,6 +29,9 @@ export const usePreferencesStore = create<PreferencesStoreType>()(
       setDecimalPrecision: (precision) => set({ decimalPrecision: precision }),
       setAlertSoundEnabled: (enabled) => set({ alertSoundEnabled: enabled }),
       setAlertRefreshIntervalMs: (ms) => set({ alertRefreshIntervalMs: ms }),
+      setReducedMotion: (value) => set({ reducedMotion: value }),
+      setTickerVisible: (visible) => set({ tickerVisible: visible }),
+      setTickerSpeedSeconds: (seconds) => set({ tickerSpeedSeconds: seconds }),
 
       resetPreferences: () =>
         set({
@@ -37,6 +43,9 @@ export const usePreferencesStore = create<PreferencesStoreType>()(
           decimalPrecision: null,
           alertSoundEnabled: true,
           alertRefreshIntervalMs: null,
+          reducedMotion: null,
+          tickerVisible: true,
+          tickerSpeedSeconds: null,
         }),
     }),
     {

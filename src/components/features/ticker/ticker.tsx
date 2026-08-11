@@ -9,7 +9,7 @@ import {
 import type { TickerPropsType } from "@/types";
 import TickerItem from "./ticker-item";
 
-const Ticker = ({ pairs }: TickerPropsType) => {
+const Ticker = ({ pairs, durationSeconds }: TickerPropsType) => {
   if (pairs.length === 0) return null;
 
   return (
@@ -24,7 +24,7 @@ const Ticker = ({ pairs }: TickerPropsType) => {
           <MarqueeTitle>Live Markets</MarqueeTitle>
         </MarqueeHeader>
 
-        <MarqueeContent>
+        <MarqueeContent duration={durationSeconds}>
           <List
             as="div"
             items={pairs}

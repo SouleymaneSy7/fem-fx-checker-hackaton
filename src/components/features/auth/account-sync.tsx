@@ -10,13 +10,91 @@ import {
   fetchFavorites,
   fetchLogEntries,
   fetchRecentPairs,
+  fetchSettings,
+  updateSettings,
 } from "@/services";
 import {
   useAlertsStore,
+  useCompareChartCurrenciesStore,
+  useCompareCurrenciesStore,
   useFavoritesStore,
   useLogStore,
+  usePreferencesStore,
   useRecentPairsStore,
+  useThemeStore,
 } from "@/store";
+import type {
+  ConverterSectionValueType,
+  DecimalPrecisionType,
+  ThemeType,
+  UpdateSettingsInputType,
+  UserSettingsRowType,
+} from "@/types";
+
+// Snapshots every settings-related store into the shape `PATCH
+// /api/settings` expects — used once, to seed the server the very first
+// time a signed-in user turns out to have no settings row yet.
+function buildLocalSettingsSnapshot(): UpdateSettingsInputType {
+  const preferences = usePreferencesStore.getState();
+
+  return {
+    defaultFromCurrency: preferences.defaultFromCurrency,
+    defaultToCurrency: preferences.defaultToCurrency,
+    defaultAmount: preferences.defaultAmount,
+    defaultTab: preferences.defaultTab,
+    tickerQuoteCurrencies: preferences.tickerQuoteCurrencies,
+    decimalPrecision: preferences.decimalPrecision,
+    alertSoundEnabled: preferences.alertSoundEnabled,
+    alertRefreshIntervalMs: preferences.alertRefreshIntervalMs,
+    reducedMotion: preferences.reducedMotion,
+    tickerVisible: preferences.tickerVisible,
+    tickerSpeedSeconds: preferences.tickerSpeedSeconds,
+    theme: useThemeStore.getState().theme,
+    compareCurrencies: useCompareCurrenciesStore.getState().currencies,
+    compareChartCurrencies:
+      useCompareChartCurrenciesStore.getState().currencies,
+  };
+}
+
+// Applies the server's canonical settings row onto every local store —
+// used whenever a row already exists, so a second device converges on
+// what was last saved instead of keeping its own local state.
+//
+// The preferences-store fields all share the same "null = use the app
+// default" contract on both sides (see PreferencesStoreType), so a null
+// column value can be assigned directly — it means the same thing
+// locally as it does in the DB. Theme and the two compare-currency lists
+// are different: locally they're never null (theme always resolves to
+// "dark" or "light", the currency lists always hold a concrete array),
+// so a null column there means "never customized on any device" and is
+// left alone rather than forced onto whatever's already showing.
+function applyServerSettings(row: UserSettingsRowType) {
+  const preferences = usePreferencesStore.getState();
+
+  preferences.setDefaultFromCurrency(row.defaultFromCurrency);
+  preferences.setDefaultToCurrency(row.defaultToCurrency);
+  preferences.setDefaultAmount(row.defaultAmount);
+  preferences.setDefaultTab(row.defaultTab as ConverterSectionValueType | null);
+  preferences.setTickerQuoteCurrencies(row.tickerQuoteCurrencies);
+  preferences.setDecimalPrecision(
+    row.decimalPrecision as DecimalPrecisionType | null,
+  );
+  preferences.setAlertSoundEnabled(row.alertSoundEnabled);
+  preferences.setAlertRefreshIntervalMs(row.alertRefreshIntervalMs);
+  preferences.setReducedMotion(row.reducedMotion);
+  preferences.setTickerVisible(row.tickerVisible);
+  preferences.setTickerSpeedSeconds(row.tickerSpeedSeconds);
+
+  if (row.theme) useThemeStore.getState().setTheme(row.theme as ThemeType);
+  if (row.compareCurrencies) {
+    useCompareCurrenciesStore.getState().setCurrencies(row.compareCurrencies);
+  }
+  if (row.compareChartCurrencies) {
+    useCompareChartCurrenciesStore
+      .getState()
+      .setCurrencies(row.compareChartCurrencies);
+  }
+}
 
 /**
  * Renders nothing — mounted once in layout.tsx (see KeyboardShortcuts for
@@ -44,6 +122,12 @@ import {
  *    upsert means re-uploading never regresses a pair that's already
  *    more recent on the server. Then replaces the local list with the
  *    server's canonical, already-sorted-and-capped one.
+ * 6. Fetches the settings row. If none exists yet, this is the very
+ *    first time this account has ever touched Settings anywhere — the
+ *    current local values (preferences, theme, compare currencies) are
+ *    uploaded as the starting point. If a row already exists, it's
+ *    applied onto every local store instead (server wins) — see
+ *    applyServerSettings above for exactly how each field maps.
  *
  * The effect keys off `userId` (a plain string, or null when signed
  * out) rather than the `session` object itself: `useSession()` is backed
@@ -87,13 +171,19 @@ const AccountSync = () => {
         ),
       ]);
 
-      const [serverFavorites, serverEntries, serverAlerts, serverRecentPairs] =
-        await Promise.all([
-          fetchFavorites(),
-          fetchLogEntries(),
-          fetchAlerts(),
-          fetchRecentPairs(),
-        ]);
+      const [
+        serverFavorites,
+        serverEntries,
+        serverAlerts,
+        serverRecentPairs,
+        serverSettings,
+      ] = await Promise.all([
+        fetchFavorites(),
+        fetchLogEntries(),
+        fetchAlerts(),
+        fetchRecentPairs(),
+        fetchSettings(),
+      ]);
 
       if (cancelled) return;
 
@@ -107,6 +197,12 @@ const AccountSync = () => {
       replaceEntries(serverEntries);
       replaceAlerts(serverAlerts);
       replaceRecentPairs(serverRecentPairs);
+
+      if (serverSettings) {
+        applyServerSettings(serverSettings);
+      } else {
+        updateSettings(buildLocalSettingsSnapshot()).catch(() => {});
+      }
     })();
 
     return () => {

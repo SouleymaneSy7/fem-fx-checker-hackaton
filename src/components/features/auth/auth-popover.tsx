@@ -116,7 +116,7 @@ const AuthPopover = () => {
       )}
     >
       {isPending ? (
-        <Spinner aria-hidden="true" className="text-foreground" />
+        <Spinner aria-hidden="true" className="text-primary" />
       ) : (
         "Sign in"
       )}

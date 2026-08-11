@@ -84,6 +84,25 @@ CREATE TABLE "verification" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "user_settings" (
+	"user_id" text PRIMARY KEY,
+	"default_from_currency" text,
+	"default_to_currency" text,
+	"default_amount" double precision,
+	"default_tab" text,
+	"ticker_quote_currencies" text[],
+	"decimal_precision" integer,
+	"compare_currencies" text[],
+	"compare_chart_currencies" text[],
+	"alert_sound_enabled" boolean DEFAULT true NOT NULL,
+	"alert_refresh_interval_ms" integer,
+	"theme" text,
+	"reduced_motion" boolean,
+	"ticker_visible" boolean DEFAULT true NOT NULL,
+	"ticker_speed_seconds" integer,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE UNIQUE INDEX "favorite_user_pair_unique" ON "favorite" ("user_id","from_currency","to_currency");--> statement-breakpoint
 CREATE UNIQUE INDEX "recent_pair_user_pair_unique" ON "recent_pair" ("user_id","from_currency","to_currency");--> statement-breakpoint
 CREATE INDEX "account_userId_idx" ON "account" ("user_id");--> statement-breakpoint
@@ -94,4 +113,5 @@ ALTER TABLE "favorite" ADD CONSTRAINT "favorite_user_id_user_id_fkey" FOREIGN KE
 ALTER TABLE "log_entry" ADD CONSTRAINT "log_entry_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "recent_pair" ADD CONSTRAINT "recent_pair_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;
+ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "user_settings" ADD CONSTRAINT "user_settings_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;

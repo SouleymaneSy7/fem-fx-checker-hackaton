@@ -152,6 +152,7 @@ export type TickerPairType = {
 
 export type TickerPropsType = {
   pairs: TickerPairType[];
+  durationSeconds?: number;
 };
 
 /* ── Input ─────────────────────────────────────────────────── */

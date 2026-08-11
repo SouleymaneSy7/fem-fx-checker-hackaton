@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import * as React from "react";
 
 import { Container, List, Title, VisuallyHidden } from "@/components/common";
@@ -32,6 +32,7 @@ import {
   useCompareChartCurrencies,
   useCompareCurrencies,
   useCurrencies,
+  useReducedMotion,
 } from "@/hooks";
 import { getCurrencyFlagCode } from "@/services";
 import type { CompareChartMoverType, CurrencyOptionType } from "@/types";

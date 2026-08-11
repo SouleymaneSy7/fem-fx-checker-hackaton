@@ -1,6 +1,5 @@
 import { config } from "dotenv";
 import { defineConfig } from "drizzle-kit";
-import { env } from "@/env";
 
 config({ path: ".env.local" });
 
@@ -9,6 +8,7 @@ export default defineConfig({
   out: "./src/db/migrations",
   dialect: "postgresql",
   dbCredentials: {
-    url: env.DATABASE_URL,
+    // biome-ignore lint/style/noNonNullAssertion: drizzle-kit requires a string — env is guaranteed present via .env.local loaded above
+    url: process.env.DATABASE_URL!,
   },
 });

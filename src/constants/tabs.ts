@@ -21,5 +21,6 @@ export const SETTINGS_SECTIONS: {
 }[] = [
   { value: "profile", label: "Profile" },
   { value: "preferences", label: "Preferences" },
+  { value: "interface", label: "Interface" },
   { value: "danger", label: "Danger Zone" },
 ];

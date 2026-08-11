@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useSpring } from "motion/react";
 import * as React from "react";
 
+import { useReducedMotion } from "@/hooks";
 import { cn } from "@/lib/utils";
 import type { BubbleBackgroundPropsType } from "@/types";
 
@@ -30,6 +31,7 @@ function BubbleBackground({
   // always resolve to whichever <filter> happens to come first in the
   // DOM (same fix already applied to liquid-wave.tsx's clipPath).
   const gooFilterId = React.useId();
+  const shouldReduceMotion = useReducedMotion();
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -63,7 +65,7 @@ function BubbleBackground({
   }, []);
 
   React.useEffect(() => {
-    if (!interactive) return;
+    if (!interactive || shouldReduceMotion) return;
 
     const el = containerRef.current;
     if (!el) return;
@@ -89,7 +91,7 @@ function BubbleBackground({
       el.removeEventListener("mousemove", handleMouseMove as EventListener);
       if (rafIdRef.current != null) cancelAnimationFrame(rafIdRef.current);
     };
-  }, [interactive, mouseX, mouseY]);
+  }, [interactive, shouldReduceMotion, mouseX, mouseY]);
 
   return (
     <div
@@ -144,14 +146,14 @@ function BubbleBackground({
       >
         <motion.div
           className="absolute top-[10%] left-[10%] size-[80%] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--first-color),0.8)_0%,rgba(var(--first-color),0)_50%)] mix-blend-hard-light"
-          animate={{ y: [-50, 50, -50] }}
+          animate={shouldReduceMotion ? undefined : { y: [-50, 50, -50] }}
           transition={{ duration: 30, ease: "easeInOut", repeat: Infinity }}
           style={{ transform: "translateZ(0)", willChange: "transform" }}
         />
 
         <motion.div
           className="absolute inset-0 flex origin-[calc(50%-400px)] items-center justify-center"
-          animate={{ rotate: 360 }}
+          animate={shouldReduceMotion ? undefined : { rotate: 360 }}
           transition={{
             duration: 20,
             ease: "linear",
@@ -165,7 +167,7 @@ function BubbleBackground({
 
         <motion.div
           className="absolute inset-0 flex origin-[calc(50%+400px)] items-center justify-center"
-          animate={{ rotate: 360 }}
+          animate={shouldReduceMotion ? undefined : { rotate: 360 }}
           transition={{ duration: 40, ease: "linear", repeat: Infinity }}
           style={{ transform: "translateZ(0)", willChange: "transform" }}
         >
@@ -174,21 +176,21 @@ function BubbleBackground({
 
         <motion.div
           className="absolute top-[10%] left-[10%] size-[80%] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--fourth-color),0.8)_0%,rgba(var(--fourth-color),0)_50%)] opacity-70 mix-blend-hard-light"
-          animate={{ x: [-50, 50, -50] }}
+          animate={shouldReduceMotion ? undefined : { x: [-50, 50, -50] }}
           transition={{ duration: 40, ease: "easeInOut", repeat: Infinity }}
           style={{ transform: "translateZ(0)", willChange: "transform" }}
         />
 
         <motion.div
           className="absolute inset-0 flex origin-[calc(50%_-_800px)_calc(50%_+_200px)] items-center justify-center"
-          animate={{ rotate: 360 }}
+          animate={shouldReduceMotion ? undefined : { rotate: 360 }}
           transition={{ duration: 20, ease: "linear", repeat: Infinity }}
           style={{ transform: "translateZ(0)", willChange: "transform" }}
         >
           <div className="absolute top-[calc(50%-80%)] left-[calc(50%-80%)] size-[160%] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--fifth-color),0.8)_0%,rgba(var(--fifth-color),0)_50%)] mix-blend-hard-light" />
         </motion.div>
 
-        {interactive && (
+        {interactive && !shouldReduceMotion && (
           <motion.div
             className="absolute size-full rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--sixth-color),0.8)_0%,rgba(var(--sixth-color),0)_50%)] opacity-70 mix-blend-hard-light"
             style={{

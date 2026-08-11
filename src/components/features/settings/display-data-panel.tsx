@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import * as React from "react";
 import { Container, Title } from "@/components/common";
 import { MultiCurrencyPicker } from "@/components/shared";
@@ -16,6 +16,8 @@ import {
   useCompareChartCurrencies,
   useCompareCurrencies,
   useCurrencies,
+  useReducedMotion,
+  useSettingsSync,
 } from "@/hooks";
 import { getCurrencyFlagCode } from "@/services";
 import { usePreferencesStore } from "@/store";
@@ -27,6 +29,7 @@ const DEFAULT_PRECISION_LAYOUT_ID = "settings-display-data-interval-indicator";
 const DisplayDataPanel = () => {
   const { currencies } = useCurrencies();
   const shouldReduceMotion = useReducedMotion();
+  const { syncSetting } = useSettingsSync();
 
   const decimalPrecision = usePreferencesStore(
     (state) => state.decimalPrecision,
@@ -57,11 +60,45 @@ const DisplayDataPanel = () => {
   );
 
   const effectivePrecision = decimalPrecision ?? 2;
-  // Shows what's ACTUALLY in effect right now, not the raw null — the
-  // real ticker (header.tsx) falls back to TICKER_QUOTE_CURRENCIES the
-  // same way, so this stays in sync with what the person would see there.
   const effectiveTickerCurrencies =
     tickerQuoteCurrencies ?? TICKER_QUOTE_CURRENCIES;
+
+  const handlePrecisionChange = (next: string) => {
+    if (!next) return;
+    const precision = Number(next) as DecimalPrecisionType;
+    setDecimalPrecision(precision);
+    syncSetting({ decimalPrecision: precision });
+  };
+
+  const handleResetTickerCurrencies = () => {
+    setTickerQuoteCurrencies(null);
+    syncSetting({ tickerQuoteCurrencies: null });
+  };
+
+  const handleTickerCurrenciesChange = (next: string[]) => {
+    setTickerQuoteCurrencies(next);
+    syncSetting({ tickerQuoteCurrencies: next });
+  };
+
+  const handleResetCompareCurrencies = () => {
+    setCompareCurrencies(DEFAULT_COMPARE_CURRENCIES);
+    syncSetting({ compareCurrencies: DEFAULT_COMPARE_CURRENCIES });
+  };
+
+  const handleCompareCurrenciesChange = (next: string[]) => {
+    setCompareCurrencies(next);
+    syncSetting({ compareCurrencies: next });
+  };
+
+  const handleResetChartCurrencies = () => {
+    setChartCurrencies(DEFAULT_CHART_CURRENCIES);
+    syncSetting({ compareChartCurrencies: DEFAULT_CHART_CURRENCIES });
+  };
+
+  const handleChartCurrenciesChange = (next: string[]) => {
+    setChartCurrencies(next);
+    syncSetting({ compareChartCurrencies: next });
+  };
 
   return (
     <Container className="space-y-step-250 rounded-xl border border-neutral-600 bg-card p-step-200 md:p-step-250">
@@ -75,11 +112,7 @@ const DisplayDataPanel = () => {
         <ToggleGroup
           type="single"
           value={String(effectivePrecision)}
-          onValueChange={(next) => {
-            if (next) {
-              setDecimalPrecision(Number(next) as DecimalPrecisionType);
-            }
-          }}
+          onValueChange={handlePrecisionChange}
           aria-label="Decimal precision"
           className="w-fit bg-neutral-600"
         >
@@ -112,7 +145,7 @@ const DisplayDataPanel = () => {
               type="button"
               variant="ghost"
               className="preset-6"
-              onClick={() => setTickerQuoteCurrencies(null)}
+              onClick={handleResetTickerCurrencies}
             >
               Reset to defaults
             </Button>
@@ -125,7 +158,7 @@ const DisplayDataPanel = () => {
 
         <MultiCurrencyPicker
           selected={effectiveTickerCurrencies}
-          onChange={setTickerQuoteCurrencies}
+          onChange={handleTickerCurrenciesChange}
           currencies={currencyOptions}
           label="Add a currency to the ticker"
         />
@@ -141,7 +174,7 @@ const DisplayDataPanel = () => {
             type="button"
             variant="ghost"
             className="preset-6"
-            onClick={() => setCompareCurrencies(DEFAULT_COMPARE_CURRENCIES)}
+            onClick={handleResetCompareCurrencies}
           >
             Reset to defaults
           </Button>
@@ -153,7 +186,7 @@ const DisplayDataPanel = () => {
 
         <MultiCurrencyPicker
           selected={compareCurrencies}
-          onChange={setCompareCurrencies}
+          onChange={handleCompareCurrenciesChange}
           currencies={currencyOptions}
           label="Add a currency to the compare table"
         />
@@ -169,7 +202,7 @@ const DisplayDataPanel = () => {
             type="button"
             variant="ghost"
             className="preset-6"
-            onClick={() => setChartCurrencies(DEFAULT_CHART_CURRENCIES)}
+            onClick={handleResetChartCurrencies}
           >
             Reset to defaults
           </Button>
@@ -182,7 +215,7 @@ const DisplayDataPanel = () => {
 
         <MultiCurrencyPicker
           selected={chartCurrencies}
-          onChange={setChartCurrencies}
+          onChange={handleChartCurrenciesChange}
           currencies={currencyOptions}
           maxSelected={MAX_CHART_CURRENCIES}
           label="Add a currency to the compare chart"

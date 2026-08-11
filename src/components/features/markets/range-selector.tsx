@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import * as React from "react";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui";
 import { RANGES, SPRING_PANEL } from "@/constants";
+import { useReducedMotion } from "@/hooks";
 import type { RangeSelectorPropsType, RateRangeType } from "@/types";
 
 const RangeSelector = ({ value, onValueChange }: RangeSelectorPropsType) => {

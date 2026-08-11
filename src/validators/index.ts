@@ -7,3 +7,4 @@ export * from "./log";
 export * from "./profile";
 export * from "./recent-pair";
 export * from "./search-params";
+export * from "./settings";

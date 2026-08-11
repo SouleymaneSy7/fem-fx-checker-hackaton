@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
 import * as React from "react";
 
@@ -9,6 +9,7 @@ import {
   SPRING_PANEL,
   STAGGER_DELAY_SECONDS,
 } from "@/constants";
+import { useReducedMotion } from "@/hooks";
 import type { ConfirmDialogPropsType, StaggerItemPropsType } from "@/types";
 import {
   AlertDialogAction,
@@ -161,7 +162,5 @@ const ConfirmDialog = ({
     </AlertDialogPrimitive.Root>
   );
 };
-
-ConfirmDialog.displayName = "ConfirmDialog";
 
 export default ConfirmDialog;

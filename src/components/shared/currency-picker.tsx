@@ -156,11 +156,11 @@ const CurrencyPicker = ({
         >
           <CurrencyFlag currencyCode={currency.code} isLoading={isLoading} />
 
-          <span className="preset-4 flex-1 text-foreground md:flex-none">
+          <span className="preset-4 shrink-0 text-foreground">
             {currency.code ?? "---"}
           </span>
 
-          <span className="preset-5 hidden flex-1 truncate text-muted-foreground md:inline">
+          <span className="preset-5 min-w-0 flex-1 truncate text-muted-foreground">
             {currency.name ?? "---"}
           </span>
 
@@ -207,17 +207,21 @@ const CurrencyPicker = ({
         />
       </PopoverTrigger>
 
-      <PopoverContent>
-        <ScrollArea className="h-115 w-78 flex-col gap-step-125 p-step-100 md:w-114">
-          <SearchInput
-            icon={SearchIcon}
-            keys={shortcutKeys}
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search currencies..."
-            aria-label="Search currencies"
-          />
+      {/* PopoverContent is now the flex column: fixed total height, the
+          search bar keeps its natural height at the top, ScrollArea
+          (flex-1 min-h-0) fills whatever's left and is the only part
+          that scrolls. Width lives here too (310px/376px per Figma). */}
+      <PopoverContent className="flex h-115 w-77.5 flex-col gap-step-125 p-step-100 md:w-94">
+        <SearchInput
+          icon={SearchIcon}
+          keys={shortcutKeys}
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Search currencies..."
+          aria-label="Search currencies"
+        />
 
+        <ScrollArea className="min-h-0 w-full flex-1">
           {recentPairs.length > 0 && !query && (
             <div className="space-y-step-050 pb-step-050">
               <div className="flex w-full items-center justify-between gap-step-150 border-border border-b p-step-100">
@@ -268,7 +272,16 @@ const CurrencyPicker = ({
             </div>
           )}
 
-          <div role="listbox" aria-label={label} className="w-full">
+          {/* `w-0 min-w-full`, not `w-full`: Radix's ScrollArea Viewport
+              wraps children in an internal `display: table; min-width:
+              100%` div we can't style directly (see scroll-area.tsx). A
+              plain block child lets that table grow to fit its widest
+              un-wrapped content — e.g. a long currency name under
+              `truncate` — because a `width:auto` block reports its
+              content's size upward. `width:0` stops that reporting;
+              `min-width:100%` still stretches it to fill the space that's
+              actually available. */}
+          <div role="listbox" aria-label={label} className="w-0 min-w-full">
             <VisuallyHidden aria-live="polite">
               {isLoading
                 ? "Loading currencies"
