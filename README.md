@@ -1,10 +1,10 @@
-# FX Checker — Foreign Exchange Currency Converter
+# FX Checker - Foreign Exchange Currency Converter
 
 ![Design preview for the FX Checker coding challenge](./public/assets/images/preview.jpg)
 
-**FM30 Hackathon** · Frontend Mentor · June 12 – July 13, 2026
+FX Checker started as my entry for Frontend Mentor's FM30 Hackathon. It didn't make the finalist round, but I kept building past the submission deadline anyway — the bigger goal for me was always learning and pushing past what I already knew how to build, not the competition result. It's grown a lot since: a currency-strength heatmap, full account settings, offline support, and more, on top of what was there for the original submission.
 
-**FX Checker** is a full-stack currency converter built for the [Frontend Mentor FM30 Hackathon](https://www.frontendmentor.io/challenges/foreign-exchange-currency-converter). It pulls live rates from the European Central Bank via the Frankfurter API (free, no API key, no rate limits) and presents them through a converter, historical charts, multi-currency comparison, pinned favorites, rate alerts, and a conversion log. User accounts sync favorites, logs, and alerts across devices via [Neon PostgreSQL](https://neon.tech/).
+It's a full-stack currency converter pulling live rates from the European Central Bank via the Frankfurter API (free, no API key, no rate limits), presented through a converter, historical charts, a currency-strength heatmap, multi-currency comparison, pinned favorites, rate alerts, and a conversion log. Signed-in accounts sync favorites, logs, alerts, and recent pairs across devices via [Neon PostgreSQL](https://neon.tech/), with a full settings area for managing profile, preferences, interface, and linked logins.
 
 **Live demo:** [https://fem-fx-checker-hackaton.vercel.app/](https://fem-fx-checker-hackaton.vercel.app/)
 
@@ -12,54 +12,57 @@
 
 **WakaTime (coding time):** [![wakatime](https://wakatime.com/badge/user/018cb534-87bb-4814-975b-ca5e3cb8572b/project/3744af2b-53c9-404d-b9c4-ac6165f9e277.svg)](https://wakatime.com/badge/user/018cb534-87bb-4814-975b-ca5e3cb8572b/project/3744af2b-53c9-404d-b9c4-ac6165f9e277)
 
+**CI:** [![CI](https://github.com/SouleymaneSy7/fem-fx-checker-hackaton/actions/workflows/ci.yml/badge.svg)](https://github.com/SouleymaneSy7/fem-fx-checker-hackaton/actions/workflows/ci.yml)
+
 ---
 
 ## Table of Contents
 
-- [Project Status](#project-status)
-- [Screenshots](#screenshots)
-- [Features](#features)
-- [Design System](#design-system)
 - [Tech Stack](#tech-stack)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Design System](#design-system)
 - [Architecture](#architecture)
 - [API Reference](#api-reference)
-- [Getting Started](#getting-started)
-- [Folder Structure](#folder-structure)
-- [Known Limitations](#known-limitations)
-- [Difficulties & Future Work](#difficulties--future-work)
 - [Security](#security)
 - [Performance](#performance)
-- [Judging Criteria](#judging-criteria)
-- [Stretch Goals](#stretch-goals)
+- [Lighthouse Scores](#lighthouse-scores)
+- [Getting Started](#getting-started)
+- [Folder Structure](#folder-structure)
 - [Deployment](#deployment)
+- [Known Limitations](#known-limitations)
+- [Difficulties & Future Work](#difficulties--future-work)
+- [Stretch Goals](#stretch-goals)
 - [Author](#author)
 
 ---
 
-## Project Status
+## Tech Stack
 
-Six phases between now and **July 13, 2026 at 14:00 BST**. Results on July 16. Commit history tracks progress in more detail than this table does.
-
-| Phase                       | Scope                                                               | Status |
-| --------------------------- | ------------------------------------------------------------------- | ------ |
-| 1 — Scaffolding             | Repo setup, routing, design tokens, Zustand slices, SWR wrappers    | Done   |
-| 2 — Converter               | Currency picker, amount input, swap, live rate display              | Done   |
-| 3 — Markets & History       | Ticker, rate chart, time-range selector                             | Done   |
-| 4 — Compare, Favorites, Log | Compare table, pin system, conversion log, localStorage persistence | Done   |
-| 5 — Polish                  | Animations (Framer Motion), responsive pass, accessibility audit    | Done   |
-| 6 — Deploy                  | Vercel deployment, full-stack wiring, hackathon submission          | Done   |
-
-_Last updated: July 2026 — All phases complete_
-
----
-
-## Screenshots
-
-![Converter — dark theme](./public/assets/images/screenshots/converter-dark.png)
-![Converter — light theme](./public/assets/images/screenshots/converter-light.png)
-![Compare — multi-currency](./public/assets/images/screenshots/compare.png)
-![Favorites](./public/assets/images/screenshots/favorites.png)
-![Mobile — responsive](./public/assets/images/screenshots/mobile.png)
+| Layer              | Choice                                                   |
+| ------------------ | -------------------------------------------------------- |
+| Framework          | Next.js 16 (App Router) + React 19                       |
+| React Compiler     | babel-plugin-react-compiler                              |
+| Language           | TypeScript                                               |
+| Styling            | Tailwind CSS v4                                          |
+| UI primitives      | shadcn/ui (Radix-based)                                  |
+| CSS helpers        | class-variance-authority, tailwind-merge, clsx           |
+| State              | Zustand with `persist` middleware                        |
+| Data fetching      | SWR — caching, deduplication, auto-revalidation          |
+| HTTP client        | Axios                                                    |
+| Forms              | react-hook-form + Zod resolvers                          |
+| Database           | Drizzle ORM + Neon PostgreSQL                            |
+| Auth               | better-auth — email/password, Google & GitHub OAuth      |
+| Rate limiting      | Upstash Redis + @upstash/ratelimit                       |
+| Charts             | Recharts                                                 |
+| Animation          | Motion (formerly Framer Motion)                          |
+| Validation         | Zod + drizzle-zod                                        |
+| Icons              | Lucide React                                             |
+| Utilities          | date-fns, sonner                                         |
+| Linting            | Biome                                                    |
+| CI                 | GitHub Actions — lint, typecheck, build on every push/PR |
+| Font               | JetBrains Mono                                           |
+| Runtime / packages | Bun                                                      |
 
 ---
 
@@ -67,38 +70,46 @@ _Last updated: July 2026 — All phases complete_
 
 ### Converter
 
-- Type an amount and see the converted value update in real time (300ms debounce)
-- Pick currencies from a searchable picker (flag, code, name) grouped into Popular and Other
+- Type an amount and see the converted value update instantly — the rate is already cached per pair, so there's no request to wait on
+- Pick currencies from a searchable picker (flag, code, name) grouped into Popular and Other, with your most recent pairs shown first
 - Swap send/receive currencies in one click
 - Live rate displayed for the active pair (e.g. `1 USD = 0.8530 EUR`)
-- Log a conversion or pin the active pair directly from the converter
-- Bidirectional URL sync for shareable conversion links (`/convert?from=USD&to=EUR&amount=100`)
+- Log a conversion, pin the active pair, or set a rate alert directly from the converter
+- Bidirectional URL sync for shareable conversion links (`?from=USD&to=EUR&amount=100`)
 - Recent pairs tracked automatically (MRU, max 8) and shown at the top of the picker
 
 ### Live Markets
 
-- Scrolling ticker showing current rates and 24h change for a set of pairs
+- Scrolling ticker showing current rates and 24h change for a configurable set of pairs (quoted against EUR by default)
 - Rate history chart for the active pair with range selector: 1D / 1W / 1M / 3M / 1Y / 5Y
 - Open, last, absolute change, and percentage change shown per selected range
 
 ### Compare
 
-- Convert a send amount into multiple currencies at once, side by side
-- Pin or unpin any row directly from the comparison table
-- Top gainer/loser highlighted
-- Toggle to a multi-line chart view for trend comparison
+- Convert a send amount into multiple currencies at once, side by side, or switch to a chart view of percentage change over time
+- Pin or unpin any row directly from the table
+- Top gainer/loser highlighted in the chart view
+- Table and chart keep independent currency selections — the chart holds up to 10 at once
+
+### Currency Strength Heatmap
+
+- N×N grid showing how every tracked currency moved against every other one over the selected range (1D–5Y, same selector as History)
+- Every pair is triangulated through EUR from just two rate snapshots, instead of fetching each pair directly
+- Cell color scales to the biggest mover in the current grid rather than a fixed percentage, so a 1-day view and a 5-year view both use the full color range instead of one looking washed out
+- An info popover explains how to read it: green means the row currency strengthened against the column currency, red means it weakened
+- Currently a fixed set of 8 major currencies (USD, EUR, GBP, JPY, CHF, CAD, AUD, CNY) — not yet customizable from Settings
 
 ### Favorites
 
 - Pinned pairs with live rates and 24h change
-- Click any row to load that pair into the converter
-- Persisted in `localStorage` with server sync when signed in
+- Unpin directly from the list
+- Persisted in `localStorage`, synced to the server when signed in
 
 ### Rate Alerts
 
 - Set rate alerts with a target threshold and condition (above / below)
-- Background watcher polls latest rates and fires toast notifications when thresholds are crossed
-- Manage alerts: reset triggered alerts, delete individual alerts, or clear all
+- A background watcher polls latest rates at an interval you set in Settings, and fires a toast (with an optional sound) when a threshold is crossed
+- Reset a triggered alert to start watching again, or delete it
 
 ### Historical Rates
 
@@ -108,7 +119,7 @@ _Last updated: July 2026 — All phases complete_
 
 ### Conversion Log
 
-- Auto-logged on each conversion: relative time, pair, send and receive amounts
+- Log a conversion with one tap (or the `L` shortcut) and it's stamped automatically: relative time, pair, send and receive amounts
 - Delete individual entries or clear the full log
 - Capped at 100 entries (FIFO)
 - CSV export
@@ -116,10 +127,26 @@ _Last updated: July 2026 — All phases complete_
 
 ### Keyboard Shortcuts
 
-- `Ctrl+K` — Focus the currency search
-- `Ctrl+S` — Swap send/receive currencies
-- `Alt+1` to `Alt+6` — Switch chart time range
-- `?` — Open keyboard shortcuts help panel
+| Shortcut               | Action                                        |
+| ---------------------- | --------------------------------------------- |
+| `Ctrl/Cmd + K`         | Focus the Send currency search                |
+| `Ctrl/Cmd + Shift + K` | Focus the Receive currency search             |
+| `/`                    | Jump to the Send amount field                 |
+| `Ctrl/Cmd + S`         | Swap send and receive currencies              |
+| `F`                    | Favorite the active pair                      |
+| `L`                    | Log the active conversion                     |
+| `A`                    | Open the rate alert popover                   |
+| `S`                    | Share the active pair                         |
+| `C`                    | Copy the current rate                         |
+| `T`                    | Toggle light/dark theme                       |
+| `V`                    | Toggle Compare table/chart view               |
+| `N`                    | Add a currency to Compare                     |
+| `E`                    | Export the log as CSV                         |
+| `Alt + 1` – `Alt + 7`  | Jump to a tab                                 |
+| `1` – `6`              | Change chart range (History and Heatmap tabs) |
+| `?`                    | Open this shortcuts panel                     |
+
+Bare-letter shortcuts (F, L, A, S, C, T, V, N, E, and the range/tab digits) stay off while you're typing in a field; the `Ctrl`/`Cmd` combos work anywhere.
 
 ### Share
 
@@ -128,9 +155,20 @@ _Last updated: July 2026 — All phases complete_
 
 ### Auth & Account Sync
 
-- Sign in / sign up with email and password (Zod-validated forms)
-- When signed in, favorites, logs, and alerts sync between localStorage and the server
-- Sign out returns to local-only mode with no data loss
+- Sign in or sign up with email and password (Zod-validated forms), or continue with Google or GitHub
+- A shared demo account lets visitors try the app without creating one
+- Once signed in, favorites, logs, alerts, and recent pairs sync between `localStorage` and the server; signing out returns to local-only mode with no data loss
+
+### Account Settings
+
+Four tabs, collapsing into a dropdown on mobile like the main tab bar:
+
+- **Profile.** Edit your name and upload an avatar (downscaled and compressed in the browser before it's saved). Email changes show a "Coming soon" badge for now — see [Difficulties & Future Work](#difficulties--future-work).
+- **Preferences.** Bundles five sections on one tab: converter defaults (send/receive currencies, amount, landing tab), display precision and which currencies show in the ticker and Compare, the alert sound and refresh interval, active sessions (see every signed-in device and sign any of them out remotely), and linked accounts (connect or disconnect Google and GitHub, though you can't unlink your only remaining sign-in method).
+- **Interface.** Theme (mirrors the header button), a motion override (System / Always / Never reduced motion, on top of your OS setting), and ticker visibility with a Slow / Normal / Fast scroll speed.
+- **Danger Zone.** Permanently delete the account: type `DELETE` to confirm, plus your current password if the account has one. OAuth-only accounts skip the password step and are protected instead by a requirement that the sign-in session be less than 24 hours old.
+
+Every change here is saved locally right away and synced to the server in the background (debounced, coalesced into one request), so switching tabs or navigating away mid-change doesn't lose it.
 
 ### Theme Toggle
 
@@ -138,14 +176,42 @@ _Last updated: July 2026 — All phases complete_
 - Toggle via the header button, preference persisted in `localStorage`
 - FOUC prevented by an inline initialization script in the root layout
 
+### Offline Support
+
+- A service worker caches exchange-rate responses. If the network drops or the API errors, it serves the last-known data instead, flagged as stale, for up to 24 hours
+- A dismissible banner appears while you're viewing stale data, and comes back if you go offline again after reconnecting
+
 ### Accessibility
 
 - Fully responsive: mobile, tablet, desktop
 - Keyboard-navigable throughout
 - Visible focus and hover states on every interactive element (`focus-ring` utility)
-- Empty states for favorites, log, comparison, alerts, and chart errors. No silent blank panels.
+- Empty states for favorites, log, comparison, heatmap, alerts, and chart errors. No silent blank panels.
+- Respects `prefers-reduced-motion` by default, with a per-app override in Settings > Interface for anyone who wants something different than their OS-wide setting
 - Screen reader text for the ticker marquee and theme toggle
 - Splash screen with loading state until all initial data is ready
+
+---
+
+## Screenshots
+
+![Converter — dark theme](./public/assets/images/screenshots/converter-dark.png)
+![Converter — light theme](./public/assets/images/screenshots/converter-light.png)
+![Compare — multi-currency](./public/assets/images/screenshots/compare.png)
+![Compare](./public/assets/images/screenshots/compare.png)
+![Heatmap](./public/assets/images/screenshots/heatmap.png)
+![Historical Rates](./public/assets/images/screenshots/historical-rates.png)
+![Favorites](./public/assets/images/screenshots/favorites.png)
+![Alerts](./public/assets/images/screenshots/alerts.png)
+![Log](./public/assets/images/screenshots/log.png)
+![Tablets — responsive](./public/assets/images/screenshots/tablets.png)
+![Mobile — responsive](./public/assets/images/screenshots/mobile.png)
+![Sign In - Page](./public/assets/images/screenshots/sign-in-page.png)
+![Sign Up - Page](./public/assets/images/screenshots/sign-up-page.png)
+![Settings - Profile Panel](./public/assets/images/screenshots/settings-profile-panel.png)
+![Settings - Preferences Panel](./public/assets/images/screenshots/settings-preferences-panel.png)
+![Settings - Interfaces Panel](./public/assets/images/screenshots/settings-interfaces-panel.png)
+![Settings - Danger Zone Panel](./public/assets/images/screenshots/settings-danger-zone-panel.png)
 
 ---
 
@@ -222,12 +288,14 @@ Single font: **JetBrains Mono** (weights: 400 / 500 / 700). Presets 1 and 3 use 
 | Preset 2      | 20px                                          | 120%        | -0.5px         | Regular |
 | Preset 2 Bold | 20px                                          | 140%        | -0.5px         | Bold    |
 | Preset 3      | `clamp(0.875rem, 0.8315rem + 0.2174vw, 1rem)` | 120%        | 1px            | Regular |
-| Preset 3 Med  | 16px                                          | 120%        | 1px            | Medium  |
-| Preset 3 Bold | 16px                                          | 110%        | 1px            | Bold    |
+| Preset 3 Med  | same as Preset 3                              | 120%        | 1px            | Medium  |
+| Preset 3 Bold | same as Preset 3                              | 110%        | 1px            | Bold    |
 | Preset 4      | 14px                                          | 120%        | 1px            | Regular |
 | Preset 5      | 12px                                          | 120%        | 0.5px          | Regular |
 | Preset 5 Med  | 12px                                          | 130%        | 0.5px          | Medium  |
 | Preset 6      | 10px                                          | 100%        | 0px            | Regular |
+
+Weight variants (Med / Bold) reuse their base preset's size, `clamp()` included — only the `font-weight` changes.
 
 ### Spacing
 
@@ -274,44 +342,20 @@ Three fixed-width breakpoints for consistent layout bounds:
 
 ### Chart Colors
 
-Eight per-currency colors for the compare chart, with separate dark and light variants:
+Ten reusable line-series colors for the Compare tab's chart view, in separate dark and light variants. Colors are assigned by _position_ in the current selection, not by currency identity, so slot 1 might render GBP today and JPY tomorrow depending on what's picked.
 
-| Token            | Dark                   | Light                  |
-| ---------------- | ---------------------- | ---------------------- |
-| `--currency-gbp` | `oklch(0.68 0.18 250)` | `oklch(0.48 0.17 250)` |
-| `--currency-jpy` | `oklch(0.7 0.21 20)`   | `oklch(0.55 0.19 20)`  |
-| `--currency-chf` | `oklch(0.72 0.19 320)` | `oklch(0.52 0.18 320)` |
-| `--currency-cad` | `oklch(0.8 0.15 100)`  | `oklch(0.58 0.14 100)` |
-| `--currency-aud` | `oklch(0.75 0.13 195)` | `oklch(0.55 0.13 195)` |
-| `--currency-inr` | `oklch(0.78 0.17 45)`  | `oklch(0.6 0.16 45)`   |
-| `--currency-cny` | `oklch(0.82 0.16 70)`  | `oklch(0.62 0.15 70)`  |
-| `--currency-bdt` | `oklch(0.78 0.15 145)` | `oklch(0.55 0.15 145)` |
-
----
-
-## Tech Stack
-
-| Layer          | Choice                                          |
-| -------------- | ----------------------------------------------- |
-| Framework      | Next.js 16 (App Router) + React 19              |
-| React Compiler | babel-plugin-react-compiler                     |
-| Language       | TypeScript                                      |
-| Styling        | Tailwind CSS v4                                 |
-| UI primitives  | shadcn/ui (Radix-based)                         |
-| CSS helpers    | class-variance-authority, tailwind-merge, clsx  |
-| State          | Zustand with `persist` middleware               |
-| Data fetching  | SWR — caching, deduplication, auto-revalidation |
-| HTTP client    | Axios                                           |
-| Database       | Drizzle ORM + Neon PostgreSQL                   |
-| Auth           | better-auth                                     |
-| Rate limiting  | Upstash Redis + @upstash/ratelimit              |
-| Charts         | Recharts                                        |
-| Animation      | Framer Motion                                   |
-| Validation     | Zod + drizzle-zod                               |
-| Icons          | Lucide React                                    |
-| Utilities      | date-fns, next-themes, sonner                   |
-| Linting        | Biome                                           |
-| Font           | JetBrains Mono                                  |
+| Token               | Dark                   | Light                  |
+| ------------------- | ---------------------- | ---------------------- |
+| `--chart-series-1`  | `oklch(0.68 0.18 250)` | `oklch(0.48 0.17 250)` |
+| `--chart-series-2`  | `oklch(0.7 0.21 20)`   | `oklch(0.55 0.19 20)`  |
+| `--chart-series-3`  | `oklch(0.72 0.19 320)` | `oklch(0.52 0.18 320)` |
+| `--chart-series-4`  | `oklch(0.8 0.15 100)`  | `oklch(0.58 0.14 100)` |
+| `--chart-series-5`  | `oklch(0.75 0.13 195)` | `oklch(0.55 0.13 195)` |
+| `--chart-series-6`  | `oklch(0.78 0.17 45)`  | `oklch(0.6 0.16 45)`   |
+| `--chart-series-7`  | `oklch(0.82 0.16 70)`  | `oklch(0.62 0.15 70)`  |
+| `--chart-series-8`  | `oklch(0.78 0.15 145)` | `oklch(0.55 0.15 145)` |
+| `--chart-series-9`  | `oklch(0.7 0.19 285)`  | `oklch(0.5 0.18 285)`  |
+| `--chart-series-10` | `oklch(0.72 0.2 350)`  | `oklch(0.52 0.19 350)` |
 
 ---
 
@@ -331,18 +375,19 @@ flowchart TB
         F --> G[favorites]
         F --> H[log]
         F --> I[alerts]
-        F --> J[theme]
+        F --> J[theme / preferences]
         F --> K[recent pairs]
     end
 
     subgraph Server
-        C --> L[Frankfurter API]
+        C --> SW[Service Worker cache]
+        SW --> L[Frankfurter API]
         B --> M[API Routes — /api/*]
         M --> N[Drizzle ORM]
         N --> O[Neon PostgreSQL]
         M --> P[better-auth]
         P --> O
-        M --> Q[Upstash Redis — rate limiting]
+        M --> Q[Upstash Redis — rate limiting, sessions]
     end
 
     B --> R[SWR Hooks]
@@ -350,10 +395,11 @@ flowchart TB
     R --> M
 ```
 
-Data flows in two directions:
+Data moves in three ways:
 
-1. **Read path**: SWR hooks fetch from Frankfurter (rates) or `/api/*` (favorites, logs, alerts), cache results, and auto-revalidate. Components consume hooks directly.
-2. **Write path**: User actions (pin, log, alert) go through mutation hooks, then `/api/*` routes, then Drizzle, then Neon. The same mutations also update localStorage for instant offline access. When signed in, `AccountSync` reconciles localStorage with the database.
+1. **Read path**: SWR hooks fetch from Frankfurter (rates) or `/api/*` (favorites, logs, alerts, recent pairs), cache results, and auto-revalidate. Components consume hooks directly.
+2. **Write path**: user actions (pin, log, alert) apply to the Zustand store right away, then go through mutation hooks to `/api/*`, Drizzle, and Neon. A shared `runOptimisticMutation` utility rolls the local change back if the request fails. The same mutations also update `localStorage` for instant offline access. When signed in, `AccountSync` reconciles `localStorage` with the database.
+3. **Offline resilience**: a service worker sits in front of the Frankfurter requests specifically, caching successful responses so it can replay them (flagged as stale) if the network or the API fails, for up to 24 hours.
 
 ---
 
@@ -380,14 +426,71 @@ NEXT_PUBLIC_EXCHANGE_API_BASE=https://api.frankfurter.dev/v2
 
 ### Internal — Application API
 
-| Route            | Methods                          | Purpose                               |
-| ---------------- | -------------------------------- | ------------------------------------- |
-| `/api/favorites` | `GET`, `POST`, `DELETE`          | CRUD for pinned currency pairs        |
-| `/api/logs`      | `GET`, `POST`, `DELETE`          | CRUD for conversion log entries       |
-| `/api/alerts`    | `GET`, `POST`, `PATCH`, `DELETE` | CRUD for rate alerts                  |
-| `/api/auth/*`    | `POST`                           | better-auth sign-in, sign-up, session |
+| Route               | Methods                 | Purpose                                                                             |
+| ------------------- | ----------------------- | ----------------------------------------------------------------------------------- |
+| `/api/favorites`    | `GET`, `POST`, `DELETE` | CRUD for pinned currency pairs                                                      |
+| `/api/logs`         | `GET`, `POST`, `DELETE` | CRUD for conversion log entries (bulk clear or per-pair delete)                     |
+| `/api/logs/[id]`    | `DELETE`                | Delete a single log entry                                                           |
+| `/api/alerts`       | `GET`, `POST`           | List and create rate alerts                                                         |
+| `/api/alerts/[id]`  | `PATCH`, `DELETE`       | Reset/trigger or delete a single rate alert                                         |
+| `/api/recent-pairs` | `GET`, `POST`, `DELETE` | CRUD for recently-used pairs (MRU)                                                  |
+| `/api/settings`     | `GET`, `PATCH`          | Read or upsert the signed-in user's synced settings (preferences, theme, interface) |
+| `/api/auth/*`       | `POST`, `GET`           | better-auth — sign-in, sign-up, OAuth callbacks, sessions, account linking/deletion |
 
 All write endpoints are rate-limited via Upstash Redis.
+
+---
+
+## Security
+
+- Every write endpoint (`/api/favorites`, `/api/logs`, `/api/alerts`, `/api/recent-pairs`, `/api/settings`) is rate-limited via Upstash Redis.
+- Zod schemas validate every API request body and form input. Types are inferred directly from schemas, so there's no manual duplication.
+- better-auth handles session management, backed by Redis as secondary storage for fast lookups. Favorites, logs, alerts, and recent pairs are scoped to the authenticated user via foreign keys.
+- Account deletion requires typing a `DELETE` confirmation plus a fresh password for email/password accounts. OAuth-only accounts have no password to check, so they're protected instead by Better Auth's `session.freshAge` gate — deletion is rejected outright if the session is more than 24 hours old, until the person signs in again. The shared demo account is blocked from deletion, enforced server-side as well as in the UI.
+- `.env.local` is gitignored. The `env.example` template contains placeholders only. No secrets are committed.
+- Frankfurter API is CORS-enabled. Internal API routes run on the same origin.
+
+---
+
+## Performance
+
+- React Compiler is enabled via `babel-plugin-react-compiler` in `next.config.ts`, which handles memoization automatically.
+- SWR caches rates for 5 minutes, currencies for 1 hour, and flags for 1 day. Deduplication prevents redundant fetches across components.
+- Changing the amount never triggers a new request — the rate for a pair is fetched once and cached, and the converted value is just a local `amount * rate` recomputed on the fly.
+- The compare chart fetches data only when the user switches to the chart tab (via an `enabled` flag).
+- Favorites, log, alert, and recent-pair mutations update the UI immediately and roll back automatically if the server call fails, through a shared `runOptimisticMutation` utility — no waiting on a round trip to see the result of a click.
+- A service worker caches exchange-rate responses and serves the last-known data if the network or the API fails, so a dropped connection doesn't blank the converter.
+- `clamp()` in spacing and font-size tokens means fewer breakpoints and less CSS.
+- `useAppReadiness` tracks all initial SWR requests and dismisses the splash only when data is loaded, preventing layout shift.
+
+---
+
+## Lighthouse Scores
+
+Measured on **August 12, 2026** via [PageSpeed Insights (Lighthouse)](https://pagespeed.web.dev/analysis/https-fem-fx-checker-hackaton-vercel-app/vvmw9y595o?hl=fr&form_factor=desktop).
+
+![Lighthouse Score](./public/assets/images/lighthouse-score.png)
+
+| Category       | Mobile | Desktop |
+| -------------- | ------ | ------- |
+| Performance    | 76     | 90      |
+| Accessibility  | 100    | 100     |
+| Best Practices | 100    | 100     |
+| SEO            | 100    | 100     |
+
+**Core Web Vitals (mobile):**
+
+| Metric                         | Value  |
+| ------------------------------ | ------ |
+| First Contentful Paint (FCP)   | 0.9 s  |
+| Largest Contentful Paint (LCP) | 5.6 s  |
+| Total Blocking Time (TBT)      | 170 ms |
+| Cumulative Layout Shift (CLS)  | 0.001  |
+| Speed Index (SI)               | 3.5 s  |
+
+Accessibility is a clean 100/100 on both — the heading-order issue that used to cost a couple of points (`SEND` rendered as an `<h3>` with no preceding `<h2>`) is fixed. Best Practices and SEO are perfect too, so nothing's regressed there.
+
+Performance sits at 76 mobile / 90 desktop, and LCP is the main drag at 5.6s on mobile. I haven't profiled exactly which chunk is responsible, but the timing tracks with everything shipped since the original submission — the heatmap, the four-tab settings area, and the interface panel all add client-side JavaScript that has to hydrate before the page is fully interactive. Worth revisiting once there's time to trace it properly.
 
 ---
 
@@ -398,6 +501,8 @@ All write endpoints are rate-limited via Upstash Redis.
 - [Bun](https://bun.sh/) (or npm / yarn / pnpm)
 - A [Neon](https://neon.tech/) PostgreSQL database (free tier works)
 - An [Upstash](https://upstash.com/) Redis instance (free tier works)
+- A [GitHub OAuth App](https://github.com/settings/developers), for GitHub sign-in
+- A [Google Cloud OAuth 2.0 Client](https://console.cloud.google.com/apis/credentials), for Google sign-in
 
 ### 1. Clone and install
 
@@ -424,6 +529,12 @@ cp env.example .env.local
 | `BETTER_AUTH_URL`               | Yes      | App base URL (e.g. `http://localhost:3000`) |
 | `UPSTASH_REDIS_REST_URL`        | Yes      | Upstash Redis REST URL                      |
 | `UPSTASH_REDIS_REST_TOKEN`      | Yes      | Upstash Redis REST token                    |
+| `GITHUB_CLIENT_ID`              | Yes      | GitHub OAuth App client ID                  |
+| `GITHUB_CLIENT_SECRET`          | Yes      | GitHub OAuth App client secret              |
+| `GOOGLE_CLIENT_ID`              | Yes      | Google OAuth 2.0 client ID                  |
+| `GOOGLE_CLIENT_SECRET`          | Yes      | Google OAuth 2.0 client secret              |
+
+The app validates its environment at startup, so all of these are required — it won't boot without them (see `env.ts`).
 
 ### 3. Database setup
 
@@ -455,26 +566,31 @@ bun run format    # biome format --write
 ```
 src/
 ├── app/                          # Next.js App Router
+│   ├── (auth)/                   # Route group — sign-in / sign-up pages
+│   ├── (main)/                   # Route group — main layout, home page, settings page
 │   ├── api/                      # Server-side API routes
 │   │   ├── alerts/               #   Rate alerts CRUD
 │   │   ├── auth/                 #   better-auth endpoints
 │   │   ├── favorites/            #   Pinned pairs CRUD
-│   │   └── logs/                 #   Conversion log CRUD
-│   ├── layout.tsx                # Root layout (metadata, providers, theme init)
-│   └── page.tsx                  # Main page
+│   │   ├── logs/                 #   Conversion log CRUD
+│   │   ├── recent-pairs/         #   Recently-used pairs CRUD
+│   │   └── settings/             #   Read/upsert synced settings
+│   └── layout.tsx                # Root layout (metadata, providers, theme init)
 │
 ├── components/
 │   ├── common/                   # Generic reusable components (Container, Title, etc.)
 │   ├── features/                 # Components organized by business feature
 │   │   ├── alerts/               #   Rate alerts panel + watcher
-│   │   ├── auth/                 #   Sign-in / sign-up forms
-│   │   ├── compare/              #   Multi-currency comparison + chart
-│   │   ├── converter/            #   Core converter UI + URL sync
-│   │   ├── favorites/            #   Pinned pairs panel
-│   │   ├── historical-rates/     #   Time Machine — date picker + comparison
-│   │   ├── log/                  #   Conversion history
-│   │   ├── markets/              #   Ticker, rate chart, range selector
-│   │   └── ticker/               #   Scrolling market ticker
+│   │   ├── auth/                 #   Sign-in / sign-up forms, account sync
+│   │   ├── compare/               #   Multi-currency comparison + chart
+│   │   ├── converter/             #   Core converter UI + URL sync
+│   │   ├── favorites/             #   Pinned pairs panel
+│   │   ├── heatmap/                #   Currency strength grid + hint popover
+│   │   ├── historical-rates/      #   Time Machine — date picker + comparison
+│   │   ├── log/                   #   Conversion history
+│   │   ├── markets/               #   Ticker, rate chart, range selector
+│   │   ├── settings/              #   Profile, preferences (+ sessions/linked accounts), interface, danger zone
+│   │   └── ticker/                #   Scrolling market ticker
 │   ├── icons/                    # Custom SVG icon components
 │   ├── layout/                   # Header, Footer, Navbar, TabNav, ThemeToggle
 │   ├── loaders/                  # Splash screen, LiquidWave, SpinnerEllipsis
@@ -488,10 +604,10 @@ src/
 │   ├── schema.ts                 #   Combined schema barrel
 │   ├── migrations/               #   Auto-generated SQL migrations
 │   └── schemas/                  #   Per-feature schema definitions
-├── hooks/                        # Custom React hooks (23 hooks)
-├── lib/                          # Auth client, rate limiting, Redis, utilities
+├── hooks/                        # Custom React hooks (32 hooks)
+├── lib/                          # Auth (server + client), rate limiting, Redis
 ├── services/                     # API layer — Frankfurter + internal routes
-├── store/                        # Zustand stores (converter, favorites, log, alerts, theme, recent pairs)
+├── store/                        # Zustand stores (converter, favorites, log, alerts, preferences, theme, recent pairs, offline)
 ├── style/                        # CSS architecture
 │   ├── globals.css               #   Entry point — imports all CSS
 │   ├── tokens.css                #   Design tokens (colors, spacing, typography)
@@ -505,11 +621,34 @@ src/
 
 ---
 
+## Deployment
+
+Deployed on [Vercel](https://vercel.com/). The Next.js config is picked up without extra setup.
+
+**Production environment variables:**
+
+| Variable                                    | Notes                                                                   |
+| ------------------------------------------- | ----------------------------------------------------------------------- |
+| `NEXT_PUBLIC_EXCHANGE_API_BASE`             | `https://api.frankfurter.dev/v2`                                        |
+| `DATABASE_URL`                              | Neon PostgreSQL connection string (pooler recommended)                  |
+| `BETTER_AUTH_SECRET`                        | Generate a new secret for production                                    |
+| `BETTER_AUTH_URL`                           | Your production URL (e.g. `https://fem-fx-checker-hackaton.vercel.app`) |
+| `UPSTASH_REDIS_REST_URL`                    | Upstash Redis REST URL                                                  |
+| `UPSTASH_REDIS_REST_TOKEN`                  | Upstash Redis REST token                                                |
+| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | Callback URL: `{BETTER_AUTH_URL}/api/auth/callback/github`              |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Callback URL: `{BETTER_AUTH_URL}/api/auth/callback/google`              |
+
+---
+
 ## Known Limitations
 
-**No intraday data from Frankfurter.** Most providers behind the API publish rates once per business day. The 1D chart range shows a single data point, not an intraday curve. Every other range (1W and above) works fine. A paid API with tick data would fix this, but it's out of scope for this hackathon.
+**No intraday data from Frankfurter.** Most providers behind the API publish rates once per business day. The 1D chart range shows a single data point, not an intraday curve. Every other range (1W and above) works fine. A paid API with tick data would fix this, but it's not worth the cost for a project like this one.
 
-**No test suite.** Zero unit or integration tests right now. The codebase relies on TypeScript strict mode, Biome linting, and Zod runtime validation. Automated tests would help with edge cases and regressions.
+**No test suite.** Zero unit or integration tests right now. CI (GitHub Actions) catches lint, type, and build errors on every push, but that's not a substitute for actual test coverage of edge cases and regressions.
+
+**Email address changes aren't available yet.** Settings > Profile shows the current email with a "Coming soon" badge. The app doesn't send any transactional email at all right now — see [Difficulties & Future Work](#difficulties--future-work) for why.
+
+**The demo account is shared, not sandboxed.** Its pinned pairs, log, and alerts are one pool that every visitor using the published test credentials shares and can change. Its email and password are locked down, but nothing else about it is isolated per visitor.
 
 ---
 
@@ -522,74 +661,16 @@ src/
 - **Full-stack state reconciliation**: Merging localStorage (instant, offline) with server state (persistent, shared) introduced edge cases around ordering, conflict resolution, and what happens when the user signs in mid-session.
 - **Theme FOUC**: Preventing a flash of unstyled content on first paint required an inline `<script>` in the root layout that runs before React hydrates. The `ThemeToggle` component then takes over post-mount.
 - **Rate alert polling**: Running a background polling loop for alerts without blocking renders or leaking intervals meant careful cleanup in the `AlertsWatcher` component.
+- **A deletion flow that silently failed for real users**: the original design emailed a confirmation link to OAuth-only accounts before letting them delete (there's no password to re-confirm with). It worked fine locally, but without a verified Resend sending domain, Resend's sandbox only delivers to the account's own address, so the email never reached anyone else, and the failed send aborted the whole `deleteUser()` call. Rather than work around a third-party sandbox limit, I removed the email step entirely: deletion now falls back to Better Auth's built-in `session.freshAge` check (24 hours) instead. Email changes hit the same wall and got the same treatment: pulled out entirely, replaced by a "Coming soon" badge until there's a verified domain to send from.
 
 ### What I'd like to work on next
 
 - **Testing**: Vitest for unit tests (hooks, utils, validators) and Playwright for E2E flows (converter, auth, alerts). This is the biggest gap in the project.
-- **Offline fallback**: Cache the last successful rates in a service worker and show a stale-data banner when the API is unreachable.
-- **Crosshair on the rate chart**: Show exact date and rate on hover for better readability.
-- **Optimistic updates with rollback**: Mutation hooks track pending state but could use proper rollback on failure.
+- **Email changes**: bring the feature back once a verified sending domain is available, so the confirmation code actually reaches people.
+- **Customizable heatmap currencies**: the grid is a fixed set of 8 for now; a currency picker like Compare's is the natural next step.
 - **End-to-end type safety**: Explore tRPC or similar to stop manually aligning types between API routes and client hooks.
-
----
-
-## Security
-
-- All write endpoints (`/api/favorites`, `/api/logs`, `/api/alerts`) are rate-limited via Upstash Redis.
-- Zod schemas validate every API request body and form input. Types are inferred directly from schemas, so there's no manual duplication.
-- better-auth handles session management. Favorites, logs, and alerts are scoped to the authenticated user via foreign keys.
-- `.env.local` is gitignored. The `env.example` template contains placeholders only. No secrets are committed.
-- Frankfurter API is CORS-enabled. Internal API routes run on the same origin.
-
----
-
-## Performance
-
-- React Compiler is enabled via `babel-plugin-react-compiler` in `next.config.ts`, which handles memoization automatically.
-- SWR caches rates for 5 minutes, currencies for 1 hour, and flags for 1 day. Deduplication prevents redundant fetches across components.
-- Converter amount is debounced at 300ms to avoid excessive API calls during typing.
-- The compare chart fetches data only when the user switches to the chart tab (via an `enabled` flag).
-- `clamp()` in spacing and font-size tokens means fewer breakpoints and less CSS.
-- `useAppReadiness` tracks all initial SWR requests and dismisses the splash only when data is loaded, preventing layout shift.
-
----
-
-## Lighthouse Scores
-
-Measured on [July 13, 2026](https://pagespeed.web.dev/analysis/https-fem-fx-checker-hackaton-vercel-app/xgzl3b2dvk?hl=fr&form_factor=mobile) via PageSpeed Insights (Lighthouse 13.4.0).
-
-![Lighthouse Score](./public/assets/images/lighthouse-score.png)
-
-| Category       | Mobile | Desktop |
-| -------------- | ------ | ------- |
-| Performance    | 81     | 96      |
-| Accessibility  | 98     | 99      |
-| Best Practices | 100    | 100     |
-| SEO            | 100    | 100     |
-
-**Core Web Vitals (mobile, simulated Slow 4G):**
-
-| Metric                         | Value |
-| ------------------------------ | ----- |
-| First Contentful Paint (FCP)   | 0.9 s |
-| Largest Contentful Paint (LCP) | 4.7 s |
-| Total Blocking Time (TBT)      | 80 ms |
-| Cumulative Layout Shift (CLS)  | 0.002 |
-| Speed Index (SI)               | 4.3 s |
-
-The performance score is mainly dragged down by the LCP element render delay (1,450 ms). The converted amount re-renders after SWR hydration, which pushes the LCP back. Server-side rendering the initial rate or preloading the critical CSS chunk would help. Accessibility drops to 98/99 because of a heading order issue: the "SEND" label uses an `<h3>` without a preceding `<h2>`.
-
----
-
-## Judging Criteria
-
-The FM30 panel evaluates submissions on five points:
-
-- **Code quality**: typed, readable, no shortcuts that will bite later
-- **Requirements**: core features covered, edge cases handled, accessibility solid
-- **README**: clear, honest, actually useful to someone cloning the repo
-- **Commit history**: progression is visible, commits say something
-- **Live demo + public repo**: both accessible at submission time
+- **Isolated demo data**: Give each demo visitor their own scoped, reset-on-schedule data instead of one pool shared by everyone using the published credentials.
+- **Profile the LCP regression**: Performance dipped as features piled on ([see Lighthouse Scores](#lighthouse-scores)) — find out which chunk is actually costing the most and split or defer it.
 
 ---
 
@@ -598,46 +679,31 @@ The FM30 panel evaluates submissions on five points:
 Shipped:
 
 - [x] Light theme toggle
-- [x] URL persistence for shareable conversions (`/convert?from=USD&to=EUR&amount=100`)
-- [x] Keyboard shortcuts (focus search, swap currencies, switch chart range)
+- [x] URL persistence for shareable conversions (`?from=USD&to=EUR&amount=100`)
+- [x] Keyboard shortcuts (16 in total — see [Keyboard Shortcuts](#keyboard-shortcuts))
 - [x] CSV export of the conversion log
 - [x] Rate alerts with background polling and toast notifications
 - [x] Historical rates ("Time Machine" date picker, back to 1999)
-- [x] User accounts with favorites/logs/alerts sync across devices
+- [x] User accounts with favorites/logs/alerts/recent pairs sync across devices
+- [x] Full account settings — profile, preferences (incl. sessions & linked accounts), interface, danger zone
+- [x] Google and GitHub OAuth, alongside email/password
+- [x] Offline fallback (service worker + stale-data banner)
+- [x] Optimistic UI updates with automatic rollback
+- [x] Currency strength heatmap with range-adaptive coloring
+- [x] CI pipeline (lint, typecheck, build) on every push and PR
 - [x] Share button (native share API + clipboard fallback)
 - [x] Animated splash screen (LiquidWave spinner + text morph)
 - [x] Tooltip system with smart truncation detection
-- [x] Confirmation dialogs with Framer Motion animations
-- [x] `prefers-reduced-motion` support
+- [x] Confirmation dialogs with Motion animations
+- [x] `prefers-reduced-motion` support, with a per-app override in Settings > Interface
 - [x] Interactive compare chart legend (toggle individual currency lines)
 - [x] Tab badges with live counts
 - [x] Responsive tab dropdown on mobile
-- [x] Custom date picker (no library dependency)
 - [x] SEO / OpenGraph metadata
 
 Not yet:
 
-- [ ] Crosshair on the rate chart (exact date + rate on hover)
-- [ ] Offline fallback (service worker + stale-data banner)
-
----
-
-## Deployment
-
-Deployed on [Vercel](https://vercel.com/). The Next.js config is picked up without extra setup.
-
-**Production environment variables:**
-
-| Variable                        | Notes                                                                   |
-| ------------------------------- | ----------------------------------------------------------------------- |
-| `NEXT_PUBLIC_EXCHANGE_API_BASE` | `https://api.frankfurter.dev/v2`                                        |
-| `DATABASE_URL`                  | Neon PostgreSQL connection string (pooler recommended)                  |
-| `BETTER_AUTH_SECRET`            | Generate a new secret for production                                    |
-| `BETTER_AUTH_URL`               | Your production URL (e.g. `https://fem-fx-checker-hackaton.vercel.app`) |
-| `UPSTASH_REDIS_REST_URL`        | Upstash Redis REST URL                                                  |
-| `UPSTASH_REDIS_REST_TOKEN`      | Upstash Redis REST token                                                |
-
-**Live URL:** [https://fem-fx-checker-hackaton.vercel.app/](https://fem-fx-checker-hackaton.vercel.app/)
+- [ ] Customizable heatmap currency selection (fixed set of 8 for now)
 
 ---
 
