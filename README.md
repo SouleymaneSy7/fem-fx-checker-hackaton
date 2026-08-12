@@ -2,7 +2,7 @@
 
 ![Design preview for the FX Checker coding challenge](./public/assets/images/preview.jpg)
 
-FX Checker started as my entry for Frontend Mentor's FM30 Hackathon. It didn't make the finalist round, but I kept building past the submission deadline anyway — the bigger goal for me was always learning and pushing past what I already knew how to build, not the competition result. It's grown a lot since: a currency-strength heatmap, full account settings, offline support, and more, on top of what was there for the original submission.
+FX Checker started as my entry for [Frontend Mentor's FM30 Hackathon](https://www.frontendmentor.io/challenges/foreign-exchange-currency-converter). It didn't make the finalist round, but I kept building past the submission deadline anyway — the bigger goal for me was always learning and pushing past what I already knew how to build, not the competition result. It's grown a lot since: a currency-strength heatmap, full account settings, offline support, and more, on top of what was there for the original submission.
 
 It's a full-stack currency converter pulling live rates from the European Central Bank via the Frankfurter API (free, no API key, no rate limits), presented through a converter, historical charts, a currency-strength heatmap, multi-currency comparison, pinned favorites, rate alerts, and a conversion log. Signed-in accounts sync favorites, logs, alerts, and recent pairs across devices via [Neon PostgreSQL](https://neon.tech/), with a full settings area for managing profile, preferences, interface, and linked logins.
 
